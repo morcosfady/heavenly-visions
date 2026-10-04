@@ -209,8 +209,7 @@ function servants(){
     <div class="card"><b>📺 Play it in class</b><p>Tap "Watch on YouTube" to cast it to the TV or projector.</p></div>
     <div class="card"><b>📌 Install the app</b><p>Android: browser menu, then "Add to Home screen". iPhone: Share button, then "Add to Home Screen".</p></div>
   </div>
-  <a class="btn yt" href="${PLAYLIST}" target="_blank" rel="noopener">▶ All lessons playlist on YouTube</a>
-  <a class="btn alt" href="${CHANNEL}?sub_confirmation=1" target="_blank" rel="noopener">🔔 Subscribe to Heavenly Visions</a>`;
+  <a class="btn yt" href="${PLAYLIST}" target="_blank" rel="noopener">▶ All lessons playlist on YouTube</a>`;
 }
 function openLesson(id){
   const v=V.find(x=>x[0]===id); if(!v)return; const s=sec(v[3]);
@@ -223,8 +222,7 @@ function openLesson(id){
     <div><h3>${esc(v[1])}</h3><div class="tag">${s.ic} ${s.name} · ${v[2]}</div></div>
     <div class="btns">
       <a class="btn yt" href="${yt}" target="_blank" rel="noopener">▶ Watch on YouTube</a>
-      <button class="btn alt" data-copy="${yt}">🔗 Copy link</button>
-      <a class="btn alt" href="${CHANNEL}?sub_confirmation=1" target="_blank" rel="noopener">🔔 Subscribe</a>
+      <button class="btn alt" style="grid-column:1/-1" data-copy="${yt}">🔗 Copy link</button>
     </div></div>`;
   document.body.appendChild(scrim);
   scrim.addEventListener("click",e=>{if(e.target===scrim||e.target.closest("[data-close]"))scrim.remove()});
