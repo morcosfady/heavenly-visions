@@ -295,8 +295,8 @@ function runIntro(){
   v.addEventListener("ended",showLogo);
   v.addEventListener("error",showLogo);
   const p=v.play();if(p&&p.catch)p.catch(()=>{});
-  setTimeout(()=>{if(!done&&v.currentTime<.1)showLogo()},4000); // video failed to start
-  setTimeout(finish,14000);
+  let started=false;v.addEventListener("playing",()=>started=true);const chk=()=>{if(done||started)return;if(document.hidden){setTimeout(chk,1000);return}showLogo()};setTimeout(chk,9000); // video too slow or failed
+  setTimeout(()=>{if(!started)return;},0);v.addEventListener("playing",()=>setTimeout(finish,12000),{once:true});
   $("#skip").addEventListener("click",e=>{e.stopPropagation();finish()});
   $("#snd").addEventListener("click",e=>{e.stopPropagation();v.muted=!v.muted;if(!v.muted)v.play().catch(()=>{});e.currentTarget.textContent=v.muted?"🔇 Sound":"🔊 Sound"});
 }
