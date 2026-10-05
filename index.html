@@ -97,7 +97,7 @@ h2{font-size:1.2rem;color:var(--gold);letter-spacing:.02em}
 .tile.soon{opacity:.62}
 .tile::after{content:"";position:absolute;inset:auto 14px 0 14px;height:4px;border-radius:4px 4px 0 0;background:var(--c,var(--gold))}
 .list{display:flex;flex-direction:column;gap:10px}
-.door.locked{opacity:.6}.lessonbtn{display:flex;align-items:center;gap:12px;text-align:left;width:100%;background:var(--surface);border:0;border-radius:16px;padding:14px;box-shadow:var(--shadow);color:inherit;font:inherit;font-weight:700}.lessonbtn b{flex:none;min-width:2.4em;color:var(--gold)}.lessonbtn span{flex:1;min-width:0}.lessonbtn i{font-style:normal}
+.soonpic{background:linear-gradient(135deg,#2a3560,#4a3a78);color:#fff;text-align:center;font-size:1.5rem}.soonpic small{display:block;font-size:.62rem;font-weight:800;opacity:.85}.door.locked{opacity:.6}.lessonbtn{display:flex;align-items:center;gap:12px;text-align:left;width:100%;background:var(--surface);border:0;border-radius:16px;padding:14px;box-shadow:var(--shadow);color:inherit;font:inherit;font-weight:700}.lessonbtn b{flex:none;min-width:2.4em;color:var(--gold)}.lessonbtn span{flex:1;min-width:0}.lessonbtn i{font-style:normal}
 .row{display:grid;grid-template-columns:128px 1fr;gap:12px;align-items:center;text-align:left;background:var(--surface);border:0;border-radius:18px;padding:8px;box-shadow:var(--shadow)}
 .thumb{position:relative;aspect-ratio:16/9;max-width:100%;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,var(--sky-soft),var(--gold-soft));display:grid;place-items:center;font-size:1.6rem}
 .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -353,7 +353,7 @@ function mediaSection(id){const s=sec(id);if(!s)return media();const vs=inSec(id
   <div class="list">${vs.length?vs.map(v=>rowHTML(v,false)).join(""):`<div class="empty">📚 ${s.name} lessons are on the way.<br>Check back soon!</div>`}</div>`}
 function gradeLessons(s){const bl=CUR[s.id],n=bl.reduce((a,b)=>a+b[1].length,0);
   app.innerHTML=`${topbar(s.name,s.ic,n+" lessons","media")}
-  ${bl.map(b=>`<section class="sec"><h2>${esc(b[0])}</h2><div class="list">${b[1].map(l=>`<button class="lessonbtn" data-go="l-${s.id}-${l[0]}"><span>${l[0]} - ${esc(l[1])}</span>${lessonVids(s.id,l[0]).length?`<i>🎬</i>`:""}</button>`).join("")}</div></section>`).join("")}`}
+  ${bl.map(b=>`<section class="sec"><h2>${esc(b[0])}</h2><div class="list">${b[1].map(l=>`${(()=>{const v=lessonVids(s.id,l[0])[0];return `<button class="row" data-go="l-${s.id}-${l[0]}"><span class="thumb ${v?"":"soonpic"}">${v?`${s.ic}<img src="https://i.ytimg.com/vi/${v[0]}/mqdefault.jpg" alt="" loading="lazy" onerror="this.remove()">`:`<span>🎬<small>Coming soon</small></span>`}</span><span style="min-width:0"><span class="t">${l[0]} - ${esc(l[1])}</span></span></button>`})()}`).join("")}</div></section>`).join("")}`}
 function lessonPage(g,n){const s=sec(g),l=lessonOf(g,n);if(!s||!l)return media();const c=lessonVids(g,n).length,staff=isStaffNow();
   app.innerHTML=`${topbar(l[0]+" - "+l[1],s.ic,s.name,"m-"+g)}
   <div class="list">
