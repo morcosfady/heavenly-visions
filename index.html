@@ -306,7 +306,7 @@ function hub(){
   app.innerHTML=`
   <header class="hubhead"><img src="${LOGO}" alt="Heavenly Visions"><div class="tag">Sunday School for every grade</div></header>
   <nav class="doors" aria-label="Main">
-    <button class="door d-media wide" data-go="media"><span class="big">🎬</span><b>Media</b><small>Lesson videos by grade</small></button>
+    <button class="door d-media wide" data-go="media"><span class="big">🎬</span><b>Sunday School</b><small>Lesson videos by grade</small></button>
     <button class="door d-att" data-go="attendance"><span class="big">✋</span><b>Attendance</b><small>I'm here today!</small></button>
     <button class="door d-games" data-go="games"><span class="big">🎮</span><b>Games</b><small>Play & learn</small></button>
     <button class="door d-quiz" data-go="quizzes"><span class="big">🏆</span><b>Quizzes</b><small>Test what you know</small></button>
@@ -328,7 +328,7 @@ function rowHTML(v,showSec){const s=sec(v[3]);
   return `<button class="row" data-v="${v[0]}"><span class="thumb">${s.ic}<img src="https://i.ytimg.com/vi/${v[0]}/mqdefault.jpg" alt="" loading="lazy" onerror="this.remove()"><span class="dur">${v[2]}</span></span>
   <span style="min-width:0"><span class="t">${esc(v[1])}</span>${showSec?`<div class="g">${s.ic} ${s.name}</div>`:""}</span></button>`}
 function media(){
-  app.innerHTML=`${topbar("Media","🎬",V.length+" lesson videos")}
+  app.innerHTML=`${topbar("Sunday School","🎬",V.length+" lesson videos")}
   <label class="search"><span aria-hidden="true">🔍</span><input id="q" type="search" placeholder="Search lessons (e.g. St. Mary, Pentecost)" autocomplete="off"></label>
   <div id="results" class="list" hidden></div>
   <section class="sec" id="grades"><h2>Choose your class</h2><div class="grid">${SECTIONS.map(s=>{const n=inSec(s.id).length;

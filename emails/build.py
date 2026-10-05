@@ -14,7 +14,7 @@ ROLES = {
         "hello": "We are so happy you joined the Heavenly Visions family at",
         "title": "What is waiting for you",
         "items": [
-            ("&#127916;", "Media", "Lesson videos for every grade"),
+            ("&#127916;", "Sunday School", "Lesson videos for every grade"),
             ("&#127918;", "Games", "Play, match and learn with your class"),
             ("&#127942;", "Quizzes", "Test what you know and collect stars"),
             ("&#128214;", "The Bible", "Read God&rsquo;s Word anywhere"),
