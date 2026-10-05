@@ -367,8 +367,7 @@ function lessonPage(g,n){const s=sec(g),l=lessonOf(g,n);if(!s||!l)return media()
     <button class="tile" style="--c:#3fae6a" data-la="verse" ${at}><span class="ic">📖</span><span class="nm">Bible verse</span></button>
     <button class="tile" style="--c:#8e6bd1" data-la="quiz" ${at}><span class="ic">🏆</span><span class="nm">Quiz</span></button>
     <button class="tile" style="--c:#d4553b" data-la="game" ${at}><span class="ic">🎮</span><span class="nm">Games</span></button>
-    <button class="tile" style="--c:#2f8fc0" data-la="listen" ${at}><span class="ic">🔊</span><span class="nm">Listen</span></button>
-    <button class="tile" style="--c:#e3b45c;grid-column:1/-1" data-la="done" ${at}><span class="ic">${dn?"✅":"⬜"}</span><span class="nm">${dn?"Done!":"Mark as done"}</span></button>
+    <button class="tile" style="--c:#e3b45c" data-la="done" ${at}><span class="ic">${dn?"✅":"⬜"}</span><span class="nm">${dn?"Done!":"Mark as done"}</span></button>
    </div>
    ${staff?`<a class="door d-games wide" href="https://drive.google.com/file/d/${CUR_PDF[g]}/view" target="_blank" rel="noopener"><span class="big">📘</span><b>Curriculum material</b><small>${l[3]?"Open the book, page "+l[3]:"Open the book"}</small></a>`
    :`<button class="door d-games wide locked" data-act="lockmsg"><span class="big">🔒</span><b>Curriculum material</b><small>For servants only</small></button>`}
