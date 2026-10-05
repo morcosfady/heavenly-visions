@@ -36,7 +36,7 @@ h2{font-size:1.2rem;color:var(--gold);letter-spacing:.02em}
 .sec{display:flex;flex-direction:column;gap:12px}
 
 /* ---------- intro ---------- */
-#intro{position:fixed;inset:0;z-index:50;background:#070b1a;overflow:hidden;display:grid;place-items:center}
+#intro{position:fixed;inset:0;z-index:50;background:radial-gradient(ellipse at 50% 45%,#22305e 0%,#0f1630 55%,#070b1a 100%);overflow:hidden;display:grid;place-items:center}
 #intro video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .intro-logo{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;transform:scale(.85);transition:opacity .7s ease,transform .9s cubic-bezier(.2,.8,.2,1);pointer-events:none}
 .intro-logo.show{opacity:1;transform:scale(1)}
@@ -173,10 +173,7 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;font-weight:700}
 <body>
 
 <div id="intro" aria-label="Intro">
-  <video id="introVid" playsinline muted autoplay preload="auto" poster="intro-poster.jpg?v=4"><source src="intro.mp4?v=4" type="video/mp4"></video>
   <div class="intro-logo" id="introEnd"><img id="introLogo" alt="Heavenly Visions"><p>Learn · Play · Grow in Faith</p></div>
-  <button class="skip" id="skip">Skip ›</button>
-  <button class="snd" id="snd" aria-label="Turn sound on">🔇 Sound</button>
 </div>
 <div class="wrap" id="app"></div>
 <canvas id="confetti" hidden></canvas>
@@ -285,20 +282,9 @@ const GRADES=["Pre K","KG","Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Gr
 
 /* ================= INTRO ================= */
 function runIntro(){
-  const intro=$("#intro"),v=$("#introVid"),end=$("#introEnd");$("#introLogo").src=LOGO;
-  const seen=store.get("introDay","")===todayKey();
-  let done=false;
-  const finish=()=>{if(done)return;done=true;store.set("introDay",todayKey());intro.classList.add("out");setTimeout(()=>{try{v.pause()}catch{}intro.remove()},600)};
-  const showLogo=()=>{end.classList.add("show");setTimeout(finish,1700)};
-  // Full intro once a day; after that, a quick logo splash
-  if(false){v.remove();$("#snd").remove();showLogo();return}
-  v.addEventListener("ended",()=>setTimeout(finish,200));
-  v.addEventListener("error",showLogo);
-  const p=v.play();if(p&&p.catch)p.catch(()=>{});
-  let started=false;v.addEventListener("playing",()=>started=true);const chk=()=>{if(done||started)return;if(document.hidden){setTimeout(chk,1000);return}showLogo()};setTimeout(chk,9000); // video too slow or failed
-  setTimeout(()=>{if(!started)return;},0);v.addEventListener("playing",()=>setTimeout(finish,12000),{once:true});
-  $("#skip").addEventListener("click",e=>{e.stopPropagation();finish()});
-  $("#snd").addEventListener("click",e=>{e.stopPropagation();v.muted=!v.muted;if(!v.muted)v.play().catch(()=>{});e.currentTarget.textContent=v.muted?"🔇 Sound":"🔊 Sound"});
+  const intro=$("#intro"),end=$("#introEnd");$("#introLogo").src=LOGO;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>end.classList.add("show")));
+  setTimeout(()=>{intro.classList.add("out");setTimeout(()=>intro.remove(),600)},1600);
 }
 
 /* ================= HUB ================= */
