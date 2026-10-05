@@ -24,6 +24,9 @@ st.textContent=`
 .lbrow{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
 .lbrow.me{border-color:var(--gold);background:var(--gold-soft)}
 .lbrow b{flex:1}.lbrow .pt{font-weight:900;color:var(--gold)}
+.chlist{display:flex;flex-direction:column;gap:6px;margin-top:-6px}
+.chlist button{display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:10px 14px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.chlist button span{font-size:.8rem;color:var(--muted);font-weight:700}
 .lgrow{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-weight:700}
 .lgrow:last-child{border:0}
 `;
@@ -36,6 +39,19 @@ const TIER={student:["🎒","Student"],servant:["🙏","Servant"],coordinator:["
 const isStaff=r=>r!=="student";
 const isTop=r=>r==="priest"||r==="master";
 const SIGNUP_ROLES=["student","servant","coordinator","priest"];
+const CHURCHES=[
+ ["St. Philopateer Coptic Orthodox Church","Richardson","1450 E. Campbell Rd"],
+ ["St. Marina Coptic Orthodox Church","Lewisville","2525 MacArthur Blvd"],
+ ["St. Mark Coptic Orthodox Church","Prosper","205 S Church St"],
+ ["St. Mary Coptic Orthodox Church","Colleyville","1110 John McCain Rd"],
+ ["St. George Coptic Orthodox Church","Arlington",""],
+ ["St. Abanoub Coptic Orthodox Church","Euless",""],
+ ["Archangel Michael Coptic Orthodox Church","Bedford",""],
+ ["St. Meena Coptic Orthodox Church","Fort Worth",""]
+].map(c=>({name:c[0]+", "+c[1],short:c[0],city:c[1],addr:c[2]}));
+const nz=t=>String(t||"").toLowerCase().replace(/\bsaint\b/g,"st").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
+const findChurch=v=>CHURCHES.find(c=>nz(c.name)===nz(v));
+const searchChurch=q=>{const w=nz(q).split(" ").filter(Boolean);return CHURCHES.filter(c=>{const h=nz(c.name+" "+c.addr);return w.every(x=>h.includes(x))})};
 const KIND={attend:"Checked in",selfplay:"Played a game",publish:"Published a game",livewin:"Won a live game"};
 const acct=()=>{try{return JSON.parse(localStorage.getItem("hv_acct")||"null")}catch{return null}};
 const setAcct=a=>{try{a?localStorage.setItem("hv_acct",JSON.stringify(a)):localStorage.removeItem("hv_acct")}catch{}};
@@ -77,18 +93,28 @@ function authPage(mode,startRole){
   const draw=()=>{f.innerHTML=`<div class="seg" role="group">${SIGNUP_ROLES.concat(role==="master"?["master"]:[]).map(r=>`<button type="button" data-r="${r}" aria-pressed="${role===r}">${TIER[r][0]} ${TIER[r][1]}</button>`).join("")}</div>
    ${role==="master"?`<div class="note">👑 Master setup: needs the setup code and the master email.</div>`:role!=="student"?`<div class="note">⏳ ${role==="servant"?"A coordinator or priest":"A priest"} must approve you. For now you can view the app as a guest. 🙏</div>`:""}
    <label class="field">Full name<input id="n" required maxlength="40" autocomplete="name"></label>
-   <label class="field">${role==="student"?"Your grade":"Grade you serve or lead"}<select id="g" required><option value="">Choose…</option>${SECTIONS.filter(s=>/^(prek|kg|g\d+)$/.test(s.id)).map(s=>`<option>${s.name}</option>`).join("")}</select></label>
-   <label class="field">Church name<input id="c" required maxlength="50"></label>
+   <label class="field">Your church<input id="c" autocomplete="off" placeholder="Start typing the church name…" required></label><div id="cl" class="chlist"></div>
+   ${role==="priest"||role==="master"?"":`<label class="field">${role==="student"?"Your grade":"Grade you serve or lead"}<select id="g" required><option value="">Choose…</option>${SECTIONS.filter(s=>/^(prek|kg|g\d+)$/.test(s.id)).map(s=>`<option>${s.name}</option>`).join("")}</select></label>`}
    <label class="field">Phone ${role==="student"?"(optional)":""}<input id="ph" type="tel" ${role!=="student"?"required":""} maxlength="25" autocomplete="tel"></label>
    <label class="field">Email ${role==="student"?"(optional)":""}<input id="em" type="email" ${role!=="student"?"required":""} maxlength="60" autocomplete="email"></label>
    ${role==="priest"||role==="master"?`<label class="field">Setup code ${role==="priest"?"(only for the very first priest)":""}<input id="sc" autocomplete="off"></label>`:""}
    <label class="field">Choose a username<input id="u" required minlength="3" maxlength="20" autocapitalize="none" pattern="[A-Za-z0-9_.]+" autocomplete="username"></label>
    <label class="field">Password (6 or more)<input id="p" type="password" required minlength="6" autocomplete="new-password"></label>
    <button class="btn gold" type="submit">Create my profile</button><div id="am" class="tag" role="status"></div>`;
-    f.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{role=b.dataset.r;const keep=["n","c","ph","em","u","g"].map(i=>$("#"+i).value);draw();["n","c","ph","em","u","g"].forEach((i,k)=>$("#"+i).value=keep[k])})};
+    const ids=["n","c","ph","em","u","g"];
+    f.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{role=b.dataset.r;const keep=ids.map(i=>$("#"+i)?$("#"+i).value:"");draw();ids.forEach((i,k)=>{if($("#"+i))$("#"+i).value=keep[k]})});
+    const ci=$("#c"),cl=$("#cl");
+    const showList=()=>{const q=ci.value.trim();if(!q||findChurch(q)){cl.innerHTML="";return}
+      const hits=searchChurch(q);
+      cl.innerHTML=hits.length?hits.map((c,i)=>`<button type="button" data-ch="${i}"><b>${esc(c.short)}</b><span>${esc(c.city)}${c.addr?" · "+esc(c.addr):""}</span></button>`).join("")
+        :`<div class="tag" style="padding:8px">No church found. Ask the Master to add yours.</div>`;
+      cl.querySelectorAll("[data-ch]").forEach(b=>b.onclick=()=>{ci.value=hits[+b.dataset.ch].name;cl.innerHTML=""})};
+    ci.oninput=showList;ci.onfocus=showList};
   draw();
-  f.onsubmit=async e=>{e.preventDefault();const m=$("#am");m.textContent="Creating…";
-    try{const j=await api({action:"signup",role,name:$("#n").value,grade:$("#g").value,church:$("#c").value,phone:$("#ph").value,email:$("#em").value,username:$("#u").value,password:$("#p").value,setup:$("#sc")?$("#sc").value:""});
+  f.onsubmit=async e=>{e.preventDefault();const m=$("#am");
+    const ch=findChurch($("#c").value);if(!ch){m.innerHTML=`<span class="err">Please pick your church from the list.</span>`;$("#c").focus();return}
+    m.textContent="Creating…";
+    try{const j=await api({action:"signup",role,name:$("#n").value,grade:$("#g")?$("#g").value:"",church:ch.name,phone:$("#ph").value,email:$("#em").value,username:$("#u").value,password:$("#p").value,setup:$("#sc")?$("#sc").value:""});
       if(!j.ok){m.innerHTML=`<span class="err">${j.error==="master"?"Master setup failed. Check the code and email, or a Master already exists.":j.error==="taken"?"That username is taken, try another.":j.error==="username"?"Username: 3 to 20 letters or numbers.":j.error==="password"?"Password needs 6 or more characters.":"Please fill everything in."}</span>`;return}
       setAcct({token:j.token,user:j.user,avatar:AVATARS[0]});confetti();toast(j.user.req?"Profile created. Waiting for approval ⏳":"Profile created 🎉");go("profile")}
     catch{m.innerHTML=`<span class="err">No internet connection.</span>`}}}
@@ -102,7 +128,7 @@ async function profile(){
     ${u.role==="coordinator"||isTop(u.role)?`<button class="btn gold" data-go="access">🔑 Manage access <span id="pendN"></span></button>`:""}
     <div class="pf-hero"><div class="pf-av" id="avBig">${a.avatar||AVATARS[0]}</div>
       <div class="pf-name">${esc(u.name)}</div>
-      <div class="pf-sub">${TIER[u.role][0]} ${TIER[u.role][1]} · ${esc(u.grade||"")} · ${esc(u.church)}</div>
+      <div class="pf-sub">${TIER[u.role][0]} ${TIER[u.role][1]}${u.grade?" · "+esc(u.grade):""}<br>${esc(u.church)}</div>
       <div class="pf-score">⭐ ${u.score}<small>POINTS</small></div>
       <div class="pf-bar"><i style="width:${lv.pct}%"></i></div>
       <div class="pf-lv">${lv.ic} ${lv.name}${lv.next?` · ${lv.next} more to ${lv.nxName}`:" · top level!"}</div></div>
@@ -130,9 +156,9 @@ async function accessPage(){
   let j;try{j=await api({action:"access_list",id:a.user.id,token:a.token})}catch{$("#ac").innerHTML=`<div class="err">No internet connection.</div>`;return}
   if(!j.ok){$("#ac").innerHTML=`<div class="err">Not allowed.</div>`;return}
   const gsel=(id,cur)=>`<select data-g="${id}">${GRADE_NAMES().map(g=>`<option ${g===cur?"selected":""}>${g}</option>`).join("")}</select>`;
-  const who=u=>`<b>${esc(u.name)}</b><div class="tag">${esc(u.church)} · ${esc(u.grade||"no grade")}<br>📞 ${esc(u.phone||"-")} · ✉️ ${esc(u.email||"-")}</div>`;
+  const who=u=>`<b>${esc(u.name)}</b><div class="tag">${esc(u.church)}${u.role==="priest"||u.role==="master"||u.req==="priest"?"":" · "+esc(u.grade||"no grade")}<br>📞 ${esc(u.phone||"-")} · ✉️ ${esc(u.email||"-")}</div>`;
   const pend=u=>`<div class="card sec" data-u="${u.id}">${who(u)}<div class="tag">Wants to be: <b>${TIER[u.req][0]} ${TIER[u.req][1]}</b></div>
-    ${priest?`<label class="field">Grade${gsel(u.id,u.grade)}</label>`:""}
+    ${priest&&u.req!=="priest"&&u.req!=="master"?`<label class="field">Grade${gsel(u.id,u.grade)}</label>`:""}
     <div class="two"><button class="btn gold" data-do="approve" data-id="${u.id}" data-req="${u.req}">✅ Approve</button><button class="btn alt" data-do="reject" data-id="${u.id}">✖ Reject</button></div></div>`;
   const team=u=>`<div class="card sec" data-u="${u.id}">${who(u)}<div class="tag">${TIER[u.role][0]} ${TIER[u.role][1]}</div>
     ${priest?`<div class="two"><label class="field">Role<select data-r="${u.id}">${["servant","coordinator","priest"].concat(master?["master"]:[]).concat(["student"]).map(r=>`<option value="${r}" ${r===u.role?"selected":""}>${TIER[r][1]}</option>`).join("")}</select></label><label class="field">Grade${gsel(u.id,u.grade)}</label></div>
@@ -145,7 +171,7 @@ async function accessPage(){
     else{body.action="access_set";if(gs)body.grade=gs.value;
       if(b.dataset.do==="approve")body.role=b.dataset.req;
       if(b.dataset.do==="revoke"){body.role="student";if(!confirm("Remove access?"))return}
-      if(b.dataset.do==="save"&&rs)body.role=rs.value}
+      if(b.dataset.do==="save"&&rs){body.role=rs.value;if(rs.value==="priest"||rs.value==="master")body.grade=""}}
     b.disabled=true;try{const r=await api(body);if(r.ok){toast("Done ✅");accessPage()}else{toast("Not allowed");b.disabled=false}}catch{toast("No internet connection");b.disabled=false}})}
 
 /* lock for servant-only pages: returns true when it showed the lock screen */
