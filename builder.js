@@ -198,7 +198,7 @@ const norm=s=>String(s||"").toLowerCase().replace(/^\s*(st\.?|saint|the|a|an)\s+
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 const games=()=>store.get("games",[]);
-function saveGames(list){try{localStorage.setItem("hv_games",JSON.stringify(list));return true}catch{toast("Phone storage is full. Use smaller pictures.");return false}}
+function saveGames(list){try{localStorage.setItem("hv_games",JSON.stringify(list));if(window.hvSyncSoon)hvSyncSoon();return true}catch{toast("Phone storage is full. Use smaller pictures.");return false}}
 const getGame=id=>games().find(g=>g.id===id);
 function putGame(g){const l=games();const i=l.findIndex(x=>x.id===g.id);g.updated=Date.now();if(i<0)l.unshift(g);else l[i]=g;return saveGames(l)}
 const isEmpty=(it,t)=>!Object.entries(it).some(([k,v])=>{const f=t&&t.fields.find(x=>x.k===k);return String(v||"").trim()&&!(f&&f.def&&v===f.def)});

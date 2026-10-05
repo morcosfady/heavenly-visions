@@ -92,7 +92,7 @@ function authPage(mode,startRole){
     f.onsubmit=async e=>{e.preventDefault();const m=$("#am");m.textContent="Checking…";
       try{const j=await api({action:"login",username:$("#u").value,password:$("#p").value});
         if(!j.ok){m.innerHTML=`<span class="err">Wrong username or password.</span>`;return}
-        setAcct({token:j.token,user:j.user,avatar:savedAv(j.user.id)});toast("Welcome "+j.user.name+" 👋");go("profile")}
+        setAcct({token:j.token,user:j.user,avatar:savedAv(j.user.id)});m.textContent="Loading your saved data…";if(window.hvSyncPull)await hvSyncPull();toast("Welcome "+j.user.name+" 👋");go("profile")}
       catch{m.innerHTML=`<span class="err">No internet connection.</span>`}};
     return}
   let role=startRole||"student";
@@ -143,7 +143,7 @@ async function profile(){
     <section class="card sec"><b>Recent points</b><div id="lg">${u.log&&u.log.length?u.log.map(l=>`<div class="lgrow"><span>${KIND[l.k]||l.k}${l.n?" · "+esc(l.n):""}</span><span>+${l.p}</span></div>`).join(""):`<div class="tag">No points yet. Check in at class to start! ✋</div>`}</div></section>
     <section class="card sec"><b>🏅 Leaderboard</b><div id="lb" class="sec"><div class="tag">Loading…</div></div></section>
     <button class="btn alt" id="out">Log out</button>`;
-    app.querySelectorAll("[data-av]").forEach(b=>b.onclick=()=>{a.avatar=b.dataset.av;saveAv(u.id,a.avatar);setAcct(a);draw()});
+    app.querySelectorAll("[data-av]").forEach(b=>b.onclick=()=>{a.avatar=b.dataset.av;saveAv(u.id,a.avatar);setAcct(a);if(window.hvSyncSoon)hvSyncSoon();draw()});
     $("#out").onclick=()=>{if(confirm("Log out?")){setAcct(null);go("home")}};
     if(u.role==="coordinator"||isTop(u.role))api({action:"access_list",id:u.id,token:a.token}).then(j=>{const e=$("#pendN");if(e&&j.ok&&j.pending.length)e.textContent="("+j.pending.length+" waiting)"}).catch(()=>{});
     fetch(GU()+"?action=leaderboard").then(r=>r.json()).then(j=>{const el=$("#lb");if(!el)return;

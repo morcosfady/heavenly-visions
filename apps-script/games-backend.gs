@@ -194,6 +194,29 @@ function accountAction(p, b) {
     return { ok: true, user: publicUser(me) };
   }
   if (b.action.indexOf('access_') === 0) return accessAction(p, me, b);
+  if (b.action === 'sync_get') {
+    var pr = p.getProperty('p_' + me.id);
+    var dn = Number(p.getProperty('dn_' + me.id)) || 0, ds = '';
+    for (var i = 0; i < dn; i++) ds += p.getProperty('d_' + me.id + '_' + i);
+    return { ok: true, prefs: pr ? JSON.parse(pr) : {}, drafts: ds ? JSON.parse(ds) : [] };
+  }
+  if (b.action === 'sync_set') {
+    if (b.prefs !== undefined) {
+      var ps = JSON.stringify(b.prefs);
+      if (ps.length > 8000) return { ok: false, error: 'full' };
+      p.setProperty('p_' + me.id, ps);
+    }
+    if (b.drafts !== undefined) {
+      var s = JSON.stringify(b.drafts);
+      if (s.length > 60000) return { ok: false, error: 'full' };
+      var old = Number(p.getProperty('dn_' + me.id)) || 0;
+      var n = Math.ceil(s.length / 8000);
+      for (var j = 0; j < n; j++) p.setProperty('d_' + me.id + '_' + j, s.substr(j * 8000, 8000));
+      for (var k = n; k < old; k++) p.deleteProperty('d_' + me.id + '_' + k);
+      p.setProperty('dn_' + me.id, String(n));
+    }
+    return { ok: true };
+  }
   if (b.action === 'award') {
     var pts = pointsFor(me.role, b.kind);
     var key = b.kind + ':' + String(b.ref || '').slice(0, 40);
@@ -215,7 +238,7 @@ function doPost(e) {
   lock.waitLock(20000);
   try {
     var p = PropertiesService.getScriptProperties();
-    if (['signup', 'login', 'me', 'update', 'award'].indexOf(b.action) >= 0 || b.action.indexOf('access_') === 0) return out(accountAction(p, b));
+    if (['signup', 'login', 'me', 'update', 'award'].indexOf(b.action) >= 0 || b.action.indexOf('access_') === 0 || b.action.indexOf('sync_') === 0) return out(accountAction(p, b));
     var who = getUser(p, b);
     if (!who || !isStaff(who.role)) return out({ ok: false, error: 'denied' });
     if (b.action === 'delete') {
