@@ -3,9 +3,9 @@
 (function(){
 const st=document.createElement("style");
 st.textContent=`
-.loginbtn{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:14px;display:flex;align-items:center;gap:6px;border:0;cursor:pointer;padding:8px 14px;border-radius:999px;font-weight:800;font-size:.85rem;color:#2b1d05;background:linear-gradient(135deg,#f6d27a,#e3b45c);box-shadow:0 4px 12px rgba(227,180,92,.4)}
+.acctbar{display:flex;justify-content:flex-end;padding:2px 0 0}
+.loginbtn{display:flex;align-items:center;gap:6px;border:0;cursor:pointer;padding:6px 12px;border-radius:999px;font-weight:800;font-size:.8rem;color:#2b1d05;background:linear-gradient(135deg,#f6d27a,#e3b45c);box-shadow:0 3px 10px rgba(227,180,92,.35)}
 .loginbtn .sc{background:rgba(43,29,5,.15);padding:2px 8px;border-radius:999px}
-.hubhead{position:relative}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .seg button{padding:12px;border-radius:14px;border:2px solid var(--line);background:var(--surface);color:var(--ink);font-weight:800;font-size:1rem}
 .seg button[aria-pressed=true]{border-color:var(--gold);background:var(--gold-soft)}
@@ -70,7 +70,7 @@ window.acctChip=function(){const head=document.querySelector(".hubhead");if(!hea
   const a=acct();const b=document.createElement("button");b.className="loginbtn";
   b.dataset.go=a?"profile":"login";
   b.innerHTML=a?`<span style="display:flex;align-items:center">${avHTML(a.avatar||AVATARS[0],24)}</span><span class="sc">⭐ ${a.user.score}</span>`:`👤 Login`;
-  head.appendChild(b)};
+  const bar=document.createElement("div");bar.className="acctbar";bar.appendChild(b);head.parentNode.insertBefore(bar,head)};
 
 /* give points (called from the app) */
 window.hvAward=async function(kind,ref,label){const a=acct();if(!a||!GU())return;
