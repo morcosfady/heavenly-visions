@@ -1,0 +1,163 @@
+/* Heavenly Visions: design system v1 ("heavenly sky").
+   Loaded after the inline styles, so it only adds tokens, the layered sky, glass surfaces and motion.
+   Rules: subtle beats flashy, animate only transform and opacity, everything stops with reduced motion. */
+
+/* ---------- tokens: light = morning sky ---------- */
+:root{
+  --bg-base:#f1e6d0;
+  --sky-top:#a9d8f2; --sky-mid:#e8f1f1; --sky-bot:#fbe7c4;
+  --aur1:rgba(255,203,110,.60); --aur2:rgba(125,195,240,.42); --aur3:rgba(200,170,240,.26);
+  --rays:rgba(255,206,120,.20); --halo:rgba(255,196,92,.60);
+  --cloud:rgba(255,255,255,.90); --stars-op:0; --grain-op:.05;
+  --glass:rgba(255,250,242,.70); --glass-b:rgba(185,133,43,.28); --glass-hi:rgba(255,255,255,.65);
+  --glass-blur:blur(14px) saturate(140%);
+  --sh:0 12px 30px -14px rgba(120,85,30,.38);
+  --accent:#e3b45c;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg-base:#0b1030;
+  --sky-top:#0a0f2e; --sky-mid:#151b3d; --sky-bot:#2a2142;
+  --aur1:rgba(255,190,90,.30); --aur2:rgba(90,160,225,.26); --aur3:rgba(140,100,215,.24);
+  --rays:rgba(255,215,140,.10); --halo:rgba(255,200,110,.38);
+  --cloud:rgba(170,190,235,.11); --stars-op:1; --grain-op:.06;
+  --glass:rgba(29,37,64,.62); --glass-b:rgba(255,255,255,.10); --glass-hi:rgba(255,255,255,.10);
+  --sh:0 12px 30px -14px rgba(0,0,0,.6)}}
+:root[data-theme="dark"]{
+  --bg-base:#0b1030;
+  --sky-top:#0a0f2e; --sky-mid:#151b3d; --sky-bot:#2a2142;
+  --aur1:rgba(255,190,90,.30); --aur2:rgba(90,160,225,.26); --aur3:rgba(140,100,215,.24);
+  --rays:rgba(255,215,140,.10); --halo:rgba(255,200,110,.38);
+  --cloud:rgba(170,190,235,.11); --stars-op:1; --grain-op:.06;
+  --glass:rgba(29,37,64,.62); --glass-b:rgba(255,255,255,.10); --glass-hi:rgba(255,255,255,.10);
+  --sh:0 12px 30px -14px rgba(0,0,0,.6)}
+
+html{background:var(--bg-base)}
+body{background:transparent;font-size:clamp(16px,.35vw + 15px,18px)}
+.wrap{position:relative}
+
+/* ---------- the sky (fixed, behind everything) ---------- */
+#sky{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;
+  background:linear-gradient(180deg,var(--sky-top) 0%,var(--sky-mid) 55%,var(--sky-bot) 100%)}
+.sk-px{position:absolute;inset:-8% -8%;will-change:transform}
+.au{position:absolute;border-radius:50%;will-change:transform}
+.au1{left:50%;top:-14%;width:130vmax;height:72vmax;margin-left:-65vmax;background:radial-gradient(closest-side,var(--aur1),transparent);animation:aud1 70s ease-in-out infinite alternate}
+.au2{left:-34vmax;top:22%;width:92vmax;height:92vmax;background:radial-gradient(closest-side,var(--aur2),transparent);animation:aud2 88s ease-in-out infinite alternate}
+.au3{right:-34vmax;top:42%;width:84vmax;height:84vmax;background:radial-gradient(closest-side,var(--aur3),transparent);animation:aud3 62s ease-in-out infinite alternate}
+.au4{left:50%;bottom:-26%;width:110vmax;height:64vmax;margin-left:-55vmax;opacity:.55;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent) 38%,transparent),transparent);animation:aud1 95s ease-in-out infinite alternate-reverse}
+@keyframes aud1{from{transform:translate3d(-4%,0,0) scale(1)}to{transform:translate3d(4%,3%,0) scale(1.08)}}
+@keyframes aud2{from{transform:translate3d(0,-4%,0) scale(1)}to{transform:translate3d(8%,5%,0) scale(1.1)}}
+@keyframes aud3{from{transform:translate3d(0,4%,0) scale(1.05)}to{transform:translate3d(-8%,-4%,0) scale(.95)}}
+.rays{position:absolute;left:0;right:0;top:0;height:78%;
+  background:repeating-conic-gradient(from 160deg at 50% -8%,transparent 0 6deg,var(--rays) 7deg 9deg,transparent 10deg 14deg);
+  -webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 0%,transparent 72%);mask-image:radial-gradient(ellipse at 50% 0%,#000 0%,transparent 72%);
+  opacity:.25}
+html[data-route="home"] .rays{animation:shimmer 9s ease-in-out infinite alternate}
+@keyframes shimmer{from{opacity:.45}to{opacity:.95}}
+#stars{position:absolute;inset:0;width:100%;height:100%;opacity:var(--stars-op)}
+.clouds{position:absolute;left:-10%;right:-10%;bottom:-5%;height:28%;
+  background:radial-gradient(ellipse 30% 62% at 14% 100%,var(--cloud),transparent 70%),radial-gradient(ellipse 38% 72% at 50% 112%,var(--cloud),transparent 70%),radial-gradient(ellipse 28% 56% at 86% 100%,var(--cloud),transparent 70%);
+  animation:cdrift 90s ease-in-out infinite alternate}
+@keyframes cdrift{from{transform:translate3d(-3%,0,0)}to{transform:translate3d(3%,0,0)}}
+.grain{position:absolute;inset:0;opacity:var(--grain-op);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ---------- glass surfaces ---------- */
+.card,.tile,.verse,.search,.qcard,.reader,.stage,.mygame,.item,.sheet{
+  background:var(--glass);border:1px solid var(--glass-b);
+  -webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
+  box-shadow:inset 0 1px 0 var(--glass-hi),var(--sh)}
+.row,.bk,.ch,.back,.empty,.filters button{background:var(--glass);border:1px solid var(--glass-b);box-shadow:inset 0 1px 0 var(--glass-hi)}
+.row,.bk,.ch{box-shadow:inset 0 1px 0 var(--glass-hi),var(--sh)}
+.empty{border-style:dashed}
+.note{background:color-mix(in srgb,var(--sky-soft) 68%,transparent);border:1px solid var(--glass-b)}
+.sheet{border-radius:24px 24px 0 0}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .card,.tile,.verse,.search,.qcard,.reader,.stage,.mygame,.item,.sheet{background:var(--surface)}}
+h2{position:relative;padding-bottom:.5rem}
+h2::after{content:"";position:absolute;left:0;bottom:0;width:48px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.empty::before{content:"🌤️";display:block;font-size:2rem;margin-bottom:6px}
+.tile.soon{opacity:.6}
+.tile.soon::before{content:"⏳";position:absolute;right:10px;top:8px;font-size:.9rem}
+.tile.soon:hover,.tile.soon:active{transform:none}
+
+/* ---------- home: halo, doors ---------- */
+.hubhead{position:relative;isolation:isolate}
+.hubhead::before{content:"";position:absolute;left:50%;top:-88px;width:min(340px,86vw);height:min(340px,86vw);margin-left:calc(min(340px,86vw)/-2);border-radius:50%;
+  background:radial-gradient(closest-side,var(--halo),transparent);z-index:-1;animation:halo 6s ease-in-out infinite}
+@keyframes halo{0%,100%{opacity:.65;transform:scale(.96)}50%{opacity:1;transform:scale(1.06)}}
+.hubhead img{filter:drop-shadow(0 0 18px rgba(255,205,110,.45))}
+.door{--glow:rgba(0,0,0,.35);
+  box-shadow:0 16px 30px -12px var(--glow),inset 0 1px 0 rgba(255,255,255,.38);
+  transform:perspective(800px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
+.door:hover{transform:perspective(800px) translateY(-3px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+.door:active{transform:perspective(800px) scale(.97)}
+.d-media{--glow:rgba(47,143,192,.75)}.d-att{--glow:rgba(63,174,106,.70)}.d-games{--glow:rgba(232,121,74,.75)}
+.d-quiz{--glow:rgba(142,107,209,.72)}.d-bible{--glow:rgba(201,154,60,.72)}
+.door::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,-10%),rgba(255,255,255,.16),transparent 55%),linear-gradient(180deg,rgba(255,255,255,.17) 0%,rgba(255,255,255,0) 42%)}
+.door::after{content:"";position:absolute;top:0;bottom:0;left:0;width:40%;pointer-events:none;opacity:0;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);transform:translateX(-180%) skewX(-20deg)}
+.door.shine::after{animation:dshine 1.3s ease-out}
+@keyframes dshine{from{opacity:1;transform:translateX(-180%) skewX(-20deg)}to{opacity:1;transform:translateX(420%) skewX(-20deg)}}
+.door b,.door small{position:relative;z-index:1}
+.door .big{z-index:1;animation:floaty 5.5s ease-in-out infinite}
+.d-att .big{animation-duration:6.4s;animation-delay:-1.3s}.d-games .big{animation-duration:5.9s;animation-delay:-2.6s}
+.d-quiz .big{animation-duration:6.8s;animation-delay:-3.4s}.d-bible .big{animation-duration:6.1s;animation-delay:-.7s}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.workshop{box-shadow:0 8px 24px rgba(227,180,92,.55),inset 0 1px 0 rgba(255,255,255,.55)}
+
+/* account chip */
+.loginbtn{background:rgba(227,180,92,.16);color:var(--ink);border:1px solid rgba(227,180,92,.55);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 0 16px rgba(227,180,92,.35)}
+.loginbtn .sc{background:rgba(227,180,92,.28);color:var(--ink)}
+
+/* games hero */
+.hero-art{display:flex;justify-content:center;gap:clamp(12px,3vw,26px);padding:12px;border-radius:22px;border:1px solid var(--glass-b);
+  background:linear-gradient(135deg,rgba(232,121,74,.22),rgba(142,107,209,.22));font-size:clamp(1.8rem,7vw,3.4rem);line-height:1}
+.hero-art span{display:block;animation:floaty 5.5s ease-in-out infinite}
+.hero-art span:nth-child(2){animation-delay:-1.4s}.hero-art span:nth-child(3){animation-delay:-2.8s}.hero-art span:nth-child(4){animation-delay:-4.1s}
+
+/* ---------- press feedback + ripple ---------- */
+.btn,.tile,.row,.bk,.ch,.opt,.kopt,.back,.mini{position:relative;overflow:hidden;transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .2s,background .2s}
+.btn:active,.tile:active,.row:active,.bk:active,.ch:active,.opt:active,.kopt:active,.back:active,.mini:active{transform:scale(.97)}
+.ripple{position:absolute;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.5),transparent 70%);transform:scale(0);animation:rip .55s ease-out forwards}
+@keyframes rip{to{transform:scale(1);opacity:0}}
+
+/* ---------- screen transitions ---------- */
+#app>*{animation:rise .3s cubic-bezier(.2,.8,.2,1) both}
+.grid>*,.doors>*,.list>*,.books>*,.chaps>*{animation:rise .32s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*35ms)}
+:is(.grid,.doors,.list,.books,.chaps)>:nth-child(1){--i:0}
+:is(.grid,.doors,.list,.books,.chaps)>:nth-child(2){--i:1}
+:is(.grid,.doors,.list,.books,.chaps)>:nth-child(3){--i:2}
+:is(.grid,.doors,.list,.books,.chaps)>:nth-child(4){--i:3}
+:is(.grid,.doors,.list,.books,.chaps)>:nth-child(5){--i:4}
+:is(.grid,.doors,.list,.books,.chaps)>:nth-child(6){--i:5}
+:is(.grid,.doors,.list,.books,.chaps)>:nth-child(7){--i:6}
+:is(.grid,.doors,.list,.books,.chaps)>:nth-child(8){--i:7}
+:is(.grid,.doors,.list,.books,.chaps)>:nth-child(n+9){--i:8}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}}
+
+/* ---------- responsive ---------- */
+.grid{grid-template-columns:repeat(auto-fill,minmax(clamp(150px,22vw,210px),1fr))}
+.grid .tile{min-height:clamp(108px,14vw,150px)}
+.tile .ic{font-size:clamp(1.7rem,4vw,2.5rem)}
+@media (min-width:600px){
+  .wrap{max-width:860px;padding-inline:24px}
+  .door{min-height:170px}.door .big{font-size:5.4rem}
+  .row{grid-template-columns:200px 1fr}
+}
+@media (min-width:1025px){
+  .wrap{max-width:1100px;padding-inline:32px;gap:24px}
+  .hubhead img{width:min(300px,28vw)}
+  .doors{grid-template-columns:repeat(6,1fr);gap:18px}
+  .doors .door,.doors .door.wide{grid-column:span 2;min-height:200px}
+  .doors .d-quiz,.doors .d-bible{grid-column:span 3}
+  .verse{max-width:660px;margin-inline:auto;text-align:center}
+}
+
+/* ---------- reduced motion: freeze everything ---------- */
+@media (prefers-reduced-motion:reduce){
+  .au,.rays,.clouds,.hubhead::before,.door .big,.hero-art span,.door::after,.ripple{animation:none!important}
+  #app>*,.grid>*,.doors>*,.list>*,.books>*,.chaps>*{animation:none!important}
+}
