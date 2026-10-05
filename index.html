@@ -97,6 +97,7 @@ h2{font-size:1.2rem;color:var(--gold);letter-spacing:.02em}
 .tile.soon{opacity:.62}
 .tile::after{content:"";position:absolute;inset:auto 14px 0 14px;height:4px;border-radius:4px 4px 0 0;background:var(--c,var(--gold))}
 .list{display:flex;flex-direction:column;gap:10px}
+.lessonbtn{display:flex;align-items:center;gap:12px;text-align:left;width:100%;background:var(--surface);border:0;border-radius:16px;padding:14px;box-shadow:var(--shadow);color:inherit;font:inherit;font-weight:700}.lessonbtn b{flex:none;min-width:2.4em;color:var(--gold)}.lessonbtn span{flex:1;min-width:0}.lessonbtn i{font-style:normal}
 .row{display:grid;grid-template-columns:128px 1fr;gap:12px;align-items:center;text-align:left;background:var(--surface);border:0;border-radius:18px;padding:8px;box-shadow:var(--shadow)}
 .thumb{position:relative;aspect-ratio:16/9;max-width:100%;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,var(--sky-soft),var(--gold-soft));display:grid;place-items:center;font-size:1.6rem}
 .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -339,9 +340,24 @@ function media(){
     const m=V.filter(v=>v[1].toLowerCase().includes(t)||sec(v[3]).name.toLowerCase().includes(t));
     res.innerHTML=m.length?m.map(v=>rowHTML(v,true)).join(""):`<div class="empty">No lessons match "${esc(q.value)}"</div>`;res.hidden=false;gr.hidden=true});
 }
+const PREK=[
+["Building Block 1: The Very Good Beginning",[["1.1","God Is the Creator of Good Things: Six Days of Creation Part I"],["1.2","God Is the Creator of Good Things: Six Days of Creation Part II"],["1.3","God Is Our Father"],["1.4","God Provides For Growth and Change"],["1.5","God's Creation Is Good / Building Block 1 Review"]]],
+["Building Block 2: Angels, God's Helpers",[["2.1","God Created Angels"],["2.2","Angels Worship God"],["2.3","Angels, Archangels, Cherubim, Seraphim"],["2.4","They Minister to God's People and Guard Them"],["2.5","Angels Are Given Special Assignments by God"],["2.6","God's Angels Rejoice When We Repent of Sin"],["2.7","Helping Others: St. Nicholas the Wonderworker and Building Block 2 Review"]]],
+["Building Block 3: God Is Powerful",[["3.1","God Knows Everything: The Fall of Adam & Eve"],["3.2","Noah, the Flood, and the Rainbow"],["3.3","God Has a Plan: Archangel Gabriel Announces the Birth of St. John the Baptist"],["3.4","Everything Happens in God's Time: Annunciation"],["3.5","The Wise-men and the Star"],["3.6","Trusting God & Building Block 3 Review"]]],
+["Building Block 4: God and His Glory",[["4.1","Jesus' Baptism"],["4.2","The Garden of Eden"],["4.3","God Called Abraham"],["4.4","An Introduction to the Coptic Church Building and Icons"],["4.5","God Talks to Us, We Listen"],["4.6","Moses and the Burning Bush"],["4.7","Sense the Wonders of God's Works"],["4.8","Seeing the Glory of God in Everyone: St. Bishoy & Building Block 4 Review"]]],
+["Building Block 5: God's Gifts",[["5.1","We Are His Children"],["5.2","God's Greatest Gift: Jesus His Son"],["5.3","God Gave Us the Bible to Guide Us"],["5.4","The Church and Our Priests Teach Us About God"],["5.5","Respect, “We Are All His Children”"],["5.6","Forgiveness & Building Block 5 Review"]]],
+["Building Block 6: God's Wonderful Works Bring Us Joy",[["6.1","God Brings Joy Through Unexpected Blessings: Sarah and Isaac"],["6.2","God Answers Prayers: Hannah's Blessed with Samuel"],["6.3","Obedience: The Life of Saint Mary"],["6.4","Sharing: Spreading Joy through Jesus' Love"],["6.5","How to Pray in the Church"],["6.6","How to Pray with My Family"],["6.7","The Lord's Prayer and Building Block 6 Review"]]],
+["Building Block 7: Taking Care of God's Gifts",[["7.1","St. Joseph the Carpenter and His Obedience: Flight into Egypt"],["7.2","Obedience of St. John the Baptist"],["7.3","What Is Stewardship?"],["7.4","Who Was a Good Steward? The Good Samaritan"],["7.5","God Has Given You Many Blessings"],["7.6","We Are Grateful to God"],["7.7","Being Good Stewards of God's Creation & Building Block 7 Review"]]],
+["Building Block 8: Marvel, Believe, & Care",[["8.1","Marvel in the Works of God"],["8.2","Believe and Appreciate God's Creations"],["8.3","Care"],["8.4","Caring for Others: St. Verena"]]],
+["Spare Lessons",[["S.1","Who Was a Good Steward? St. Stephen"],["S.2","Jesus Is the Source of Our Joy"]]]];
+const PREK_VID={"1.1":"ArIC3kr3um0","2.3":"u9PhDJkbQHM","3.1":"apX8Aj9cmkI","6.2":"hboXmJYMZEo","6.3":"7fVngbW80HY"};
 function mediaSection(id){const s=sec(id);if(!s)return media();const vs=inSec(id);
+  if(id==="prek")return prekLessons(s);
   app.innerHTML=`${topbar(s.name,s.ic,vs.length?vs.length+" lesson"+(vs.length>1?"s":""):"Lessons coming soon","media")}
   <div class="list">${vs.length?vs.map(v=>rowHTML(v,false)).join(""):`<div class="empty">📚 ${s.name} lessons are on the way.<br>Check back soon!</div>`}</div>`}
+function prekLessons(s){const n=PREK.reduce((a,b)=>a+b[1].length,0);
+  app.innerHTML=`${topbar(s.name,s.ic,n+" lessons","media")}
+  ${PREK.map(b=>`<section class="sec"><h2>${esc(b[0])}</h2><div class="list">${b[1].map(l=>`<button class="lessonbtn" data-lesson="${l[0]}"><b>${l[0]}</b><span>${esc(l[1])}</span>${PREK_VID[l[0]]?`<i>🎬</i>`:""}</button>`).join("")}</div></section>`).join("")}`}
 function openLesson(id){const v=V.find(x=>x[0]===id);if(!v)return;const s=sec(v[3]);const yt=`https://www.youtube.com/watch?v=${id}`;
   const quiz=QUIZZES.find(q=>q.v===id);
   sheet(`${IS_LIVE?`<div class="player"><iframe src="https://www.youtube.com/embed/${id}?rel=0&playsinline=1" title="${esc(v[1])}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`
@@ -523,6 +539,7 @@ function go(h){const t="#"+h;if(location.hash===t)route();else location.hash=h}
 document.addEventListener("click",async e=>{
   const g=e.target.closest("[data-go]");if(g){if(g.hasAttribute("data-close"))closeSheet();go(g.dataset.go);return}
   const v=e.target.closest("[data-v]");if(v)return openLesson(v.dataset.v);
+  const ls=e.target.closest("[data-lesson]");if(ls){const k=ls.dataset.lesson;return PREK_VID[k]?openLesson(PREK_VID[k]):toast("Video coming soon 🎬")}
   if(e.target.closest("[data-close]"))return closeSheet();
   const a=e.target.closest("[data-act]");if(a){if(a.dataset.act==="attend")attendSheet();if(a.dataset.act==="editme"){store.set("me",null);attendance()}return}
   const c=e.target.closest("[data-copy]");if(c){try{await navigator.clipboard.writeText(c.dataset.copy);toast("Link copied ✅")}catch{toast(c.dataset.copy)}}
