@@ -167,7 +167,7 @@ h2{font-size:1.2rem;color:var(--gold);letter-spacing:.02em}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
 footer{text-align:center;color:var(--muted);font-size:.85rem;font-weight:700}
 @media (max-width:420px){.row{grid-template-columns:112px 1fr}.door{min-height:132px}.door .big{font-size:3.8rem}}
-@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-delay:0s!important;transition:none!important}}
+@media (prefers-reduced-motion:reduce){*:not(#intro):not(#intro *){animation-duration:.01ms!important;animation-delay:0s!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -291,7 +291,7 @@ function runIntro(){
   const finish=()=>{if(done)return;done=true;store.set("introDay",todayKey());intro.classList.add("out");setTimeout(()=>{try{v.pause()}catch{}intro.remove()},600)};
   const showLogo=()=>{end.classList.add("show");setTimeout(finish,1700)};
   // Full intro once a day; after that, a quick logo splash
-  if(seen||matchMedia("(prefers-reduced-motion: reduce)").matches){v.remove();$("#snd").remove();showLogo();return}
+  if(false){v.remove();$("#snd").remove();showLogo();return}
   v.addEventListener("ended",()=>setTimeout(finish,200));
   v.addEventListener("error",showLogo);
   const p=v.play();if(p&&p.catch)p.catch(()=>{});
