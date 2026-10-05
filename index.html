@@ -575,28 +575,19 @@ function bible(){const last=store.get("lastRead",null);
   <section class="sec"><h2>New Testament</h2><div class="books">${BOOKS.slice(39).map(b=>`<button class="bk" data-go="b-${encodeURIComponent(b[0])}">${b[0]}</button>`).join("")}</div></section>`}
 function bibleBook(name){const b=BOOKS.find(x=>x[0]===name);if(!b)return bible();
   app.innerHTML=`${topbar(b[0],"📖","Choose a chapter","bible")}<div class="chaps">${Array.from({length:b[1]},(_,i)=>`<button class="ch" data-go="b-${encodeURIComponent(b[0])}-${i+1}">${i+1}</button>`).join("")}</div>`}
-const BAUD={};
 function stopVoice(){if(window.hvAud){hvAud.pause();hvAud=null}if(window.speechSynthesis)speechSynthesis.cancel()}
-function phoneVoice(){const vs=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang));return vs.find(v=>/male|david|mark|guy|andrew|daniel|james|google uk english male/i.test(v.name)&&!/female/i.test(v.name))||vs.find(v=>/en-US/i.test(v.lang))||vs[0]}
 async function bibleRead(name,ch){const b=BOOKS.find(x=>x[0]===name);if(!b)return bible();ch=Math.min(Math.max(1,ch),b[1]);
   const fs=store.get("fs",1.08);store.set("lastRead",{b:name,c:ch});stopVoice();
   const bi=BOOKS.indexOf(b),prev=ch>1?[name,ch-1]:bi>0?[BOOKS[bi-1][0],BOOKS[bi-1][1]]:null,next=ch<b[1]?[name,ch+1]:bi<BOOKS.length-1?[BOOKS[bi+1][0],1]:null;
   const link=(x,l)=>x?`<button class="btn alt" data-go="b-${encodeURIComponent(x[0])}-${x[1]}">${l}</button>`:"";
-  const nat=!!(BAUD[name]&&BAUD[name].includes(ch));let verses=[];
+  
   app.innerHTML=`${topbar(`${name} ${ch}`,"📖","King James Version",`b-${encodeURIComponent(name)}`)}
-  <div class="navrow"><button class="btn gold" id="lis">🔊 Listen</button><div class="seg" role="group" aria-label="Text size"><button data-fs="-1" aria-label="Smaller text">A−</button><button data-fs="1" aria-label="Bigger text">A+</button></div></div>
-  <div class="tag">${nat?"🎙️ Natural voice":"📱 Phone voice"}</div>
+  <div class="navrow"><div class="seg" role="group" aria-label="Text size"><button data-fs="-1" aria-label="Smaller text">A−</button><button data-fs="1" aria-label="Bigger text">A+</button></div></div>
   <article class="reader" id="rd" style="--fs:${fs}rem"><p class="tag">Loading…</p></article>
   <div class="navrow">${link(prev,"‹ Previous")}${link(next,"Next ›")}</div>
   <a class="btn alt" href="https://www.biblegateway.com/passage/?search=${encodeURIComponent(name+" "+ch)}&version=NKJV" target="_blank" rel="noopener">Read in NKJV ↗</a>`;
   app.querySelectorAll("[data-fs]").forEach(x=>x.onclick=()=>{let f=store.get("fs",1.08)+(+x.dataset.fs)*.1;f=Math.min(1.8,Math.max(.9,f));store.set("fs",f);$("#rd").style.setProperty("--fs",f+"rem")});
-  const lis=$("#lis"),reset=()=>{if(lis)lis.textContent="🔊 Listen"};
-  lis.onclick=()=>{if(lis.textContent.startsWith("⏹")){stopVoice();reset();return}
-    if(nat){hvAud=new Audio("audio/bible/"+name+"-"+ch+".mp3");hvAud.onended=reset;hvAud.play().then(()=>lis.textContent="⏹ Stop").catch(()=>toast("Could not play the audio 🔊"));return}
-    if(!window.speechSynthesis||!verses.length)return toast("Listening isn't available yet 🔊");
-    const v=phoneVoice();verses.forEach((t,i)=>{const u=new SpeechSynthesisUtterance(t);u.rate=.9;if(v)u.voice=v;if(i===verses.length-1)u.onend=reset;speechSynthesis.speak(u)});lis.textContent="⏹ Stop"};
   try{const r=await fetch(`https://bible-api.com/${encodeURIComponent(name+" "+ch)}?translation=kjv`);const j=await r.json();if(!j.verses)throw 0;
-    verses=j.verses.map(v=>v.text.trim());
     $("#rd").innerHTML=j.verses.map(v=>`<sup>${v.verse}</sup>${esc(v.text.trim())} `).join("")}
   catch{const rd=$("#rd");if(rd)rd.innerHTML=`<p class="err">Couldn't load this chapter. Check your internet, or tap "Read in NKJV".</p>`}}
 
