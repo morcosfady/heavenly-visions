@@ -2,7 +2,8 @@
    Stores published games in Script Properties (no extra Google permissions needed).
    Each game is cut into 8000 character pieces because one property holds about 9 KB. */
 
-var PIN = '496691';
+/* One-time code for creating the very first priest. Change it in the script editor. */
+var SETUP_CODE = 'CHANGE_ME';
 
 function out(o) {
   return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
@@ -61,9 +62,19 @@ function randomText() {
   return Utilities.getUuid().replace(/-/g, '') + Utilities.getUuid().replace(/-/g, '');
 }
 
+var ROLES = ['student', 'servant', 'coordinator', 'priest'];
+
+function isStaff(role) { return role === 'servant' || role === 'coordinator' || role === 'priest'; }
+
+function pointsFor(role, kind) {
+  var rule = RULES[kind];
+  if (!rule) return 0;
+  return role === 'student' ? rule.student : rule.servant;
+}
+
 function publicUser(u) {
   return { id: u.id, username: u.username, name: u.name, church: u.church, role: u.role,
-    grade: u.grade, score: u.score, log: u.log, joined: u.joined };
+    grade: u.grade, req: u.req || '', score: u.score, log: u.log, joined: u.joined };
 }
 
 function saveUser(p, u) {
@@ -77,19 +88,68 @@ function getUser(p, b) {
   return u.tok && u.tok === b.token ? u : null;
 }
 
+function allUsers(p) {
+  var all = p.getProperties();
+  return Object.keys(all).filter(function (k) { return k.indexOf('u_') === 0; }).map(function (k) { return JSON.parse(all[k]); });
+}
+
+function anyPriest(p) {
+  return allUsers(p).some(function (u) { return u.role === 'priest'; });
+}
+
+function contactUser(u) {
+  return { id: u.id, name: u.name, church: u.church, role: u.role, req: u.req || '', grade: u.grade,
+    phone: u.phone, email: u.email, score: u.score, joined: u.joined };
+}
+
+function accessAction(p, me, b) {
+  if (me.role !== 'coordinator' && me.role !== 'priest') return { ok: false, error: 'denied' };
+  var users = allUsers(p).filter(function (u) { return u.id !== me.id; });
+  if (b.action === 'access_list') {
+    var mine = users.filter(function (u) {
+      if (me.role === 'priest') return u.role !== 'student' || u.req;
+      return u.grade === me.grade && (u.role === 'servant' || u.req === 'servant');
+    });
+    return { ok: true, pending: mine.filter(function (u) { return u.req; }).map(contactUser),
+      team: mine.filter(function (u) { return !u.req && u.role !== 'student'; }).map(contactUser) };
+  }
+  var raw = p.getProperty('u_' + b.target);
+  if (!raw) return { ok: false, error: 'missing' };
+  var t = JSON.parse(raw);
+  var role = b.role, grade = b.grade === undefined ? t.grade : String(b.grade).slice(0, 20);
+  if (me.role === 'coordinator') {
+    var isMyServant = t.grade === me.grade && (t.role === 'servant' || t.req === 'servant');
+    if (!isMyServant || grade !== me.grade) return { ok: false, error: 'denied' };
+    if (role && role !== 'servant' && role !== 'student') return { ok: false, error: 'denied' };
+  }
+  if (b.action === 'access_reject') { t.req = ''; }
+  else if (b.action === 'access_set') {
+    var newRole = role || t.req || t.role;
+    if (ROLES.indexOf(newRole) < 0) return { ok: false, error: 'missing' };
+    t.role = newRole; t.req = ''; t.grade = grade;
+  }
+  if (t.role !== 'priest' && me.role === 'priest' && t.id === me.id) return { ok: false, error: 'denied' };
+  saveUser(p, t);
+  return { ok: true };
+}
+
 function accountAction(p, b) {
   if (b.action === 'signup') {
     var un = String(b.username || '').trim().toLowerCase();
     if (!/^[a-z0-9_.]{3,20}$/.test(un)) return { ok: false, error: 'username' };
     if (String(b.password || '').length < 6) return { ok: false, error: 'password' };
     if (!String(b.name || '').trim() || !String(b.church || '').trim()) return { ok: false, error: 'missing' };
-    if (b.role !== 'student' && b.role !== 'servant') return { ok: false, error: 'missing' };
+    if (ROLES.indexOf(b.role) < 0) return { ok: false, error: 'missing' };
     if (p.getProperty('un_' + un)) return { ok: false, error: 'taken' };
     var salt = randomText();
     var u = { id: randomText().slice(0, 12), username: un, name: String(b.name).trim().slice(0, 40),
       phone: String(b.phone || '').slice(0, 25), email: String(b.email || '').slice(0, 60),
-      church: String(b.church).trim().slice(0, 50), role: b.role, grade: String(b.grade || '').slice(0, 20),
+      church: String(b.church).trim().slice(0, 50), role: 'student', req: '', grade: String(b.grade || '').slice(0, 20),
       salt: salt, hash: sha(salt + b.password), tok: randomText(), score: 0, log: [], done: [], joined: Date.now() };
+    if (b.role !== 'student') {
+      if (b.role === 'priest' && !anyPriest(p) && SETUP_CODE !== 'CHANGE_ME' && b.setup === SETUP_CODE) u.role = 'priest';
+      else u.req = b.role;
+    }
     p.setProperty('un_' + un, u.id);
     saveUser(p, u);
     return { ok: true, token: u.tok, user: publicUser(u) };
@@ -116,9 +176,9 @@ function accountAction(p, b) {
     saveUser(p, me);
     return { ok: true, user: publicUser(me) };
   }
+  if (b.action.indexOf('access_') === 0) return accessAction(p, me, b);
   if (b.action === 'award') {
-    var rule = RULES[b.kind];
-    var pts = rule ? rule[me.role] : 0;
+    var pts = pointsFor(me.role, b.kind);
     var key = b.kind + ':' + String(b.ref || '').slice(0, 40);
     if (!pts || me.done.indexOf(key) >= 0) return { ok: true, added: 0, user: publicUser(me) };
     me.done.push(key);
@@ -138,11 +198,11 @@ function doPost(e) {
   lock.waitLock(20000);
   try {
     var p = PropertiesService.getScriptProperties();
-    if (['signup', 'login', 'me', 'update', 'award'].indexOf(b.action) >= 0) return out(accountAction(p, b));
-    if (b.pin !== PIN) return out({ ok: false, error: 'pin' });
-    if (b.action === 'check') return out({ ok: true });
+    if (['signup', 'login', 'me', 'update', 'award'].indexOf(b.action) >= 0 || b.action.indexOf('access_') === 0) return out(accountAction(p, b));
+    var who = getUser(p, b);
+    if (!who || !isStaff(who.role)) return out({ ok: false, error: 'denied' });
     if (b.action === 'delete') {
-      p.setProperty('index', JSON.stringify(removeGame(p, b.id)));
+      p.setProperty('index', JSON.stringify(removeGame(p, b.gid)));
       return out({ ok: true });
     }
     if (b.action === 'save') {
