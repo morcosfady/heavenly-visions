@@ -245,7 +245,7 @@ function builderHome(){
 function myGameHTML(g){const t=T[g.t];if(!t)return"";const n=filled(g).length;
   return `<div class="mygame"><div class="gi">${t.ic}</div><div><div class="gt2">${esc(g.title||"Untitled")}</div>
    <div class="meta"><span class="pill ${g.status==="ready"?"ready":"draft"}">${g.status==="ready"?"✅ Ready":"📝 Draft"}</span>${g.pub?`<span class="pill self">🌍 Online</span>`:""}<span class="tag">${t.name} · ${n} ${pl(n,t.item)}${g.grade?" · "+esc(secName(g.grade)):""}</span></div></div>
-   <div class="acts"><button class="mini" data-go="bplay-${g.id}">▶ Play</button><button class="mini" data-go="bedit-${g.id}">✏️ Edit</button><button class="mini" data-gact="copy" data-id="${g.id}">⧉ Copy</button>${pubBtn(g,t)}${g.t==="kahoot"&&g.status==="ready"?`<button class="mini" data-go="live-${g.id}">📺 Go live</button>`:""}<button class="mini danger" data-gact="del" data-id="${g.id}">🗑 Delete</button></div></div>`}
+   <div class="acts"><button class="mini" data-go="bplay-${g.id}">▶ Play</button><button class="mini" data-go="bedit-${g.id}">✏️ Edit</button><button class="mini" data-gact="copy" data-id="${g.id}">⧉ Copy</button>${pubBtn(g,t)}${g.t==="kahoot"&&g.status==="ready"?`<button class="mini" data-go="live-${g.id}">📺 Go live</button>`:""}${t.mode==="self"&&g.status==="ready"?`<button class="mini" data-go="cls-${g.id}">🚀 Start for class</button>`:""}<button class="mini danger" data-gact="del" data-id="${g.id}">🗑 Delete</button></div></div>`}
 function pubBtn(g,t){if(t.mode!=="self"||g.status!=="ready")return"";
   if(!g.pub)return `<button class="mini" data-gact="pub" data-id="${g.id}">🌍 Publish</button>`;
   return (g.updated>g.pub?`<button class="mini" data-gact="pub" data-id="${g.id}">🔄 Update</button>`:"")+`<button class="mini" data-gact="unpub" data-id="${g.id}">🚫 Unpublish</button>`}
@@ -312,7 +312,7 @@ function playScreen(g){const t=T[g.t];
   <div class="prevbar">👀 Preview · <button class="back" data-go="bedit-${g.id}" style="display:inline-flex;padding:3px 10px">✏️ Edit</button> · <button class="back" data-go="bplay-${g.id}" style="display:inline-flex;padding:3px 10px">🔁 Restart</button></div>
   <div id="game" class="sec"></div>`}
 function play(g){app.innerHTML=playScreen(g);const el=$("#game");(P[g.t]||(()=>el.innerHTML=`<div class="empty">Not available.</div>`))(g,el)}
-function endCard(el,title,sub,g){const kid=g.kid;if(kid&&window.hvAward)hvAward("selfplay",g.id+":"+new Date().toISOString().slice(0,10),g.title);el.innerHTML=`<div class="stage" style="text-align:center"><div class="stars">🎉</div><div class="bigq">${title}</div><p class="tag" style="margin:0">${sub}</p>
+function endCard(el,title,sub,g){const kid=g.kid;if(kid&&window.hvClassDone)hvClassDone(g);if(kid&&window.hvAward)hvAward("selfplay",g.id+":"+new Date().toISOString().slice(0,10),g.title);el.innerHTML=`<div class="stage" style="text-align:center"><div class="stars">🎉</div><div class="bigq">${title}</div><p class="tag" style="margin:0">${sub}</p>
   <div class="btns"><button class="btn gold" data-go="${kid?"gplay-":"bplay-"}${g.id}">🔁 Play again</button><button class="btn alt" data-go="${kid?"games":"builder"}">${kid?"Back to Games":"Back to Game Builder"}</button></div></div>`;confetti()}
 
 /* ================= STUDENT VIEW ================= */
@@ -327,11 +327,13 @@ window.kidGames=async function(box){
   const me=store.get("me",null);let all=[];
   try{all=(await (await fetch(GU()+"?action=list")).json()).games||[]}catch{return}
   if(!all.length)return;
-  const mine=g=>!me||!g.grade||secName(g.grade)===me.grade;
-  const draw=showAll=>{const list=showAll?all:all.filter(mine);
+  const A=window.hvAcct&&hvAcct(),u=A&&A.user,myGrade=u?u.grade:(me&&me.grade);
+  const church=g=>!g.church||(u&&u.church===g.church);
+  const mine=g=>church(g)&&(!myGrade||!g.grade||secName(g.grade)===myGrade);
+  const draw=showAll=>{const list=showAll?all.filter(church):all.filter(mine);
     box.innerHTML=`<h2 style="margin:18px 0 8px">🌟 New games</h2><div class="grid">${list.map(g=>{const t=T[g.t]||{ic:"🎮",c:"#2f8fc0",name:""};
       return `<button class="tile" style="--c:${t.c}" data-go="gplay-${g.id}"><span class="ic">${t.ic}</span><span class="nm">${esc(g.title||"Game")}</span><span class="ct">${g.grade?esc(secName(g.grade)):"Everyone"}</span></button>`}).join("")}</div>
-      ${!showAll&&all.length>list.length?`<button class="btn alt" id="showAllG" style="margin-top:10px">Show games for all classes</button>`:""}`;
+      ${!showAll&&all.filter(church).length>list.length?`<button class="btn alt" id="showAllG" style="margin-top:10px">Show games for all classes</button>`:""}`;
     const b=box.querySelector("#showAllG");if(b)b.onclick=()=>draw(true)};
   draw(false)};
 
@@ -340,11 +342,14 @@ const GU=()=>window.GAMES_URL||"";
 async function publish(g,on){
   if(!GU()){toast("Publishing is not switched on yet");return false}
   const A=window.hvAcct&&hvAcct();if(!A){toast("Login first");return false}
+  const myG=(SECTIONS.find(x=>x.name===A.user.grade)||{}).id;if(on&&myG)g.grade=myG;
   try{const body=on?{action:"save",id:A.user.id,token:A.token,game:{id:g.id,t:g.t,title:g.title,grade:g.grade,lesson:g.lesson,data:g.data,items:filled(g),updated:g.updated}}:{action:"delete",id:A.user.id,token:A.token,gid:g.id};
     const j=await (await fetch(GU(),{method:"POST",body:JSON.stringify(body)})).json();
     if(!j.ok){toast(j.error==="denied"?"You need an approved servant profile":j.error==="full"?"Online storage is full. Use fewer or smaller pictures.":"Could not publish");return false}
     g.pub=on?g.updated:0;saveGames(games().map(x=>x.id===g.id?g:x));toast(on?"Published for kids 🌍":"Removed from kids' games");if(on&&window.hvAward)hvAward("publish",g.id,g.title);return true}
   catch{toast("No internet connection");return false}}
+
+window.hvPublish=publish;
 
 const P={
 /* --- Kahoot --- */

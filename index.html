@@ -534,7 +534,7 @@ function quiz(id){const Q=QUIZZES.find(q=>q.id===id);if(!Q)return quizzes();let 
 
 /* ================= GAMES ================= */
 function games(){app.innerHTML=`${topbar("Games","🎮","Play & learn")}
-  <button class="btn gold" data-go="join" style="min-height:64px;font-size:1.15rem">🎯 Join a live game</button>
+  <button class="btn gold" data-go="join" style="min-height:64px;font-size:1.15rem">🎯 Enter a game code</button>
   <div class="hero-art" aria-hidden="true"><span>🎮</span><span>🃏</span><span>🔤</span><span>⭐</span></div>
   <div class="grid">
    <button class="tile" style="--c:#2f8fc0" data-go="g-memory"><span class="ic">🃏</span><span class="nm">Bible Match</span><span class="ct">Find the pairs</span></button>

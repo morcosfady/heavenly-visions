@@ -91,3 +91,8 @@ ok('right code checks in without login', call({ action: 'attend', name: 'Mina', 
 ok('same student twice is already', call({ action: 'attend', name: 'mina', grade: 'KG', code: '482' }).error === 'already');
 ok('coordinator sees the list', A('c1x', { action: 'att_state' }).list.length === 1 && A('c1x', { action: 'att_state' }).code === '482');
 ok('student cannot see the list', A('kid', { action: 'att_state' }).error === 'denied');
+
+A('p1x', { action: 'access_set', target: T.s2x.id, role: 'servant', grade: 'Grade 4' });
+ok('published game remembers the servant church', A('s2x', { action: 'save', game: { id: 'gc1', t: 'match', title: 'x', grade: 'g4' } }).ok && JSON.parse(doPost({ postData: { contents: JSON.stringify({ action: 'noop' }) } }).s).ok === false);
+const lst = JSON.parse(store['index'] || '[]');
+ok('list entry has church', lst.length && lst[0].id === 'gc1' && lst[0].church === 'St');

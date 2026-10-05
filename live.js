@@ -59,9 +59,9 @@ function stream(path,onChange){let es,data=null,closed=false,pend=0;
 const asArr=x=>Array.isArray(x)?x:x&&typeof x==="object"?Object.keys(x).sort((a,b)=>a-b).map(k=>x[k]):[];
 const shortName=n=>{const p=String(n||"Player").trim().split(/\s+/);return p.length>1?p[0]+" "+p[p.length-1][0]+".":p[0]};
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-let H=null,P=null;
-function stopAll(){if(H){H.closed=true;clearInterval(H.tick);H.s&&H.s.close();H=null}if(P){P.closed=true;clearInterval(P.tick);P.s&&P.s.close();P=null}}
-addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(!(h.startsWith("live-")||h.startsWith("j-")||h==="join"))stopAll()});
+let H=null,P=null,C=null,W=null;
+function stopAll(){if(C){C.closed=true;C.s&&C.s.close();C=null}if(W){W.closed=true;clearInterval(W.tick);W.s&&W.s.close();W=null}if(H){H.closed=true;clearInterval(H.tick);H.s&&H.s.close();H=null}if(P){P.closed=true;clearInterval(P.tick);P.s&&P.s.close();P=null}}
+addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(!(h.startsWith("live-")||h.startsWith("j-")||h==="join"||h.startsWith("cls-")))stopAll()});
 
 /* ================= HOST (TV) ================= */
 function questionsOf(g){
@@ -176,12 +176,13 @@ async function closeRoom(back){if(!H)return;const pin=H.pin;
 function joinPage(pin){
   stopAll();const a=acct();
   if(!a){app.innerHTML=`${topbar("Join a live game","🎯","You need a profile","games")}<div class="card sec" style="text-align:center"><div style="font-size:3rem">👤</div><b>Login first</b><p class="tag">Create a profile or login, so your points are saved.</p><button class="btn gold" data-go="login">Login or create profile</button></div>`;return}
-  app.innerHTML=`${topbar("Join a live game","🎯","Type the PIN on the big screen","games")}
-   <form class="card sec" id="jf"><label class="field">Game PIN<input id="jp" class="lv-pinput" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" required autocomplete="off" value="${esc(pin||"")}"></label>
+  app.innerHTML=`${topbar("Join a game","🎯","Type the code from your servant or the big screen","games")}
+   <form class="card sec" id="jf"><label class="field">Game code<input id="jp" class="lv-pinput" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" required autocomplete="off" value="${esc(pin||"")}"></label>
    <button class="btn gold" type="submit">Join</button><div id="jm" class="tag" role="status"></div></form>`;
   const go2=async p=>{const m=document.getElementById("jm");m.textContent="Looking for the game…";
     try{const meta=await fb("live/"+p+"/meta");
       if(!meta||meta.state==="end"){m.innerHTML=`<span class="err">No game found with that PIN.</span>`;return}
+      if(meta.kind==="class")return classJoin(p,meta,a);
       const uid=a.user.id;
       const have=await fb("live/"+p+"/players/"+uid);
       if(!have)await fb("live/"+p+"/players/"+uid,"PUT",{n:shortName(a.user.name),i:uid,a:a.avatar&&a.avatar!=="logo"?a.avatar:"🙂"});
@@ -230,10 +231,82 @@ function playRender(d){if(!P)return;const box=document.getElementById("pv");if(!
       <div class="lv-pts">+${pts} points</div><div class="tag">Your points will show on your profile.</div><button class="btn gold" data-go="profile">My profile</button></div>`;confetti();return}
   box.innerHTML=`<div class="tag" style="text-align:center">Get ready…</div>`}
 
+/* ================= CLASS GAME (servant starts a published self play game for the whole class) ================= */
+const secName=id=>(SECTIONS.find(x=>x.id===id)||{}).name||"";
+async function hostClass(gid){
+  stopAll();const a=acct();
+  const g=(JSON.parse(localStorage.getItem("hv_games")||"[]")).find(x=>x.id===gid);
+  if(!a||!g){go("builder");return}
+  app.innerHTML=`${topbar("Class game","🚀",esc(g.title||"Game"),"builder")}<div class="lv" id="cv"><div class="tag" style="text-align:center">Getting the game ready…</div></div>`;
+  if(!g.pub||g.updated>g.pub){const ok=await window.hvPublish(g,true);if(!ok){go("builder");return}}
+  const u=a.user,gr=g.grade||"";
+  let code="";
+  try{for(let i=0;i<8;i++){const c=String(Math.floor(100000+Math.random()*900000));if(await fb("live/"+c+"/meta")===null){code=c;break}}
+    if(!code)throw 0;
+    await fb("live/"+code+"/meta","PUT",{title:String(g.title||"Game").slice(0,100),n:1,state:"lobby",host:shortName(u.name),kind:"class",gid:gid,grade:gr,church:String(u.church||"").slice(0,60)});
+    C={code,gid,g,gr,church:u.church||"",phase:"lobby",closed:false,cache:null};
+  }catch{app.innerHTML=`${topbar("Class game","🚀","","builder")}<div class="empty">Could not open the room. Check the internet and try again.</div>`;return}
+  C.s=stream("live/"+code,d=>{C.cache=d;classPatch()});
+  classRender()}
+function classRender(){if(!C)return;const box=document.getElementById("cv");if(!box)return;
+  if(C.phase==="lobby"){
+    box.innerHTML=`<div class="card sec lv-join"><div class="tag">Class code. Tell it to your kids.</div><div class="lv-pin">${esc(C.code)}</div>
+      <div class="tag">${C.gr?esc(secName(C.gr)):"All classes"}${C.church?" · "+esc(C.church):""}</div></div>
+      <div class="card sec"><div class="lv-count" id="cN">0 ready</div><div class="lv-chips" id="cP"></div></div>
+      <button class="btn gold lv-big" id="cStart" disabled>▶ Start the game</button>
+      <button class="btn alt" id="cClose">Cancel</button>`;
+    document.getElementById("cStart").onclick=classStart;
+    document.getElementById("cClose").onclick=()=>classClose(true);
+    classPatch();return}
+  box.innerHTML=`<div class="lv-res"><div class="em">🚀</div><div class="lv-big"><b>The game has started!</b></div></div>
+    <div class="card sec"><div class="lv-count" id="cN">0 finished</div><div class="lv-chips" id="cP"></div></div>
+    <button class="btn gold" id="cClose">Close the room</button>`;
+  document.getElementById("cClose").onclick=()=>classClose(false);classPatch()}
+function classPatch(){if(!C)return;const c=C.cache||{},pl=c.players||{},ids=Object.keys(pl),n=document.getElementById("cN"),p=document.getElementById("cP");
+  if(C.phase==="lobby"){const b=document.getElementById("cStart");
+    if(n)n.textContent=ids.length+" ready";
+    if(p)p.innerHTML=ids.map(id=>`<span class="lv-chip">${esc(pl[id].a||"🙂")} ${esc(pl[id].n)}</span>`).join("");
+    if(b)b.disabled=!ids.length;return}
+  const fin=c.fin&&typeof c.fin==="object"?Object.keys(c.fin):[];
+  if(n)n.textContent=fin.length+" of "+ids.length+" finished";
+  if(p)p.innerHTML=ids.map(id=>`<span class="lv-chip">${fin.includes(id)?"✅":"⏳"} ${esc(pl[id].n)}</span>`).join("")}
+async function classStart(){if(!C)return;const b=document.getElementById("cStart");if(b)b.disabled=true;
+  try{await fb("live/"+C.code+"/meta/state","PUT","go");C.phase="go";classRender()}
+  catch{toast("Connection problem. Try again.");if(b)b.disabled=false}}
+async function classClose(back){if(!C)return;const code=C.code;
+  for(const n of ["meta","fin","players"]){try{await fb("live/"+code+"/"+n,"DELETE")}catch{}}
+  stopAll();go(back?"builder":"games")}
+
+function classJoin(code,meta,a){stopAll();const u=a.user,staff=u.role!=="student",uid=u.id;
+  const deny=t=>{app.innerHTML=`${topbar("Class game","🚀","","games")}<div class="lv-res"><div class="em">🙈</div><b>${esc(t)}</b><button class="btn gold" data-go="games">Back to Games</button></div>`};
+  if(!staff){
+    if(meta.church&&u.church!==meta.church)return deny("This game is for "+meta.church+".");
+    if(meta.grade&&secName(meta.grade)!==u.grade)return deny("This game is for "+secName(meta.grade)+".")}
+  if(meta.state==="go"){app.innerHTML=`${topbar(esc(meta.title||"Class game"),"🚀","Already started","games")}<div class="lv-res"><div class="em">⏰</div><b>This game already started.</b><button class="btn gold" id="late">▶ Play anyway</button></div>`;
+    document.getElementById("late").onclick=()=>{window.hvClass={code,uid,gid:meta.gid};go("gplay-"+meta.gid)};return}
+  W={code,uid,meta,closed:false,tick:0,started:false};
+  app.innerHTML=`${topbar(esc(meta.title||"Class game"),"🚀","Class game","games")}<div class="lv" id="wv"></div>`;
+  const draw=ready=>{const box=document.getElementById("wv");if(!box||!W)return;
+    box.innerHTML=ready?`<div class="lv-res"><div class="em">✅</div><div class="lv-big"><b>You are ready!</b></div><div class="tag">Wait for your servant to start the game.</div><button class="btn alt" id="nr">↩️ Not ready yet</button></div>`
+      :`<div class="lv-res"><div class="em">🎮</div><div class="lv-big"><b>${esc(meta.title||"Game")}</b></div><div class="tag">Tap when you are ready. Your servant starts the game for everyone.</div><button class="btn gold lv-big" id="rd">✅ I'm ready</button></div>`;
+    const rd=document.getElementById("rd"),nr=document.getElementById("nr");
+    if(rd)rd.onclick=async()=>{rd.disabled=true;
+      try{await fb("live/"+code+"/players/"+uid,"PUT",{n:shortName(u.name),i:uid,a:a.avatar&&a.avatar!=="logo"?a.avatar:"🙂"});draw(true)}
+      catch{toast("Could not get ready. Try again.");rd.disabled=false}};
+    if(nr)nr.onclick=async()=>{try{await fb("live/"+code+"/players/"+uid,"DELETE")}catch{}draw(false)}};
+  draw(false);
+  W.s=stream("live/"+code,d=>{if(!W||W.started)return;const box=document.getElementById("wv");if(!box)return;
+    if(!d||!d.meta){box.innerHTML=`<div class="lv-res"><div class="em">👋</div><b>The room was closed.</b><button class="btn gold" data-go="games">Back to Games</button></div>`;return}
+    if(d.meta.state==="go"){W.started=true;let n=3;box.innerHTML=`<div class="lv-res"><div class="tag">Get ready…</div><div class="lv-pts" style="font-size:6rem" id="cd">3</div></div>`;
+      W.tick=setInterval(()=>{n--;const el=document.getElementById("cd");if(n<=0){clearInterval(W.tick);window.hvClass={code,uid,gid:meta.gid};go("gplay-"+meta.gid);return}if(el)el.textContent=n},1000)}})}
+window.hvClassDone=function(g){const c=window.hvClass;if(!c||c.gid!==g.id)return;
+  fb("live/"+c.code+"/fin/"+c.uid,"PUT",true).catch(()=>{});window.hvClass=null};
+
 /* ---------- routes ---------- */
 window.liveRoute=function(h){
   if(h==="join"){joinPage("");return true}
   if(h.startsWith("j-")){joinPage(h.slice(2));return true}
+  if(h.startsWith("cls-")){if(window.hvLock&&hvLock())return true;hostClass(h.slice(4));return true}
   if(h.startsWith("live-")){if(window.hvLock&&hvLock())return true;host(h.slice(5));return true}
   return false};
 })();

@@ -309,13 +309,14 @@ function doPost(e) {
     }
     if (b.action === 'save') {
       var g = b.game;
+      g.church = who.church || '';
       var index = removeGame(p, g.id);
       var s = JSON.stringify(g);
       var n = Math.ceil(s.length / 8000);
       try {
         for (var i = 0; i < n; i++) p.setProperty('c_' + g.id + '_' + i, s.substr(i * 8000, 8000));
         p.setProperty('n_' + g.id, String(n));
-        index.unshift({ id: g.id, t: g.t, title: g.title, grade: g.grade, lesson: g.lesson, updated: g.updated });
+        index.unshift({ id: g.id, t: g.t, title: g.title, grade: g.grade, lesson: g.lesson, church: g.church, updated: g.updated });
         p.setProperty('index', JSON.stringify(index));
       } catch (err) {
         p.setProperty('index', JSON.stringify(removeGame(p, g.id)));
