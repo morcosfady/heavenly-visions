@@ -436,7 +436,7 @@ function attendance(){
   const hist=store.get("attended",[]);const already=hist.includes(todayKey());
   const day=new Date().toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
   app.innerHTML=`${topbar("Attendance","✋",day)}
-    <div class="card"><b>Hi ${esc(me.name)}! 👋</b><div class="tag">${esc(me.grade)} · <button class="back" style="display:inline;padding:2px 10px" data-act="editme">Change</button></div></div>
+    <div class="card"><b>Hi ${esc(me.name)}! 👋</b><div class="tag">${esc(me.grade)}</div></div>
     <button class="here ${already?"done":""}" data-act="attend">${already?"✅ You're checked in!":"✋ I'm here!"}<small>${already?"See you next Sunday 🙏":"Tap, then enter today's code"}</small></button>
     ${isCoord()?`<button class="btn gold" data-act="setcode">🔑 Set attendance code for today's Sunday School</button>`:""}
     ${ATTEND_URL?"":`<div class="note">⏳ Attendance is being set up. Ask your servant.</div>`}
