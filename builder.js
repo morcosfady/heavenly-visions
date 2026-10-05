@@ -245,7 +245,7 @@ function builderHome(){
 function myGameHTML(g){const t=T[g.t];if(!t)return"";const n=filled(g).length;
   return `<div class="mygame"><div class="gi">${t.ic}</div><div><div class="gt2">${esc(g.title||"Untitled")}</div>
    <div class="meta"><span class="pill ${g.status==="ready"?"ready":"draft"}">${g.status==="ready"?"✅ Ready":"📝 Draft"}</span>${g.pub?`<span class="pill self">🌍 Online</span>`:""}<span class="tag">${t.name} · ${n} ${pl(n,t.item)}${g.grade?" · "+esc(secName(g.grade)):""}</span></div></div>
-   <div class="acts"><button class="mini" data-go="bplay-${g.id}">▶ Play</button><button class="mini" data-go="bedit-${g.id}">✏️ Edit</button><button class="mini" data-gact="copy" data-id="${g.id}">⧉ Copy</button>${pubBtn(g,t)}<button class="mini danger" data-gact="del" data-id="${g.id}">🗑 Delete</button></div></div>`}
+   <div class="acts"><button class="mini" data-go="bplay-${g.id}">▶ Play</button><button class="mini" data-go="bedit-${g.id}">✏️ Edit</button><button class="mini" data-gact="copy" data-id="${g.id}">⧉ Copy</button>${pubBtn(g,t)}${g.t==="kahoot"&&g.status==="ready"?`<button class="mini" data-go="live-${g.id}">📺 Go live</button>`:""}<button class="mini danger" data-gact="del" data-id="${g.id}">🗑 Delete</button></div></div>`}
 function pubBtn(g,t){if(t.mode!=="self"||g.status!=="ready")return"";
   if(!g.pub)return `<button class="mini" data-gact="pub" data-id="${g.id}">🌍 Publish</button>`;
   return (g.updated>g.pub?`<button class="mini" data-gact="pub" data-id="${g.id}">🔄 Update</button>`:"")+`<button class="mini" data-gact="unpub" data-id="${g.id}">🚫 Unpublish</button>`}

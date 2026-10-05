@@ -1,0 +1,110 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "live": {
+      "$pin": {
+        ".read": "$pin.matches(/^[0-9]{6}$/)",
+        "meta": {
+          ".write": "$pin.matches(/^[0-9]{6}$/)",
+          ".validate": "newData.hasChildren(['title','n','state'])",
+          "title": {
+            ".validate": "newData.isString() && newData.val().length <= 100"
+          },
+          "n": {
+            ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 50"
+          },
+          "state": {
+            ".validate": "newData.isString() && newData.val().length <= 12"
+          },
+          "$o": {
+            ".validate": "newData.isString() && newData.val().length <= 60 || newData.isNumber()"
+          }
+        },
+        "cur": {
+          ".write": "$pin.matches(/^[0-9]{6}$/)",
+          ".validate": "newData.hasChildren(['k','text','ch','dur','t0'])",
+          "k": {
+            ".validate": "newData.isNumber()"
+          },
+          "text": {
+            ".validate": "newData.isString() && newData.val().length <= 300"
+          },
+          "ch": {
+            "$i": {
+              ".validate": "newData.isString() && newData.val().length <= 120"
+            }
+          },
+          "dur": {
+            ".validate": "newData.isNumber() && newData.val() >= 5 && newData.val() <= 120"
+          },
+          "t0": {
+            ".validate": "newData.isNumber()"
+          },
+          "open": {
+            ".validate": "newData.isBoolean()"
+          },
+          "$o": {
+            ".validate": "newData.isString() && newData.val().length <= 60 || newData.isNumber()"
+          }
+        },
+        "rev": {
+          ".write": "$pin.matches(/^[0-9]{6}$/)",
+          "$any": {
+            ".validate": true
+          }
+        },
+        "sc": {
+          ".write": "$pin.matches(/^[0-9]{6}$/)",
+          "$uid": {
+            ".validate": "newData.isNumber()"
+          }
+        },
+        "fin": {
+          ".write": "$pin.matches(/^[0-9]{6}$/)",
+          "$any": {
+            ".validate": true
+          }
+        },
+        "players": {
+          ".write": "$pin.matches(/^[0-9]{6}$/) && !newData.exists()",
+          "$uid": {
+            ".write": "$pin.matches(/^[0-9]{6}$/) && (!data.exists() || !newData.exists())",
+            ".validate": "newData.hasChildren(['n'])",
+            "n": {
+              ".validate": "newData.isString() && newData.val().length <= 40"
+            },
+            "i": {
+              ".validate": "newData.isString() && newData.val().length <= 30"
+            },
+            "a": {
+              ".validate": "newData.isString() && newData.val().length <= 12"
+            },
+            "$o": {
+              ".validate": false
+            }
+          }
+        },
+        "ans": {
+          ".write": "$pin.matches(/^[0-9]{6}$/) && !newData.exists()",
+          "$k": {
+            ".write": "$pin.matches(/^[0-9]{6}$/) && !newData.exists()",
+            "$uid": {
+              ".write": "$pin.matches(/^[0-9]{6}$/) && (!newData.exists() || (!data.exists() && root.child('live/'+$pin+'/players/'+$uid).exists() && root.child('live/'+$pin+'/cur/open').val() == true && (root.child('live/'+$pin+'/cur/k').val()+'') == $k && now <= root.child('live/'+$pin+'/cur/t0').val() + root.child('live/'+$pin+'/cur/dur').val()*1000 + 3000))",
+              ".validate": "newData.hasChildren(['c','t'])",
+              "c": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 3"
+              },
+              "t": {
+                ".validate": "newData.val() == now"
+              },
+              "$o": {
+                ".validate": false
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

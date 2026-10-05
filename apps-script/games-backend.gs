@@ -52,7 +52,7 @@ var RULES = {
   attend: { student: 10, servant: 5 },
   selfplay: { student: 10, servant: 0 },
   publish: { student: 0, servant: 20 },
-  livewin: { student: 50, servant: 0 }
+  livewin: { student: 0, servant: 0 }
 };
 
 function sha(text) {
@@ -197,6 +197,25 @@ function accountAction(p, b) {
     return { ok: true, user: publicUser(me) };
   }
   if (b.action.indexOf('access_') === 0) return accessAction(p, me, b);
+  if (b.action === 'live_finish') {
+    if (!isStaff(me.role)) return { ok: false, error: 'denied' };
+    var sid = String(b.sid || '').slice(0, 30), list = (b.results || []).slice(0, 120), given = 0;
+    list.forEach(function (r) {
+      var rawU = p.getProperty('u_' + r.u);
+      if (!rawU) return;
+      var t = JSON.parse(rawU), key = 'live:' + sid;
+      if (t.role !== 'student' || t.done.indexOf(key) >= 0) return;
+      var pts = r.p === 1 ? 50 : r.p === 2 ? 30 : r.p === 3 ? 20 : 10;
+      t.done.push(key);
+      if (t.done.length > 300) t.done.shift();
+      t.score += pts;
+      t.log.unshift({ k: 'live', p: pts, t: Date.now(), n: String(b.title || '').slice(0, 40) });
+      t.log = t.log.slice(0, 15);
+      saveUser(p, t);
+      given++;
+    });
+    return { ok: true, awarded: given };
+  }
   if (b.action === 'sync_get') {
     var pr = p.getProperty('p_' + me.id);
     var dn = Number(p.getProperty('dn_' + me.id)) || 0, ds = '';
@@ -241,7 +260,7 @@ function doPost(e) {
   lock.waitLock(20000);
   try {
     var p = PropertiesService.getScriptProperties();
-    if (['signup', 'login', 'me', 'update', 'award'].indexOf(b.action) >= 0 || b.action.indexOf('access_') === 0 || b.action.indexOf('sync_') === 0) return out(accountAction(p, b));
+    if (['signup', 'login', 'me', 'update', 'award'].indexOf(b.action) >= 0 || b.action.indexOf('access_') === 0 || b.action.indexOf('sync_') === 0 || b.action.indexOf('live_') === 0) return out(accountAction(p, b));
     var who = getUser(p, b);
     if (!who || !isStaff(who.role)) return out({ ok: false, error: 'denied' });
     if (b.action === 'delete') {

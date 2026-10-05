@@ -58,7 +58,7 @@ const CHURCHES=[
 const nz=t=>String(t||"").toLowerCase().replace(/\bsaint\b/g,"st").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
 const findChurch=v=>CHURCHES.find(c=>nz(c.name)===nz(v));
 const searchChurch=q=>{const w=nz(q).split(" ").filter(Boolean);return CHURCHES.filter(c=>{const h=nz(c.name+" "+c.addr);return w.every(x=>h.includes(x))})};
-const KIND={attend:"Checked in",selfplay:"Played a game",publish:"Published a game",livewin:"Won a live game"};
+const KIND={attend:"Checked in",selfplay:"Played a game",publish:"Published a game",live:"Played live"};
 const acct=()=>{try{return JSON.parse(localStorage.getItem("hv_acct")||"null")}catch{return null}};
 const setAcct=a=>{try{a?localStorage.setItem("hv_acct",JSON.stringify(a)):localStorage.removeItem("hv_acct")}catch{}};
 async function api(body){const r=await fetch(GU(),{method:"POST",body:JSON.stringify(body)});return r.json()}
