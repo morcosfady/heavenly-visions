@@ -438,23 +438,44 @@ function attendance(){
   app.innerHTML=`${topbar("Attendance","✋",day)}
     <div class="card"><b>Hi ${esc(me.name)}! 👋</b><div class="tag">${esc(me.grade)} · <button class="back" style="display:inline;padding:2px 10px" data-act="editme">Change</button></div></div>
     <button class="here ${already?"done":""}" data-act="attend">${already?"✅ You're checked in!":"✋ I'm here!"}<small>${already?"See you next Sunday 🙏":"Tap, then enter today's code"}</small></button>
+    ${isCoord()?`<button class="btn gold" data-act="setcode">🔑 Set attendance code for today's Sunday School</button>`:""}
     ${ATTEND_URL?"":`<div class="note">⏳ Attendance is being set up. Ask your servant.</div>`}
     <section class="sec"><h2>My Sundays</h2>${hist.length?`<div class="hist">${hist.slice().reverse().map(d=>`<span>✅ ${d}</span>`).join("")}</div><div class="tag">${hist.length} day${hist.length>1?"s":""} at Sunday School. Keep it up!</div>`:`<div class="empty">Your check-ins will show here.</div>`}</section>`;
 }
+const isCoord=()=>{const a=window.hvAcct&&hvAcct();return !!(a&&a.user&&["coordinator","priest","master"].includes(a.user.role))};
+async function gpost(body){const r=await fetch(GAMES_URL,{method:"POST",body:JSON.stringify(body)});return r.json()}
 function attendSheet(){
   const me=store.get("me",null);if(!me)return;
   if(store.get("attended",[]).includes(todayKey()))return toast("You're already checked in today ✅");
-  const s=sheet(`<h3>Enter today's code</h3><div class="tag">Your servant will tell you the 4-digit code.</div>
-   <form id="codeForm" class="sec"><label class="field"><span class="tag">Code</span><input id="code" class="codebox" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required autocomplete="off"></label>
+  const s=sheet(`<h3>Enter today's code</h3><div class="tag">Your coordinator will tell you the 3-digit code.</div>
+   <form id="codeForm" class="sec"><label class="field"><span class="tag">Code</span><input id="code" class="codebox" inputmode="numeric" pattern="[0-9]{3,4}" maxlength="4" required autocomplete="off"></label>
    <div id="codeMsg" role="status"></div><button class="btn" type="submit" id="codeBtn">Check me in</button></form>`,"Enter code");
   const inp=$("#code");inp.focus();
   $("#codeForm").addEventListener("submit",async e=>{e.preventDefault();const msg=$("#codeMsg"),btn=$("#codeBtn");
-    if(!ATTEND_URL){msg.innerHTML=`<span class="err">Attendance isn't switched on yet.</span>`;return}
     btn.disabled=true;btn.textContent="Checking…";msg.textContent="";
-    try{const r=await fetch(ATTEND_URL,{method:"POST",body:JSON.stringify({action:"attend",name:me.name,grade:me.grade,code:inp.value.trim()})});const j=await r.json();
+    try{let j=null;const body={action:"attend",name:me.name,grade:me.grade,code:inp.value.trim()};
+      if(GAMES_URL){try{j=await gpost(body)}catch{}}
+      if(!j||(!j.ok&&(j.error==="denied"||!j.error))){
+        if(!ATTEND_URL){msg.innerHTML=`<span class="err">Attendance isn't switched on yet.</span>`;btn.disabled=false;btn.textContent="Check me in";return}
+        j=await (await fetch(ATTEND_URL,{method:"POST",body:JSON.stringify(body)})).json()}
       if(j.ok||j.error==="already"){const h=store.get("attended",[]);if(!h.includes(todayKey()))h.push(todayKey());store.set("attended",h);if(window.hvAward)hvAward("attend",todayKey(),"Sunday School");closeSheet();attendance();confetti();toast(j.ok?"You're checked in! 🎉":"Already checked in today ✅")}
-      else{msg.innerHTML=`<span class="err">${j.error==="code"?"That code isn't right. Check with your servant and try again.":"Something went wrong. Try again."}</span>`;btn.disabled=false;btn.textContent="Check me in"}}
+      else{msg.innerHTML=`<span class="err">${j.error==="nocode"?"Today's code isn't set yet. Ask your coordinator.":j.error==="code"?"That code isn't right. Check with your coordinator and try again.":"Something went wrong. Try again."}</span>`;btn.disabled=false;btn.textContent="Check me in"}}
     catch{msg.innerHTML=`<span class="err">No internet connection. Try again.</span>`;btn.disabled=false;btn.textContent="Check me in"}});
+}
+async function setCodeSheet(){
+  const a=window.hvAcct&&hvAcct();if(!a||!isCoord())return;
+  const auth={id:a.user.id,token:a.token};
+  sheet(`<h3>🔑 Today's attendance code</h3><div id="scBox" class="tag">Loading…</div>`,"Attendance code");
+  const draw=j=>{const box=$("#scBox");if(!box)return;
+    if(!j.ok){box.innerHTML=`<span class="err">${j.error==="denied"||!j.error?"The attendance update isn't switched on yet. Ask the app owner.":"Could not load. Try again."}</span>`;return}
+    box.outerHTML=`<div id="scBox">${j.code?`<div class="tag">Today's code (${esc(j.day)})</div><div style="font-size:2.6rem;font-weight:800;letter-spacing:8px;text-align:center">${esc(j.code)}</div>`:`<div class="tag">No code set for today yet.</div>`}
+     <form id="scForm" class="sec"><label class="field">${j.code?"Change the code":"Set the code"} (3 digits)<input id="scCode" class="codebox" inputmode="numeric" pattern="[0-9]{3}" maxlength="3" required autocomplete="off"></label><button class="btn gold" type="submit">Save code</button><div id="scMsg" role="status"></div></form>
+     <div class="tag">${j.list.length} checked in today${j.list.length?":":""}</div>${j.list.length?`<div class="hist">${j.list.map(x=>`<span>✅ ${esc(x.n)} · ${esc(x.g)}</span>`).join("")}</div>`:""}</div>`;
+    $("#scForm").addEventListener("submit",async e=>{e.preventDefault();const m=$("#scMsg");m.textContent="Saving…";
+      try{const r=await gpost(Object.assign({action:"att_set",code:$("#scCode").value.trim()},auth));
+        if(r.ok){toast("Code saved ✅");draw(await gpost(Object.assign({action:"att_state"},auth)))}else m.innerHTML=`<span class="err">${r.error==="code"?"The code must be exactly 3 digits.":"Could not save. Try again."}</span>`}
+      catch{m.innerHTML=`<span class="err">No internet connection.</span>`}})};
+  try{draw(await gpost(Object.assign({action:"att_state"},auth)))}catch{const b=$("#scBox");if(b)b.innerHTML=`<span class="err">No internet connection.</span>`}
 }
 
 /* ================= SERVANTS ================= */
@@ -594,7 +615,7 @@ document.addEventListener("click",async e=>{
   const la=e.target.closest("[data-la]");if(la)return lessonAction(la.dataset.la,la.dataset.g,la.dataset.n);
   if(e.target.closest("[data-act=lockmsg]"))return toast("Curriculum material is for servants only 🔒");
   if(e.target.closest("[data-close]"))return closeSheet();
-  const a=e.target.closest("[data-act]");if(a){if(a.dataset.act==="attend")attendSheet();if(a.dataset.act==="editme"){store.set("me",null);attendance()}return}
+  const a=e.target.closest("[data-act]");if(a){if(a.dataset.act==="attend")attendSheet();if(a.dataset.act==="setcode")setCodeSheet();if(a.dataset.act==="editme"){store.set("me",null);attendance()}return}
   const c=e.target.closest("[data-copy]");if(c){try{await navigator.clipboard.writeText(c.dataset.copy);toast("Link copied ✅")}catch{toast(c.dataset.copy)}}
 });
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSheet()});

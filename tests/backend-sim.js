@@ -7,7 +7,7 @@ const PropertiesService = { getScriptProperties: () => ({
   getProperty: k => (k in store ? store[k] : null), setProperty: (k, v) => { store[k] = v },
   deleteProperty: k => { delete store[k] }, getProperties: () => Object.assign({}, store) }) };
 const Utilities = { DigestAlgorithm: { SHA_256: 1 }, computeDigest: (a, t) => [...crypto.createHash('sha256').update(t).digest()].map(b => b > 127 ? b - 256 : b),
-  getUuid: () => crypto.randomUUID() };
+  getUuid: () => crypto.randomUUID(), formatDate: () => '2026-10-11' };
 const LockService = { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) };
 const ContentService = { MimeType: { JSON: 1 }, createTextOutput: s => ({ s, setMimeType() { return this } }) };
 const fn = new Function('PropertiesService', 'Utilities', 'LockService', 'ContentService', src + '; return {doPost, doGet}');
@@ -80,3 +80,14 @@ ok('other gets 10', A('livestu2', { action: 'me' }).user.score === 10);
 ok('live_finish is once per session', A('s1x', { action: 'live_finish', sid: 'S1', title: 'x', results: [{ u: T.livestu1.id, p: 1 }] }).awarded === 0);
 ok('students cannot call live_finish', A('livestu1', { action: 'live_finish', sid: 'S9', results: [{ u: T.livestu1.id, p: 1 }] }).error === 'denied');
 ok('livewin from phone gives nothing', A('livestu2', { action: 'award', kind: 'livewin', ref: 'x' }).added === 0);
+
+ok('attend with no code set is refused', call({ action: 'attend', name: 'Mina', grade: 'KG', code: '123' }).error === 'nocode');
+ok('student cannot set the code', A('kid', { action: 'att_set', code: '123' }).error === 'denied');
+ok('servant cannot set the code', A('s1x', { action: 'att_set', code: '123' }).error === 'denied');
+ok('code must be 3 digits', A('c1x', { action: 'att_set', code: '1234' }).error === 'code');
+ok('coordinator sets the code', A('c1x', { action: 'att_set', code: '482' }).ok);
+ok('wrong code refused', call({ action: 'attend', name: 'Mina', grade: 'KG', code: '111' }).error === 'code');
+ok('right code checks in without login', call({ action: 'attend', name: 'Mina', grade: 'KG', code: '482' }).ok);
+ok('same student twice is already', call({ action: 'attend', name: 'mina', grade: 'KG', code: '482' }).error === 'already');
+ok('coordinator sees the list', A('c1x', { action: 'att_state' }).list.length === 1 && A('c1x', { action: 'att_state' }).code === '482');
+ok('student cannot see the list', A('kid', { action: 'att_state' }).error === 'denied');

@@ -141,6 +141,43 @@ function accessAction(p, me, b) {
   return { ok: true };
 }
 
+/* Sunday School attendance: a coordinator or higher sets a 3 digit code for today, students type it to check in. */
+function today() { return Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd'); }
+
+function attendAction(p, b) {
+  var day = today();
+  var raw = p.getProperty('att_code');
+  var c = raw ? JSON.parse(raw) : null;
+  if (!c || c.day !== day) return { ok: false, error: 'nocode' };
+  if (String(b.code || '').trim() !== c.code) return { ok: false, error: 'code' };
+  var name = String(b.name || '').trim().slice(0, 40), grade = String(b.grade || '').slice(0, 20);
+  if (!name) return { ok: false, error: 'missing' };
+  var key = 'att_' + day;
+  var list = JSON.parse(p.getProperty(key) || '[]');
+  var id = name.toLowerCase() + '|' + grade;
+  var seen = list.some(function (x) { return (x.n.toLowerCase() + '|' + x.g) === id; });
+  if (seen) return { ok: false, error: 'already' };
+  if (list.length >= 150) return { ok: false, error: 'full' };
+  list.push({ n: name, g: grade, t: Date.now() });
+  p.setProperty(key, JSON.stringify(list));
+  return { ok: true };
+}
+
+function attSetAction(p, me, b) {
+  if (me.role !== 'coordinator' && !isTop(me.role)) return { ok: false, error: 'denied' };
+  var day = today();
+  if (b.action === 'att_set') {
+    var code = String(b.code || '').trim();
+    if (!/^[0-9]{3}$/.test(code)) return { ok: false, error: 'code' };
+    p.setProperty('att_code', JSON.stringify({ day: day, code: code, by: me.name }));
+    return { ok: true, day: day, code: code };
+  }
+  var raw = p.getProperty('att_code');
+  var c = raw ? JSON.parse(raw) : null;
+  var list = JSON.parse(p.getProperty('att_' + day) || '[]');
+  return { ok: true, day: day, code: c && c.day === day ? c.code : '', by: c && c.day === day ? c.by : '', list: list };
+}
+
 function accountAction(p, b) {
   if (b.action === 'signup') {
     var un = String(b.username || '').trim().toLowerCase();
@@ -185,6 +222,7 @@ function accountAction(p, b) {
     saveUser(p, v);
     return { ok: true, token: v.tok, user: publicUser(v) };
   }
+  if (b.action === 'attend') return attendAction(p, b);
   var me = getUser(p, b);
   if (!me) return { ok: false, error: 'auth' };
   if (b.action === 'me') return { ok: true, user: publicUser(me) };
@@ -198,6 +236,7 @@ function accountAction(p, b) {
     return { ok: true, user: publicUser(me) };
   }
   if (b.action.indexOf('access_') === 0) return accessAction(p, me, b);
+  if (b.action === 'att_set' || b.action === 'att_state') return attSetAction(p, me, b);
   if (b.action === 'live_finish') {
     if (!isStaff(me.role)) return { ok: false, error: 'denied' };
     var sid = String(b.sid || '').slice(0, 30), list = (b.results || []).slice(0, 120), given = 0;
@@ -261,7 +300,7 @@ function doPost(e) {
   lock.waitLock(20000);
   try {
     var p = PropertiesService.getScriptProperties();
-    if (['signup', 'login', 'me', 'update', 'award'].indexOf(b.action) >= 0 || b.action.indexOf('access_') === 0 || b.action.indexOf('sync_') === 0 || b.action.indexOf('live_') === 0) return out(accountAction(p, b));
+    if (['signup', 'login', 'me', 'update', 'award', 'attend'].indexOf(b.action) >= 0 || b.action.indexOf('att_') === 0 || b.action.indexOf('access_') === 0 || b.action.indexOf('sync_') === 0 || b.action.indexOf('live_') === 0) return out(accountAction(p, b));
     var who = getUser(p, b);
     if (!who || !isStaff(who.role)) return out({ ok: false, error: 'denied' });
     if (b.action === 'delete') {
