@@ -57,7 +57,7 @@ window.hvAward=async function(kind,ref,label){const a=acct();if(!a||!GU())return
     else if(j.error==="auth")setAcct(null)}catch{}};
 
 /* ---------- login / create profile ---------- */
-function authPage(mode){
+function authPage(mode,startRole){
   app.innerHTML=`${topbar("Profile","👤",mode==="login"?"Welcome back":"Make your profile")}
   <div class="seg" role="group"><button data-m="login" aria-pressed="${mode==="login"}">Login</button><button data-m="signup" aria-pressed="${mode==="signup"}">Create profile</button></div>
   <form class="card sec" id="af" autocomplete="on"></form>`;
@@ -73,7 +73,7 @@ function authPage(mode){
         setAcct({token:j.token,user:j.user,avatar:AVATARS[0]});toast("Welcome "+j.user.name+" 👋");go("profile")}
       catch{m.innerHTML=`<span class="err">No internet connection.</span>`}};
     return}
-  let role="student";
+  let role=startRole||"student";
   const draw=()=>{f.innerHTML=`<div class="seg" role="group">${SIGNUP_ROLES.concat(role==="master"?["master"]:[]).map(r=>`<button type="button" data-r="${r}" aria-pressed="${role===r}">${TIER[r][0]} ${TIER[r][1]}</button>`).join("")}</div>
    ${role==="master"?`<div class="note">👑 Master setup: needs the setup code and the master email.</div>`:role!=="student"?`<div class="note">⏳ ${role==="servant"?"A coordinator or priest":"A priest"} must approve you. For now you can view the app as a guest. 🙏</div>`:""}
    <label class="field">Full name<input id="n" required maxlength="40" autocomplete="name"></label>
@@ -84,9 +84,7 @@ function authPage(mode){
    ${role==="priest"||role==="master"?`<label class="field">Setup code ${role==="priest"?"(only for the very first priest)":""}<input id="sc" autocomplete="off"></label>`:""}
    <label class="field">Choose a username<input id="u" required minlength="3" maxlength="20" autocapitalize="none" pattern="[A-Za-z0-9_.]+" autocomplete="username"></label>
    <label class="field">Password (6 or more)<input id="p" type="password" required minlength="6" autocomplete="new-password"></label>
-   <button class="btn gold" type="submit">Create my profile</button><div id="am" class="tag" role="status"></div>
-   <button type="button" class="back" id="mst" style="margin:6px auto 0">${role==="master"?"← Back":"👑 Master setup"}</button>`;
-    $("#mst").onclick=()=>{const keep=["n","c","ph","em","u","g"].map(i=>$("#"+i).value);role=role==="master"?"student":"master";draw();["n","c","ph","em","u","g"].forEach((i,k)=>$("#"+i).value=keep[k])};
+   <button class="btn gold" type="submit">Create my profile</button><div id="am" class="tag" role="status"></div>`;
     f.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{role=b.dataset.r;const keep=["n","c","ph","em","u","g"].map(i=>$("#"+i).value);draw();["n","c","ph","em","u","g"].forEach((i,k)=>$("#"+i).value=keep[k])})};
   draw();
   f.onsubmit=async e=>{e.preventDefault();const m=$("#am");m.textContent="Creating…";
@@ -166,6 +164,7 @@ window.profileRoute=function(h){
   if(h==="access"){accessPage();return true}
   if(h==="login"){authPage(acct()?"login":"login");return true}
   if(h==="signup"){authPage("signup");return true}
+  if(h==="master"){authPage("signup","master");return true}
   if(h==="profile"){profile();return true}
   return false};
 })();
