@@ -235,16 +235,20 @@ function builderHome(){
   <section class="gb-sec" id="mine"><div class="gb-head"><h2>📁 My games (${all.length})</h2></div>
    ${all.length?`<div class="filters" role="group" aria-label="Filter">${[["all","All"],["ready","✅ Ready"],["draft","📝 Drafts"]].map(([k,l])=>`<button data-filt="${k}" aria-pressed="${filt===k}">${l}</button>`).join("")}</div>`:""}
    <div class="list">${list.length?list.map(myGameHTML).join(""):`<div class="empty">${all.length?"No games here yet.":"No games yet. Pick a template above to make your first one ✨"}</div>`}</div></section>
-  <div class="note">💡 Games are saved on this phone. Ready games will show up for the kids once the student view is built.</div>`;
+  <div class="note">💡 Games are saved on this phone. Tap 🌍 Publish on a Ready self play game to show it in the kids' Games tab.</div>`;
   app.querySelectorAll("[data-filt]").forEach(b=>b.onclick=()=>{filt=b.dataset.filt;builderHome();$("#mine").scrollIntoView()});
   app.querySelectorAll("[data-gact]").forEach(b=>b.onclick=()=>{const g=getGame(b.dataset.id);if(!g)return;const a=b.dataset.gact;
     if(a==="copy"){const c=JSON.parse(JSON.stringify(g));c.id=uid();c.title=(g.title||"Untitled")+" (copy)";c.status="draft";putGame(c);toast("Copied ✅");builderHome()}
-    if(a==="del"){if(confirm(`Delete "${g.title||"Untitled"}"? This can't be undone.`)){saveGames(games().filter(x=>x.id!==g.id));toast("Deleted");builderHome()}}});
+    if(a==="pub"||a==="unpub"){publish(g,a==="pub").then(ok=>ok&&builderHome());return}
+    if(a==="del"){if(confirm(`Delete "${g.title||"Untitled"}"? This can't be undone.`)){if(g.pub)publish(g,false);saveGames(games().filter(x=>x.id!==g.id));toast("Deleted");builderHome()}}});
 }
 function myGameHTML(g){const t=T[g.t];if(!t)return"";const n=filled(g).length;
   return `<div class="mygame"><div class="gi">${t.ic}</div><div><div class="gt2">${esc(g.title||"Untitled")}</div>
-   <div class="meta"><span class="pill ${g.status==="ready"?"ready":"draft"}">${g.status==="ready"?"✅ Ready":"📝 Draft"}</span><span class="tag">${t.name} · ${n} ${pl(n,t.item)}${g.grade?" · "+esc(secName(g.grade)):""}</span></div></div>
-   <div class="acts"><button class="mini" data-go="bplay-${g.id}">▶ Play</button><button class="mini" data-go="bedit-${g.id}">✏️ Edit</button><button class="mini" data-gact="copy" data-id="${g.id}">⧉ Copy</button><button class="mini danger" data-gact="del" data-id="${g.id}">🗑 Delete</button></div></div>`}
+   <div class="meta"><span class="pill ${g.status==="ready"?"ready":"draft"}">${g.status==="ready"?"✅ Ready":"📝 Draft"}</span>${g.pub?`<span class="pill self">🌍 Online</span>`:""}<span class="tag">${t.name} · ${n} ${pl(n,t.item)}${g.grade?" · "+esc(secName(g.grade)):""}</span></div></div>
+   <div class="acts"><button class="mini" data-go="bplay-${g.id}">▶ Play</button><button class="mini" data-go="bedit-${g.id}">✏️ Edit</button><button class="mini" data-gact="copy" data-id="${g.id}">⧉ Copy</button>${pubBtn(g,t)}<button class="mini danger" data-gact="del" data-id="${g.id}">🗑 Delete</button></div></div>`}
+function pubBtn(g,t){if(t.mode!=="self"||g.status!=="ready")return"";
+  if(!g.pub)return `<button class="mini" data-gact="pub" data-id="${g.id}">🌍 Publish</button>`;
+  return (g.updated>g.pub?`<button class="mini" data-gact="pub" data-id="${g.id}">🔄 Update</button>`:"")+`<button class="mini" data-gact="unpub" data-id="${g.id}">🚫 Unpublish</button>`}
 
 /* ================= EDITOR ================= */
 let ed=null,saveT=0;
@@ -308,8 +312,48 @@ function playScreen(g){const t=T[g.t];
   <div class="prevbar">👀 Preview · <button class="back" data-go="bedit-${g.id}" style="display:inline-flex;padding:3px 10px">✏️ Edit</button> · <button class="back" data-go="bplay-${g.id}" style="display:inline-flex;padding:3px 10px">🔁 Restart</button></div>
   <div id="game" class="sec"></div>`}
 function play(g){app.innerHTML=playScreen(g);const el=$("#game");(P[g.t]||(()=>el.innerHTML=`<div class="empty">Not available.</div>`))(g,el)}
-function endCard(el,title,sub,g){el.innerHTML=`<div class="stage" style="text-align:center"><div class="stars">🎉</div><div class="bigq">${title}</div><p class="tag" style="margin:0">${sub}</p>
-  <div class="btns"><button class="btn gold" data-go="bplay-${g.id}">🔁 Play again</button><button class="btn alt" data-go="builder">Back to Game Builder</button></div></div>`;confetti()}
+function endCard(el,title,sub,g){const kid=g.kid;el.innerHTML=`<div class="stage" style="text-align:center"><div class="stars">🎉</div><div class="bigq">${title}</div><p class="tag" style="margin:0">${sub}</p>
+  <div class="btns"><button class="btn gold" data-go="${kid?"gplay-":"bplay-"}${g.id}">🔁 Play again</button><button class="btn alt" data-go="${kid?"games":"builder"}">${kid?"Back to Games":"Back to Game Builder"}</button></div></div>`;confetti()}
+
+/* ================= STUDENT VIEW ================= */
+async function kidPlay(id){
+  app.innerHTML=`${topbar("Loading…","🎮","","games")}<p class="tag" style="text-align:center">Getting the game…</p>`;
+  try{const j=await (await fetch(GU()+"?action=get&id="+encodeURIComponent(id))).json();
+    if(!j.ok)throw 0;const g=j.game;g.kid=true;const t=T[g.t];
+    app.innerHTML=`${topbar(esc(g.title||"Game"),t.ic,t.name,"games")}<div id="game" class="sec"></div>`;P[g.t](g,$("#game"))}
+  catch{app.innerHTML=`${topbar("Oops","😕","","games")}<div class="empty">Could not open this game. Check your internet.</div>`}}
+window.kidGames=async function(box){
+  if(!GU())return;
+  const me=store.get("me",null);let all=[];
+  try{all=(await (await fetch(GU()+"?action=list")).json()).games||[]}catch{return}
+  if(!all.length)return;
+  const mine=g=>!me||!g.grade||secName(g.grade)===me.grade;
+  const draw=showAll=>{const list=showAll?all:all.filter(mine);
+    box.innerHTML=`<h2 style="margin:18px 0 8px">🌟 New games</h2><div class="grid">${list.map(g=>{const t=T[g.t]||{ic:"🎮",c:"#2f8fc0",name:""};
+      return `<button class="tile" style="--c:${t.c}" data-go="gplay-${g.id}"><span class="ic">${t.ic}</span><span class="nm">${esc(g.title||"Game")}</span><span class="ct">${g.grade?esc(secName(g.grade)):"Everyone"}</span></button>`}).join("")}</div>
+      ${!showAll&&all.length>list.length?`<button class="btn alt" id="showAllG" style="margin-top:10px">Show games for all classes</button>`:""}`;
+    const b=box.querySelector("#showAllG");if(b)b.onclick=()=>draw(true)};
+  draw(false)};
+
+/* ================= PIN LOCK + PUBLISH ================= */
+const GU=()=>window.GAMES_URL||"";
+const myPin=()=>{try{return localStorage.getItem("hv_spin")||""}catch{return""}};
+function pinGate(h){
+  app.innerHTML=`${topbar("Servants Workshop","🛠️","Enter the servant PIN","servants")}
+  <form class="card sec" id="gatePin"><label class="field">Servant PIN<input id="gp" type="password" inputmode="numeric" maxlength="8" required autocomplete="off"></label>
+  <button class="btn gold" type="submit">Unlock</button><div id="gpMsg" class="tag"></div></form>`;
+  $("#gatePin").onsubmit=async e=>{e.preventDefault();const pin=$("#gp").value,m=$("#gpMsg");m.textContent="Checking…";
+    try{const j=await (await fetch(ATTEND_URL+"?action=list&pin="+encodeURIComponent(pin))).json();
+      if(!j.ok){m.textContent="❌ Wrong PIN";return}
+      try{localStorage.setItem("hv_spin",pin)}catch{}servantPin=pin;window.builderRoute(h);}
+    catch{m.textContent="No internet connection."}}}
+async function publish(g,on){
+  if(!GU()){toast("Publishing is not switched on yet");return false}
+  try{const body=on?{action:"save",pin:myPin(),game:{id:g.id,t:g.t,title:g.title,grade:g.grade,lesson:g.lesson,data:g.data,items:filled(g),updated:g.updated}}:{action:"delete",pin:myPin(),id:g.id};
+    const j=await (await fetch(GU(),{method:"POST",body:JSON.stringify(body)})).json();
+    if(!j.ok){toast(j.error==="pin"?"Wrong PIN, unlock again":j.error==="full"?"Online storage is full. Use fewer or smaller pictures.":"Could not publish");if(j.error==="pin")try{localStorage.removeItem("hv_spin")}catch{}return false}
+    g.pub=on?g.updated:0;saveGames(games().map(x=>x.id===g.id?g:x));toast(on?"Published for kids 🌍":"Removed from kids' games");return true}
+  catch{toast("No internet connection");return false}}
 
 const P={
 /* --- Kahoot --- */
@@ -528,6 +572,8 @@ function buildCross(items){const ws=items.map(it=>({w:clean(it.w),clue:it.clue,s
 
 /* ---------- routes ---------- */
 window.builderRoute=function(h){
+  if(h.startsWith("gplay-")){kidPlay(h.slice(6));return true}
+  if((h==="builder"||/^b(new|edit|play)-/.test(h))&&!myPin()){pinGate(h);return true}
   if(h==="builder"){builderHome();return true}
   if(h.startsWith("bnew-")){const k=h.slice(5);if(!T[k])return false;editor(newGame(k),true);return true}
   if(h.startsWith("bedit-")){const g=getGame(h.slice(6));if(!g){builderHome();return true}editor(g,false);return true}
