@@ -50,6 +50,7 @@ function removeGame(p, id) {
 
 var RULES = {
   attend: { student: 10, servant: 5 },
+  lesson: { student: 5, servant: 0 },
   selfplay: { student: 10, servant: 0 },
   publish: { student: 0, servant: 20 },
   livewin: { student: 0, servant: 0 }
