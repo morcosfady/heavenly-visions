@@ -1,0 +1,82 @@
+/* Backend simulation tests. Run: node tests/backend-sim.js
+   Runs apps-script/games-backend.gs in Node with fake Apps Script services and prints PASS or FAIL for each rule. */
+const fs = require('fs'), crypto = require('crypto');
+let src = fs.readFileSync(require('path').join(__dirname, '..', 'apps-script', 'games-backend.gs'), 'utf8').replace("var SETUP_CODE = 'CHANGE_ME';", "var SETUP_CODE = 'SETUP1';").replace("var MASTER_EMAIL = 'CHANGE_ME';", "var MASTER_EMAIL = 'boss@x.com';");
+const store = {};
+const PropertiesService = { getScriptProperties: () => ({
+  getProperty: k => (k in store ? store[k] : null), setProperty: (k, v) => { store[k] = v },
+  deleteProperty: k => { delete store[k] }, getProperties: () => Object.assign({}, store) }) };
+const Utilities = { DigestAlgorithm: { SHA_256: 1 }, computeDigest: (a, t) => [...crypto.createHash('sha256').update(t).digest()].map(b => b > 127 ? b - 256 : b),
+  getUuid: () => crypto.randomUUID() };
+const LockService = { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) };
+const ContentService = { MimeType: { JSON: 1 }, createTextOutput: s => ({ s, setMimeType() { return this } }) };
+const fn = new Function('PropertiesService', 'Utilities', 'LockService', 'ContentService', src + '; return {doPost, doGet}');
+const { doPost } = fn(PropertiesService, Utilities, LockService, ContentService);
+const call = b => JSON.parse(doPost({ postData: { contents: JSON.stringify(b) } }).s);
+const T = {};
+const su = (un, role, grade, extra) => { const r = call(Object.assign({ action: 'signup', username: un, password: 'secret1', name: un, church: 'St', role, grade, phone: '1', email: 'a@b.c' }, extra)); T[un] = r.ok ? { id: r.user.id, token: r.token } : null; return r };
+const A = (un, b) => call(Object.assign({ id: T[un].id, token: T[un].token }, b));
+const ok = (name, cond) => console.log(cond ? 'PASS' : 'FAIL', name);
+
+ok('wrong setup code makes pending priest', su('p0x', 'priest', 'KG', { setup: 'bad' }).user.req === 'priest');
+const p1 = su('p1x', 'priest', 'KG', { setup: 'SETUP1' });
+ok('first priest with code is priest', p1.user.role === 'priest');
+ok('second priest with code is NOT auto', su('p2x', 'priest', 'KG', { setup: 'SETUP1' }).user.req === 'priest');
+su('c1x', 'coordinator', 'Grade 3'); su('s1x', 'servant', 'Grade 3'); su('s2x', 'servant', 'Grade 4'); su('kid', 'student', 'Grade 3');
+ok('student has no req', call({ action: 'me', id: T.kid.id, token: T.kid.token }).user.req === '');
+ok('pending servant cannot publish', A('s1x', { action: 'save', game: { id: 'g1', t: 'match', title: 'x' } }).error === 'denied');
+ok('servant cannot list access', A('s1x', { action: 'access_list' }).error === 'denied');
+ok('coordinator pending cannot approve', A('c1x', { action: 'access_set', target: T.s1x.id }).error === 'denied');
+ok('priest approves coordinator', A('p1x', { action: 'access_set', target: T.c1x.id, grade: 'Grade 3' }).ok);
+ok('coordinator sees only own grade servant', A('c1x', { action: 'access_list' }).pending.length === 1);
+ok('coordinator cannot approve other grade', A('c1x', { action: 'access_set', target: T.s2x.id, grade: 'Grade 3' }).error === 'denied');
+ok('coordinator cannot make a priest', A('c1x', { action: 'access_set', target: T.s1x.id, role: 'priest', grade: 'Grade 3' }).error === 'denied');
+ok('coordinator approves own-grade servant', A('c1x', { action: 'access_set', target: T.s1x.id, grade: 'Grade 3' }).ok);
+ok('servant can now publish', A('s1x', { action: 'save', game: { id: 'g1', t: 'match', title: 'x', updated: 1 } }).ok);
+ok('servant still cannot approve', A('s1x', { action: 'access_set', target: T.s2x.id }).error === 'denied');
+ok('student cannot publish', A('kid', { action: 'save', game: { id: 'g2', t: 'match', title: 'y' } }).error === 'denied');
+ok('priest assigns s2 grade', A('p1x', { action: 'access_set', target: T.s2x.id, grade: 'Grade 5' }).ok);
+ok('priest approves second priest', A('p1x', { action: 'access_set', target: T.p2x.id, grade: 'KG' }).ok);
+ok('new priest can approve', A('p2x', { action: 'access_set', target: T.p0x.id, grade: 'KG' }).ok);
+ok('coordinator revokes own servant', A('c1x', { action: 'access_set', target: T.s1x.id, role: 'student', grade: 'Grade 3' }).ok);
+ok('revoked servant cannot publish', A('s1x', { action: 'save', game: { id: 'g3', t: 'match', title: 'z' } }).error === 'denied');
+ok('servant earns publish points', (() => { A('p1x', { action: 'access_set', target: T.s1x.id, role: 'servant', grade: 'Grade 3' }); return A('s1x', { action: 'award', kind: 'publish', ref: 'g1' }).added === 20 })());
+ok('coordinator earns attendance 5', A('c1x', { action: 'award', kind: 'attend', ref: 'd' }).added === 5);
+ok('student earns attendance 10', A('kid', { action: 'award', kind: 'attend', ref: 'd' }).added === 10);
+ok('game delete uses gid', A('s1x', { action: 'delete', gid: 'g1' }).ok && !('n_g1' in store));
+
+ok('master needs right email', su('mastx', 'master', 'KG', { setup: 'SETUP1', email: 'no@x.com' }).error === 'master');
+ok('master needs code', su('mastx', 'master', 'KG', { setup: 'bad', email: 'boss@x.com' }).error === 'master');
+const m = su('mastx', 'master', 'KG', { setup: 'SETUP1', email: 'Boss@x.com' });
+ok('master created', m.ok && m.user.role === 'master');
+ok('second master refused', su('mast2', 'master', 'KG', { setup: 'SETUP1', email: 'boss@x.com' }).error === 'master');
+const lg = call({ action: 'login', username: 'boss@x.com', password: 'secret1' }); T.mastx.token = lg.token;
+ok('login by email', lg.ok);
+ok('priest cannot touch master', A('p1x', { action: 'access_set', target: T.mastx.id, role: 'student' }).error === 'denied');
+ok('priest cannot see master in list', !A('p1x', { action: 'access_list' }).team.some(u => u.role === 'master'));
+ok('priest cannot make master', A('p1x', { action: 'access_set', target: T.s2x.id, role: 'master' }).error === 'denied');
+ok('master sets priest', A('mastx', { action: 'access_set', target: T.s2x.id, role: 'priest', grade: 'KG' }).ok);
+ok('master can publish', A('mastx', { action: 'save', game: { id: 'g9', t: 'match', title: 'm', updated: 1 } }).ok);
+ok('master sees all staff', A('mastx', { action: 'access_list' }).team.length >= 3);
+const big = JSON.stringify(Array.from({length: 30}, (_, i) => ({ id: 'd' + i, title: 'x'.repeat(500) })));
+ok('sync_set saves prefs and drafts', A('s1x', { action: 'sync_set', prefs: { fs: 1.2, avatar: '🦁' }, drafts: JSON.parse(big) }).ok);
+const sg = A('s1x', { action: 'sync_get' });
+ok('sync_get returns prefs', sg.prefs.avatar === '🦁' && sg.prefs.fs === 1.2);
+ok('sync_get returns drafts', sg.drafts.length === 30 && sg.drafts[29].id === 'd29');
+ok('shrinking drafts removes old chunks', A('s1x', { action: 'sync_set', drafts: [{ id: 'a' }] }).ok && A('s1x', { action: 'sync_get' }).drafts.length === 1 && !Object.keys(store).some(k => /^d_.*_1$/.test(k)));
+ok('too big drafts refused', A('s1x', { action: 'sync_set', drafts: [{ t: 'x'.repeat(70000) }] }).error === 'full');
+ok('sync needs login', call({ action: 'sync_get', id: 'nope', token: 'x' }).error === 'auth');
+ok('other user prefs are separate', A('kid', { action: 'sync_get' }).prefs.avatar === undefined);
+ok('email is required', su('noemailx', 'student', 'KG', { email: '' }).error === 'email');
+ok('bad email refused', su('bademailx', 'student', 'KG', { email: 'abc' }).error === 'email');
+const fl = su('firstlast', 'student', 'KG', { first: 'Mina', last: 'Samir', name: undefined, email: 'm@x.org' });
+ok('first and last make the name', fl.ok && fl.user.name === 'Mina Samir');
+ok('student with email ok', su('okstudent', 'student', 'KG', { email: 'k@x.org' }).ok);
+const stu = su('livestu1', 'student', 'KG', { email: 'l1@x.org' }), stu2 = su('livestu2', 'student', 'KG', { email: 'l2@x.org' });
+const lf = A('s1x', { action: 'live_finish', sid: 'S1', title: 'Daniel', results: [{ u: T.livestu1.id, p: 1 }, { u: T.livestu2.id, p: 5 }, { u: T.s1x.id, p: 2 }] });
+ok('live_finish awards students only', lf.ok && lf.awarded === 2);
+ok('1st gets 50', A('livestu1', { action: 'me' }).user.score === 50);
+ok('other gets 10', A('livestu2', { action: 'me' }).user.score === 10);
+ok('live_finish is once per session', A('s1x', { action: 'live_finish', sid: 'S1', title: 'x', results: [{ u: T.livestu1.id, p: 1 }] }).awarded === 0);
+ok('students cannot call live_finish', A('livestu1', { action: 'live_finish', sid: 'S9', results: [{ u: T.livestu1.id, p: 1 }] }).error === 'denied');
+ok('livewin from phone gives nothing', A('livestu2', { action: 'award', kind: 'livewin', ref: 'x' }).added === 0);
