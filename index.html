@@ -166,6 +166,11 @@ h2{font-size:1.2rem;color:var(--gold);letter-spacing:.02em}
 
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
 footer{text-align:center;color:var(--muted);font-size:.85rem;font-weight:700}
+.workshop{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;padding:12px 24px;border-radius:999px;font-family:var(--display);font-weight:800;font-size:.95rem;letter-spacing:.06em;color:#2b1d05;background:linear-gradient(135deg,#f6d27a,#e3b45c 50%,#b9852b);box-shadow:0 6px 18px rgba(227,180,92,.45),inset 0 1px 0 rgba(255,255,255,.55);transition:transform .15s,box-shadow .15s}
+.workshop:active{transform:scale(.96)}
+.workshop::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.65),transparent);transform:skewX(-20deg);animation:wshine 3.5s ease-in-out infinite}
+@keyframes wshine{0%,60%{left:-60%}100%{left:130%}}
+@media (prefers-reduced-motion:reduce){.workshop::after{animation:none}}
 @media (max-width:420px){.row{grid-template-columns:112px 1fr}.door{min-height:132px}.door .big{font-size:3.8rem}}
 @media (prefers-reduced-motion:reduce){*:not(#intro):not(#intro *){animation-duration:.01ms!important;animation-delay:0s!important;transition:none!important}}
 </style>
@@ -301,7 +306,7 @@ function hub(){
     <button class="door d-bible" data-go="bible"><span class="big">📖</span><b>The Bible</b><small>Read God's Word</small></button>
   </nav>
   <div class="verse">“${esc(v[0])}”<cite>${v[1]}</cite></div>
-  <footer><button class="back" data-go="servants" style="margin:0 auto">🙏 For servants</button></footer>`;
+  <footer><button class="workshop" data-go="servants">🛠️ Servants Workshop</button></footer>`;
 }
 function topbar(title,ic,sub,back="home"){
   return `<div class="topbar"><button class="back" data-go="${back}">← Back</button></div>
