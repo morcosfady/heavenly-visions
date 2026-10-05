@@ -292,7 +292,7 @@ function runIntro(){
   const showLogo=()=>{end.classList.add("show");setTimeout(finish,1700)};
   // Full intro once a day; after that, a quick logo splash
   if(seen||matchMedia("(prefers-reduced-motion: reduce)").matches){v.remove();$("#snd").remove();showLogo();return}
-  v.addEventListener("ended",showLogo);
+  v.addEventListener("ended",()=>setTimeout(finish,200));
   v.addEventListener("error",showLogo);
   const p=v.play();if(p&&p.catch)p.catch(()=>{});
   let started=false;v.addEventListener("playing",()=>started=true);const chk=()=>{if(done||started)return;if(document.hidden){setTimeout(chk,1000);return}showLogo()};setTimeout(chk,9000); // video too slow or failed
