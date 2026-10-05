@@ -337,21 +337,12 @@ window.kidGames=async function(box){
 
 /* ================= PIN LOCK + PUBLISH ================= */
 const GU=()=>window.GAMES_URL||"";
-const myPin=()=>{try{return localStorage.getItem("hv_spin")||""}catch{return""}};
-function pinGate(h){
-  app.innerHTML=`${topbar("Servants Workshop","🛠️","Enter the servant PIN","servants")}
-  <form class="card sec" id="gatePin"><label class="field">Servant PIN<input id="gp" type="password" inputmode="numeric" maxlength="8" required autocomplete="off"></label>
-  <button class="btn gold" type="submit">Unlock</button><div id="gpMsg" class="tag"></div></form>`;
-  $("#gatePin").onsubmit=async e=>{e.preventDefault();const pin=$("#gp").value,m=$("#gpMsg");m.textContent="Checking…";
-    try{const j=await (await fetch(ATTEND_URL+"?action=list&pin="+encodeURIComponent(pin))).json();
-      if(!j.ok){m.textContent="❌ Wrong PIN";return}
-      try{localStorage.setItem("hv_spin",pin)}catch{}servantPin=pin;window.builderRoute(h);}
-    catch{m.textContent="No internet connection."}}}
 async function publish(g,on){
   if(!GU()){toast("Publishing is not switched on yet");return false}
-  try{const body=on?{action:"save",pin:myPin(),game:{id:g.id,t:g.t,title:g.title,grade:g.grade,lesson:g.lesson,data:g.data,items:filled(g),updated:g.updated}}:{action:"delete",pin:myPin(),id:g.id};
+  const A=window.hvAcct&&hvAcct();if(!A){toast("Login first");return false}
+  try{const body=on?{action:"save",id:A.user.id,token:A.token,game:{id:g.id,t:g.t,title:g.title,grade:g.grade,lesson:g.lesson,data:g.data,items:filled(g),updated:g.updated}}:{action:"delete",id:A.user.id,token:A.token,gid:g.id};
     const j=await (await fetch(GU(),{method:"POST",body:JSON.stringify(body)})).json();
-    if(!j.ok){toast(j.error==="pin"?"Wrong PIN, unlock again":j.error==="full"?"Online storage is full. Use fewer or smaller pictures.":"Could not publish");if(j.error==="pin")try{localStorage.removeItem("hv_spin")}catch{}return false}
+    if(!j.ok){toast(j.error==="denied"?"You need an approved servant profile":j.error==="full"?"Online storage is full. Use fewer or smaller pictures.":"Could not publish");return false}
     g.pub=on?g.updated:0;saveGames(games().map(x=>x.id===g.id?g:x));toast(on?"Published for kids 🌍":"Removed from kids' games");if(on&&window.hvAward)hvAward("publish",g.id,g.title);return true}
   catch{toast("No internet connection");return false}}
 
@@ -573,7 +564,7 @@ function buildCross(items){const ws=items.map(it=>({w:clean(it.w),clue:it.clue,s
 /* ---------- routes ---------- */
 window.builderRoute=function(h){
   if(h.startsWith("gplay-")){kidPlay(h.slice(6));return true}
-  if((h==="builder"||/^b(new|edit|play)-/.test(h))&&!myPin()){pinGate(h);return true}
+  if((h==="builder"||/^b(new|edit|play)-/.test(h))&&window.hvLock&&hvLock()){return true}
   if(h==="builder"){builderHome();return true}
   if(h.startsWith("bnew-")){const k=h.slice(5);if(!T[k])return false;editor(newGame(k),true);return true}
   if(h.startsWith("bedit-")){const g=getGame(h.slice(6));if(!g){builderHome();return true}editor(g,false);return true}

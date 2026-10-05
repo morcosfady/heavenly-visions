@@ -32,6 +32,8 @@ document.head.appendChild(st);
 const GU=()=>window.GAMES_URL||"";
 const AVATARS=["😇","🦁","🐑","🕊️","⭐","👑","🌈","🔥","🦋","🐟","📖","✝️"];
 const LEVELS=[[0,"Seedling","🌱"],[50,"Helper","🕊️"],[150,"Disciple","✝️"],[300,"Light Bearer","🕯️"],[600,"Champion","👑"]];
+const TIER={student:["🎒","Student"],servant:["🙏","Servant"],coordinator:["🧭","Coordinator"],priest:["⛪","Priest"]};
+const isStaff=r=>r==="servant"||r==="coordinator"||r==="priest";
 const KIND={attend:"Checked in",selfplay:"Played a game",publish:"Published a game",livewin:"Won a live game"};
 const acct=()=>{try{return JSON.parse(localStorage.getItem("hv_acct")||"null")}catch{return null}};
 const setAcct=a=>{try{a?localStorage.setItem("hv_acct",JSON.stringify(a)):localStorage.removeItem("hv_acct")}catch{}};
@@ -70,49 +72,94 @@ function authPage(mode){
       catch{m.innerHTML=`<span class="err">No internet connection.</span>`}};
     return}
   let role="student";
-  const draw=()=>{f.innerHTML=`<div class="seg" role="group"><button type="button" data-r="student" aria-pressed="${role==="student"}">🎒 Student</button><button type="button" data-r="servant" aria-pressed="${role==="servant"}">🙏 Servant</button></div>
+  const draw=()=>{f.innerHTML=`<div class="seg" role="group">${Object.keys(TIER).map(r=>`<button type="button" data-r="${r}" aria-pressed="${role===r}">${TIER[r][0]} ${TIER[r][1]}</button>`).join("")}</div>
+   ${role!=="student"?`<div class="note">⏳ ${role==="servant"?"A coordinator or priest":"A priest"} must approve you. Until then you are a student.</div>`:""}
    <label class="field">Full name<input id="n" required maxlength="40" autocomplete="name"></label>
-   <label class="field">${role==="student"?"Your grade":"Grade you serve"}<select id="g" required><option value="">Choose…</option>${SECTIONS.filter(s=>/^(prek|kg|g\d+)$/.test(s.id)).map(s=>`<option>${s.name}</option>`).join("")}</select></label>
+   <label class="field">${role==="student"?"Your grade":"Grade you serve or lead"}<select id="g" required><option value="">Choose…</option>${SECTIONS.filter(s=>/^(prek|kg|g\d+)$/.test(s.id)).map(s=>`<option>${s.name}</option>`).join("")}</select></label>
    <label class="field">Church name<input id="c" required maxlength="50"></label>
-   <label class="field">Phone ${role==="student"?"(optional)":""}<input id="ph" type="tel" ${role==="servant"?"required":""} maxlength="25" autocomplete="tel"></label>
-   <label class="field">Email ${role==="student"?"(optional)":""}<input id="em" type="email" ${role==="servant"?"required":""} maxlength="60" autocomplete="email"></label>
+   <label class="field">Phone ${role==="student"?"(optional)":""}<input id="ph" type="tel" ${role!=="student"?"required":""} maxlength="25" autocomplete="tel"></label>
+   <label class="field">Email ${role==="student"?"(optional)":""}<input id="em" type="email" ${role!=="student"?"required":""} maxlength="60" autocomplete="email"></label>
+   ${role==="priest"?`<label class="field">Setup code (only for the very first priest)<input id="sc" autocomplete="off"></label>`:""}
    <label class="field">Choose a username<input id="u" required minlength="3" maxlength="20" autocapitalize="none" pattern="[A-Za-z0-9_.]+" autocomplete="username"></label>
    <label class="field">Password (6 or more)<input id="p" type="password" required minlength="6" autocomplete="new-password"></label>
    <button class="btn gold" type="submit">Create my profile</button><div id="am" class="tag" role="status"></div>`;
-    f.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{role=b.dataset.r;const keep=["n","c","ph","em","u"].map(i=>$("#"+i).value);draw();["n","c","ph","em","u"].forEach((i,k)=>$("#"+i).value=keep[k])})};
+    f.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{role=b.dataset.r;const keep=["n","c","ph","em","u","g"].map(i=>$("#"+i).value);draw();["n","c","ph","em","u","g"].forEach((i,k)=>$("#"+i).value=keep[k])})};
   draw();
   f.onsubmit=async e=>{e.preventDefault();const m=$("#am");m.textContent="Creating…";
-    try{const j=await api({action:"signup",role,name:$("#n").value,grade:$("#g").value,church:$("#c").value,phone:$("#ph").value,email:$("#em").value,username:$("#u").value,password:$("#p").value});
+    try{const j=await api({action:"signup",role,name:$("#n").value,grade:$("#g").value,church:$("#c").value,phone:$("#ph").value,email:$("#em").value,username:$("#u").value,password:$("#p").value,setup:$("#sc")?$("#sc").value:""});
       if(!j.ok){m.innerHTML=`<span class="err">${j.error==="taken"?"That username is taken, try another.":j.error==="username"?"Username: 3 to 20 letters or numbers.":j.error==="password"?"Password needs 6 or more characters.":"Please fill everything in."}</span>`;return}
-      setAcct({token:j.token,user:j.user,avatar:AVATARS[0]});confetti();toast("Profile created 🎉");go("profile")}
+      setAcct({token:j.token,user:j.user,avatar:AVATARS[0]});confetti();toast(j.user.req?"Profile created. Waiting for approval ⏳":"Profile created 🎉");go("profile")}
     catch{m.innerHTML=`<span class="err">No internet connection.</span>`}}}
 
 /* ---------- profile ---------- */
 async function profile(){
   let a=acct();if(!a){authPage("login");return}
   const draw=()=>{const u=a.user,lv=level(u.score);
-    app.innerHTML=`${topbar("My Profile","👤",u.role==="servant"?"Servant":"Student")}
+    app.innerHTML=`${topbar("My Profile","👤",TIER[u.role][1])}
+    ${u.req?`<div class="note">⏳ Your request to be a <b>${TIER[u.req][1]}</b> is waiting for approval. Until then you are a student.</div>`:""}
+    ${u.role==="coordinator"||u.role==="priest"?`<button class="btn gold" data-go="access">🔑 Manage access <span id="pendN"></span></button>`:""}
     <div class="pf-hero"><div class="pf-av" id="avBig">${a.avatar||AVATARS[0]}</div>
       <div class="pf-name">${esc(u.name)}</div>
-      <div class="pf-sub">${u.role==="servant"?"🙏 Servant":"🎒 Student"} · ${esc(u.grade||"")} · ${esc(u.church)}</div>
+      <div class="pf-sub">${TIER[u.role][0]} ${TIER[u.role][1]} · ${esc(u.grade||"")} · ${esc(u.church)}</div>
       <div class="pf-score">⭐ ${u.score}<small>POINTS</small></div>
       <div class="pf-bar"><i style="width:${lv.pct}%"></i></div>
       <div class="pf-lv">${lv.ic} ${lv.name}${lv.next?` · ${lv.next} more to ${lv.nxName}`:" · top level!"}</div></div>
     <section class="card sec"><b>Pick your picture</b><div class="avs">${AVATARS.map(x=>`<button data-av="${x}" aria-pressed="${(a.avatar||AVATARS[0])===x}">${x}</button>`).join("")}</div></section>
-    <section class="card sec"><b>How to get points</b><div class="tag">${u.role==="servant"?"✅ Check in at class +5<br>🛠️ Publish a game +20":"✅ Check in at class +10<br>🎮 Finish a game +10<br>🏆 Win a live class game +50"}</div></section>
+    <section class="card sec"><b>How to get points</b><div class="tag">${isStaff(u.role)?"✅ Check in at class +5<br>🛠️ Publish a game +20":"✅ Check in at class +10<br>🎮 Finish a game +10<br>🏆 Win a live class game +50"}</div></section>
     <section class="card sec"><b>Recent points</b><div id="lg">${u.log&&u.log.length?u.log.map(l=>`<div class="lgrow"><span>${KIND[l.k]||l.k}${l.n?" · "+esc(l.n):""}</span><span>+${l.p}</span></div>`).join(""):`<div class="tag">No points yet. Check in at class to start! ✋</div>`}</div></section>
     <section class="card sec"><b>🏅 Leaderboard</b><div id="lb" class="sec"><div class="tag">Loading…</div></div></section>
     <button class="btn alt" id="out">Log out</button>`;
     app.querySelectorAll("[data-av]").forEach(b=>b.onclick=()=>{a.avatar=b.dataset.av;setAcct(a);draw()});
     $("#out").onclick=()=>{if(confirm("Log out?")){setAcct(null);go("home")}};
+    if(u.role==="coordinator"||u.role==="priest")api({action:"access_list",id:u.id,token:a.token}).then(j=>{const e=$("#pendN");if(e&&j.ok&&j.pending.length)e.textContent="("+j.pending.length+" waiting)"}).catch(()=>{});
     fetch(GU()+"?action=leaderboard").then(r=>r.json()).then(j=>{const el=$("#lb");if(!el)return;
-      el.innerHTML=(j.rows||[]).slice(0,10).map((r,i)=>`<div class="lbrow ${r.n===u.name&&r.s===u.score?"me":""}"><span>${["🥇","🥈","🥉"][i]||i+1}</span><b>${esc(r.n)}</b><span class="tag">${r.r==="servant"?"🙏":"🎒"} ${esc(r.g||"")}</span><span class="pt">${r.s}</span></div>`).join("")||`<div class="tag">Nobody yet.</div>`}).catch(()=>{});
+      el.innerHTML=(j.rows||[]).slice(0,10).map((r,i)=>`<div class="lbrow ${r.n===u.name&&r.s===u.score?"me":""}"><span>${["🥇","🥈","🥉"][i]||i+1}</span><b>${esc(r.n)}</b><span class="tag">${(TIER[r.r]||TIER.student)[0]} ${esc(r.g||"")}</span><span class="pt">${r.s}</span></div>`).join("")||`<div class="tag">Nobody yet.</div>`}).catch(()=>{});
   };
   draw();
   try{const j=await api({action:"me",id:a.user.id,token:a.token});
     if(j.ok){a.user=j.user;setAcct(a);if(location.hash==="#profile")draw()}else if(j.error==="auth"){setAcct(null);toast("Please login again");authPage("login")}}catch{}}
 
+/* ---------- manage access ---------- */
+const GRADE_NAMES=()=>SECTIONS.filter(s=>/^(prek|kg|g\d+)$/.test(s.id)).map(s=>s.name);
+async function accessPage(){
+  const a=acct();if(!a||!(a.user.role==="coordinator"||a.user.role==="priest")){go("profile");return}
+  const priest=a.user.role==="priest";
+  app.innerHTML=`${topbar("Manage Access","🔑",priest?"Priest":"Coordinator","profile")}<div id="ac" class="sec"><div class="tag">Loading…</div></div>`;
+  let j;try{j=await api({action:"access_list",id:a.user.id,token:a.token})}catch{$("#ac").innerHTML=`<div class="err">No internet connection.</div>`;return}
+  if(!j.ok){$("#ac").innerHTML=`<div class="err">Not allowed.</div>`;return}
+  const gsel=(id,cur)=>`<select data-g="${id}">${GRADE_NAMES().map(g=>`<option ${g===cur?"selected":""}>${g}</option>`).join("")}</select>`;
+  const who=u=>`<b>${esc(u.name)}</b><div class="tag">${esc(u.church)} · ${esc(u.grade||"no grade")}<br>📞 ${esc(u.phone||"-")} · ✉️ ${esc(u.email||"-")}</div>`;
+  const pend=u=>`<div class="card sec" data-u="${u.id}">${who(u)}<div class="tag">Wants to be: <b>${TIER[u.req][0]} ${TIER[u.req][1]}</b></div>
+    ${priest?`<label class="field">Grade${gsel(u.id,u.grade)}</label>`:""}
+    <div class="two"><button class="btn gold" data-do="approve" data-id="${u.id}" data-req="${u.req}">✅ Approve</button><button class="btn alt" data-do="reject" data-id="${u.id}">✖ Reject</button></div></div>`;
+  const team=u=>`<div class="card sec" data-u="${u.id}">${who(u)}<div class="tag">${TIER[u.role][0]} ${TIER[u.role][1]}</div>
+    ${priest?`<div class="two"><label class="field">Role<select data-r="${u.id}">${["servant","coordinator","priest","student"].map(r=>`<option value="${r}" ${r===u.role?"selected":""}>${TIER[r][1]}</option>`).join("")}</select></label><label class="field">Grade${gsel(u.id,u.grade)}</label></div>
+    <button class="btn gold" data-do="save" data-id="${u.id}">💾 Save</button>`:`<button class="btn alt" data-do="revoke" data-id="${u.id}">Remove access</button>`}</div>`;
+  $("#ac").innerHTML=`<h2 style="margin:6px 0">⏳ Waiting (${j.pending.length})</h2>${j.pending.map(pend).join("")||`<div class="empty">Nobody is waiting 👍</div>`}
+   <h2 style="margin:14px 0 6px">👥 Team (${j.team.length})</h2>${j.team.map(team).join("")||`<div class="empty">No team yet.</div>`}`;
+  app.querySelectorAll("[data-do]").forEach(b=>b.onclick=async()=>{const id=b.dataset.id,box=app.querySelector(`[data-u="${id}"]`),gs=box.querySelector("[data-g]"),rs=box.querySelector("[data-r]");
+    const body={id:a.user.id,token:a.token,target:id};
+    if(b.dataset.do==="reject")body.action="access_reject";
+    else{body.action="access_set";if(gs)body.grade=gs.value;
+      if(b.dataset.do==="approve")body.role=b.dataset.req;
+      if(b.dataset.do==="revoke"){body.role="student";if(!confirm("Remove access?"))return}
+      if(b.dataset.do==="save"&&rs)body.role=rs.value}
+    b.disabled=true;try{const r=await api(body);if(r.ok){toast("Done ✅");accessPage()}else{toast("Not allowed");b.disabled=false}}catch{toast("No internet connection");b.disabled=false}})}
+
+/* lock for servant-only pages: returns true when it showed the lock screen */
+window.hvLock=function(){
+  if(!GU())return false;const a=acct();
+  if(a&&isStaff(a.user.role))return false;
+  app.innerHTML=`${topbar("Servants Workshop","🛠️","Servants only")}<div class="card sec" style="text-align:center">
+   <div style="font-size:3rem">🔒</div>
+   ${!a?`<b>Login to continue</b><p class="tag">Servants, coordinators and priests need an approved profile.</p><button class="btn gold" data-go="login">👤 Login or create profile</button>`
+   :a.user.req?`<b>Waiting for approval ⏳</b><p class="tag">Your request to be a ${TIER[a.user.req][1]} has not been approved yet.</p>`
+   :`<b>This is for servants</b><p class="tag">Ask your coordinator or priest for access.</p>`}</div>`;
+  return true};
+window.hvAcct=acct;
+
 window.profileRoute=function(h){
+  if(h==="access"){accessPage();return true}
   if(h==="login"){authPage(acct()?"login":"login");return true}
   if(h==="signup"){authPage("signup");return true}
   if(h==="profile"){profile();return true}
