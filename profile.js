@@ -33,7 +33,13 @@ st.textContent=`
 document.head.appendChild(st);
 
 const GU=()=>window.GAMES_URL||"";
-const AVATARS=["😇","🦁","🐑","🕊️","⭐","👑","🌈","🔥","🦋","🐟","📖","✝️"];
+const AVATARS=["😇","🦁","🐑","🕊️","⭐","👑","🌈","🔥","🦋","🐟","📖","✝️",
+ "🕯️","⛪","🛡️","⚔️","🌿","🌅","🌺","🍇","🐪","🚢","🦅","🐢","🌟","💛","🎶","🏔️","🌊","🔔","🎒","🦊","🐼","🦄","🐬","🐘","🦒","🐧","🌻","🎨","⚽","🚀"];
+const MASTER_AV="logo";
+const avMap=()=>{try{return JSON.parse(localStorage.getItem("hv_avmap")||"{}")}catch{return{}}};
+const savedAv=id=>avMap()[id]||AVATARS[0];
+const saveAv=(id,v)=>{try{const m=avMap();m[id]=v;localStorage.setItem("hv_avmap",JSON.stringify(m))}catch{}};
+const avHTML=(v,px)=>v===MASTER_AV?`<img src="logo.png" alt="" style="width:${px}px;height:${px}px;object-fit:contain;border-radius:50%;display:block">`:v;
 const LEVELS=[[0,"Seedling","🌱"],[50,"Helper","🕊️"],[150,"Disciple","✝️"],[300,"Light Bearer","🕯️"],[600,"Champion","👑"]];
 const TIER={student:["🎒","Student"],servant:["🙏","Servant"],coordinator:["🧭","Coordinator"],priest:["⛪","Priest"],master:["👑","Master"]};
 const isStaff=r=>r!=="student";
@@ -63,7 +69,7 @@ function level(score){let i=0;LEVELS.forEach((l,k)=>{if(score>=l[0])i=k});const 
 window.acctChip=function(){const head=document.querySelector(".hubhead");if(!head||!GU())return;
   const a=acct();const b=document.createElement("button");b.className="loginbtn";
   b.dataset.go=a?"profile":"login";
-  b.innerHTML=a?`<span>${a.avatar||"😇"}</span><span class="sc">⭐ ${a.user.score}</span>`:`👤 Login`;
+  b.innerHTML=a?`<span style="display:flex;align-items:center">${avHTML(a.avatar||AVATARS[0],24)}</span><span class="sc">⭐ ${a.user.score}</span>`:`👤 Login`;
   head.appendChild(b)};
 
 /* give points (called from the app) */
@@ -86,7 +92,7 @@ function authPage(mode,startRole){
     f.onsubmit=async e=>{e.preventDefault();const m=$("#am");m.textContent="Checking…";
       try{const j=await api({action:"login",username:$("#u").value,password:$("#p").value});
         if(!j.ok){m.innerHTML=`<span class="err">Wrong username or password.</span>`;return}
-        setAcct({token:j.token,user:j.user,avatar:AVATARS[0]});toast("Welcome "+j.user.name+" 👋");go("profile")}
+        setAcct({token:j.token,user:j.user,avatar:savedAv(j.user.id)});toast("Welcome "+j.user.name+" 👋");go("profile")}
       catch{m.innerHTML=`<span class="err">No internet connection.</span>`}};
     return}
   let role=startRole||"student";
@@ -126,18 +132,18 @@ async function profile(){
     app.innerHTML=`${topbar("My Profile","👤",TIER[u.role][1])}
     ${u.req?`<div class="note">⏳ Your request to be a <b>${TIER[u.req][1]}</b> is waiting for approval. For now you can view the app as a guest. 🙏</div>`:""}
     ${u.role==="coordinator"||isTop(u.role)?`<button class="btn gold" data-go="access">🔑 Manage access <span id="pendN"></span></button>`:""}
-    <div class="pf-hero"><div class="pf-av" id="avBig">${a.avatar||AVATARS[0]}</div>
+    <div class="pf-hero"><div class="pf-av" id="avBig" style="overflow:hidden;display:flex;align-items:center;justify-content:center">${avHTML(a.avatar||AVATARS[0],80)}</div>
       <div class="pf-name">${esc(u.name)}</div>
       <div class="pf-sub">${TIER[u.role][0]} ${TIER[u.role][1]}${u.grade?" · "+esc(u.grade):""}<br>${esc(u.church)}</div>
       <div class="pf-score">⭐ ${u.score}<small>POINTS</small></div>
       <div class="pf-bar"><i style="width:${lv.pct}%"></i></div>
       <div class="pf-lv">${lv.ic} ${lv.name}${lv.next?` · ${lv.next} more to ${lv.nxName}`:" · top level!"}</div></div>
-    <section class="card sec"><b>Pick your picture</b><div class="avs">${AVATARS.map(x=>`<button data-av="${x}" aria-pressed="${(a.avatar||AVATARS[0])===x}">${x}</button>`).join("")}</div></section>
+    <section class="card sec"><b>Pick your picture</b><div class="avs">${(u.role==="master"?[MASTER_AV]:[]).concat(AVATARS).map(x=>`<button data-av="${x}" aria-pressed="${(a.avatar||AVATARS[0])===x}" ${x===MASTER_AV?'aria-label="Master logo" style="padding:4px;overflow:hidden"':""}>${avHTML(x,34)}</button>`).join("")}</div></section>
     <section class="card sec"><b>How to get points</b><div class="tag">${isStaff(u.role)?"✅ Check in at class +5<br>🛠️ Publish a game +20":"✅ Check in at class +10<br>🎮 Finish a game +10<br>🏆 Win a live class game +50"}</div></section>
     <section class="card sec"><b>Recent points</b><div id="lg">${u.log&&u.log.length?u.log.map(l=>`<div class="lgrow"><span>${KIND[l.k]||l.k}${l.n?" · "+esc(l.n):""}</span><span>+${l.p}</span></div>`).join(""):`<div class="tag">No points yet. Check in at class to start! ✋</div>`}</div></section>
     <section class="card sec"><b>🏅 Leaderboard</b><div id="lb" class="sec"><div class="tag">Loading…</div></div></section>
     <button class="btn alt" id="out">Log out</button>`;
-    app.querySelectorAll("[data-av]").forEach(b=>b.onclick=()=>{a.avatar=b.dataset.av;setAcct(a);draw()});
+    app.querySelectorAll("[data-av]").forEach(b=>b.onclick=()=>{a.avatar=b.dataset.av;saveAv(u.id,a.avatar);setAcct(a);draw()});
     $("#out").onclick=()=>{if(confirm("Log out?")){setAcct(null);go("home")}};
     if(u.role==="coordinator"||isTop(u.role))api({action:"access_list",id:u.id,token:a.token}).then(j=>{const e=$("#pendN");if(e&&j.ok&&j.pending.length)e.textContent="("+j.pending.length+" waiting)"}).catch(()=>{});
     fetch(GU()+"?action=leaderboard").then(r=>r.json()).then(j=>{const el=$("#lb");if(!el)return;
