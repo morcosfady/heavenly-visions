@@ -376,13 +376,13 @@ function lessonPage(g,n){const s=sec(g),l=lessonOf(g,n);if(!s||!l)return media()
 function lessonAction(act,g,n){const l=lessonOf(g,n);if(!l)return;const v=verseOf(g,n),vt=v&&v[0]?v[0]:"";
   if(act==="verse"){if(!v)return toast("Bible verse coming soon 📖");const bl=bibleLink(v[1]);
     sheet(`<h3>📖 Bible verse</h3>${vt?`<p style="font-size:1.2rem;font-weight:800">“${esc(vt)}”</p>`:""}<div class="tag">${esc(v[1]||"")}</div>
-     <div class="btns">${bl?`<button class="btn gold" data-go="${bl}" data-close>📖 Read it in the Bible</button>`:""}<button class="btn alt" data-la="listen" data-g="${g}" data-n="${n}">🔊 Listen</button></div>`,"Bible verse");return}
+     <div class="btns">${bl?`<button class="btn gold" data-go="${bl}" data-close>📖 Read it in the Bible</button>`:""}${vt?`<button class="btn alt" data-la="listen" data-g="${g}" data-n="${n}">🔊 Listen</button>`:""}</div>`,"Bible verse");return}
   if(act==="quiz"){const q=lessonVids(g,n).map(x=>QUIZZES.find(z=>z.v===x[0])).find(Boolean);if(q)return go("quiz-"+q.id);
     const vq=verseQuiz(g,n);if(vq)return go("quiz-"+vq);return toast("Quiz coming soon 🏆")}
   if(act==="game"){if(!vt)return toast("Game coming soon 🎮");return go("vp-"+g+"-"+n)}
-  if(act==="listen"){if(!window.speechSynthesis)return toast("Listening isn't supported on this phone");
-    if(speechSynthesis.speaking){speechSynthesis.cancel();return}
-    const u=new SpeechSynthesisUtterance(l[1]+". "+(vt||(v&&v[1])||""));u.rate=.85;speechSynthesis.speak(u);return}
+  if(act==="listen"){if(!vt)return toast("Listen coming soon 🔊");
+    if(window.hvAud&&!hvAud.paused){hvAud.pause();hvAud=null;return}
+    hvAud=new Audio("audio/"+g+"-"+n+".mp3");hvAud.play().catch(()=>toast("Could not play the audio 🔊"));return}
   if(act==="done"){const d=store.get("done",[]),k=g+"|"+n,i=d.indexOf(k);if(i>=0)d.splice(i,1);else{d.push(k);if(window.hvAward)hvAward("lesson",g+"-"+n,"Lesson "+n);confetti();toast("Lesson done! 🎉")}
     store.set("done",d);lessonPage(g,n)}}
 function verseQuiz(g,n){const v=verseOf(g,n),t=v&&v[0];if(!t)return "";const id="vq-"+g+"-"+n;
