@@ -75,7 +75,7 @@ function authPage(mode){
     return}
   let role="student";
   const draw=()=>{f.innerHTML=`<div class="seg" role="group">${SIGNUP_ROLES.concat(role==="master"?["master"]:[]).map(r=>`<button type="button" data-r="${r}" aria-pressed="${role===r}">${TIER[r][0]} ${TIER[r][1]}</button>`).join("")}</div>
-   ${role==="master"?`<div class="note">👑 Master setup: needs the setup code and the master email.</div>`:role!=="student"?`<div class="note">⏳ ${role==="servant"?"A coordinator or priest":"A priest"} must approve you. Until then you are a student.</div>`:""}
+   ${role==="master"?`<div class="note">👑 Master setup: needs the setup code and the master email.</div>`:role!=="student"?`<div class="note">⏳ ${role==="servant"?"A coordinator or priest":"A priest"} must approve you. For now you can view the app as a guest. 🙏</div>`:""}
    <label class="field">Full name<input id="n" required maxlength="40" autocomplete="name"></label>
    <label class="field">${role==="student"?"Your grade":"Grade you serve or lead"}<select id="g" required><option value="">Choose…</option>${SECTIONS.filter(s=>/^(prek|kg|g\d+)$/.test(s.id)).map(s=>`<option>${s.name}</option>`).join("")}</select></label>
    <label class="field">Church name<input id="c" required maxlength="50"></label>
@@ -100,7 +100,7 @@ async function profile(){
   let a=acct();if(!a){authPage("login");return}
   const draw=()=>{const u=a.user,lv=level(u.score);
     app.innerHTML=`${topbar("My Profile","👤",TIER[u.role][1])}
-    ${u.req?`<div class="note">⏳ Your request to be a <b>${TIER[u.req][1]}</b> is waiting for approval. Until then you are a student.</div>`:""}
+    ${u.req?`<div class="note">⏳ Your request to be a <b>${TIER[u.req][1]}</b> is waiting for approval. For now you can view the app as a guest. 🙏</div>`:""}
     ${u.role==="coordinator"||isTop(u.role)?`<button class="btn gold" data-go="access">🔑 Manage access <span id="pendN"></span></button>`:""}
     <div class="pf-hero"><div class="pf-av" id="avBig">${a.avatar||AVATARS[0]}</div>
       <div class="pf-name">${esc(u.name)}</div>
