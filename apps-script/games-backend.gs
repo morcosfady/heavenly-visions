@@ -145,11 +145,14 @@ function accountAction(p, b) {
     var un = String(b.username || '').trim().toLowerCase();
     if (!/^[a-z0-9_.]{3,20}$/.test(un)) return { ok: false, error: 'username' };
     if (String(b.password || '').length < 6) return { ok: false, error: 'password' };
-    if (!String(b.name || '').trim() || !String(b.church || '').trim()) return { ok: false, error: 'missing' };
+    var first = String(b.first || '').trim(), last = String(b.last || '').trim();
+    var fullName = first && last ? first + ' ' + last : String(b.name || '').trim();
+    if (!fullName || !String(b.church || '').trim()) return { ok: false, error: 'missing' };
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(b.email || '').trim())) return { ok: false, error: 'email' };
     if (ROLES.indexOf(b.role) < 0) return { ok: false, error: 'missing' };
     if (p.getProperty('un_' + un)) return { ok: false, error: 'taken' };
     var salt = randomText();
-    var u = { id: randomText().slice(0, 12), username: un, name: String(b.name).trim().slice(0, 40),
+    var u = { id: randomText().slice(0, 12), username: un, name: fullName.slice(0, 40), first: first.slice(0, 20), last: last.slice(0, 20),
       phone: String(b.phone || '').slice(0, 25), email: String(b.email || '').slice(0, 60),
       church: String(b.church).trim().slice(0, 50), role: 'student', req: '', grade: String(b.grade || '').slice(0, 20),
       salt: salt, hash: sha(salt + b.password), tok: randomText(), score: 0, log: [], done: [], joined: Date.now() };

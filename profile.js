@@ -98,16 +98,17 @@ function authPage(mode,startRole){
   let role=startRole||"student";
   const draw=()=>{f.innerHTML=`<div class="seg" role="group">${SIGNUP_ROLES.concat(role==="master"?["master"]:[]).map(r=>`<button type="button" data-r="${r}" aria-pressed="${role===r}">${TIER[r][0]} ${TIER[r][1]}</button>`).join("")}</div>
    ${role==="master"?`<div class="note">👑 Master setup: needs the setup code and the master email.</div>`:role!=="student"?`<div class="note">⏳ ${role==="servant"?"A coordinator or priest":"A priest"} must approve you. For now you can view the app as a guest. 🙏</div>`:""}
-   <label class="field">Full name<input id="n" required maxlength="40" autocomplete="name"></label>
+   <div class="two"><label class="field">First name<input id="fn" required maxlength="20" autocomplete="given-name"></label>
+   <label class="field">Last name<input id="ln" required maxlength="20" autocomplete="family-name"></label></div>
    <label class="field">Your church<input id="c" autocomplete="off" placeholder="Start typing the church name…" required></label><div id="cl" class="chlist"></div>
    ${role==="priest"||role==="master"?"":`<label class="field">${role==="student"?"Your grade":"Grade you serve or lead"}<select id="g" required><option value="">Choose…</option>${SECTIONS.filter(s=>/^(prek|kg|g\d+)$/.test(s.id)).map(s=>`<option>${s.name}</option>`).join("")}</select></label>`}
    <label class="field">Phone ${role==="student"?"(optional)":""}<input id="ph" type="tel" ${role!=="student"?"required":""} maxlength="25" autocomplete="tel"></label>
-   <label class="field">Email ${role==="student"?"(optional)":""}<input id="em" type="email" ${role!=="student"?"required":""} maxlength="60" autocomplete="email"></label>
+   <label class="field">Email<input id="em" type="email" required maxlength="60" autocomplete="email"></label>
    ${role==="priest"||role==="master"?`<label class="field">Setup code ${role==="priest"?"(only for the very first priest)":""}<input id="sc" autocomplete="off"></label>`:""}
    <label class="field">Choose a username<input id="u" required minlength="3" maxlength="20" autocapitalize="none" pattern="[A-Za-z0-9_.]+" autocomplete="username"></label>
    <label class="field">Password (6 or more)<input id="p" type="password" required minlength="6" autocomplete="new-password"></label>
    <button class="btn gold" type="submit">Create my profile</button><div id="am" class="tag" role="status"></div>`;
-    const ids=["n","c","ph","em","u","g"];
+    const ids=["fn","ln","c","ph","em","u","g"];
     f.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{role=b.dataset.r;const keep=ids.map(i=>$("#"+i)?$("#"+i).value:"");draw();ids.forEach((i,k)=>{if($("#"+i))$("#"+i).value=keep[k]})});
     const ci=$("#c"),cl=$("#cl");
     const showList=()=>{const q=ci.value.trim();if(!q||findChurch(q)){cl.innerHTML="";return}
@@ -120,8 +121,8 @@ function authPage(mode,startRole){
   f.onsubmit=async e=>{e.preventDefault();const m=$("#am");
     const ch=findChurch($("#c").value);if(!ch){m.innerHTML=`<span class="err">Please pick your church from the list.</span>`;$("#c").focus();return}
     m.textContent="Creating…";
-    try{const j=await api({action:"signup",role,name:$("#n").value,grade:$("#g")?$("#g").value:"",church:ch.name,phone:$("#ph").value,email:$("#em").value,username:$("#u").value,password:$("#p").value,setup:$("#sc")?$("#sc").value:""});
-      if(!j.ok){m.innerHTML=`<span class="err">${j.error==="master"?"Master setup failed. Check the code and email, or a Master already exists.":j.error==="taken"?"That username is taken, try another.":j.error==="username"?"Username: 3 to 20 letters or numbers.":j.error==="password"?"Password needs 6 or more characters.":"Please fill everything in."}</span>`;return}
+    try{const j=await api({action:"signup",role,first:$("#fn").value.trim(),last:$("#ln").value.trim(),name:$("#fn").value.trim()+" "+$("#ln").value.trim(),grade:$("#g")?$("#g").value:"",church:ch.name,phone:$("#ph").value,email:$("#em").value,username:$("#u").value,password:$("#p").value,setup:$("#sc")?$("#sc").value:""});
+      if(!j.ok){m.innerHTML=`<span class="err">${j.error==="master"?"Master setup failed. Check the code and email, or a Master already exists.":j.error==="email"?"Please enter a valid email address.":j.error==="taken"?"That username is taken, try another.":j.error==="username"?"Username: 3 to 20 letters or numbers.":j.error==="password"?"Password needs 6 or more characters.":"Please fill everything in."}</span>`;return}
       setAcct({token:j.token,user:j.user,avatar:AVATARS[0]});confetti();toast(j.user.req?"Profile created. Waiting for approval ⏳":"Profile created 🎉");go("profile")}
     catch{m.innerHTML=`<span class="err">No internet connection.</span>`}}}
 
