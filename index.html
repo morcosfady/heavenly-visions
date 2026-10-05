@@ -367,9 +367,8 @@ function lessonPage(g,n){const s=sec(g),l=lessonOf(g,n);if(!s||!l)return media()
     <button class="tile" style="--c:#3fae6a" data-la="verse" ${at}><span class="ic">📖</span><span class="nm">Bible verse</span></button>
     <button class="tile" style="--c:#8e6bd1" data-la="quiz" ${at}><span class="ic">🏆</span><span class="nm">Quiz</span></button>
     <button class="tile" style="--c:#d4553b" data-la="game" ${at}><span class="ic">🎮</span><span class="nm">Games</span></button>
-    <button class="tile" style="--c:#e86f8a" data-la="color" ${at}><span class="ic">🎨</span><span class="nm">Coloring page</span></button>
     <button class="tile" style="--c:#2f8fc0" data-la="listen" ${at}><span class="ic">🔊</span><span class="nm">Listen</span></button>
-    <button class="tile" style="--c:#e3b45c" data-la="done" ${at}><span class="ic">${dn?"✅":"⬜"}</span><span class="nm">${dn?"Done!":"Mark as done"}</span></button>
+    <button class="tile" style="--c:#e3b45c;grid-column:1/-1" data-la="done" ${at}><span class="ic">${dn?"✅":"⬜"}</span><span class="nm">${dn?"Done!":"Mark as done"}</span></button>
    </div>
    ${staff?`<a class="door d-games wide" href="https://drive.google.com/file/d/${CUR_PDF[g]}/view" target="_blank" rel="noopener"><span class="big">📘</span><b>Curriculum material</b><small>${l[3]?"Open the book, page "+l[3]:"Open the book"}</small></a>`
    :`<button class="door d-games wide locked" data-act="lockmsg"><span class="big">🔒</span><b>Curriculum material</b><small>For servants only</small></button>`}
@@ -381,7 +380,6 @@ function lessonAction(act,g,n){const l=lessonOf(g,n);if(!l)return;const v=verseO
   if(act==="quiz"){const q=lessonVids(g,n).map(x=>QUIZZES.find(z=>z.v===x[0])).find(Boolean);if(q)return go("quiz-"+q.id);
     const vq=verseQuiz(g,n);if(vq)return go("quiz-"+vq);return toast("Quiz coming soon 🏆")}
   if(act==="game"){if(!vt)return toast("Game coming soon 🎮");return go("vp-"+g+"-"+n)}
-  if(act==="color")return printColoring(g,n);
   if(act==="listen"){if(!window.speechSynthesis)return toast("Listening isn't supported on this phone");
     if(speechSynthesis.speaking){speechSynthesis.cancel();return}
     const u=new SpeechSynthesisUtterance(l[1]+". "+(vt||(v&&v[1])||""));u.rate=.85;speechSynthesis.speak(u);return}
@@ -408,10 +406,6 @@ function versePuzzle(g,n){const l=lessonOf(g,n),v=verseOf(g,n);if(!l||!v||!v[0])
       if(k==="undo"){pick.pop();return draw()}
       if(words[+k]===words[pick.length]){pick.push(+k);draw()}else toast("Not that one, try again 🙂")})}
   draw()}
-function printColoring(g,n){const l=lessonOf(g,n),s=sec(g),v=verseOf(g,n),f=document.createElement("iframe");
-  f.style.cssText="position:fixed;right:0;bottom:0;width:0;height:0;border:0";document.body.appendChild(f);const d=f.contentWindow.document;d.open();
-  d.write(`<!doctype html><meta charset="utf-8"><title>${esc(l[1])}</title><style>body{font-family:Arial,sans-serif;text-align:center;padding:24px}h1{font-size:44px;color:#fff;-webkit-text-stroke:2px #222;letter-spacing:2px;margin:10px 0}.box{border:4px dashed #999;border-radius:24px;height:50vh;margin:20px 0}.v{font-size:26px;color:#fff;-webkit-text-stroke:1px #555;margin-top:12px}small{display:block;color:#555;font-size:18px;margin:6px}</style><small>${esc(s.name)} · Lesson ${l[0]}</small><h1>${esc(l[1])}</h1><div class="box"></div>${v&&v[0]?`<div class="v">“${esc(v[0])}”</div><small>${esc(v[1]||"")}</small>`:""}<small>Draw and color the story! 🎨</small>`);d.close();
-  setTimeout(()=>{f.contentWindow.focus();f.contentWindow.print();setTimeout(()=>f.remove(),3000)},300)}
 function lessonVideos(g,n){const s=sec(g),l=lessonOf(g,n);if(!s||!l)return media();const vs=lessonVids(g,n);
   app.innerHTML=`${topbar("Media","🎬",l[0]+" - "+l[1],"l-"+g+"-"+n)}
   <div class="list">${vs.length?vs.map(v=>rowHTML(v,false)).join(""):`<div class="empty">🎬 Videos for this lesson are on the way.<br>Check back soon!</div>`}</div>`}
