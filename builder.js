@@ -312,7 +312,7 @@ function playScreen(g){const t=T[g.t];
   <div class="prevbar">👀 Preview · <button class="back" data-go="bedit-${g.id}" style="display:inline-flex;padding:3px 10px">✏️ Edit</button> · <button class="back" data-go="bplay-${g.id}" style="display:inline-flex;padding:3px 10px">🔁 Restart</button></div>
   <div id="game" class="sec"></div>`}
 function play(g){app.innerHTML=playScreen(g);const el=$("#game");(P[g.t]||(()=>el.innerHTML=`<div class="empty">Not available.</div>`))(g,el)}
-function endCard(el,title,sub,g){const kid=g.kid;el.innerHTML=`<div class="stage" style="text-align:center"><div class="stars">🎉</div><div class="bigq">${title}</div><p class="tag" style="margin:0">${sub}</p>
+function endCard(el,title,sub,g){const kid=g.kid;if(kid&&window.hvAward)hvAward("selfplay",g.id+":"+new Date().toISOString().slice(0,10),g.title);el.innerHTML=`<div class="stage" style="text-align:center"><div class="stars">🎉</div><div class="bigq">${title}</div><p class="tag" style="margin:0">${sub}</p>
   <div class="btns"><button class="btn gold" data-go="${kid?"gplay-":"bplay-"}${g.id}">🔁 Play again</button><button class="btn alt" data-go="${kid?"games":"builder"}">${kid?"Back to Games":"Back to Game Builder"}</button></div></div>`;confetti()}
 
 /* ================= STUDENT VIEW ================= */
@@ -352,7 +352,7 @@ async function publish(g,on){
   try{const body=on?{action:"save",pin:myPin(),game:{id:g.id,t:g.t,title:g.title,grade:g.grade,lesson:g.lesson,data:g.data,items:filled(g),updated:g.updated}}:{action:"delete",pin:myPin(),id:g.id};
     const j=await (await fetch(GU(),{method:"POST",body:JSON.stringify(body)})).json();
     if(!j.ok){toast(j.error==="pin"?"Wrong PIN, unlock again":j.error==="full"?"Online storage is full. Use fewer or smaller pictures.":"Could not publish");if(j.error==="pin")try{localStorage.removeItem("hv_spin")}catch{}return false}
-    g.pub=on?g.updated:0;saveGames(games().map(x=>x.id===g.id?g:x));toast(on?"Published for kids 🌍":"Removed from kids' games");return true}
+    g.pub=on?g.updated:0;saveGames(games().map(x=>x.id===g.id?g:x));toast(on?"Published for kids 🌍":"Removed from kids' games");if(on&&window.hvAward)hvAward("publish",g.id,g.title);return true}
   catch{toast("No internet connection");return false}}
 
 const P={
