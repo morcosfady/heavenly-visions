@@ -4,6 +4,8 @@
 
 /* One-time code for creating the very first priest. Change it in the script editor. */
 var SETUP_CODE = 'CHANGE_ME';
+/* Only this email can become the Master, and only with the setup code. */
+var MASTER_EMAIL = 'CHANGE_ME';
 
 function out(o) {
   return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
@@ -62,9 +64,11 @@ function randomText() {
   return Utilities.getUuid().replace(/-/g, '') + Utilities.getUuid().replace(/-/g, '');
 }
 
-var ROLES = ['student', 'servant', 'coordinator', 'priest'];
+var ROLES = ['student', 'servant', 'coordinator', 'priest', 'master'];
 
-function isStaff(role) { return role === 'servant' || role === 'coordinator' || role === 'priest'; }
+function isStaff(role) { return role !== 'student'; }
+
+function isTop(role) { return role === 'priest' || role === 'master'; }
 
 function pointsFor(role, kind) {
   var rule = RULES[kind];
@@ -103,11 +107,12 @@ function contactUser(u) {
 }
 
 function accessAction(p, me, b) {
-  if (me.role !== 'coordinator' && me.role !== 'priest') return { ok: false, error: 'denied' };
+  if (me.role !== 'coordinator' && !isTop(me.role)) return { ok: false, error: 'denied' };
   var users = allUsers(p).filter(function (u) { return u.id !== me.id; });
   if (b.action === 'access_list') {
     var mine = users.filter(function (u) {
-      if (me.role === 'priest') return u.role !== 'student' || u.req;
+      if (me.role === 'master') return u.role !== 'student' || u.req;
+      if (me.role === 'priest') return (u.role !== 'student' && u.role !== 'master') || u.req;
       return u.grade === me.grade && (u.role === 'servant' || u.req === 'servant');
     });
     return { ok: true, pending: mine.filter(function (u) { return u.req; }).map(contactUser),
@@ -117,6 +122,8 @@ function accessAction(p, me, b) {
   if (!raw) return { ok: false, error: 'missing' };
   var t = JSON.parse(raw);
   var role = b.role, grade = b.grade === undefined ? t.grade : String(b.grade).slice(0, 20);
+  if ((t.role === 'master' || role === 'master' || t.req === 'master') && me.role !== 'master') return { ok: false, error: 'denied' };
+  if (t.role === 'master' && b.action !== 'access_reject' && role !== 'master') return { ok: false, error: 'denied' };
   if (me.role === 'coordinator') {
     var isMyServant = t.grade === me.grade && (t.role === 'servant' || t.req === 'servant');
     if (!isMyServant || grade !== me.grade) return { ok: false, error: 'denied' };
@@ -128,7 +135,7 @@ function accessAction(p, me, b) {
     if (ROLES.indexOf(newRole) < 0) return { ok: false, error: 'missing' };
     t.role = newRole; t.req = ''; t.grade = grade;
   }
-  if (t.role !== 'priest' && me.role === 'priest' && t.id === me.id) return { ok: false, error: 'denied' };
+  if (t.id === me.id && !isTop(t.role)) return { ok: false, error: 'denied' };
   saveUser(p, t);
   return { ok: true };
 }
@@ -146,7 +153,12 @@ function accountAction(p, b) {
       phone: String(b.phone || '').slice(0, 25), email: String(b.email || '').slice(0, 60),
       church: String(b.church).trim().slice(0, 50), role: 'student', req: '', grade: String(b.grade || '').slice(0, 20),
       salt: salt, hash: sha(salt + b.password), tok: randomText(), score: 0, log: [], done: [], joined: Date.now() };
-    if (b.role !== 'student') {
+    if (b.role === 'master') {
+      var okMaster = SETUP_CODE !== 'CHANGE_ME' && b.setup === SETUP_CODE && String(b.email || '').trim().toLowerCase() === MASTER_EMAIL
+        && !allUsers(p).some(function (x) { return x.role === 'master'; });
+      if (!okMaster) return { ok: false, error: 'master' };
+      u.role = 'master';
+    } else if (b.role !== 'student') {
       if (b.role === 'priest' && !anyPriest(p) && SETUP_CODE !== 'CHANGE_ME' && b.setup === SETUP_CODE) u.role = 'priest';
       else u.req = b.role;
     }
@@ -155,7 +167,12 @@ function accountAction(p, b) {
     return { ok: true, token: u.tok, user: publicUser(u) };
   }
   if (b.action === 'login') {
-    var id = p.getProperty('un_' + String(b.username || '').trim().toLowerCase());
+    var who = String(b.username || '').trim().toLowerCase();
+    var id = p.getProperty('un_' + who);
+    if (!id && who.indexOf('@') > 0) {
+      var hit = allUsers(p).filter(function (x) { return String(x.email || '').toLowerCase() === who; })[0];
+      id = hit && hit.id;
+    }
     var raw = id && p.getProperty('u_' + id);
     if (!raw) return { ok: false, error: 'login' };
     var v = JSON.parse(raw);
