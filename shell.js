@@ -62,10 +62,7 @@ window.hvMoreDoors=function(){
   return `<section class="sec" aria-label="More to explore"><h2 class="sech"><span>More to explore</span></h2><nav class="doors2">${MORE.map((m,i)=>`<button class="mdoor${i===4?" last":""}" style="--dc:var(${m[4]})" data-go="${m[0]}"><span class="big" aria-hidden="true">${m[1]}</span><b>${m[2]}</b><small>${m[3]}</small></button>`).join("")}</nav></section>`};
 
 /* ---------- coming soon pages ---------- */
-const SOON={
-  bedtime:{ic:"🛏️",t:"Bedtime",c:"--c-bed",p:"Phase 4",l:["Calm sleeping songs","Bedtime Bible stories","Sleep timer"]},
-  coloring:{ic:"🎨",t:"Coloring",c:"--c-color",p:"Phase 4",l:["Bible pictures to color","Crayon box and stickers","Save to my gallery"]},
-};
+const SOON={};
 function soonPage(k){
   const s=SOON[k],c=copticDate(new Date());
   app.innerHTML=`${topbar(s.t,s.ic,"Coming soon")}
