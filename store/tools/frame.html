@@ -1,0 +1,8 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Frame</title><style>html,body{margin:0;background:#fff}iframe{border:0;display:block}</style></head><body>
+<script>
+/* TEST ONLY. Shows the app inside a phone sized frame so headless Chrome (which will not make windows narrower than 500 px) lays it out at the real phone width.
+   frame.html?w=360&h=640&src=<encoded url> */
+const q=new URLSearchParams(location.search),w=+q.get("w")||360,h=+q.get("h")||640;
+document.body.innerHTML='<iframe width="'+w+'" height="'+h+'" src="'+q.get("src")+'"></iframe>';
+</script></body></html>

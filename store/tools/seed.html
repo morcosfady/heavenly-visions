@@ -1,0 +1,14 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Screenshot seed</title></head><body>
+<script>
+/* TEST ONLY. Fills this browser with a fake kid from the test server (node tests/att-server.js) and opens a screen.
+   Used by store/tools/shots.ps1 to take store screenshots. Example: seed.html?u=k3_1&lang=en&to=%23kids */
+(async function(){
+  const q=new URLSearchParams(location.search),u=q.get("u")||"k3_1",lang=q.get("lang")||"en",to=q.get("to")||"#home";
+  try{const c=await (await fetch("http://localhost:8788/")).json();
+    localStorage.setItem("hv_acct",JSON.stringify({user:c[u].user,token:c[u].token}));
+    localStorage.setItem("hv_welcomed","1");localStorage.setItem("hv_lang",lang);localStorage.setItem("hv_intro_seen","1");
+    localStorage.setItem("hv_verse",JSON.stringify({days:{}}));localStorage.setItem("hv_notifs","[]")}catch(e){}
+  location.replace("../../index.html?api=http://localhost:8788&nointro=1"+to);
+})();
+</script></body></html>
