@@ -38,10 +38,17 @@ window.hvStarsRefresh=function(added){
 window.hvToday=function(v){
   const now=new Date(),c=copticDate(now);
   const g=now.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
+  let tv=v,done=false;
+  try{if(window.hvTodayVerse)tv=[hvTodayVerse().text,hvTodayVerse().ref];const m=JSON.parse(localStorage.getItem("hv_verse")||"{}").days||{};const k=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");done=!!m[k]}catch{}
+  const cal=window.hvCalToday?hvCalToday():{ev:[],fast:null};
+  const sa=cal.ev.find(x=>x.type==="saint"),fe=cal.ev.find(x=>x.type==="feast");
+  const lead=fe?fe.ic+" "+fe.t:sa?sa.ic+" "+sa.t:cal.fast?"🌙 "+cal.fast.t:"Feasts, fasts and saints";
+  const nudge=window.hvPrayerNudge?hvPrayerNudge():null;
   return `<section aria-label="Today" class="sec"><h2 class="sech"><span>Today</span></h2>
   <div class="today">
-   <button class="tcard verse2" style="--tc:var(--gold)" data-soon="verse"><span class="k">📖 Verse of the day</span><span class="t">“${E(v[0])}”</span><span class="s">${E(v[1])}</span></button>
-   <button class="tcard" style="--tc:var(--c-cal)" data-go="calendar"><span class="k">📅 ${E(g)}</span><span class="t">${c.day} ${c.name}, ${c.year}</span><span class="s">Coptic calendar. Feasts and saints are coming soon.</span><span class="em" aria-hidden="true">🗓️</span></button>
+   <button class="tcard verse2" style="--tc:var(--gold)" data-go="verse"><span class="k">📖 Verse of the day${done?" ✅":""}</span><span class="t">“${E(tv[0])}”</span><span class="s">${E(tv[1])} · ${done?"Done today! Open your verse jar":"Tap to learn it"}</span></button>
+   ${nudge?`<button class="tcard" style="--tc:var(--c-pray)" data-go="pr-${nudge.id}"><span class="k">🙏 Prayer time</span><span class="t">${E(nudge.t)}</span><span class="s">Tap to pray</span><span class="em" aria-hidden="true">🕯️</span></button>`:""}
+   <button class="tcard" style="--tc:var(--c-cal)" data-go="calendar"><span class="k">📅 ${E(g)}</span><span class="t">${c.day} ${c.name}, ${c.year}</span><span class="s">${E(lead)}</span><span class="em" aria-hidden="true">🗓️</span></button>
    <button class="tcard" style="--tc:var(--c-church)" data-go="calendar"><span class="k">🎉 Next event</span><span class="t">No events yet</span><span class="s">Trips, retreats and feasts will show here.</span><span class="em" aria-hidden="true">⛪</span></button>
   </div></section>`};
 
@@ -57,9 +64,8 @@ window.hvMoreDoors=function(){
 /* ---------- coming soon pages ---------- */
 const SOON={
   bedtime:{ic:"🛏️",t:"Bedtime",c:"--c-bed",p:"Phase 4",l:["Calm sleeping songs","Bedtime Bible stories","Sleep timer"]},
-  prayers:{ic:"🙏",t:"Prayers",c:"--c-pray",p:"Phase 3",l:["Morning, meal and night prayers","Read aloud","A small star for praying"]},
   coloring:{ic:"🎨",t:"Coloring",c:"--c-color",p:"Phase 4",l:["Bible pictures to color","Crayon box and stickers","Save to my gallery"]},
-  calendar:{ic:"📅",t:"Calendar",c:"--c-cal",p:"Phase 3",l:["Coptic and regular dates","Feasts and fasts","Saint of the day"]}};
+};
 function soonPage(k){
   const s=SOON[k],c=copticDate(new Date());
   app.innerHTML=`${topbar(s.t,s.ic,"Coming soon")}

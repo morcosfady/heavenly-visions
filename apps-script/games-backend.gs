@@ -55,7 +55,8 @@ var RULES = {
   quizbonus: { student: 5, servant: 0, cap: 15 },
   verse: { student: 5, servant: 0, cap: 5 },
   color: { student: 2, servant: 0, cap: 10 },
-  bible: { student: 2, servant: 0, cap: 10 }
+  bible: { student: 2, servant: 0, cap: 10 },
+  prayer: { student: 1, servant: 0, cap: 5 }
 };
 var STREAK_BONUS = 10;
 var STREAK_EVERY = 4;

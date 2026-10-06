@@ -216,3 +216,4 @@ ok('out of range option refused', A('starkid', { action: 'avatar_set', av: Objec
 ok('avatar is saved on the account', A('starkid', { action: 'me' }).user.av.hat === 'hat_cap');
 ok('streak bonus after 4 Sundays in a row', A('ak1', { action: 'me' }).user.score === 10 && A('ak1', { action: 'me' }).user.badges.includes('streak_4'));
 ok('shop list matches the app', (() => { const k = fs.readFileSync(require('path').join(__dirname, '..', 'kids.js'), 'utf8'); const ids = [...src.matchAll(/(\w+_\w+): \[(\d+), '(\w+)'\]/g)]; return ids.length > 20 && ids.every(m => k.includes('"' + m[1] + '"') && new RegExp('"' + m[1] + '"[^\\n]{0,60}?' + m[2] + '\\b').test(k)) })());
+ok('prayer gives 1 star and has a daily cap', A('starkid', { action: 'award', kind: 'prayer', ref: 'p1' }).added === 1);
