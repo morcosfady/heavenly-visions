@@ -19,7 +19,7 @@ const STORIES=[
 
 /* ---------- speech (calm voice) ---------- */
 let utter=null;
-function speakStory(text){if(!window.speechSynthesis)return toast("This phone cannot read aloud");speechSynthesis.cancel();utter=new SpeechSynthesisUtterance(text);utter.rate=.78;utter.pitch=.95;utter.volume=.8;
+function speakStory(text){if(!window.speechSynthesis)return toast("This phone cannot read aloud");speechSynthesis.cancel();utter=new SpeechSynthesisUtterance(text);utter.lang=window.hvLang&&hvLang()==="ar"?"ar-SA":"en-US";utter.rate=.78;utter.pitch=.95;utter.volume=.8;
   const want=jget("hv_voice",""),v=speechSynthesis.getVoices().find(x=>x.name===want);if(v)utter.voice=v;speechSynthesis.speak(utter)}
 
 /* ---------- night mode ---------- */

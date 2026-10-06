@@ -114,10 +114,7 @@ function welcome(){
 /* ---------- clicks: language toggle and soon cards ---------- */
 document.addEventListener("click",e=>{
   const l=e.target.closest("[data-lang]");
-  if(l){const v=l.dataset.lang;try{localStorage.setItem("hv_lang",v)}catch{}
-    document.querySelectorAll("[data-lang]").forEach(b=>b.setAttribute("aria-pressed",b===l));
-    document.documentElement.lang=v;
-    if(v==="ar")toast("العربية قريباً. Arabic is coming in a later update.");return}
+  if(l){const v=l.dataset.lang;if(window.hvSetLang)hvSetLang(v);return}
   if(e.target.closest("[data-soon]"))toast("The daily verse challenge is coming in Phase 3 ✨")});
 document.documentElement.lang=lang();
 

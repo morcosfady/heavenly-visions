@@ -187,6 +187,7 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;font-weight:700}
 <canvas id="confetti" hidden></canvas>
 <div class="toast" id="toast" hidden></div>
 
+<script src="i18n.js?v=1"></script>
 <script src="builder.js?v=6"></script>
 <script src="profile.js?v=11"></script>
 <script src="sync.js?v=1"></script>
@@ -714,8 +715,11 @@ async function bibleRead(name,ch){const b=BOOKS.find(x=>x[0]===name);if(!b)retur
   <div class="navrow"><div class="seg" role="group" aria-label="Text size"><button data-fs="-1" aria-label="Smaller text">A−</button><button data-fs="1" aria-label="Bigger text">A+</button></div></div>
   <article class="reader" id="rd" style="--fs:${fs}rem"><p class="tag">Loading…</p></article>
   <div class="navrow">${link(prev,"‹ Previous")}${link(next,"Next ›")}</div>
-  <a class="btn alt" href="https://www.biblegateway.com/passage/?search=${encodeURIComponent(name+" "+ch)}&version=NKJV" target="_blank" rel="noopener">Read in NKJV ↗</a>`;
+  ${window.hvLang&&hvLang()==="ar"?"":`<a class="btn alt" href="https://www.biblegateway.com/passage/?search=${encodeURIComponent(name+" "+ch)}&version=NKJV" target="_blank" rel="noopener">Read in NKJV ↗</a>`}`;
   app.querySelectorAll("[data-fs]").forEach(x=>x.onclick=()=>{let f=store.get("fs",1.08)+(+x.dataset.fs)*.1;f=Math.min(1.8,Math.max(.9,f));store.set("fs",f);$("#rd").style.setProperty("--fs",f+"rem")});
+  const arabic=window.hvLang&&hvLang()==="ar";
+  if(arabic){try{const r=await fetch(`https://api.getbible.net/v2/arabicsv/${bi+1}/${ch}.json`);const j=await r.json();if(!j.verses)throw 0;const rd=$("#rd");rd.dir="rtl";rd.lang="ar";rd.classList.add("notr");rd.style.fontFamily='"Amiri",serif';
+      rd.innerHTML=j.verses.map(v=>`<sup>${v.verse}</sup>${esc(v.text.trim())} `).join("");return}catch{}}
   try{const r=await fetch(`https://bible-api.com/${encodeURIComponent(name+" "+ch)}?translation=kjv`);const j=await r.json();if(!j.verses)throw 0;
     $("#rd").innerHTML=j.verses.map(v=>`<sup>${v.verse}</sup>${esc(v.text.trim())} `).join("")}
   catch{const rd=$("#rd");if(rd)rd.innerHTML=`<p class="err">Couldn't load this chapter. Check your internet, or tap "Read in NKJV".</p>`}}

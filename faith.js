@@ -15,8 +15,9 @@ const diffDays=(a,b)=>Math.round((new Date(b.getFullYear(),b.getMonth(),b.getDat
 const dayOfYear=d=>Math.floor((new Date(d.getFullYear(),d.getMonth(),d.getDate())-new Date(d.getFullYear(),0,0))/86400000);
 
 /* ---------- speech ---------- */
-function voices(){return window.speechSynthesis?speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang)):[]}
-function speak(text){if(!window.speechSynthesis)return toast("This phone cannot read aloud");speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.rate=.85;
+const AR=()=>window.hvLang&&hvLang()==="ar";
+function voices(){return window.speechSynthesis?speechSynthesis.getVoices().filter(v=>new RegExp("^"+(AR()?"ar":"en"),"i").test(v.lang)):[]}
+function speak(text){if(!window.speechSynthesis)return toast("This phone cannot read aloud");speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.rate=.85;u.lang=AR()?"ar-SA":"en-US";
   const want=jget("hv_voice",""),v=voices().find(x=>x.name===want);if(v)u.voice=v;speechSynthesis.speak(u)}
 function voicePicker(){const vs=voices();if(vs.length<2)return "";const cur=jget("hv_voice","");
   return `<label class="field" style="max-width:260px"><span class="tag">Voice</span><select id="fvoice">${vs.map(v=>`<option value="${E(v.name)}" ${v.name===cur?"selected":""}>${E(v.name)}</option>`).join("")}</select></label>`}
@@ -45,7 +46,7 @@ function versePage(){
   app.innerHTML=`${topbar("Daily Verse","📜","One verse a day","home")}<div id="vbox" class="sec"></div>`;
   drawVerse()}
 function dots(){const st=vstate().days,t=today(),start=addDays(t,-t.getDay());
-  return `<div class="vweek" role="img" aria-label="This week">${["S","M","T","W","T","F","S"].map((n,i)=>{const d=addDays(start,i),on=!!st[dkey(d)],now=diffDays(t,d)===0;return `<span class="${on?"on":""} ${now?"now":""}">${on?"✓":n}</span>`}).join("")}</div>`}
+  return `<div class="vweek" role="img" aria-label="This week">${(window.hvWeekdayInitials?hvWeekdayInitials():["S","M","T","W","T","F","S"]).map((n,i)=>{const d=addDays(start,i),on=!!st[dkey(d)],now=diffDays(t,d)===0;return `<span class="${on?"on":""} ${now?"now":""}">${on?"✓":n}</span>`}).join("")}</div>`}
 function flame(){const n=vstreak();return `<div class="vflame"><span style="font-size:${(2+Math.min(n,10)*.18).toFixed(2)}rem" class="fl" aria-hidden="true">🔥</span><b>${n}</b><small>${n===1?"day":"days"} in a row</small></div>`}
 function drawVerse(){
   const box=document.getElementById("vbox"),v=V.v,s=V.step;
@@ -183,7 +184,7 @@ function drawMonth(){
   for(let d=1;d<=days;d++){const dt=new Date(y,m,d),e=evs.filter(x=>diffDays(dt,x.d)===0),fast=activeFast(dt),cd=copticOf(dt);
     const my=(window.hvEvCache||[]).filter(x=>x.date<=dkey(dt)&&(x.end||x.date)>=dkey(dt));
     cells+=`<button class="cd ${diffDays(t,dt)===0?"now":""}" data-d="${dkey(dt)}" aria-label="${dt.toLocaleDateString("en-US",{month:"long",day:"numeric"})}${e.length?", "+e.map(x=>x.t).join(", "):""}${fast?", "+fast.t:""}${my.length?", "+my.map(x=>x.title).join(", "):""}"><b>${d}</b><small>${cd.day}</small><span class="dots">${e.some(x=>x.type==="feast")?`<i style="background:#e3b45c"></i>`:""}${fast?`<i style="background:#8e6bd1"></i>`:""}${e.some(x=>x.type==="saint")?`<i style="background:#4a8fd8"></i>`:""}${my.length?`<i style="background:#3fae6a"></i>`:""}</span></button>`}
-  document.getElementById("cgrid").innerHTML=`<div class="cgrid">${["S","M","T","W","T","F","S"].map(x=>`<span class="ch">${x}</span>`).join("")}${cells}</div>`;
+  document.getElementById("cgrid").innerHTML=`<div class="cgrid">${(window.hvWeekdayInitials?hvWeekdayInitials():["S","M","T","W","T","F","S"]).map(x=>`<span class="ch">${x}</span>`).join("")}${cells}</div>`;
   document.getElementById("cgrid").onclick=e=>{const b=e.target.closest("[data-d]");if(!b)return;const p=b.dataset.d.split("-"),dt=new Date(+p[0],+p[1]-1,+p[2]),ev=allEv(dt,dt),f=activeFast(dt),c=copticOf(dt);
     document.getElementById("cday").innerHTML=`<b>${dt.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"})}</b> (${c.day} ${c.name})${ev.map(x=>`<br>${x.ic} ${E(x.t)}${x.note?": "+E(x.note):""}`).join("")}${f?`<br>🌙 ${E(f.t)}`:""}${(window.hvEvCache||[]).filter(x=>x.date<=b.dataset.d&&(x.end||x.date)>=b.dataset.d).map(x=>`<br>${E(x.ic||"🎉")} ${E(x.title)}${x.place?" at "+E(x.place):""}`).join("")}${!ev.length&&!f&&!(window.hvEvCache||[]).some(x=>x.date<=b.dataset.d&&(x.end||x.date)>=b.dataset.d)?"<br>A normal day.":""}`}}
 window.hvSaintToday=function(){const t=today();return evOf(t.getFullYear()).find(x=>x.type==="saint"&&diffDays(t,x.d)===0)||null};
