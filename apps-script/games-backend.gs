@@ -145,6 +145,11 @@ function accessAction(p, me, b) {
 function today() { return Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd'); }
 
 function attendAction(p, b) {
+  if (b.token) {
+    var acct = getUser(p, b);
+    if (!acct) return { ok: false, error: 'auth' };
+    return attendAccount(p, acct, b);
+  }
   var day = today();
   var raw = p.getProperty('att_code');
   var c = raw ? JSON.parse(raw) : null;
@@ -169,17 +174,288 @@ function attSetAction(p, me, b) {
   if (b.action === 'att_set') {
     var code = String(b.code || '').trim();
     if (!/^[0-9]{3}$/.test(code)) return { ok: false, error: 'code' };
-    p.setProperty('att_code', JSON.stringify({ day: day, code: code, by: me.name }));
+    var saved = JSON.stringify({ day: day, code: code, by: me.name });
+    p.setProperty('att_code', saved);
+    p.setProperty('att_code|' + me.church, saved);
     return { ok: true, day: day, code: code };
   }
-  var raw = p.getProperty('att_code');
+  var raw = p.getProperty('att_code|' + me.church) || p.getProperty('att_code');
   var c = raw ? JSON.parse(raw) : null;
-  var list = JSON.parse(p.getProperty('att_' + day) || '[]');
+  var list = JSON.parse(p.getProperty('att_' + day) || '[]').filter(function (x) {
+    if (me.role === 'master') return true;
+    if (x.c && x.c !== me.church) return false;
+    return isTop(me.role) || x.g === me.grade;
+  });
   return { ok: true, day: day, code: c && c.day === day ? c.code : '', by: c && c.day === day ? c.by : '', list: list };
 }
 
-/* Welcome emails (made from emails/welcome-*.html by apps-script/embed-emails.py). {{name}} and {{church}} are filled in when sending. */
-var EMAIL_TPL = {"student": "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<title>Welcome to Heavenly Visions</title>\n</head>\n<body style=\"margin:0;padding:0;background:#141a2b;\">\n<div style=\"display:none;max-height:0;overflow:hidden;opacity:0;\">Your profile is ready. Learn, play and grow in faith with Heavenly Visions.</div>\n<table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#141a2b;padding:24px 12px;\">\n<tr><td align=\"center\">\n<table role=\"presentation\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;max-width:600px;border-radius:24px;overflow:hidden;background:#1d2540;font-family:'Trebuchet MS',Arial,sans-serif;color:#f3ecdf;\">\n\n  <tr><td align=\"center\" style=\"padding:36px 24px 20px;background:linear-gradient(160deg,#1d3a6b,#141a2b);\">\n    <img src=\"https://morcosfady.github.io/heavenly-visions/logo.png\" width=\"230\" alt=\"Heavenly Visions\" style=\"display:block;width:230px;max-width:70%;height:auto;border:0;\">\n    <div style=\"font-family:Georgia,'Times New Roman',serif;font-size:13px;letter-spacing:4px;color:#e3b45c;margin-top:16px;\">LEARN &nbsp;&middot;&nbsp; PLAY &nbsp;&middot;&nbsp; GROW IN FAITH</div>\n  </td></tr>\n\n  <tr><td align=\"center\" style=\"padding:28px 28px 8px;\">\n    <div style=\"font-size:42px;line-height:1;\">&#10013;&#65039;</div>\n    <h1 style=\"margin:12px 0 6px;font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.2;color:#f6d27a;\">Welcome, {{name}}!</h1>\n    <div style=\"display:inline-block;margin:6px 0 10px;padding:4px 14px;border-radius:999px;background:#252f55;color:#e3b45c;font-size:13px;font-weight:bold;\">&#127890; Student</div>\n    <p style=\"margin:0;font-size:16px;line-height:1.6;color:#d9d3c7;\">We are so happy you joined the Heavenly Visions family at<br><b style=\"color:#f3ecdf;\">{{church}}</b> &#128591;</p>\n  </td></tr>\n\n  <tr><td style=\"padding:20px 28px 4px;\">\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#252f55;border-radius:16px;border-left:5px solid #e3b45c;\">\n      <tr><td style=\"padding:16px 18px;font-size:15px;line-height:1.6;color:#f3ecdf;\">\n        &ldquo;Let the little children come to Me.&rdquo;<br>\n        <span style=\"color:#e3b45c;font-weight:bold;\">Matthew 19:14</span>\n      </td></tr>\n    </table>\n  </td></tr>\n\n  <tr><td style=\"padding:24px 28px 4px;\">\n    <h2 style=\"margin:0 0 12px;font-family:Georgia,'Times New Roman',serif;font-size:20px;color:#f6d27a;\">What is waiting for you</h2>\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"font-size:15px;line-height:1.5;color:#e8e2d6;\"><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#127916;</td><td style=\"padding:8px 0;\"><b>Sunday School</b><br><span style=\"color:#b9b6c6;\">Lesson videos for every grade</span></td></tr><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#127918;</td><td style=\"padding:8px 0;\"><b>Games</b><br><span style=\"color:#b9b6c6;\">Play, match and learn with your class</span></td></tr><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#127942;</td><td style=\"padding:8px 0;\"><b>Quizzes</b><br><span style=\"color:#b9b6c6;\">Test what you know and collect stars</span></td></tr><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#128214;</td><td style=\"padding:8px 0;\"><b>The Bible</b><br><span style=\"color:#b9b6c6;\">Read God&rsquo;s Word anywhere</span></td></tr></table>\n  </td></tr>\n\n  <tr><td style=\"padding:16px 28px 4px;\">\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:linear-gradient(135deg,#f6d27a,#e3b45c);border-radius:18px;\">\n      <tr><td align=\"center\" style=\"padding:20px 18px;color:#2b1d05;\">\n        <div style=\"font-size:30px;\">&#11088;</div>\n        <div style=\"font-family:Georgia,'Times New Roman',serif;font-size:20px;font-weight:bold;margin:4px 0;\">Collect points and level up</div>\n        <div style=\"font-size:14px;line-height:1.6;\">Check in at class (+10), finish games (+10) and win live challenges (+50).<br>Grow from <b>Seedling</b> to <b>Champion</b> &#128081;</div>\n      </td></tr>\n    </table>\n  </td></tr>\n  <tr><td align=\"center\" style=\"padding:28px 28px 8px;\">\n    <a href=\"https://morcosfady.github.io/heavenly-visions/#profile\" style=\"display:inline-block;padding:16px 38px;border-radius:999px;background:#e3b45c;color:#2b1d05;font-family:Georgia,'Times New Roman',serif;font-size:17px;font-weight:bold;text-decoration:none;letter-spacing:1px;\">Open Heavenly Visions &#8594;</a>\n  </td></tr>\n  <tr><td align=\"center\" style=\"padding:26px 28px 30px;font-size:12px;line-height:1.7;color:#8f8da3;border-top:1px solid #2c3657;\">\n    Glory be to God forever. Amen. &#10013;&#65039;<br>\n    You received this email because you created a profile on Heavenly Visions.<br>\n    <a href=\"https://www.youtube.com/@Heavenly-Visions1\" style=\"color:#e3b45c;text-decoration:none;\">Watch us on YouTube</a>\n  </td></tr>\n\n</table>\n</td></tr>\n</table>\n</body>\n</html>\n", "servant": "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<title>Welcome to Heavenly Visions</title>\n</head>\n<body style=\"margin:0;padding:0;background:#141a2b;\">\n<div style=\"display:none;max-height:0;overflow:hidden;opacity:0;\">Your profile is ready. Learn, play and grow in faith with Heavenly Visions.</div>\n<table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#141a2b;padding:24px 12px;\">\n<tr><td align=\"center\">\n<table role=\"presentation\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;max-width:600px;border-radius:24px;overflow:hidden;background:#1d2540;font-family:'Trebuchet MS',Arial,sans-serif;color:#f3ecdf;\">\n\n  <tr><td align=\"center\" style=\"padding:36px 24px 20px;background:linear-gradient(160deg,#1d3a6b,#141a2b);\">\n    <img src=\"https://morcosfady.github.io/heavenly-visions/logo.png\" width=\"230\" alt=\"Heavenly Visions\" style=\"display:block;width:230px;max-width:70%;height:auto;border:0;\">\n    <div style=\"font-family:Georgia,'Times New Roman',serif;font-size:13px;letter-spacing:4px;color:#e3b45c;margin-top:16px;\">LEARN &nbsp;&middot;&nbsp; PLAY &nbsp;&middot;&nbsp; GROW IN FAITH</div>\n  </td></tr>\n\n  <tr><td align=\"center\" style=\"padding:28px 28px 8px;\">\n    <div style=\"font-size:42px;line-height:1;\">&#10013;&#65039;</div>\n    <h1 style=\"margin:12px 0 6px;font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.2;color:#f6d27a;\">Welcome, {{name}}!</h1>\n    <div style=\"display:inline-block;margin:6px 0 10px;padding:4px 14px;border-radius:999px;background:#252f55;color:#e3b45c;font-size:13px;font-weight:bold;\">&#128591; Servant</div>\n    <p style=\"margin:0;font-size:16px;line-height:1.6;color:#d9d3c7;\">Thank you for serving with us at<br><b style=\"color:#f3ecdf;\">{{church}}</b> &#128591;</p>\n  </td></tr>\n\n  <tr><td style=\"padding:20px 28px 4px;\">\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#252f55;border-radius:16px;border-left:5px solid #e3b45c;\">\n      <tr><td style=\"padding:16px 18px;font-size:15px;line-height:1.6;color:#f3ecdf;\">\n        &ldquo;Let the little children come to Me.&rdquo;<br>\n        <span style=\"color:#e3b45c;font-weight:bold;\">Matthew 19:14</span>\n      </td></tr>\n    </table>\n  </td></tr>\n\n  <tr><td style=\"padding:24px 28px 4px;\">\n    <h2 style=\"margin:0 0 12px;font-family:Georgia,'Times New Roman',serif;font-size:20px;color:#f6d27a;\">Your tools as a servant</h2>\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"font-size:15px;line-height:1.5;color:#e8e2d6;\"><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#128736;&#65039;</td><td style=\"padding:8px 0;\"><b>Servants Workshop</b><br><span style=\"color:#b9b6c6;\">Build Kahoot quizzes, Jeopardy, word searches and more in minutes</span></td></tr><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#9995;</td><td style=\"padding:8px 0;\"><b>Attendance</b><br><span style=\"color:#b9b6c6;\">See who checked in to your class today</span></td></tr><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#127916;</td><td style=\"padding:8px 0;\"><b>Lessons</b><br><span style=\"color:#b9b6c6;\">Every lesson video, ready to share with parents</span></td></tr><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#128214;</td><td style=\"padding:8px 0;\"><b>The Bible</b><br><span style=\"color:#b9b6c6;\">Read God&rsquo;s Word anywhere</span></td></tr></table>\n  </td></tr>\n\n  <tr><td style=\"padding:16px 28px 4px;\">\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:linear-gradient(135deg,#f6d27a,#e3b45c);border-radius:18px;\">\n      <tr><td align=\"center\" style=\"padding:20px 18px;color:#2b1d05;\">\n        <div style=\"font-size:30px;\">&#11088;</div>\n        <div style=\"font-family:Georgia,'Times New Roman',serif;font-size:20px;font-weight:bold;margin:4px 0;\">You earn points too</div>\n        <div style=\"font-size:14px;line-height:1.6;\">Check in at class (+5) and publish a game for the kids (+20).<br>Every game you share helps a child learn &#127775;</div>\n      </td></tr>\n    </table>\n  </td></tr>\n  <tr><td style=\"padding:18px 28px 4px;\">\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#252f55;border-radius:16px;\">\n      <tr><td style=\"padding:16px 18px;font-size:14px;line-height:1.6;color:#e8e2d6;\">\n        &#9203; <b style=\"color:#f6d27a;\">Waiting for approval</b><br>Your request to serve is waiting for approval from a coordinator or priest. We will let you know as soon as it is approved. Until then you can enjoy the app as a guest. &#128591;\n      </td></tr>\n    </table>\n  </td></tr>\n  <tr><td align=\"center\" style=\"padding:28px 28px 8px;\">\n    <a href=\"https://morcosfady.github.io/heavenly-visions/#profile\" style=\"display:inline-block;padding:16px 38px;border-radius:999px;background:#e3b45c;color:#2b1d05;font-family:Georgia,'Times New Roman',serif;font-size:17px;font-weight:bold;text-decoration:none;letter-spacing:1px;\">Open my profile &#8594;</a>\n  </td></tr>\n  <tr><td align=\"center\" style=\"padding:26px 28px 30px;font-size:12px;line-height:1.7;color:#8f8da3;border-top:1px solid #2c3657;\">\n    Glory be to God forever. Amen. &#10013;&#65039;<br>\n    You received this email because you created a profile on Heavenly Visions.<br>\n    <a href=\"https://www.youtube.com/@Heavenly-Visions1\" style=\"color:#e3b45c;text-decoration:none;\">Watch us on YouTube</a>\n  </td></tr>\n\n</table>\n</td></tr>\n</table>\n</body>\n</html>\n", "coordinator": "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<title>Welcome to Heavenly Visions</title>\n</head>\n<body style=\"margin:0;padding:0;background:#141a2b;\">\n<div style=\"display:none;max-height:0;overflow:hidden;opacity:0;\">Your profile is ready. Learn, play and grow in faith with Heavenly Visions.</div>\n<table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#141a2b;padding:24px 12px;\">\n<tr><td align=\"center\">\n<table role=\"presentation\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;max-width:600px;border-radius:24px;overflow:hidden;background:#1d2540;font-family:'Trebuchet MS',Arial,sans-serif;color:#f3ecdf;\">\n\n  <tr><td align=\"center\" style=\"padding:36px 24px 20px;background:linear-gradient(160deg,#1d3a6b,#141a2b);\">\n    <img src=\"https://morcosfady.github.io/heavenly-visions/logo.png\" width=\"230\" alt=\"Heavenly Visions\" style=\"display:block;width:230px;max-width:70%;height:auto;border:0;\">\n    <div style=\"font-family:Georgia,'Times New Roman',serif;font-size:13px;letter-spacing:4px;color:#e3b45c;margin-top:16px;\">LEARN &nbsp;&middot;&nbsp; PLAY &nbsp;&middot;&nbsp; GROW IN FAITH</div>\n  </td></tr>\n\n  <tr><td align=\"center\" style=\"padding:28px 28px 8px;\">\n    <div style=\"font-size:42px;line-height:1;\">&#10013;&#65039;</div>\n    <h1 style=\"margin:12px 0 6px;font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.2;color:#f6d27a;\">Welcome, {{name}}!</h1>\n    <div style=\"display:inline-block;margin:6px 0 10px;padding:4px 14px;border-radius:999px;background:#252f55;color:#e3b45c;font-size:13px;font-weight:bold;\">&#129517; Coordinator</div>\n    <p style=\"margin:0;font-size:16px;line-height:1.6;color:#d9d3c7;\">Thank you for leading your grade at<br><b style=\"color:#f3ecdf;\">{{church}}</b> &#128591;</p>\n  </td></tr>\n\n  <tr><td style=\"padding:20px 28px 4px;\">\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#252f55;border-radius:16px;border-left:5px solid #e3b45c;\">\n      <tr><td style=\"padding:16px 18px;font-size:15px;line-height:1.6;color:#f3ecdf;\">\n        &ldquo;Let the little children come to Me.&rdquo;<br>\n        <span style=\"color:#e3b45c;font-weight:bold;\">Matthew 19:14</span>\n      </td></tr>\n    </table>\n  </td></tr>\n\n  <tr><td style=\"padding:24px 28px 4px;\">\n    <h2 style=\"margin:0 0 12px;font-family:Georgia,'Times New Roman',serif;font-size:20px;color:#f6d27a;\">Your tools as a coordinator</h2>\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"font-size:15px;line-height:1.5;color:#e8e2d6;\"><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#128273;</td><td style=\"padding:8px 0;\"><b>Manage access</b><br><span style=\"color:#b9b6c6;\">Welcome and approve the servants in your grade</span></td></tr><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#128736;&#65039;</td><td style=\"padding:8px 0;\"><b>Servants Workshop</b><br><span style=\"color:#b9b6c6;\">Build games and quizzes for your class</span></td></tr><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#9995;</td><td style=\"padding:8px 0;\"><b>Attendance</b><br><span style=\"color:#b9b6c6;\">See who checked in today</span></td></tr><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#127916;</td><td style=\"padding:8px 0;\"><b>Lessons</b><br><span style=\"color:#b9b6c6;\">Every lesson video in one place</span></td></tr></table>\n  </td></tr>\n\n  <tr><td style=\"padding:16px 28px 4px;\">\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:linear-gradient(135deg,#f6d27a,#e3b45c);border-radius:18px;\">\n      <tr><td align=\"center\" style=\"padding:20px 18px;color:#2b1d05;\">\n        <div style=\"font-size:30px;\">&#11088;</div>\n        <div style=\"font-family:Georgia,'Times New Roman',serif;font-size:20px;font-weight:bold;margin:4px 0;\">You earn points too</div>\n        <div style=\"font-size:14px;line-height:1.6;\">Check in at class (+5) and publish a game for the kids (+20).</div>\n      </td></tr>\n    </table>\n  </td></tr>\n  <tr><td style=\"padding:18px 28px 4px;\">\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#252f55;border-radius:16px;\">\n      <tr><td style=\"padding:16px 18px;font-size:14px;line-height:1.6;color:#e8e2d6;\">\n        &#9203; <b style=\"color:#f6d27a;\">Waiting for approval</b><br>Your request to serve as a coordinator is waiting for approval from a priest. We will let you know as soon as it is approved. Until then you can enjoy the app as a guest. &#128591;\n      </td></tr>\n    </table>\n  </td></tr>\n  <tr><td align=\"center\" style=\"padding:28px 28px 8px;\">\n    <a href=\"https://morcosfady.github.io/heavenly-visions/#profile\" style=\"display:inline-block;padding:16px 38px;border-radius:999px;background:#e3b45c;color:#2b1d05;font-family:Georgia,'Times New Roman',serif;font-size:17px;font-weight:bold;text-decoration:none;letter-spacing:1px;\">Open my profile &#8594;</a>\n  </td></tr>\n  <tr><td align=\"center\" style=\"padding:26px 28px 30px;font-size:12px;line-height:1.7;color:#8f8da3;border-top:1px solid #2c3657;\">\n    Glory be to God forever. Amen. &#10013;&#65039;<br>\n    You received this email because you created a profile on Heavenly Visions.<br>\n    <a href=\"https://www.youtube.com/@Heavenly-Visions1\" style=\"color:#e3b45c;text-decoration:none;\">Watch us on YouTube</a>\n  </td></tr>\n\n</table>\n</td></tr>\n</table>\n</body>\n</html>\n", "priest": "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<title>Welcome to Heavenly Visions</title>\n</head>\n<body style=\"margin:0;padding:0;background:#141a2b;\">\n<div style=\"display:none;max-height:0;overflow:hidden;opacity:0;\">Your profile is ready. Learn, play and grow in faith with Heavenly Visions.</div>\n<table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#141a2b;padding:24px 12px;\">\n<tr><td align=\"center\">\n<table role=\"presentation\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;max-width:600px;border-radius:24px;overflow:hidden;background:#1d2540;font-family:'Trebuchet MS',Arial,sans-serif;color:#f3ecdf;\">\n\n  <tr><td align=\"center\" style=\"padding:36px 24px 20px;background:linear-gradient(160deg,#1d3a6b,#141a2b);\">\n    <img src=\"https://morcosfady.github.io/heavenly-visions/logo.png\" width=\"230\" alt=\"Heavenly Visions\" style=\"display:block;width:230px;max-width:70%;height:auto;border:0;\">\n    <div style=\"font-family:Georgia,'Times New Roman',serif;font-size:13px;letter-spacing:4px;color:#e3b45c;margin-top:16px;\">LEARN &nbsp;&middot;&nbsp; PLAY &nbsp;&middot;&nbsp; GROW IN FAITH</div>\n  </td></tr>\n\n  <tr><td align=\"center\" style=\"padding:28px 28px 8px;\">\n    <div style=\"font-size:42px;line-height:1;\">&#10013;&#65039;</div>\n    <h1 style=\"margin:12px 0 6px;font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.2;color:#f6d27a;\">Welcome, {{name}}!</h1>\n    <div style=\"display:inline-block;margin:6px 0 10px;padding:4px 14px;border-radius:999px;background:#252f55;color:#e3b45c;font-size:13px;font-weight:bold;\">&#9962; Priest</div>\n    <p style=\"margin:0;font-size:16px;line-height:1.6;color:#d9d3c7;\">Welcome, and thank you for your blessing on our app at<br><b style=\"color:#f3ecdf;\">{{church}}</b> &#128591;</p>\n  </td></tr>\n\n  <tr><td style=\"padding:20px 28px 4px;\">\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#252f55;border-radius:16px;border-left:5px solid #e3b45c;\">\n      <tr><td style=\"padding:16px 18px;font-size:15px;line-height:1.6;color:#f3ecdf;\">\n        &ldquo;Let the little children come to Me.&rdquo;<br>\n        <span style=\"color:#e3b45c;font-weight:bold;\">Matthew 19:14</span>\n      </td></tr>\n    </table>\n  </td></tr>\n\n  <tr><td style=\"padding:24px 28px 4px;\">\n    <h2 style=\"margin:0 0 12px;font-family:Georgia,'Times New Roman',serif;font-size:20px;color:#f6d27a;\">What you can do</h2>\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"font-size:15px;line-height:1.5;color:#e8e2d6;\"><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#128273;</td><td style=\"padding:8px 0;\"><b>Manage access</b><br><span style=\"color:#b9b6c6;\">Approve coordinators and servants, and assign their grades</span></td></tr><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#128101;</td><td style=\"padding:8px 0;\"><b>Your team</b><br><span style=\"color:#b9b6c6;\">See everyone who serves, with their contact details</span></td></tr><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#127916;</td><td style=\"padding:8px 0;\"><b>Lessons</b><br><span style=\"color:#b9b6c6;\">Every lesson video in one place</span></td></tr><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#128214;</td><td style=\"padding:8px 0;\"><b>The Bible</b><br><span style=\"color:#b9b6c6;\">Read God&rsquo;s Word anywhere</span></td></tr></table>\n  </td></tr>\n\n  <tr><td style=\"padding:18px 28px 4px;\">\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#252f55;border-radius:16px;\">\n      <tr><td style=\"padding:16px 18px;font-size:14px;line-height:1.6;color:#e8e2d6;\">\n        &#9203; <b style=\"color:#f6d27a;\">Waiting for approval</b><br>Your request is waiting for approval. We will let you know as soon as it is approved. Until then you can view the app as a guest. &#128591;\n      </td></tr>\n    </table>\n  </td></tr>\n  <tr><td align=\"center\" style=\"padding:28px 28px 8px;\">\n    <a href=\"https://morcosfady.github.io/heavenly-visions/#profile\" style=\"display:inline-block;padding:16px 38px;border-radius:999px;background:#e3b45c;color:#2b1d05;font-family:Georgia,'Times New Roman',serif;font-size:17px;font-weight:bold;text-decoration:none;letter-spacing:1px;\">Open my profile &#8594;</a>\n  </td></tr>\n  <tr><td align=\"center\" style=\"padding:26px 28px 30px;font-size:12px;line-height:1.7;color:#8f8da3;border-top:1px solid #2c3657;\">\n    Glory be to God forever. Amen. &#10013;&#65039;<br>\n    You received this email because you created a profile on Heavenly Visions.<br>\n    <a href=\"https://www.youtube.com/@Heavenly-Visions1\" style=\"color:#e3b45c;text-decoration:none;\">Watch us on YouTube</a>\n  </td></tr>\n\n</table>\n</td></tr>\n</table>\n</body>\n</html>\n", "master": "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<title>Welcome to Heavenly Visions</title>\n</head>\n<body style=\"margin:0;padding:0;background:#141a2b;\">\n<div style=\"display:none;max-height:0;overflow:hidden;opacity:0;\">Your profile is ready. Learn, play and grow in faith with Heavenly Visions.</div>\n<table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#141a2b;padding:24px 12px;\">\n<tr><td align=\"center\">\n<table role=\"presentation\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;max-width:600px;border-radius:24px;overflow:hidden;background:#1d2540;font-family:'Trebuchet MS',Arial,sans-serif;color:#f3ecdf;\">\n\n  <tr><td align=\"center\" style=\"padding:36px 24px 20px;background:linear-gradient(160deg,#1d3a6b,#141a2b);\">\n    <img src=\"https://morcosfady.github.io/heavenly-visions/logo.png\" width=\"230\" alt=\"Heavenly Visions\" style=\"display:block;width:230px;max-width:70%;height:auto;border:0;\">\n    <div style=\"font-family:Georgia,'Times New Roman',serif;font-size:13px;letter-spacing:4px;color:#e3b45c;margin-top:16px;\">LEARN &nbsp;&middot;&nbsp; PLAY &nbsp;&middot;&nbsp; GROW IN FAITH</div>\n  </td></tr>\n\n  <tr><td align=\"center\" style=\"padding:28px 28px 8px;\">\n    <div style=\"font-size:42px;line-height:1;\">&#10013;&#65039;</div>\n    <h1 style=\"margin:12px 0 6px;font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.2;color:#f6d27a;\">Welcome, {{name}}!</h1>\n    <div style=\"display:inline-block;margin:6px 0 10px;padding:4px 14px;border-radius:999px;background:#252f55;color:#e3b45c;font-size:13px;font-weight:bold;\">&#128081; Master</div>\n    <p style=\"margin:0;font-size:16px;line-height:1.6;color:#d9d3c7;\">Your Master profile is ready for<br><b style=\"color:#f3ecdf;\">{{church}}</b> &#128591;</p>\n  </td></tr>\n\n  <tr><td style=\"padding:20px 28px 4px;\">\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#252f55;border-radius:16px;border-left:5px solid #e3b45c;\">\n      <tr><td style=\"padding:16px 18px;font-size:15px;line-height:1.6;color:#f3ecdf;\">\n        &ldquo;Let the little children come to Me.&rdquo;<br>\n        <span style=\"color:#e3b45c;font-weight:bold;\">Matthew 19:14</span>\n      </td></tr>\n    </table>\n  </td></tr>\n\n  <tr><td style=\"padding:24px 28px 4px;\">\n    <h2 style=\"margin:0 0 12px;font-family:Georgia,'Times New Roman',serif;font-size:20px;color:#f6d27a;\">Everything you control</h2>\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"font-size:15px;line-height:1.5;color:#e8e2d6;\"><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#128273;</td><td style=\"padding:8px 0;\"><b>Manage access</b><br><span style=\"color:#b9b6c6;\">Approve priests, coordinators and servants, and assign grades</span></td></tr><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#128736;&#65039;</td><td style=\"padding:8px 0;\"><b>Servants Workshop</b><br><span style=\"color:#b9b6c6;\">Build and publish games and quizzes</span></td></tr><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#127942;</td><td style=\"padding:8px 0;\"><b>Leaderboard</b><br><span style=\"color:#b9b6c6;\">See how the whole community is growing</span></td></tr><tr><td width=\"44\" style=\"padding:8px 0;font-size:26px;\" valign=\"top\">&#9962;</td><td style=\"padding:8px 0;\"><b>Churches</b><br><span style=\"color:#b9b6c6;\">Every Coptic Orthodox church in Dallas Fort Worth</span></td></tr></table>\n  </td></tr>\n\n  <tr><td align=\"center\" style=\"padding:28px 28px 8px;\">\n    <a href=\"https://morcosfady.github.io/heavenly-visions/#profile\" style=\"display:inline-block;padding:16px 38px;border-radius:999px;background:#e3b45c;color:#2b1d05;font-family:Georgia,'Times New Roman',serif;font-size:17px;font-weight:bold;text-decoration:none;letter-spacing:1px;\">Open my profile &#8594;</a>\n  </td></tr>\n  <tr><td align=\"center\" style=\"padding:26px 28px 30px;font-size:12px;line-height:1.7;color:#8f8da3;border-top:1px solid #2c3657;\">\n    Glory be to God forever. Amen. &#10013;&#65039;<br>\n    You received this email because you created a profile on Heavenly Visions.<br>\n    <a href=\"https://www.youtube.com/@Heavenly-Visions1\" style=\"color:#e3b45c;text-decoration:none;\">Watch us on YouTube</a>\n  </td></tr>\n\n</table>\n</td></tr>\n</table>\n</body>\n</html>\n"};
+/* ---------- Attendance Sheet ----------
+   Storage (small on purpose, Script Properties hold about 500 KB):
+   a_<id>                one person's check-ins, 6 characters each: day number (3, base 36) + minute of the day (3, base 36)
+   ss_<church>|<grade>   days when someone in that class checked in (a "session"), 3 characters each
+   ns_<church>|<grade>   days a coordinator marked "no Sunday School" (grade * means the whole church)
+   Day number = days since 2026-01-01. All stats are made here, each role only gets what it may see. */
+
+var EPOCH = Date.UTC(2026, 0, 1);
+
+function dayNum(s) { var a = String(s).split('-'); return Math.round((Date.UTC(+a[0], +a[1] - 1, +a[2]) - EPOCH) / 86400000); }
+
+function dayStr(n) {
+  var d = new Date(EPOCH + n * 86400000);
+  return d.getUTCFullYear() + '-' + ('0' + (d.getUTCMonth() + 1)).slice(-2) + '-' + ('0' + d.getUTCDate()).slice(-2);
+}
+
+function pad36(n, w) { var s = n.toString(36); while (s.length < w) s = '0' + s; return s; }
+
+function clock(m) { return ('0' + Math.floor(m / 60)).slice(-2) + ':' + ('0' + (m % 60)).slice(-2); }
+
+function nowMinutes() {
+  var a = Utilities.formatDate(new Date(), 'America/Chicago', 'HH:mm').split(':');
+  return +a[0] * 60 + +a[1];
+}
+
+function dayList(str) {
+  var out = [];
+  for (var i = 0; i + 3 <= (str || '').length; i += 3) out.push(parseInt(str.substr(i, 3), 36));
+  return out;
+}
+
+function addDay(p, key, d) {
+  var cur = p.getProperty(key) || '';
+  if (dayList(cur).indexOf(d) < 0) p.setProperty(key, cur + pad36(d, 3));
+}
+
+function attendAccount(p, me, b) {
+  var day = today();
+  var raw = p.getProperty('att_code|' + me.church) || p.getProperty('att_code');
+  var c = raw ? JSON.parse(raw) : null;
+  if (!c || c.day !== day) return { ok: false, error: 'nocode' };
+  if (String(b.code || '').trim() !== c.code) return { ok: false, error: 'code' };
+  var d = dayNum(day), key = 'a_' + me.id;
+  var cur = p.getProperty(key) || '';
+  var counts = me.role === 'student' || me.role === 'servant';
+  if (counts) {
+    if (!me.grade) return { ok: false, error: 'nograde' };
+    for (var i = 0; i + 6 <= cur.length; i += 6) if (parseInt(cur.substr(i, 3), 36) === d) return { ok: false, error: 'already' };
+    var nos = dayList(p.getProperty('ns_' + me.church + '|' + me.grade)).concat(dayList(p.getProperty('ns_' + me.church + '|*')));
+    if (nos.indexOf(d) >= 0) return { ok: false, error: 'nosunday' };
+    p.setProperty(key, cur + pad36(d, 3) + pad36(nowMinutes(), 3));
+    addDay(p, 'ss_' + me.church + '|' + me.grade, d);
+  }
+  var listKey = 'att_' + day;
+  var list = JSON.parse(p.getProperty(listKey) || '[]');
+  if (list.length < 150) {
+    list.push({ n: me.name, g: me.grade, c: me.church, t: Date.now() });
+    p.setProperty(listKey, JSON.stringify(list));
+  }
+  return { ok: true };
+}
+
+function attCtx(p) {
+  var all = p.getProperties(), users = [];
+  Object.keys(all).forEach(function (k) { if (k.indexOf('u_') === 0) users.push(JSON.parse(all[k])); });
+  return { all: all, users: users };
+}
+
+function canSee(me, u) {
+  if (me.role === 'master') return true;
+  if (me.role === 'priest') return u.church === me.church;
+  if (me.role === 'coordinator') return u.church === me.church && u.grade === me.grade;
+  if (me.role === 'servant') return u.role === 'student' && !u.req && u.church === me.church && u.grade === me.grade;
+  return u.id === me.id;
+}
+
+function sessionDays(ctx, church, grade, from, to) {
+  var ss = dayList(ctx.all['ss_' + church + '|' + grade]);
+  var ns = dayList(ctx.all['ns_' + church + '|' + grade]).concat(dayList(ctx.all['ns_' + church + '|*']));
+  return ss.filter(function (d) { return ns.indexOf(d) < 0 && d >= from && d <= to; }).sort(function (x, y) { return x - y; });
+}
+
+function checkinsOf(ctx, id) {
+  var s = ctx.all['a_' + id] || '', out = {};
+  for (var i = 0; i + 6 <= s.length; i += 6) out[parseInt(s.substr(i, 3), 36)] = parseInt(s.substr(i + 3, 3), 36);
+  return out;
+}
+
+function streaks(sess, ci) {
+  var cur = 0, best = 0, run = 0, i;
+  for (i = 0; i < sess.length; i++) { if (ci[sess[i]] !== undefined) { run++; if (run > best) best = run; } else run = 0; }
+  for (i = sess.length - 1; i >= 0 && ci[sess[i]] !== undefined; i--) cur++;
+  return { cur: cur, best: best };
+}
+
+function statsOf(ctx, u, from, to) {
+  var joined = Math.floor(((u.joined || 0) - EPOCH) / 86400000);
+  var sess = sessionDays(ctx, u.church, u.grade, Math.max(joined, from || 0), to === undefined ? 99999 : to);
+  var ci = checkinsOf(ctx, u.id);
+  var present = sess.filter(function (d) { return ci[d] !== undefined; });
+  var st = streaks(sess, ci);
+  var all = Object.keys(ci).map(Number).sort(function (x, y) { return x - y; });
+  var last3 = sess.slice(-3);
+  var missed3 = last3.length === 3 && last3.every(function (d) { return ci[d] === undefined; });
+  var pct = sess.length >= 2 ? Math.round(present.length * 100 / sess.length) : null;
+  return { u: u, sess: sess, ci: ci, present: present, joined: joined, pct: pct, streak: st.cur, best: st.best,
+    last: all.length ? dayStr(all[all.length - 1]) : '', first: all.length ? dayStr(all[0]) : '',
+    spark: sess.slice(-8).map(function (d) { return ci[d] !== undefined ? 1 : 0; }),
+    fu: missed3 ? 'missed3' : (pct !== null && pct < 50 ? 'low' : '') };
+}
+
+function rowOf(s) {
+  return { id: s.u.id, name: s.u.name, role: s.u.role, grade: s.u.grade, church: s.u.church, pct: s.pct, present: s.present.length,
+    sessions: s.sess.length, missed: s.sess.length - s.present.length, streak: s.streak, best: s.best, last: s.last,
+    spark: s.spark, fu: s.fu };
+}
+
+function rankRows(rows) {
+  rows.sort(function (a, b) {
+    var pa = a.pct === null ? -1 : a.pct, pb = b.pct === null ? -1 : b.pct;
+    if (pb !== pa) return pb - pa;
+    if (b.streak !== a.streak) return b.streak - a.streak;
+    return a.name < b.name ? -1 : 1;
+  });
+  return rows;
+}
+
+function pooled(list) {
+  var pr = 0, se = 0;
+  list.forEach(function (s) { pr += s.present.length; se += s.sess.length; });
+  return se ? Math.round(pr * 100 / se) : null;
+}
+
+function rangeStart(range, t) {
+  if (range === 'month') return t - 30;
+  if (range === '3m') return t - 91;
+  if (range === 'year') {
+    var a = dayStr(t).split('-'), y = +a[0] - (+a[1] < 9 ? 1 : 0);
+    return dayNum(y + '-09-01');
+  }
+  return 0;
+}
+
+function summary(ctx, list, t) {
+  var recent = list.map(function (s) { return statsOf(ctx, s.u, t - 30, t); });
+  var before = list.map(function (s) { return statsOf(ctx, s.u, t - 61, t - 31); });
+  var a = pooled(recent), c = pooled(before);
+  var lastDay = 0;
+  list.forEach(function (s) { if (s.sess.length && s.sess[s.sess.length - 1] > lastDay) lastDay = s.sess[s.sess.length - 1]; });
+  var presentLast = list.filter(function (s) { return lastDay && s.ci[lastDay] !== undefined; }).length;
+  return { avg: pooled(list), kids: list.length, presentLast: presentLast, lastDay: lastDay ? dayStr(lastDay) : '',
+    trend: a === null || c === null ? null : a - c };
+}
+
+function weeklyTrend(kids, servants) {
+  var days = {};
+  kids.concat(servants).forEach(function (s) { s.sess.forEach(function (d) { days[d] = 1; }); });
+  var ds = Object.keys(days).map(Number).sort(function (x, y) { return x - y; }).slice(-12);
+  return ds.map(function (d) {
+    function at(list) {
+      var pr = 0, el = 0;
+      list.forEach(function (s) { if (s.sess.indexOf(d) >= 0) { el++; if (s.ci[d] !== undefined) pr++; } });
+      return el ? Math.round(pr * 100 / el) : null;
+    }
+    return { d: dayStr(d), kids: at(kids), servants: at(servants) };
+  });
+}
+
+function detailOf(ctx, s, t) {
+  var u = s.u;
+  var offs = dayList(ctx.all['ns_' + u.church + '|' + u.grade]).concat(dayList(ctx.all['ns_' + u.church + '|*']));
+  var cal = s.sess.map(function (d) { return { d: dayStr(d), s: s.ci[d] !== undefined ? 'p' : 'm', t: s.ci[d] !== undefined ? clock(s.ci[d]) : '' }; });
+  offs.filter(function (d) { return d >= s.joined && d <= t; }).forEach(function (d) { cal.push({ d: dayStr(d), s: 'n', t: '' }); });
+  cal.sort(function (x, y) { return x.d < y.d ? -1 : 1; });
+  var months = {};
+  s.sess.forEach(function (d) {
+    var m = dayStr(d).slice(0, 7);
+    months[m] = months[m] || { m: m, p: 0, n: 0 };
+    months[m].n++;
+    if (s.ci[d] !== undefined) months[m].p++;
+  });
+  var monthly = Object.keys(months).sort().map(function (k) { return months[k]; });
+  var perfect = monthly.some(function (m) { return m.n >= 2 && m.p === m.n; });
+  var row = rowOf(s);
+  row.first = s.first;
+  row.joined = dayStr(s.joined);
+  row.cal = cal.slice(-60);
+  row.monthly = monthly.slice(-12);
+  row.badges = [
+    { k: 'first', ic: '🌱', name: 'First Sunday', how: 'Check in once', got: s.present.length >= 1 },
+    { k: 'row4', ic: '🔥', name: '4 in a row', how: 'Come 4 Sundays in a row', got: s.best >= 4 },
+    { k: 'perfect', ic: '🌟', name: 'Perfect month', how: 'Come every Sunday of a month', got: perfect },
+    { k: 'ten', ic: '🏅', name: '10 Sundays', how: 'Come 10 times', got: s.present.length >= 10 },
+    { k: 'row8', ic: '👑', name: '8 in a row', how: 'Come 8 Sundays in a row', got: s.best >= 8 }
+  ];
+  row.history = s.present.slice(-20).reverse().map(function (d) { return { d: dayStr(d), t: clock(s.ci[d]) }; });
+  return row;
+}
+
+function attStatsAction(p, me, b) {
+  var ctx = attCtx(p), t = dayNum(today());
+  var from = rangeStart(b.range, t);
+  var isKid = me.role === 'student', isServant = me.role === 'servant';
+  var top = me.role === 'coordinator' || isTop(me.role);
+  if (b.action === 'att_my') {
+    if (!isKid && !isServant) return { ok: false, error: 'none' };
+    return { ok: true, today: dayStr(t), me: detailOf(ctx, statsOf(ctx, me, 0, t), t) };
+  }
+  if (b.action === 'att_person') {
+    var raw = ctx.users.filter(function (u) { return u.id === b.target; })[0];
+    if (!raw || !canSee(me, raw)) return { ok: false, error: 'denied' };
+    if (raw.role !== 'student' && raw.role !== 'servant') return { ok: false, error: 'denied' };
+    if (raw.role === 'servant' && isServant && raw.id !== me.id) return { ok: false, error: 'denied' };
+    return { ok: true, today: dayStr(t), person: detailOf(ctx, statsOf(ctx, raw, from, t), t) };
+  }
+  if (isKid) return { ok: false, error: 'denied' };
+  if (b.action === 'att_class') {
+    var church = me.church, grade = me.grade;
+    if (isTop(me.role)) { grade = String(b.grade || ''); if (me.role === 'master') church = String(b.church || me.church); }
+    var kids = ctx.users.filter(function (u) { return u.role === 'student' && !u.req && u.church === church && u.grade === grade && canSee(me, u); })
+      .map(function (u) { return statsOf(ctx, u, from, t); });
+    var rows = rankRows(kids.map(rowOf));
+    return { ok: true, today: dayStr(t), grade: grade, church: church, summary: summary(ctx, kids, t), rows: rows,
+      followup: rows.filter(function (r) { return r.fu; }) };
+  }
+  if (!top) return { ok: false, error: 'denied' };
+  if (b.action === 'att_days') {
+    var d = String(b.day || '');
+    if (!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(d)) return { ok: false, error: 'missing' };
+    var g = me.role === 'coordinator' ? me.grade : String(b.grade || '*');
+    var key = 'ns_' + me.church + '|' + g, n = dayNum(d);
+    var cur = dayList(p.getProperty(key)).filter(function (x) { return x !== n; });
+    if (b.off) cur.push(n);
+    p.setProperty(key, cur.map(function (x) { return pad36(x, 3); }).join(''));
+    return { ok: true };
+  }
+  var stats = ctx.users.filter(function (u) { return canSee(me, u) && (u.role === 'servant' || (u.role === 'student' && !u.req)); })
+    .map(function (u) { return statsOf(ctx, u, from, t); });
+  var kidS = stats.filter(function (s) { return s.u.role === 'student'; });
+  var srvS = stats.filter(function (s) { return s.u.role === 'servant'; });
+  if (b.action === 'att_csv') {
+    var only = b.scope === 'class' ? String(b.grade || me.grade) : '';
+    var lines = ['Name,Role,Class,Percent,Present,Missed,Streak,Last seen'];
+    var q = function (v) { v = String(v); if (/^[=+\-@]/.test(v)) v = "'" + v; return '"' + v.replace(/"/g, '""') + '"'; };
+    rankRows(stats.filter(function (s) { return !only || s.u.grade === only; }).map(rowOf)).forEach(function (r) {
+      lines.push([q(r.name), r.role, q(r.grade), r.pct === null ? '' : r.pct, r.present, r.missed, r.streak, r.last].join(','));
+    });
+    return { ok: true, csv: lines.join('\n') };
+  }
+  var groups = {};
+  kidS.forEach(function (s) { var k = s.u.church + '|' + s.u.grade; (groups[k] = groups[k] || []).push(s); });
+  var classes = Object.keys(groups).map(function (k) {
+    var l = groups[k];
+    return { grade: l[0].u.grade, church: l[0].u.church, avg: pooled(l), kids: l.length };
+  }).sort(function (x, y) { return (y.avg === null ? -1 : y.avg) - (x.avg === null ? -1 : x.avg); });
+  var rowsK = rankRows(kidS.map(rowOf)), rowsS = rankRows(srvS.map(rowOf));
+  var ks = summary(ctx, kidS, t), ss = summary(ctx, srvS, t);
+  var off = {};
+  Object.keys(ctx.all).forEach(function (k) {
+    if (k.indexOf('ns_' + me.church + '|') === 0 && (me.role !== 'coordinator' || k === 'ns_' + me.church + '|' + me.grade || k === 'ns_' + me.church + '|*')) {
+      dayList(ctx.all[k]).forEach(function (x) { off[dayStr(x)] = 1; });
+    }
+  });
+  return { ok: true, today: dayStr(t), kpi: { kidsPct: ks.avg, servantsPct: ss.avg, presentLast: ks.presentLast, lastDay: ks.lastDay,
+    kids: kidS.length, servants: srvS.length, trend: ks.trend }, weekly: weeklyTrend(kidS, srvS), classes: classes,
+    kids: rowsK, servants: rowsS, followup: rowsK.concat(rowsS).filter(function (r) { return r.fu; }), off: Object.keys(off).sort() };
+}
 
 /* One email, one person. Gmail ignores dots and +tags, so we do too. */
 function normEmail(e) {
@@ -195,19 +471,6 @@ function normEmail(e) {
 function emailTaken(p, email, exceptId) {
   var n = normEmail(email);
   return allUsers(p).some(function (u) { return u.id !== exceptId && normEmail(u.email) === n; });
-}
-
-function escHtml(t) {
-  return String(t || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-
-function sendWelcome(u) {
-  try {
-    var tpl = EMAIL_TPL[u.req || u.role];
-    if (!tpl || !u.email) return;
-    var html = tpl.replace(/\{\{name\}\}/g, escHtml(u.first || u.name)).replace(/\{\{church\}\}/g, escHtml(u.church));
-    MailApp.sendEmail({ to: u.email, subject: 'Welcome to Heavenly Visions', htmlBody: html, name: 'Heavenly Visions', replyTo: MASTER_EMAIL });
-  } catch (err) {}
 }
 
 function accountAction(p, b) {
@@ -238,7 +501,6 @@ function accountAction(p, b) {
     }
     p.setProperty('un_' + un, u.id);
     saveUser(p, u);
-    sendWelcome(u);
     return { ok: true, token: u.tok, user: publicUser(u) };
   }
   if (b.action === 'login') {
@@ -272,6 +534,7 @@ function accountAction(p, b) {
   }
   if (b.action.indexOf('access_') === 0) return accessAction(p, me, b);
   if (b.action === 'att_set' || b.action === 'att_state') return attSetAction(p, me, b);
+  if (/^att_(my|class|all|person|days|csv)$/.test(b.action)) return attStatsAction(p, me, b);
   if (b.action === 'live_finish') {
     if (!isStaff(me.role)) return { ok: false, error: 'denied' };
     var sid = String(b.sid || '').slice(0, 30), list = (b.results || []).slice(0, 120), given = 0;
