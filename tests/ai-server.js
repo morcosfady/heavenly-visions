@@ -7,11 +7,14 @@ const GOOD = { games: [
   { t: 'kahoot', title: 'Noah and the Ark quiz', items: [{ q: 'Who built the ark?', a: 'Noah', b: 'Moses', c: 'David', d: 'Paul', ok: 'a' }, { q: 'How many of each animal came in?', a: 'One', b: 'Two', c: 'Three', d: 'Ten', ok: 'b' }, { q: 'What did the dove bring back?', a: 'A fish', b: 'A flower', c: 'An olive leaf', d: 'A stone', ok: 'c' }] },
   { t: 'verse', title: 'Verse for Noah', items: [{ text: 'I set My *rainbow* in the *cloud*.', ref: 'Genesis 9:13' }] },
   { t: 'wordsearch', title: 'Noah words', items: [{ w: 'ARK', hint: 'The big boat' }, { w: 'DOVE', hint: 'Brought a leaf' }, { w: 'RAIN', hint: 'Fell for days' }, { w: 'NOAH', hint: 'Built the ark' }] }] };
-const env = make({ ai: () => JSON.stringify(GOOD) });
+/* the roles come from the fake games backend (tests/att-server.js on 8788) so coordinators and priests are real here */
+const roster = {};
+const refresh = cb => http.get('http://localhost:8788/', r => { let d = ''; r.on('data', c => d += c); r.on('end', () => { try { const j = JSON.parse(d); Object.keys(j).forEach(k => { const u = j[k].user; roster[u.id] = { role: u.role, grade: u.grade, name: u.name, church: u.church } }) } catch (e) { } cb() }) }).on('error', () => cb());
+const env = make({ ai: () => JSON.stringify(GOOD), whoFn: id => roster[id] });
 env.props.lm_a = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, '..', 'lumi', 'cards.json'), 'utf8')).map(c => c.id).join(','); /* TEST ONLY: every card is approved so the chat can be tried */
 http.createServer((req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*'); res.setHeader('Access-Control-Allow-Headers', '*');
   if (req.method === 'OPTIONS') { res.end(); return }
   let body = ''; req.on('data', c => body += c); req.on('end', () => { res.setHeader('Content-Type', 'application/json'); let b = {}; try { b = JSON.parse(body || '{}') } catch (e) { }
-    setTimeout(() => res.end(JSON.stringify(env.post(Object.assign({}, b, { token: 'ok' })))), 250) });
+    refresh(() => setTimeout(() => res.end(JSON.stringify(env.post(Object.assign({}, b, { token: 'ok' })))), 250)) });
 }).listen(8789, () => console.log('fake AI helper on http://localhost:8789'));

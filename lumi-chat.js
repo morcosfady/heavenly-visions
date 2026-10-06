@@ -44,7 +44,7 @@ window.hvLumiSvg=function(mood,size,cls){
 const URL_=()=>window.hvAiUrl?hvAiUrl():"";
 async function serverAnswer(q){
   const url=URL_();if(!url)throw "off";const a=A();
-  const r=await (await fetch(url,{method:"POST",body:JSON.stringify({id:a.user.id,token:a.token,action:"lumi_ask",q})})).json();
+  const r=await (await fetch(url,{method:"POST",body:JSON.stringify({id:a.user.id,token:a.token,action:"lumi_ask",q,deep:S.deep&&isStaffNow()?true:undefined})})).json();
   if(!r.ok)throw r.error||"ai";return r}
 function sendFeedback(ts,v){const url=URL_(),a=A();if(!url||!a)return;try{fetch(url,{method:"POST",body:JSON.stringify({id:a.user.id,token:a.token,action:"lumi_fb",ts,v})})}catch{}}
 
@@ -58,7 +58,8 @@ function seasonal(){const o=[];try{const c=window.hvCalToday?hvCalToday():null;i
 function suggestions(n){const pool=levelOf()==="little"?LITTLE:OLDER,day=Math.floor(Date.now()/864e5);const rot=pool.slice(day%pool.length).concat(pool.slice(0,day%pool.length));return seasonal().concat(rot).filter((q,i,a)=>a.indexOf(q)===i).slice(0,n||4)}
 
 /* ================= state ================= */
-const S={tab:"chat",msgs:[],busy:false,mood:"happy",emoji:false};
+const isStaffNow=()=>{const a=A();return !!(a&&a.user.role!=="student"&&!a.user.req)};
+const S={tab:"chat",msgs:[],busy:false,mood:"happy",emoji:false,deep:(()=>{try{return sessionStorage.getItem("hv_lumi_deep")==="1"}catch{return false}})()};
 const hist=()=>jget("hv_lumi",[]);
 const saveHist=h=>jset("hv_lumi",h.slice(0,60));
 const LINKTXT=r=>/^quiz-/.test(r)?["🏆","Take the quiz"]:/^l-/.test(r)?["▶","Watch the lesson"]:r==="calendar"?["📅","See in calendar"]:r==="m-saints"?["👼","More saints"]:r==="m-feasts"?["🎉","More feasts"]:r==="verse"?["📜","Daily verse"]:r==="games"?["🎮","Play a game"]:/^b-|^bible$/.test(r)?["📖","Read it in the Bible"]:r==="bedtime"?["🌙","Bedtime stories"]:r==="coloring"?["🎨","Coloring"]:null;
@@ -69,8 +70,10 @@ function ansHtml(en,saved){const a=en.a;
   return `<div class="lm-msg lm-l"><div class="lm-face">${hvLumiSvg(a.mood,38)}</div><div class="lm-bub" data-e="${en.id}">
    <p class="lm-t">${E(a.answer)}</p>
    ${a.verse?`<div class="lm-verse">“${E(a.verse.text)}”<b>${E(a.verse.ref)}</b></div>`:""}
+   ${a.deep?`<div class="lm-deep">🧑‍🏫 Servant mode: a longer answer for lesson preparation</div>`:""}
    ${a.sources&&a.sources.length?`<div class="lm-src">${a.sources.map(s=>`<span class="lm-chip">${E(s.label)}</span>`).join("")}</div>`:""}
    ${a.links&&a.links.length?`<div class="lm-links">${a.links.map(r=>{const t=LINKTXT(r);return t?`<button class="lm-lb" data-go="${E(r)}">${t[0]} ${t[1]}</button>`:""}).join("")}</div>`:""}
+   ${a.deep&&(a.refs&&a.refs.length||a.urls&&a.urls.length)?`<div class="lm-refs">${(a.refs||[]).map(r=>`<div>📖 ${E(r.title)}: ${E(r.ref)}</div>`).join("")}${(a.urls||[]).map(u=>`<a class="lm-ext" href="${E(u.url)}" target="_blank" rel="noopener">📚 Read more on St-Takla.org: ${E(u.title)} ↗</a>`).join("")}</div>`:""}
    ${a.safety==="worry"||a.safety==="bad"||a.safety==="adult"?"":`<div class="lm-fb"><button class="lm-ic" data-fb="up" aria-label="Good answer" aria-pressed="${en.fb==="up"}">👍</button><button class="lm-ic" data-fb="down" aria-label="Not a good answer" aria-pressed="${en.fb==="down"}">👎</button><button class="lm-ic" data-sv="1" aria-label="Save this answer" aria-pressed="${!!en.saved}">${en.saved?"⭐":"☆"}</button></div>`}
    ${a.followups&&a.followups.length?`<div class="lm-fu">${a.followups.map(f=>`<button class="lm-sug" data-q="${E(f)}">${E(f)}</button>`).join("")}</div>`:""}</div></div>`}
 function kidHtml(q){return `<div class="lm-msg lm-k"><div class="lm-bub lm-kb"><p class="lm-t">${E(q)}</p></div><div class="lm-av">${avatar()}</div></div>`}
@@ -99,7 +102,7 @@ function setMood(m){S.mood=m;const b=document.getElementById("lmbig");if(b)b.inn
 function draw(){
   const body=document.getElementById("lmbody");if(!body)return;
   if(S.tab==="chat"){
-    body.innerHTML=`${todayCard()}<div id="lmlog" class="lm-log" aria-live="polite">${S.msgs.length?"":`<div class="lm-msg lm-l"><div class="lm-face">${hvLumiSvg("happy",38)}</div><div class="lm-bub"><p class="lm-t">Hi ${E(((A().user.first||A().user.name||"friend")+"").split(" ")[0])}! I'm Lumi, a little lamb who loves talking about God and the Church. What would you like to know? 🐑</p></div></div>`}</div>
+    body.innerHTML=`${isStaffNow()?`<label class="plm lm-servant"><input type="checkbox" id="lmdeep" ${S.deep?"checked":""}> 🧑‍🏫 <span><b>Servant mode</b><small>Longer answers with references, for lesson preparation</small></span></label>`:""}${todayCard()}<div id="lmlog" class="lm-log" aria-live="polite">${S.msgs.length?"":`<div class="lm-msg lm-l"><div class="lm-face">${hvLumiSvg("happy",38)}</div><div class="lm-bub"><p class="lm-t">Hi ${E(((A().user.first||A().user.name||"friend")+"").split(" ")[0])}! I'm Lumi, a little lamb who loves talking about God and the Church. What would you like to know? 🐑</p></div></div>`}</div>
      <div id="lmsug" class="lm-sugs">${S.msgs.length?"":`<div class="lm-sugh">Try asking</div>${suggestions(4).map(q=>`<button class="lm-sug" data-q="${E(q)}">${E(q)}</button>`).join("")}<div class="lm-sugh">Or learn something</div><div class="lm-modes">${(window.lumiLearnModes||[]).map(m=>`<button data-lmode="${m[0]}">${m[1]} ${m[2]}</button>`).join("")}</div>`}</div>
      <form id="lmform" class="lm-form" autocomplete="off"><div id="lmemo" class="lm-emo" hidden>${EMOJIS.map(x=>`<button type="button" class="lm-ic" data-em="${x}" aria-label="Add ${x}">${x}</button>`).join("")}</div>
       <div class="lm-row"><button type="button" class="lm-ic" id="lmem" aria-label="Pick an emoji" aria-expanded="false">😊</button><input id="lmin" maxlength="200" placeholder="Ask Lumi a question… 🐑" aria-label="Your question"><button class="lm-send" type="submit" aria-label="Send">➤</button></div><div class="lm-cnt" id="lmcnt" hidden></div></form>`;
@@ -135,6 +138,7 @@ async function ask(q){
 function wireChat(){
   const form=document.getElementById("lmform"),inp=document.getElementById("lmin"),cnt=document.getElementById("lmcnt"),body=document.getElementById("lmbody");
   form.onsubmit=e=>{e.preventDefault();ask(inp.value)};
+  const dp=document.getElementById("lmdeep");if(dp)dp.onchange=()=>{S.deep=dp.checked;try{sessionStorage.setItem("hv_lumi_deep",S.deep?"1":"0")}catch{}toast(S.deep?"Servant mode is on 🧑‍🏫":"Servant mode is off")};
   inp.oninput=()=>{const n=inp.value.length;cnt.hidden=n<150;cnt.textContent=(200-n)+" letters left"};
   document.getElementById("lmem").onclick=e=>{const p=document.getElementById("lmemo");p.hidden=!p.hidden;e.currentTarget.setAttribute("aria-expanded",!p.hidden)};
   form.addEventListener("click",e=>{const b=e.target.closest("[data-em]");if(b){inp.value=(inp.value+b.dataset.em).slice(0,200);inp.focus()}});
@@ -186,6 +190,8 @@ st.textContent=`
 .lm-emo{display:flex;flex-wrap:wrap;gap:2px;padding:6px;border-radius:18px;background:var(--glass);border:1px solid var(--glass-b)}.lm-emo[hidden]{display:none}.lm-cnt{font-size:.8rem;color:var(--muted);text-align:right}
 .lm-hl{display:flex;flex-direction:column;gap:10px}.lm-hi{display:flex;flex-direction:column;gap:2px;text-align:left;padding:12px 14px;min-height:56px;border-radius:var(--r-m);border:1px solid var(--glass-b);background:var(--glass);color:var(--ink);font:inherit}.lm-hq{font-weight:900}.lm-ha{color:var(--muted);font-size:.9rem}.lm-hi small{color:var(--muted)}
 .lm-sheet .lm-msg{animation:none}
+.lm-servant{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r-m);border:1.5px dashed var(--gold);background:color-mix(in srgb,var(--gold) 10%,transparent);min-height:52px}.lm-servant small{display:block;color:var(--muted);font-weight:700}
+.lm-deep{font-size:.8rem;font-weight:900;color:var(--gold)}.lm-refs{display:flex;flex-direction:column;gap:4px;font-size:.92rem;padding:8px 10px;border-radius:12px;background:var(--line)}.lm-ext{display:inline-flex;align-items:center;min-height:44px;font-weight:800;color:var(--gold)}
 @media (max-width:420px){.lm-big{width:96px;height:96px}.lm-big .lumi-svg{width:96px;height:96px}.lm-bub{max-width:86%}}
 @media (prefers-reduced-motion:reduce){.lm-body,.lm-halo,.lm-eyes,.lm-dots circle,.lm-spark,.lm-dot,.lm-msg{animation:none!important}}`;
 document.head.appendChild(st);

@@ -5,7 +5,7 @@ const fs = require('fs'), path = require('path');
 const root = path.join(__dirname, '..');
 exports.make = function (opts) {
   opts = opts || {};
-  const src = ['ai-helper.gs', 'lumi.gs', 'lumi-ask.gs', 'lumi-learn.gs'].map(f => fs.readFileSync(path.join(root, 'apps-script', f), 'utf8')).join('\n').replace("var MAIN_URL = 'CHANGE_ME';", "var MAIN_URL = 'https://main.test/exec';");
+  const src = ['ai-helper.gs', 'lumi.gs', 'lumi-ask.gs', 'lumi-learn.gs', 'lumi-admin.gs'].map(f => fs.readFileSync(path.join(root, 'apps-script', f), 'utf8')).join('\n').replace("var MAIN_URL = 'CHANGE_ME';", "var MAIN_URL = 'https://main.test/exec';");
   const props = opts.props || { ANTHROPIC_KEY: 'sk-fake' }, cacheMap = {};
   const env = { day: '2026-10-11', fetches: 0, aiCalls: [], cardsFetches: 0 };
   const PropertiesService = { getScriptProperties: () => ({
@@ -17,6 +17,7 @@ exports.make = function (opts) {
     env.fetches++;
     if (url.indexOf('main.test') >= 0) {
       const b = JSON.parse(o.payload), id = String(b.id || '');
+      if (opts.whoFn) { const w = opts.whoFn(id); if (w && b.token === 'ok') return { getResponseCode: () => 200, getContentText: () => JSON.stringify({ ok: true, user: Object.assign({ id, req: '', church: 'St Test' }, w) }) } }
       if (b.token !== 'ok') return { getResponseCode: () => 200, getContentText: () => JSON.stringify({ ok: false }) };
       const gm = id.match(/(\d+)/), grade = gm ? (+gm[1] <= 12 ? 'Grade ' + gm[1] : 'Grade 3') : (opts.grade || 'Grade 3');
       const role = /^(kid|k\d)/.test(id) ? 'student' : /^coord/.test(id) ? 'coordinator' : /^abouna/.test(id) ? 'priest' : 'servant';

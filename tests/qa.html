@@ -16,7 +16,7 @@
   await new Promise(r=>f.onload=r);
   const win=f.contentWindow,errs=[];win.addEventListener("error",e=>errs.push(String(e.message)));win.addEventListener("unhandledrejection",e=>errs.push("rej "+(e.reason&&e.reason.message||e.reason)));
   const oe=win.console.error;win.console.error=function(){errs.push("console "+[].slice.call(arguments).join(" ").slice(0,120));oe.apply(this,arguments)};
-  const routes=(q.get("r")||"home,media,m-kg,m-g3,l-kg-1.1,attendance,attsheet,servants,quizzes,bible,b-Genesis,b-Genesis-1,b-John-3,games,g-memory,g-scramble,verse,calendar,bedtime,coloring,color-ark,color-gallery,kids,report,planner,announce,news,followup,library,events,login,profile,join,builder,ai,lumi-cards,lumi,ds").split(",");
+  const routes=(q.get("r")||"home,media,m-kg,m-g3,l-kg-1.1,attendance,attsheet,servants,quizzes,bible,b-Genesis,b-Genesis-1,b-John-3,games,g-memory,g-scramble,verse,calendar,bedtime,coloring,color-ark,color-gallery,kids,report,planner,announce,news,followup,library,events,login,profile,join,builder,ai,lumi-cards,lumi-gold,lumi-report,lumi-alerts,lumi-settings,lumi,ds").split(",");
   const sleep=ms=>new Promise(r=>setTimeout(r,ms));
   await sleep(2500);
   for(const r of routes){

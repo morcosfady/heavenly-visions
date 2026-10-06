@@ -94,7 +94,8 @@ function lmCount(p, q, un) {
   var k = 'lmr_' + lmMonth(), list = lmJson(p, k, []), key = lmWords(q).sort().join(' ');
   if (!key) return;
   var hit = list.filter(function (x) { return x.k === key; })[0];
-  if (hit) { hit.n++; if (un) hit.u = (hit.u || 0) + 1; } else list.push({ k: key, q: clip(q, 70), n: 1, u: un ? 1 : 0, dn: 0 });
+  if (un) { if (!hit) return; hit.u = (hit.u || 0) + 1; }   /* an unanswered question was already counted when it was asked */
+  else if (hit) hit.n++; else list.push({ k: key, q: clip(q, 70), n: 1, u: 0, dn: 0 });
   list.sort(function (x, y) { return y.n - x.n; });
   lmSaveCapped(p, k, list);
 }
@@ -124,9 +125,9 @@ function lmSentences(t) {
   var s = String(t).trim().replace(/\b(St|Dr|Fr|Mr|Mrs)\./g, '$1\u0001'), m = s.match(/[^.!?]+[.!?]+(\s|$)/g) || [s];
   return m.map(function (x) { return x.replace(/\u0001/g, '.'); });
 }
-function lmCompose(card, level, sensitive) {
-  var sn = lmSentences(card.text), n = sensitive ? 2 : level === 'little' ? 3 : 7;
-  var text = lmCap(lmDash(sn.slice(0, n).join('').trim()), level);
+function lmCompose(card, level, sensitive, deep) {
+  var sn = lmSentences(card.text), n = deep ? 14 : sensitive ? 2 : level === 'little' ? 3 : 7;
+  var text = deep ? lmDash(sn.slice(0, n).join('').trim()) : lmCap(lmDash(sn.slice(0, n).join('').trim()), level);
   if (sensitive) text += ' It is also good to talk about this with a servant, Abouna or your parents 🙏';
   else if (level === 'older' && card.tags.indexOf('bible') >= 0 && !(card.links || []).some(function (r) { return /^b-/.test(r); })) text += ' Can you find this story in your Bible? 📖';
   var mood = card.tags.indexOf('prayer') >= 0 ? 'praying' : (card.tags.indexOf('martyr') >= 0 || card.tags.indexOf('sacrament') >= 0 || card.tags.indexOf('fast') >= 0 || sensitive) ? 'gentle' : 'happy';
@@ -136,8 +137,10 @@ function lmCompose(card, level, sensitive) {
 /* ---------- ask ---------- */
 function lmAsk(b, u) {
   var p = PropertiesService.getScriptProperties(), q = lmClean(b.q), level = lmLevel(u), cfg = lmCfg(p), day = today(), now = lmNow();
+  var deep = !!b.deep && u.role !== 'student' && !u.req;   /* servant mode: longer answers with references, for lesson preparation */
   if (!q) return { ok: false, error: 'missing' };
-  if (!cfg.on || (cfg.grades.length && u.role === 'student' && cfg.grades.indexOf(u.grade) < 0)) return lmBlocked('closed', LM_MSG.closed, 'gentle');
+  if (!cfg.on && !deep) return lmBlocked('closed', LM_MSG.closed, 'gentle');
+  if (cfg.on && cfg.grades.length && u.role === 'student' && cfg.grades.indexOf(u.grade) < 0) return lmBlocked('closed', LM_MSG.closed, 'gentle');
   /* worry first: a child who needs help is never turned away by a limit */
   if (LM_WORRY.some(function (re) { return re.test(q); })) {
     lmAlertAdd(p, u, q); lmHistAdd(p, u, q, LM_MSG.worry, []);
@@ -149,7 +152,7 @@ function lmAsk(b, u) {
   var kq = 'lmq_' + u.id + '_' + day, ka = 'lmq_all_' + day, tk = 'lmt_' + u.id;
   var mine = Number(p.getProperty(kq) || 0), total = Number(p.getProperty(ka) || 0), last = Number(p.getProperty(tk) || 0);
   if (now - last < 5000) return lmBlocked('slow', LM_MSG.slow, 'thinking');
-  if (mine >= cfg.perKid || total >= cfg.perDay) return lmBlocked('nap', LM_MSG.nap, 'gentle');
+  if (mine >= (deep ? Math.max(cfg.perKid, 100) : cfg.perKid) || (total >= cfg.perDay && !deep)) return lmBlocked('nap', LM_MSG.nap, 'gentle');
   p.setProperty(tk, String(now)); p.setProperty(kq, String(mine + 1)); p.setProperty(ka, String(total + 1));
   var seed = q.length + now % 97;
   if (LM_BAD.test(q)) return lmReply({ answer: LM_MSG.bad, mood: 'gentle', followups: lmPickTitles(all, 3, seed) }, { safety: 'bad' });
@@ -170,11 +173,18 @@ function lmAsk(b, u) {
     lmHistAdd(p, u, q, LM_MSG.off, []);
     return lmReply({ answer: LM_MSG.off, mood: 'happy', followups: lmPickTitles(all, 3, seed) }, { safety: 'offtopic' });
   }
-  var top = hits[0], card = all.filter(function (c) { return c.id === top.id; })[0], ans = lmCompose(card, level, sensitive);
-  var close = hits.filter(function (h, i) { return i === 0 || h.score >= top.score * 0.75; }).slice(0, 2).map(function (h) { return all.filter(function (c) { return c.id === h.id; })[0]; });
+  var top = hits[0], card = all.filter(function (c) { return c.id === top.id; })[0], ans = lmCompose(card, level, sensitive, deep);
+  var close = hits.filter(function (h, i) { return i === 0 || h.score >= top.score * 0.75; }).slice(0, deep ? 3 : 2).map(function (h) { return all.filter(function (c) { return c.id === h.id; })[0]; });
   var sources = close.map(function (c) { return { id: c.id, title: c.title, label: lmLabel(c) }; }).filter(function (x, i, arr) { return arr.map(function (y) { return y.label; }).indexOf(x.label) === i; });
   lmHistAdd(p, u, q, ans.answer, close.map(function (c) { return c.id; }));
-  return lmReply({ answer: ans.answer, verse: ans.verse, sources: sources, links: (card.links || []).slice(0, 2), mood: ans.mood, followups: lmRelated(all, card) }, { safety: sensitive ? 'sensitive' : 'ok' });
+  var extra = { safety: sensitive ? 'sensitive' : 'ok' };
+  if (deep) {
+    extra.deep = true;
+    extra.refs = close.filter(function (c) { return c.ref; }).map(function (c) { return { title: c.title, ref: c.ref }; });
+    extra.urls = close.filter(function (c) { return c.url; }).map(function (c) { return { title: c.title, url: c.url }; });
+    extra.more = lmRelated(all, card);
+  }
+  return lmReply({ answer: ans.answer, verse: ans.verse, sources: sources, links: (card.links || []).slice(0, 2), mood: ans.mood, followups: lmRelated(all, card) }, extra);
 }
 function lmRelated(all, card) {
   if (!card) return [];

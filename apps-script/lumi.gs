@@ -205,6 +205,7 @@ function lumiPost(b, u) {
   if (act === 'lumi_fb') return lmFeedback(b, u);
   if (!staff) return { ok: false, error: 'denied' };
   if (act === 'lumi_alerts' || act === 'lumi_alert_seen') return lmAlerts(b, u);
+  if (/^lumi_(gold_|report|cfg_)/.test(act)) return lmAdmin(b, u);
   if (act === 'lumi_refresh') { CacheService.getScriptCache().remove('lmbase_n'); var r = lumiAll(true); return r ? { ok: true, n: r.length } : { ok: false, error: 'nocards' }; }
   var all = lumiAll(false);
   if (!all) return { ok: false, error: 'nocards' };
