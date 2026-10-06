@@ -283,3 +283,29 @@ ok('kid of another church does not', A('ako', { action: 'ev_list' }).items.lengt
 ok('priest posts for everyone', A('p1x', { action: 'ev_save', e: { title: 'Nayrouz party', date: '2026-11-14', grades: ['all'], cat: 'feast' } }).ok && A('ak4', { action: 'ev_list' }).items.some(x => x.title === 'Nayrouz party'));
 ok('coordinator cannot delete a priest event', A('c1x', { action: 'ev_delete', eid: A('ak4', { action: 'ev_list' }).items.find(x => x.title === 'Nayrouz party').id }).error === 'denied');
 ok('coordinator deletes own event', A('c1x', { action: 'ev_delete', eid: evt.item.id }).ok && !A('ak1', { action: 'ev_list' }).items.some(x => x.title === 'Fall retreat'));
+
+/* ---------- class competitions and the monthly report ---------- */
+SIMDAY = '2026-10-11';
+const cps = A('ak1', { action: 'cp_state' });
+ok('kid sees class standings', cps.ok && cps.standings.length >= 2 && cps.standings.every(r => r.score >= 0 && r.score <= 100));
+ok('standings never show a kid name', !/ak1|ak2|starkid|"name"/.test(JSON.stringify(cps)));
+ok('kid cannot start a competition', A('ak1', { action: 'cp_set', on: true }).error === 'denied');
+ok('servant cannot start a competition', A('as1', { action: 'cp_set', on: true }).error === 'denied');
+ok('coordinator starts one with a prize', A('c1x', { action: 'cp_set', on: true, prize: 'Pizza party' }).ok && A('ak1', { action: 'cp_state' }).active === true && A('ak1', { action: 'cp_state' }).prize === 'Pizza party');
+ok('stars count this month for the class', A('ak1', { action: 'cp_state' }).standings.find(r => r.grade === 'Grade 3').stars > 0);
+ok('other church sees its own standings only', A('ako', { action: 'cp_state' }).standings.every(r => r.grade === 'Grade 3') && A('ako', { action: 'cp_state' }).active === false);
+SIMDAY = '2026-11-02';
+const cp2 = A('ak1', { action: 'cp_state' });
+ok('competition ends by itself next month with a winner', cp2.active === false && cp2.hall.length === 1 && cp2.hall[0].m === '2026-10' && cp2.hall[0].winner !== '');
+SIMDAY = '2026-10-11';
+ok('coordinator stops a running competition', A('c1x', { action: 'cp_set', on: true, prize: 'x' }).ok && A('c1x', { action: 'cp_set', on: false }).ok && A('ak1', { action: 'cp_state' }).active === false);
+
+ok('kid cannot get a report', A('ak1', { action: 'rp_month', month: '2026-10' }).error === 'denied');
+ok('servant cannot get a report', A('as1', { action: 'rp_month', month: '2026-10' }).error === 'denied');
+const rpc = A('c1x', { action: 'rp_month', month: '2026-10' });
+ok('coordinator report covers own class only', rpc.ok && rpc.classes.length === 1 && rpc.classes[0].grade === 'Grade 3' && rpc.scope === 'Grade 3');
+const rpp = A('p1x', { action: 'rp_month', month: '2026-10' });
+ok('priest report covers all classes of the church', rpp.ok && rpp.classes.length >= 2 && rpp.kpi.kids >= 5);
+ok('report has activity and stars', rpp.activity.stars > 0 && rpp.kpi.servants >= 3);
+ok('report has no personal names', !/ak1|ak2|starkid|as1|"name"/.test(JSON.stringify(rpp)));
+ok('report has a weekly series', Array.isArray(rpp.weekly) && rpp.weekly.length > 0);

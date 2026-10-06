@@ -25,10 +25,12 @@ const chip=s=>`<span class="spl" style="--sc:${STATUS[s][1]}">${STATUS[s][0]}</s
 /* ---------- tool cards on the Servants Workshop page ---------- */
 window.hvSvTools=function(){
   if(!isStaff())return "";
+  const top=["coordinator","priest","master"].includes(A().user.role);
   return `<div class="svtools"><button class="svt" style="--tc:var(--c-serv)" data-go="planner"><span>📝</span><b>Lesson Planner</b><small>Plan each Sunday</small></button>
    <button class="svt" style="--tc:var(--c-games)" data-go="announce"><span>📢</span><b>Announcements</b><small>Tell your class</small></button>
    <button class="svt" style="--tc:var(--c-kids)" data-go="followup"><span>📞</span><b>Follow up</b><small>Kids who missed</small></button>
-   <button class="svt" style="--tc:var(--c-church)" data-go="library"><span>📚</span><b>Library</b><small>Worksheets and links</small></button></div>`};
+   <button class="svt" style="--tc:var(--c-church)" data-go="library"><span>📚</span><b>Library</b><small>Worksheets and links</small></button>${top?`
+   <button class="svt" style="--tc:var(--c-arena)" data-go="report"><span>📊</span><b>Monthly report</b><small>For Abouna</small></button>`:""}</div>`};
 
 function gate(title,ic,back){
   if(window.hvLock&&hvLock())return true;

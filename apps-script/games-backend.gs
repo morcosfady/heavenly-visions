@@ -91,6 +91,13 @@ var BADGE_RULES = {
   verse_7: function (u) { return (u.cnt.verse || 0) >= 7; }
 };
 
+function bumpMonth(u, kind, pts) {
+  var ym = today().slice(0, 7);
+  if (!u.ms || u.ms.m !== ym) u.ms = { m: ym, s: 0, k: {} };
+  u.ms.s += pts;
+  u.ms.k[kind] = (u.ms.k[kind] || 0) + 1;
+}
+
 function evalBadges(u) {
   u.cnt = u.cnt || {};
   u.badges = u.badges || [];
@@ -304,6 +311,7 @@ function attendAccount(p, me, b) {
     if (st > 0 && st % STREAK_EVERY === 0) {
       var u2 = JSON.parse(p.getProperty('u_' + me.id));
       u2.score += STREAK_BONUS;
+      bumpMonth(u2, 'streak', STREAK_BONUS);
       u2.sb = true;
       u2.cnt = u2.cnt || {};
       u2.cnt.streak = (u2.cnt.streak || 0) + 1;
@@ -841,6 +849,110 @@ function evAction(p, me, b) {
   return { ok: false, error: 'missing' };
 }
 
+/* ---------- Class competitions and the monthly report ----------
+   cp_<church>  {active, month, prize, hall:[...]}   one competition at a time per church
+   Score of a class = attendance % and average stars per kid this month (weights below).
+   Kids only ever get class level numbers. */
+var COMP = { wAtt: 0.5, wStars: 0.5, starsTarget: 60 };
+
+function monthRange(ym) {
+  var a = ym.split('-'), y = +a[0], m = +a[1];
+  var last = new Date(Date.UTC(y, m, 0)).getUTCDate();
+  return { from: dayNum(ym + '-01'), to: dayNum(ym + '-' + ('0' + last).slice(-2)) };
+}
+
+function compStandings(ctx, church, ym) {
+  var r = monthRange(ym), groups = {};
+  ctx.users.forEach(function (u) {
+    if (u.role !== 'student' || u.req || u.church !== church || !u.grade) return;
+    (groups[u.grade] = groups[u.grade] || []).push(u);
+  });
+  var rows = Object.keys(groups).map(function (g) {
+    var list = groups[g], stats = list.map(function (u) { return statsOf(ctx, u, r.from, r.to); });
+    var att = pooled(stats), att0 = att === null ? 0 : att, st = 0;
+    list.forEach(function (u) { if (u.ms && u.ms.m === ym) st += u.ms.s; });
+    var avg = st / list.length;
+    var score = Math.round(100 * (COMP.wAtt * att0 / 100 + COMP.wStars * Math.min(1, avg / COMP.starsTarget)));
+    return { grade: g, kids: list.length, att: att, stars: Math.round(avg * 10) / 10, score: score };
+  });
+  rows.sort(function (x, y) { return y.score - x.score || (x.grade < y.grade ? -1 : 1); });
+  return rows;
+}
+
+function compAction(p, me, b) {
+  var key = 'cp_' + me.church, cfg = readJson(p, key, { active: false, month: '', prize: '', hall: [] });
+  var t = today(), ym = t.slice(0, 7), ctx = attCtx(p), justEnded = null;
+  if (cfg.active && cfg.month < ym) {
+    var fin = compStandings(ctx, me.church, cfg.month);
+    justEnded = { m: cfg.month, winner: fin[0] ? fin[0].grade : '', score: fin[0] ? fin[0].score : 0, prize: cfg.prize, top: fin.slice(0, 3) };
+    cfg.hall = [justEnded].concat(cfg.hall || []).slice(0, 12);
+    cfg.active = false;
+    p.setProperty(key, JSON.stringify(cfg));
+  }
+  if (b.action === 'cp_set') {
+    if (!(me.role === 'coordinator' || isTop(me.role))) return { ok: false, error: 'denied' };
+    if (b.on) { cfg.active = true; cfg.month = ym; cfg.prize = cleanText(b.prize, 80); }
+    else if (cfg.active) {
+      var st = compStandings(ctx, me.church, cfg.month);
+      cfg.hall = [{ m: cfg.month, winner: st[0] ? st[0].grade : '', score: st[0] ? st[0].score : 0, prize: cfg.prize, top: st.slice(0, 3) }].concat(cfg.hall || []).slice(0, 12);
+      cfg.active = false;
+    }
+    p.setProperty(key, JSON.stringify(cfg));
+    return { ok: true };
+  }
+  var month = cfg.active ? cfg.month : ym;
+  return { ok: true, active: cfg.active, month: month, prize: cfg.prize, hall: cfg.hall || [], justEnded: justEnded,
+    standings: compStandings(ctx, me.church, month), mine: me.grade, canSet: me.role === 'coordinator' || isTop(me.role),
+    weights: { att: COMP.wAtt, stars: COMP.wStars, target: COMP.starsTarget } };
+}
+
+function reportAction(p, me, b) {
+  if (!(me.role === 'coordinator' || isTop(me.role))) return { ok: false, error: 'denied' };
+  var ym = /^[0-9]{4}-[0-9]{2}$/.test(String(b.month || '')) ? b.month : today().slice(0, 7);
+  var church = me.role === 'master' ? (cleanText(b.church, 50) || me.church) : me.church;
+  var ctx = attCtx(p), r = monthRange(ym);
+  var prevYm = dayStr(r.from - 1).slice(0, 7), pr = monthRange(prevYm);
+  var scope = ctx.users.filter(function (u) {
+    if (u.church !== church) return false;
+    if (me.role === 'coordinator' && u.grade !== me.grade) return false;
+    return (u.role === 'student' && !u.req) || u.role === 'servant';
+  });
+  var cur = scope.map(function (u) { return statsOf(ctx, u, r.from, r.to); });
+  var prev = scope.map(function (u) { return statsOf(ctx, u, pr.from, pr.to); });
+  var kids = cur.filter(function (s) { return s.u.role === 'student'; }), srv = cur.filter(function (s) { return s.u.role === 'servant'; });
+  var kidsPrev = prev.filter(function (s) { return s.u.role === 'student'; });
+  var kp = pooled(kids), kpp = pooled(kidsPrev);
+  var groups = {};
+  kids.forEach(function (s) { (groups[s.u.grade] = groups[s.u.grade] || []).push(s); });
+  var classes = Object.keys(groups).map(function (g) { return { grade: g, kids: groups[g].length, avg: pooled(groups[g]) }; })
+    .sort(function (x, y) { return (y.avg === null ? -1 : y.avg) - (x.avg === null ? -1 : x.avg); });
+  var flagged = kids.filter(function (s) { return s.fu; }), followed = 0, seenG = {};
+  flagged.forEach(function (s) {
+    var k = 'fu_' + church + '|' + s.u.grade;
+    if (!seenG[k]) seenG[k] = readJson(p, k, {});
+    var e = seenG[k][s.u.id];
+    if (e && ((e.c && dayStr(Math.floor((e.c - EPOCH) / 86400000)).slice(0, 7) === ym) || (e.v && dayStr(Math.floor((e.v - EPOCH) / 86400000)).slice(0, 7) === ym))) followed++;
+  });
+  var act = { games: 0, quizzes: 0, verses: 0, prayers: 0, coloring: 0, stars: 0 };
+  kids.forEach(function (s) {
+    var u = s.u;
+    if (!u.ms || u.ms.m !== ym) return;
+    act.games += u.ms.k.selfplay || 0; act.quizzes += u.ms.k.quiz || 0; act.verses += u.ms.k.verse || 0;
+    act.prayers += u.ms.k.prayer || 0; act.coloring += u.ms.k.color || 0; act.stars += u.ms.s;
+  });
+  var evs = readJson(p, 'ev_' + church, []).filter(function (e) { return e.date.slice(0, 7) === ym && (me.role !== 'coordinator' || e.grades.indexOf('all') >= 0 || e.grades.indexOf(me.grade) >= 0); })
+    .sort(function (x, y) { return x.date < y.date ? -1 : 1; }).map(function (e) { return { title: e.title, date: e.date, ic: e.ic, place: e.place }; });
+  var cp = readJson(p, 'cp_' + church, { hall: [] });
+  var win = (cp.hall || []).filter(function (h) { return h.m === ym; })[0] || null;
+  var newKids = kids.filter(function (s) { var j = Math.floor(((s.u.joined || 0) - EPOCH) / 86400000); return j >= r.from && j <= r.to; }).length;
+  return { ok: true, month: ym, church: church, scope: me.role === 'coordinator' ? me.grade : 'All classes', generated: today(),
+    kpi: { kidsPct: kp, servantsPct: pooled(srv), presentKids: kids.filter(function (s) { return s.present.length > 0; }).length, kids: kids.length, servants: srv.length,
+      newKids: newKids, trend: kp !== null && kpp !== null ? kp - kpp : null },
+    weekly: weeklyTrend(kids, srv), classes: classes,
+    servants: { total: srv.length, avg: pooled(srv), strong: srv.filter(function (s) { return s.pct !== null && s.pct >= 80; }).length },
+    followup: { flagged: flagged.length, followed: followed }, activity: act, events: evs, winner: win };
+}
+
 function accountAction(p, b) {
   if (b.action === 'signup') {
     var un = String(b.username || '').trim().toLowerCase();
@@ -907,6 +1019,8 @@ function accountAction(p, b) {
   if (/^an_/.test(b.action)) return annAction(p, me, b);
   if (/^fu_/.test(b.action)) return fuAction(p, me, b);
   if (/^rs_/.test(b.action)) return resAction(p, me, b);
+  if (/^cp_/.test(b.action)) return compAction(p, me, b);
+  if (b.action === 'rp_month') return reportAction(p, me, b);
   if (/^ev_/.test(b.action)) return evAction(p, me, b);
   if (b.action === 'live_finish') {
     if (!isStaff(me.role)) return { ok: false, error: 'denied' };
@@ -966,6 +1080,7 @@ function accountAction(p, b) {
     me.score += pts;
     me.cnt = me.cnt || {};
     me.cnt[b.kind] = (me.cnt[b.kind] || 0) + 1;
+    bumpMonth(me, b.kind, pts);
     me.log.unshift({ k: b.kind, p: pts, t: Date.now(), n: String(b.label || '').slice(0, 40) });
     me.log = me.log.slice(0, 15);
     var fresh = evalBadges(me);
@@ -1010,7 +1125,7 @@ function doPost(e) {
   lock.waitLock(20000);
   try {
     var p = PropertiesService.getScriptProperties();
-    if (['signup', 'login', 'me', 'update', 'award', 'attend', 'shop_buy', 'avatar_set'].indexOf(b.action) >= 0 || b.action.indexOf('att_') === 0 || b.action.indexOf('lp_') === 0 || b.action.indexOf('an_') === 0 || b.action.indexOf('fu_') === 0 || b.action.indexOf('rs_') === 0 || b.action.indexOf('ev_') === 0 || b.action.indexOf('access_') === 0 || b.action.indexOf('sync_') === 0 || b.action.indexOf('live_') === 0) return out(accountAction(p, b));
+    if (['signup', 'login', 'me', 'update', 'award', 'attend', 'shop_buy', 'avatar_set'].indexOf(b.action) >= 0 || b.action.indexOf('att_') === 0 || b.action.indexOf('lp_') === 0 || b.action.indexOf('an_') === 0 || b.action.indexOf('fu_') === 0 || b.action.indexOf('rs_') === 0 || b.action.indexOf('cp_') === 0 || b.action === 'rp_month' || b.action.indexOf('ev_') === 0 || b.action.indexOf('access_') === 0 || b.action.indexOf('sync_') === 0 || b.action.indexOf('live_') === 0) return out(accountAction(p, b));
     var who = getUser(p, b);
     if (!who || !isStaff(who.role)) return out({ ok: false, error: 'denied' });
     if (b.action === 'delete') {

@@ -57,9 +57,10 @@ const MORE=[
   ["bedtime","🛏️","Bedtime","Songs and stories","--c-bed"],
   ["prayers","🙏","Prayers","Talk to God","--c-pray"],
   ["coloring","🎨","Coloring","Color and keep","--c-color"],
-  ["calendar","📅","Calendar","Feasts and events","--c-cal"]];
+  ["calendar","📅","Calendar","Feasts and events","--c-cal"],
+  ["arena","🏟️","Class Arena","Class vs class","--c-arena"]];
 window.hvMoreDoors=function(){
-  return `<section class="sec" aria-label="More to explore"><h2 class="sech"><span>More to explore</span></h2><nav class="doors2">${MORE.map((m,i)=>`<button class="mdoor${i===4?" last":""}" style="--dc:var(${m[4]})" data-go="${m[0]}"><span class="big" aria-hidden="true">${m[1]}</span><b>${m[2]}</b><small>${m[3]}</small></button>`).join("")}</nav></section>`};
+  return `<section class="sec" aria-label="More to explore"><h2 class="sech"><span>More to explore</span></h2><nav class="doors2">${MORE.map((m,i)=>`<button class="mdoor" style="--dc:var(${m[4]})" data-go="${m[0]}"><span class="big" aria-hidden="true">${m[1]}</span><b>${m[2]}</b><small>${m[3]}</small></button>`).join("")}</nav></section>`};
 
 /* ---------- coming soon pages ---------- */
 const SOON={};
@@ -119,5 +120,5 @@ document.addEventListener("click",e=>{
   if(e.target.closest("[data-soon]"))toast("The daily verse challenge is coming in Phase 3 ✨")});
 document.documentElement.lang=lang();
 
-window.hvHomeInit=function(){setTimeout(welcome,900);if(window.hvLoadAnn)hvLoadAnn();if(window.hvThisSunday)hvThisSunday();if(window.hvNextEvent)hvNextEvent()};
+window.hvHomeInit=function(){setTimeout(welcome,900);if(window.hvLoadAnn)hvLoadAnn();if(window.hvThisSunday)hvThisSunday();if(window.hvNextEvent)hvNextEvent();if(window.hvArenaCheck)hvArenaCheck()};
 })();
