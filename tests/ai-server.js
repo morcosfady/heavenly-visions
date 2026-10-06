@@ -8,6 +8,7 @@ const GOOD = { games: [
   { t: 'verse', title: 'Verse for Noah', items: [{ text: 'I set My *rainbow* in the *cloud*.', ref: 'Genesis 9:13' }] },
   { t: 'wordsearch', title: 'Noah words', items: [{ w: 'ARK', hint: 'The big boat' }, { w: 'DOVE', hint: 'Brought a leaf' }, { w: 'RAIN', hint: 'Fell for days' }, { w: 'NOAH', hint: 'Built the ark' }] }] };
 const env = make({ ai: () => JSON.stringify(GOOD) });
+env.props.lm_a = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, '..', 'lumi', 'cards.json'), 'utf8')).map(c => c.id).join(','); /* TEST ONLY: every card is approved so the chat can be tried */
 http.createServer((req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*'); res.setHeader('Access-Control-Allow-Headers', '*');
   if (req.method === 'OPTIONS') { res.end(); return }

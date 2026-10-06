@@ -32,13 +32,13 @@ function out(o) { return ContentService.createTextOutput(JSON.stringify(o)).setM
 
 function today() { return Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd'); }
 
-function who(b) {
+function who(b, allowStudent) {
   var r = UrlFetchApp.fetch(MAIN_URL, { method: 'post', contentType: 'text/plain', payload: JSON.stringify({ action: 'me', id: b.id, token: b.token }), muteHttpExceptions: true });
   var j;
   try { j = JSON.parse(r.getContentText()); } catch (e) { return null; }
   if (!j || !j.ok || !j.user) return null;
   var u = j.user;
-  if (u.role === 'student' || u.req) return null;
+  if (!allowStudent && (u.role === 'student' || u.req)) return null;
   return u;
 }
 
@@ -115,9 +115,10 @@ function doPost(e) {
   var lock = LockService.getScriptLock();
   lock.waitLock(20000);
   try {
-    var u = who(b);
+    var isLumi = String(b.action || '').indexOf('lumi_') === 0;
+    var u = who(b, isLumi);
     if (!u) return out({ ok: false, error: 'denied' });
-    if (String(b.action || '').indexOf('lumi_') === 0) return out(lumiPost(b, u));
+    if (isLumi) return out(lumiPost(b, u));
     var topic = clip(b.topic, 120);
     if (!topic && !clip(b.text, 10)) return out({ ok: false, error: 'missing' });
     var wanted = [];

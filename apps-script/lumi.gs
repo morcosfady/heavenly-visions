@@ -7,7 +7,8 @@
        lm_a  approved card ids, comma separated      lm_r  rejected card ids, comma separated
        lmc_<id>  one edited or new card as JSON (about 1 KB each)
    - Only approved cards can ever be used to answer a kid (lumiSearch with onlyApproved).
-   Everything below is checked on the server. Only approved servants, coordinators, priests and masters can use the review actions. */
+   Everything below is checked on the server. Only approved servants, coordinators, priests and masters can use the review actions.
+   Kid actions (lumi_ask, lumi_hist for their own history, lumi_fb) are handled in the third file, lumi-ask.gs. */
 var CARDS_URL = 'https://morcosfady.github.io/heavenly-visions/lumi/cards.json';
 var LM_TAGS = ['saint', 'feast', 'fast', 'sacrament', 'prayer', 'bible', 'church', 'history', 'virtue', 'trinity', 'mary', 'jesus', 'liturgy', 'calendar', 'martyr', 'angel', 'prophet', 'icon'];
 var LM_CHUNK = 40000;
@@ -44,7 +45,7 @@ var LM_SYN = [
   ['heaven', 'paradise', 'kingdom'],
   ['marriage', 'matrimony', 'wedding', 'married']
 ];
-var LM_STOP = { a: 1, an: 1, the: 1, is: 1, are: 1, was: 1, were: 1, do: 1, does: 1, did: 1, to: 1, of: 1, in: 1, on: 1, at: 1, it: 1, its: 1, and: 1, or: 1, for: 1, why: 1, what: 1, who: 1, how: 1, when: 1, where: 1, which: 1, can: 1, we: 1, you: 1, i: 1, me: 1, my: 1, our: 1, us: 1, they: 1, them: 1, that: 1, this: 1, with: 1, about: 1, tell: 1, please: 1, there: 1, so: 1, be: 1, have: 1, has: 1, had: 1, will: 1, would: 1, should: 1, could: 1, from: 1, by: 1, as: 1, if: 1, not: 1, no: 1, yes: 1, am: 1, lumi: 1, know: 1, mean: 1, means: 1, called: 1, say: 1, said: 1 };
+var LM_STOP = { a: 1, an: 1, the: 1, is: 1, are: 1, was: 1, were: 1, do: 1, does: 1, did: 1, to: 1, of: 1, in: 1, on: 1, at: 1, it: 1, its: 1, and: 1, or: 1, for: 1, why: 1, what: 1, who: 1, how: 1, when: 1, where: 1, which: 1, can: 1, we: 1, you: 1, i: 1, me: 1, my: 1, our: 1, us: 1, they: 1, them: 1, that: 1, this: 1, with: 1, about: 1, tell: 1, please: 1, there: 1, so: 1, be: 1, have: 1, has: 1, had: 1, will: 1, would: 1, should: 1, could: 1, from: 1, by: 1, as: 1, if: 1, not: 1, no: 1, yes: 1, am: 1, lumi: 1, know: 1, mean: 1, means: 1, called: 1, say: 1, said: 1, kid: 1, kids: 1, child: 1, children: 1, best: 1, game: 1, games: 1, video: 1, videos: 1, people: 1, thing: 1, things: 1 };
 
 function lmNorm(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9' ]+/g, ' ').replace(/\s+/g, ' ').trim(); }
 function lmStem(w) {
@@ -197,6 +198,12 @@ function lumiAll(force) {
 
 function lumiPost(b, u) {
   var p = PropertiesService.getScriptProperties(), act = b.action;
+  var staff = u.role !== 'student' && !u.req;
+  if (act === 'lumi_ask') return lmAsk(b, u);
+  if (act === 'lumi_hist') return lmHist(b, u, staff);
+  if (act === 'lumi_fb') return lmFeedback(b, u);
+  if (!staff) return { ok: false, error: 'denied' };
+  if (act === 'lumi_alerts' || act === 'lumi_alert_seen') return lmAlerts(b, u);
   if (act === 'lumi_refresh') { CacheService.getScriptCache().remove('lmbase_n'); var r = lumiAll(true); return r ? { ok: true, n: r.length } : { ok: false, error: 'nocards' }; }
   var all = lumiAll(false);
   if (!all) return { ok: false, error: 'nocards' };

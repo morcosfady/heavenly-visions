@@ -1,8 +1,8 @@
 /* Heavenly Visions: Ask Lumi, the chat screen (Phase 2).
    Lumi the Little Lamb answers kid questions about God and the Church from approved cards.
-   PHASE 2 uses a SAMPLE ANSWER ENGINE that runs on this device so the design can be seen (it reads lumi/cards.json, approved or not).
-   Phase 3 replaces fakeAnswer() with the real server (search, AI, safety). The answer shape stays the same:
-   { answer, verse:{text,ref}|null, sources:[{id,title,label}], links:[routes], mood, followups:[strings] }
+   PHASE 3: the answers come from the helper script (apps-script/lumi-ask.gs). It is FREE: no AI model and no paid service. Lumi answers only from
+   approved cards, with safety rules and limits checked on the server. The answer shape is:
+   { answer, verse:{text,ref}|null, sources:[{id,title,label}], links:[routes], mood, followups:[strings], ts, blocked?, unknown?, safety? }
    English only. No audio. History and saved answers live on this device (hv_lumi). */
 (function(){
 const E=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -40,40 +40,13 @@ window.hvLumiSvg=function(mood,size,cls){
    <path d="M80 144 Q100 166 120 144" fill="none" stroke="#e3b45c" stroke-width="2.6" stroke-linecap="round"/><g fill="#e3b45c"><rect x="97" y="156" width="6" height="18" rx="2"/><rect x="91" y="161" width="18" height="6" rx="2"/></g>
    ${hooves}</g>${extra}</svg>`};
 
-/* ================= the sample answer engine (Phase 2 only) ================= */
-const SYN=[["mary","virgin","theotokos","mother of god","our lady","madonna"],["jesus","christ","savior","saviour","messiah"],["church","temple","cathedral"],["communion","eucharist","qurbana","korban","offering"],
-  ["baptism","baptize","baptized","baptised","christening"],["priest","abouna","clergy"],["pope","patriarch"],["fast","fasting","lent","abstain","vegan"],["christmas","nativity","birth","born","bethlehem"],["easter","pascha","resurrection","risen"],
-  ["cross","crucifixion","crucified","golgotha"],["haykal","altar","sanctuary","iconostasis"],["incense","censer","smoke"],["icon","icons","picture"],["agpeya","hours","prayer book"],["pray","prayer","prayers","praying"],
-  ["martyr","martyrs","martyrdom"],["angel","angels","michael","gabriel","archangel"],["nayrouz","new year","tout"],["liturgy","mass","qodas","service","worship"],["bible","scripture","testament","gospel"],
-  ["sin","forgive","forgiveness","confession","repent"],["egypt","holy family"],["spirit","holy spirit","pentecost"],["trinity","three persons"],["saint","saints","synaxarium"]];
-const STOP=new Set("a an the is are was were do does did to of in on at it its and or for why what who how when where which can we you i me my our us they them that this with about tell please there so be have has had will would should could from by as if not no yes am lumi know mean means called say said".split(" "));
-const norm=s=>String(s||"").toLowerCase().replace(/[^a-z0-9' ]+/g," ").replace(/\s+/g," ").trim();
-const stem=w=>w.length>5&&/ing$/.test(w)?w.slice(0,-3):w.length>4&&/ies$/.test(w)?w.slice(0,-3)+"y":w.length>3&&/s$/.test(w)&&!/ss$/.test(w)?w.slice(0,-1):w.length>4&&/ed$/.test(w)?w.slice(0,-2):w;
-const words=s=>norm(s).split(" ").filter(w=>w&&!STOP.has(w)).map(stem);
-let CARDS=null,LOADING=null;
-function loadCards(){if(CARDS)return Promise.resolve(CARDS);if(LOADING)return LOADING;
-  LOADING=fetch("lumi/cards.json").then(r=>{if(!r.ok)throw 0;return r.json()}).then(c=>{CARDS=c.map(x=>Object.assign(x,{_t:words(x.title),_k:words((x.kw||[]).join(" ")),_g:words((x.tags||[]).join(" ")),_x:words(x.text)}));return CARDS}).catch(()=>{LOADING=null;throw 0});return LOADING}
-function expand(q){const main=new Set(words(q)),extra=new Set(),n=norm(q);
-  SYN.forEach(g=>{const hit=[...main].some(w=>g.some(t=>words(t).includes(w)))||g.some(t=>t.includes(" ")&&n.includes(t));if(hit)g.forEach(t=>words(t).forEach(w=>{if(!main.has(w))extra.add(w)}))});return {main:[...main],extra:[...extra],n}}
-function search(q,level){const Q=expand(q);if(!Q.main.length)return [];const N=CARDS.length,df={};
-  CARDS.forEach(c=>new Set([...c._t,...c._k,...c._g,..._x(c)]).forEach(w=>df[w]=(df[w]||0)+1));
-  const idf=w=>Math.log(1+N/(1+(df[w]||0)));
-  return CARDS.map(c=>{let s=0,hits=0;Q.main.forEach(w=>{let h=0;if(c._t.includes(w)){s+=6*idf(w);h=1}if(c._k.includes(w)){s+=5*idf(w);h=1}if(c._g.includes(w)){s+=3*idf(w);h=1}if(c._x.includes(w)){s+=1.2*idf(w);h=1}hits+=h});
-    Q.extra.forEach(w=>{if(c._t.includes(w))s+=2.5*idf(w);if(c._k.includes(w))s+=2*idf(w);if(c._g.includes(w))s+=1.2*idf(w)});
-    if(Q.n.length>4&&(norm(c.title).includes(Q.n)||c._kn&&c._kn.includes(Q.n)))s+=8;s*=.5+.5*hits/Q.main.length;
-    if(level==="little"&&c.level==="older")s*=.8;if(level==="older"&&c.level==="little")s*=.85;return {c,s}}).filter(x=>x.s>=4).sort((a,b)=>b.s-a.s).slice(0,4)}
-const _x=c=>c._x;
-const sentences=t=>t.match(/[^.!?]+[.!?]+(\s|$)/g)||[t];
-const MOOD={prayer:"praying",sacrament:"gentle",martyr:"gentle",fast:"gentle"};
-const label=c=>c.source.startsWith("Bible")?"📖 "+(c.ref||"Bible"):c.source.startsWith("St-Takla")?"📚 St-Takla.org":/Synaxarium/.test(c.source)?"📜 Synaxarium":/app content/.test(c.source)?"🏠 Our lessons":"⛪ Church teaching";
-async function fakeAnswer(q,level){
-  await loadCards();const hits=search(q,level);
-  if(!hits.length)return {answer:"That's a great question! I don't know that one yet. Ask your servant or Abouna on Sunday 🙏",verse:null,sources:[],links:[],mood:"gentle",followups:[],unknown:true};
-  const top=hits[0].c,sn=sentences(top.text.trim()),n=level==="little"?3:7;
-  const tail=level==="little"?" 🐑":"";
-  const rel=CARDS.filter(c=>c.id!==top.id&&c.tags.some(t=>top.tags.includes(t))).sort((a,b)=>(b.tags.filter(t=>top.tags.includes(t)).length)-(a.tags.filter(t=>top.tags.includes(t)).length)).slice(0,3).map(c=>c.title);
-  const mood=top.tags.map(t=>MOOD[t]).find(Boolean)||(level==="little"?"happy":"happy");
-  return {answer:sn.slice(0,n).join("").trim()+tail,verse:top.verse||null,sources:hits.slice(0,3).map(h=>({id:h.c.id,title:h.c.title,label:label(h.c)})).filter((x,i,arr)=>arr.findIndex(y=>y.label===x.label)===i).slice(0,2),links:(top.links||[]).slice(0,2),mood,followups:rel}}
+/* ================= asking the helper (free: no AI, answers come from approved cards) ================= */
+const URL_=()=>window.hvAiUrl?hvAiUrl():"";
+async function serverAnswer(q){
+  const url=URL_();if(!url)throw "off";const a=A();
+  const r=await (await fetch(url,{method:"POST",body:JSON.stringify({id:a.user.id,token:a.token,action:"lumi_ask",q})})).json();
+  if(!r.ok)throw r.error||"ai";return r}
+function sendFeedback(ts,v){const url=URL_(),a=A();if(!url||!a)return;try{fetch(url,{method:"POST",body:JSON.stringify({id:a.user.id,token:a.token,action:"lumi_fb",ts,v})})}catch{}}
 
 /* ================= suggestions by grade and season ================= */
 const LITTLE=["Who is Jesus?","Who is St. Mary?","Tell me about Noah","Why do we go to church?","Who is Archangel Michael?","Why do we pray?","Who made the world?","What is baptism?"];
@@ -98,12 +71,12 @@ function ansHtml(en,saved){const a=en.a;
    ${a.verse?`<div class="lm-verse">“${E(a.verse.text)}”<b>${E(a.verse.ref)}</b></div>`:""}
    ${a.sources&&a.sources.length?`<div class="lm-src">${a.sources.map(s=>`<span class="lm-chip">${E(s.label)}</span>`).join("")}</div>`:""}
    ${a.links&&a.links.length?`<div class="lm-links">${a.links.map(r=>{const t=LINKTXT(r);return t?`<button class="lm-lb" data-go="${E(r)}">${t[0]} ${t[1]}</button>`:""}).join("")}</div>`:""}
-   <div class="lm-fb"><button class="lm-ic" data-fb="up" aria-label="Good answer" aria-pressed="${en.fb==="up"}">👍</button><button class="lm-ic" data-fb="down" aria-label="Not a good answer" aria-pressed="${en.fb==="down"}">👎</button><button class="lm-ic" data-sv="1" aria-label="Save this answer" aria-pressed="${!!en.saved}">${en.saved?"⭐":"☆"}</button></div>
+   ${a.safety==="worry"||a.safety==="bad"||a.safety==="adult"?"":`<div class="lm-fb"><button class="lm-ic" data-fb="up" aria-label="Good answer" aria-pressed="${en.fb==="up"}">👍</button><button class="lm-ic" data-fb="down" aria-label="Not a good answer" aria-pressed="${en.fb==="down"}">👎</button><button class="lm-ic" data-sv="1" aria-label="Save this answer" aria-pressed="${!!en.saved}">${en.saved?"⭐":"☆"}</button></div>`}
    ${a.followups&&a.followups.length?`<div class="lm-fu">${a.followups.map(f=>`<button class="lm-sug" data-q="${E(f)}">${E(f)}</button>`).join("")}</div>`:""}</div></div>`}
 function kidHtml(q){return `<div class="lm-msg lm-k"><div class="lm-bub lm-kb"><p class="lm-t">${E(q)}</p></div><div class="lm-av">${avatar()}</div></div>`}
 const typing=()=>`<div class="lm-msg lm-l" id="lmtyping"><div class="lm-face">${hvLumiSvg("thinking",38)}</div><div class="lm-bub"><span class="lm-dot"></span><span class="lm-dot"></span><span class="lm-dot"></span></div></div>`;
 
-function hero(){return `<div class="lm-hero"><div class="lm-big" id="lmbig">${hvLumiSvg(S.mood,128)}</div><div class="lm-name"><h1>Ask Lumi</h1><div class="tag">Your little lamb helper <span class="lm-prev">Preview</span></div></div></div>`}
+function hero(){return `<div class="lm-hero"><div class="lm-big" id="lmbig">${hvLumiSvg(S.mood,128)}</div><div class="lm-name"><h1>Ask Lumi</h1><div class="tag">Your little lamb helper</div></div></div>`}
 function todayCard(){let t=null;try{const c=window.hvCalToday?hvCalToday():null;if(c){const x=c.ev.find(e=>e.type==="feast")||c.ev.find(e=>e.type==="saint");if(x)t={ic:x.ic,t:x.t,q:x.type==="feast"?"What is "+x.t+"?":"Who is "+x.t+"?"}}}catch{}
   return t?`<div class="lm-today"><span class="lm-ti" aria-hidden="true">${t.ic}</span><div><div class="k">Today</div><b>${E(t.t)}</b></div><button class="btn alt" data-q="${E(t.q)}">Ask Lumi about it</button></div>`:""}
 
@@ -111,6 +84,7 @@ function page(){
   const a=A();
   const top=`<div class="topbar"><button class="back" data-go="home">← Back</button></div>`;
   if(!a){app.innerHTML=`${top}<div class="lm-wrap">${hero()}<div class="card sec" style="text-align:center"><b>Login to chat with Lumi</b><p class="tag" style="margin:4px 0 8px">Lumi knows you by your profile, so only you see your questions.</p><button class="btn gold" data-go="login">👤 Login</button></div></div>`;return}
+  if(!URL_()){S.mood="sleepy";app.innerHTML=`${top}<div class="lm-wrap">${hero()}<div class="card sec" style="text-align:center"><b>Lumi is still sleeping 💤</b><p class="tag" style="margin:4px 0 0">She will wake up soon. Ask your servant or Abouna in the meantime!</p></div></div>`;return}
   S.msgs=[];S.mood="happy";
   app.innerHTML=`${top}<div class="lm-wrap">${hero()}
    <div class="ds-seg" id="lmtabs" role="tablist">${[["chat","💬 Chat"],["mine","🕘 My questions"],["saved","⭐ Saved"]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${S.tab===t[0]}" role="tab">${t[1]}</button>`).join("")}</div>
@@ -142,15 +116,17 @@ async function ask(q){
   const log=document.getElementById("lmlog"),sug=document.getElementById("lmsug"),inp=document.getElementById("lmin");if(!log)return S.busy=false;
   if(inp)inp.value="";if(sug)sug.innerHTML="";
   log.insertAdjacentHTML("beforeend",kidHtml(q)+typing());setMood("thinking");scrollEnd();
-  const t0=Date.now();let a;
-  try{a=await fakeAnswer(q,levelOf())}catch{a=null}
-  await new Promise(r=>setTimeout(r,Math.max(0,(reduce()?150:900)-(Date.now()-t0))));
+  const t0=Date.now();let a=null,err="";
+  try{a=await serverAnswer(q)}catch(e){err=String(e)}
+  await new Promise(r=>setTimeout(r,Math.max(0,(reduce()?150:700)-(Date.now()-t0))));
   document.getElementById("lmtyping")?.remove();
-  if(!a){log.insertAdjacentHTML("beforeend",`<div class="lm-msg lm-l"><div class="lm-face">${hvLumiSvg("sleepy",38)}</div><div class="lm-bub"><p class="lm-t">Lumi is sleeping 💤 I could not reach my cards. Check your internet and try again.</p></div></div>`);setMood("sleepy");S.busy=false;scrollEnd();return}
-  const en={id:uid(),q,a,ts:Date.now(),level:levelOf()};
+  const say=(m,msg)=>log.insertAdjacentHTML("beforeend",`<div class="lm-msg lm-l"><div class="lm-face">${hvLumiSvg(m,38)}</div><div class="lm-bub"><p class="lm-t">${E(msg)}</p></div></div>`);
+  if(!a){say("sleepy",err==="off"?"Lumi is still sleeping 💤 She is not switched on yet. Ask your servant!":err==="denied"?"Please login again to talk with Lumi.":"Lumi is sleeping 💤 I could not reach my helper. Check your internet and try again.");setMood("sleepy");S.busy=false;scrollEnd();return}
+  if(a.blocked){say(a.mood||"gentle",a.answer);setMood(a.mood||"gentle");if(inp&&a.blocked==="slow")inp.value=q;S.busy=false;scrollEnd();return}
+  const en={id:uid(),q,a,ts:a.ts||Date.now(),level:levelOf()};
   S.msgs.push(en);const h=hist();h.unshift(en);saveHist(h);
   log.insertAdjacentHTML("beforeend",ansHtml(en));setMood(a.mood);
-  if(a.followups&&a.followups.length===0&&sug)sug.innerHTML=`<div class="lm-sugh">Try asking</div>${suggestions(3).map(x=>`<button class="lm-sug" data-q="${E(x)}">${E(x)}</button>`).join("")}`;
+  if(a.followups&&a.followups.length===0&&sug&&a.safety!=="worry")sug.innerHTML=`<div class="lm-sugh">Try asking</div>${suggestions(3).map(x=>`<button class="lm-sug" data-q="${E(x)}">${E(x)}</button>`).join("")}`;
   S.busy=false;scrollEnd();}
 
 function wireChat(){
@@ -163,11 +139,11 @@ function wireChat(){
     const q=e.target.closest("[data-q]");if(q)return ask(q.dataset.q);
     const bub=e.target.closest(".lm-bub[data-e]");if(!bub)return;const id=bub.dataset.e,h=hist(),en=h.find(x=>x.id===id);if(!en)return;
     const fb=e.target.closest("[data-fb]"),sv=e.target.closest("[data-sv]");
-    if(fb){en.fb=en.fb===fb.dataset.fb?"":fb.dataset.fb;saveHist(h);bub.querySelectorAll("[data-fb]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.fb===en.fb));toast(en.fb==="down"?"Thanks. A servant will take a look 🙏":en.fb==="up"?"Thank you! 🐑":"OK")}
+    if(fb){en.fb=en.fb===fb.dataset.fb?"":fb.dataset.fb;saveHist(h);if(en.fb)sendFeedback(en.ts,en.fb);bub.querySelectorAll("[data-fb]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.fb===en.fb));toast(en.fb==="down"?"Thanks. A servant will take a look 🙏":en.fb==="up"?"Thank you! 🐑":"OK")}
     if(sv){en.saved=!en.saved;saveHist(h);sv.setAttribute("aria-pressed",en.saved);sv.textContent=en.saved?"⭐":"☆";toast(en.saved?"Saved ⭐":"Removed from saved")}}}
 
 /* ================= home door and route ================= */
-window.hvLumiDoor=function(){return `<button class="door d-lumi wide" data-go="lumi"><span class="big lm-peek" aria-hidden="true">${hvLumiSvg("happy",92)}</span><b>Ask Lumi</b><small>Questions about God and the Church</small></button>`};
+window.hvLumiDoor=function(){if(!URL_())return "";return `<button class="door d-lumi wide" data-go="lumi"><span class="big lm-peek" aria-hidden="true">${hvLumiSvg("happy",92)}</span><b>Ask Lumi</b><small>Questions about God and the Church</small></button>`};
 window.lumiChatRoute=function(h){if(h==="lumi"){page();return true}return false};
 
 const st=document.createElement("style");
