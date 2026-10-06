@@ -122,7 +122,7 @@ function authPage(mode,startRole){
     const ch=findChurch($("#c").value);if(!ch){m.innerHTML=`<span class="err">Please pick your church from the list.</span>`;$("#c").focus();return}
     m.textContent="Creating…";
     try{const j=await api({action:"signup",role,first:$("#fn").value.trim(),last:$("#ln").value.trim(),name:$("#fn").value.trim()+" "+$("#ln").value.trim(),grade:$("#g")?$("#g").value:"",church:ch.name,phone:$("#ph").value,email:$("#em").value,username:$("#u").value,password:$("#p").value,setup:$("#sc")?$("#sc").value:""});
-      if(!j.ok){m.innerHTML=`<span class="err">${j.error==="master"?"Master setup failed. Check the code and email, or a Master already exists.":j.error==="email"?"Please enter a valid email address.":j.error==="taken"?"That username is taken, try another.":j.error==="username"?"Username: 3 to 20 letters or numbers.":j.error==="password"?"Password needs 6 or more characters.":"Please fill everything in."}</span>`;return}
+      if(!j.ok){m.innerHTML=`<span class="err">${j.error==="master"?"Master setup failed. Check the code and email, or a Master already exists.":j.error==="email"?"Please enter a valid email address.":j.error==="taken"?"That username is taken, try another.":j.error==="emailtaken"?"This email already has a profile. Please login instead.":j.error==="username"?"Username: 3 to 20 letters or numbers.":j.error==="password"?"Password needs 6 or more characters.":"Please fill everything in."}</span>`;return}
       setAcct({token:j.token,user:j.user,avatar:AVATARS[0]});confetti();toast(j.user.req?"Profile created. Waiting for approval ⏳":"Profile created 🎉");go("profile")}
     catch{m.innerHTML=`<span class="err">No internet connection.</span>`}}}
 

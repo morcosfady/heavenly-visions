@@ -9,12 +9,14 @@ const PropertiesService = { getScriptProperties: () => ({
 const Utilities = { DigestAlgorithm: { SHA_256: 1 }, computeDigest: (a, t) => [...crypto.createHash('sha256').update(t).digest()].map(b => b > 127 ? b - 256 : b),
   getUuid: () => crypto.randomUUID(), formatDate: () => '2026-10-11' };
 const LockService = { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) };
+const sent = [];
+const MailApp = { sendEmail: m => sent.push(m) };
 const ContentService = { MimeType: { JSON: 1 }, createTextOutput: s => ({ s, setMimeType() { return this } }) };
-const fn = new Function('PropertiesService', 'Utilities', 'LockService', 'ContentService', src + '; return {doPost, doGet}');
-const { doPost } = fn(PropertiesService, Utilities, LockService, ContentService);
+const fn = new Function('PropertiesService', 'Utilities', 'LockService', 'ContentService', 'MailApp', src + '; return {doPost, doGet}');
+const { doPost } = fn(PropertiesService, Utilities, LockService, ContentService, MailApp);
 const call = b => JSON.parse(doPost({ postData: { contents: JSON.stringify(b) } }).s);
 const T = {};
-const su = (un, role, grade, extra) => { const r = call(Object.assign({ action: 'signup', username: un, password: 'secret1', name: un, church: 'St', role, grade, phone: '1', email: 'a@b.c' }, extra)); T[un] = r.ok ? { id: r.user.id, token: r.token } : null; return r };
+const su = (un, role, grade, extra) => { const r = call(Object.assign({ action: 'signup', username: un, password: 'secret1', name: un, church: 'St', role, grade, phone: '1', email: un + '@b.c' }, extra)); T[un] = r.ok ? { id: r.user.id, token: r.token } : null; return r };
 const A = (un, b) => call(Object.assign({ id: T[un].id, token: T[un].token }, b));
 const ok = (name, cond) => console.log(cond ? 'PASS' : 'FAIL', name);
 
@@ -96,3 +98,11 @@ A('p1x', { action: 'access_set', target: T.s2x.id, role: 'servant', grade: 'Grad
 ok('published game remembers the servant church', A('s2x', { action: 'save', game: { id: 'gc1', t: 'match', title: 'x', grade: 'g4' } }).ok && JSON.parse(doPost({ postData: { contents: JSON.stringify({ action: 'noop' }) } }).s).ok === false);
 const lst = JSON.parse(store['index'] || '[]');
 ok('list entry has church', lst.length && lst[0].id === 'gc1' && lst[0].church === 'St');
+
+const em1 = su('mail1', 'student', 'KG', { email: 'Fady.Test+a@gmail.com', first: 'Fady', last: 'T' });
+ok('signup sends a welcome email', sent.length > 0 && sent[sent.length - 1].to === 'Fady.Test+a@gmail.com' && sent[sent.length - 1].htmlBody.indexOf('Fady') > 0);
+ok('same email is refused', call({ action: 'signup', username: 'mail2', password: 'secret1', name: 'x', church: 'St', role: 'student', grade: 'KG', phone: '1', email: 'fady.test@gmail.com' }).error === 'emailtaken');
+ok('gmail dots and plus count as the same', call({ action: 'signup', username: 'mail3', password: 'secret1', name: 'x', church: 'St', role: 'student', grade: 'KG', phone: '1', email: 'f.a.d.y.test+zz@googlemail.com' }).error === 'emailtaken');
+ok('different email works', su('mail4', 'student', 'KG', { email: 'other@x.org' }).ok);
+ok('update to a taken email is refused', A('mail4', { action: 'update', name: 'x', church: 'St', grade: 'KG', phone: '1', email: 'fady.test@gmail.com' }).error === 'emailtaken');
+ok('update keeping own email is fine', A('mail4', { action: 'update', name: 'x', church: 'St', grade: 'KG', phone: '1', email: 'other@x.org' }).ok);
