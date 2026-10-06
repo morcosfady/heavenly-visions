@@ -953,6 +953,31 @@ function reportAction(p, me, b) {
     followup: { flagged: flagged.length, followed: followed }, activity: act, events: evs, winner: win };
 }
 
+/* Delete my account: removes the profile, login name, attendance history, backup and name from today's lists and follow up notes.
+   The master cannot delete itself (hand the role over first). Needs the password. */
+function deleteAccount(p, me, password) {
+  if (me.role === 'master') return { ok: false, error: 'master' };
+  if (me.hash !== sha(me.salt + String(password || ''))) return { ok: false, error: 'login' };
+  var id = me.id, all = p.getProperties();
+  p.deleteProperty('u_' + id);
+  p.deleteProperty('un_' + me.username);
+  p.deleteProperty('a_' + id);
+  p.deleteProperty('p_' + id);
+  var dn = Number(all['dn_' + id]) || 0;
+  for (var i = 0; i < dn; i++) p.deleteProperty('d_' + id + '_' + i);
+  p.deleteProperty('dn_' + id);
+  Object.keys(all).forEach(function (k) {
+    if (/^att_[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(k)) {
+      var list = readJson(p, k, []), kept = list.filter(function (x) { return !(x.n === me.name && (!x.c || x.c === me.church)); });
+      if (kept.length !== list.length) p.setProperty(k, JSON.stringify(kept));
+    } else if (k.indexOf('fu_') === 0) {
+      var map = readJson(p, k, {});
+      if (map[id]) { delete map[id]; p.setProperty(k, JSON.stringify(map)); }
+    }
+  });
+  return { ok: true };
+}
+
 function accountAction(p, b) {
   if (b.action === 'signup') {
     var un = String(b.username || '').trim().toLowerCase();
@@ -1012,6 +1037,7 @@ function accountAction(p, b) {
     saveUser(p, me);
     return { ok: true, user: publicUser(me) };
   }
+  if (b.action === 'acct_delete') return deleteAccount(p, me, b.password);
   if (b.action.indexOf('access_') === 0) return accessAction(p, me, b);
   if (b.action === 'att_set' || b.action === 'att_state') return attSetAction(p, me, b);
   if (/^att_(my|class|all|person|days|csv)$/.test(b.action)) return attStatsAction(p, me, b);
@@ -1125,7 +1151,7 @@ function doPost(e) {
   lock.waitLock(20000);
   try {
     var p = PropertiesService.getScriptProperties();
-    if (['signup', 'login', 'me', 'update', 'award', 'attend', 'shop_buy', 'avatar_set'].indexOf(b.action) >= 0 || b.action.indexOf('att_') === 0 || b.action.indexOf('lp_') === 0 || b.action.indexOf('an_') === 0 || b.action.indexOf('fu_') === 0 || b.action.indexOf('rs_') === 0 || b.action.indexOf('cp_') === 0 || b.action === 'rp_month' || b.action.indexOf('ev_') === 0 || b.action.indexOf('access_') === 0 || b.action.indexOf('sync_') === 0 || b.action.indexOf('live_') === 0) return out(accountAction(p, b));
+    if (['signup', 'login', 'me', 'update', 'award', 'attend', 'shop_buy', 'avatar_set', 'acct_delete'].indexOf(b.action) >= 0 || b.action.indexOf('att_') === 0 || b.action.indexOf('lp_') === 0 || b.action.indexOf('an_') === 0 || b.action.indexOf('fu_') === 0 || b.action.indexOf('rs_') === 0 || b.action.indexOf('cp_') === 0 || b.action === 'rp_month' || b.action.indexOf('ev_') === 0 || b.action.indexOf('access_') === 0 || b.action.indexOf('sync_') === 0 || b.action.indexOf('live_') === 0) return out(accountAction(p, b));
     var who = getUser(p, b);
     if (!who || !isStaff(who.role)) return out({ ok: false, error: 'denied' });
     if (b.action === 'delete') {

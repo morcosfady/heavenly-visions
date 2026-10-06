@@ -31,7 +31,7 @@ let YT_P=null,YT_READY=null,cur=0,timerEnd=0,timerH=null,progH=null,paused=true;
 function loadYT(){if(YT_READY)return YT_READY;YT_READY=new Promise(res=>{if(window.YT&&YT.Player)return res();const s=document.createElement("script");s.src="https://www.youtube.com/iframe_api";window.onYouTubeIframeAPIReady=res;document.head.appendChild(s)});return YT_READY}
 async function play(i){cur=i;await loadYT();const box=document.getElementById("bplayer");if(!box)return;
   if(YT_P&&YT_P.loadVideoById&&document.getElementById("ytp")){YT_P.loadVideoById(SONGS[i][2]);YT_P.setVolume(90)}
-  else{box.innerHTML=`<div id="ytp"></div>`;YT_P=new YT.Player("ytp",{videoId:SONGS[i][2],width:"100%",height:"100%",playerVars:{playsinline:1,rel:0,modestbranding:1,autoplay:1,controls:0,disablekb:1},events:{onReady:e=>{e.target.setVolume(90);e.target.playVideo()},onStateChange:e=>{paused=e.data!==1;paintControls();if(e.data===0)next()}}})}
+  else{box.innerHTML=`<div id="ytp"></div>`;YT_P=new YT.Player("ytp",{host:"https://www.youtube-nocookie.com",videoId:SONGS[i][2],width:"100%",height:"100%",playerVars:{playsinline:1,rel:0,modestbranding:1,autoplay:1,controls:0,disablekb:1},events:{onReady:e=>{e.target.setVolume(90);e.target.playVideo()},onStateChange:e=>{paused=e.data!==1;paintControls();if(e.data===0)next()}}})}
   document.querySelectorAll(".bsong").forEach((b,k)=>b.classList.toggle("on",k===i));
   media(i);paintControls();startProg()}
 function media(i){if(!("mediaSession" in navigator))return;try{navigator.mediaSession.metadata=new MediaMetadata({title:SONGS[i][1],artist:"Heavenly Visions",album:"Bedtime",artwork:[{src:"icon-512.png",sizes:"512x512",type:"image/png"}]});

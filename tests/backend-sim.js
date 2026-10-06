@@ -309,3 +309,16 @@ ok('priest report covers all classes of the church', rpp.ok && rpp.classes.lengt
 ok('report has activity and stars', rpp.activity.stars > 0 && rpp.kpi.servants >= 3);
 ok('report has no personal names', !/ak1|ak2|starkid|as1|"name"/.test(JSON.stringify(rpp)));
 ok('report has a weekly series', Array.isArray(rpp.weekly) && rpp.weekly.length > 0);
+
+/* ---------- delete my account ---------- */
+const delk = su('deletekid', 'student', 'Grade 3', { email: 'deletekid@x.org' });
+SIMDAY = '2026-10-11'; A('c1x', { action: 'att_set', code: '555' });
+ok('delete kid checks in', A('deletekid', { action: 'attend', code: '555' }).ok);
+ok('delete needs the right password', A('deletekid', { action: 'acct_delete', password: 'nope' }).error === 'login');
+ok('master cannot delete itself', A('mastx', { action: 'acct_delete', password: 'secret1' }).error === 'master');
+ok('account is deleted with the right password', A('deletekid', { action: 'acct_delete', password: 'secret1' }).ok);
+ok('deleted account cannot use its token', A('deletekid', { action: 'me' }).error === 'auth');
+ok('deleted account cannot log in', call({ action: 'login', username: 'deletekid', password: 'secret1' }).error === 'login');
+ok('name is gone from the check in list', !A('c1x', { action: 'att_state' }).list.some(x => x.n === 'deletekid'));
+ok('attendance history is gone', !('a_' + delk.user.id in store) && !('u_' + delk.user.id in store) && !('un_deletekid' in store));
+ok('username can be used again', su('deletekid', 'student', 'Grade 3', { email: 'deletekid2@x.org' }).ok);

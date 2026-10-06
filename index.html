@@ -353,7 +353,7 @@ function hub(){
   <div id="annbox"></div>
   ${window.hvToday?hvToday(v):`<div class="verse">“${esc(v[0])}”<cite>${v[1]}</cite></div>`}
   ${window.hvMoreDoors?hvMoreDoors():""}
-  <footer><button class="workshop" data-go="servants">🛠️ Servants Workshop</button><div id="offchip"></div></footer>`;
+  <footer><button class="workshop" data-go="servants">🛠️ Servants Workshop</button><div id="offchip"></div><a class="tag" href="privacy.html" style="margin-top:6px">Privacy policy</a></footer>`;
   if(window.hvHomeInit)hvHomeInit();
 }
 function topbar(title,ic,sub,back="home"){
@@ -546,7 +546,7 @@ function lessonVideos(g,n){const s=sec(g),l=lessonOf(g,n);if(!s||!l)return media
   <div class="list">${vs.length?vs.map(v=>rowHTML(v,false)).join(""):`<div class="empty">🎬 Videos for this lesson are on the way.<br>Check back soon!</div>`}</div>`}
 function openLesson(id){const v=V.find(x=>x[0]===id);if(!v)return;const s=sec(v[3]);const yt=`https://www.youtube.com/watch?v=${id}`;
   const quiz=QUIZZES.find(q=>q.v===id);
-  sheet(`${IS_LIVE?`<div class="player"><iframe src="https://www.youtube.com/embed/${id}?rel=0&playsinline=1" title="${esc(v[1])}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`
+  sheet(`${IS_LIVE?`<div class="player"><iframe src="https://www.youtube-nocookie.com/embed/${id}?rel=0&playsinline=1" title="${esc(v[1])}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`
    :`<a class="thumb" href="${yt}" target="_blank" rel="noopener" style="font-size:3rem">${s.ic}<img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" onerror="this.remove()"></a>`}
    <div><h3>${esc(v[1])}</h3><div class="tag">${s.ic} ${s.name} · ${v[2]}</div></div>
    <div class="btns"><a class="btn yt" href="${yt}" target="_blank" rel="noopener">▶ Watch on YouTube</a>

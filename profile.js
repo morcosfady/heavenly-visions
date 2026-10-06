@@ -150,9 +150,13 @@ async function profile(){
     <section class="card sec"><b>Pick your picture</b><div class="avs">${(u.role==="master"?[MASTER_AV]:[]).concat(AVATARS).map(x=>`<button data-av="${x}" aria-pressed="${(a.avatar||AVATARS[0])===x}" ${x===MASTER_AV?'aria-label="Master logo" style="padding:4px;overflow:hidden"':""}>${avHTML(x,34)}</button>`).join("")}</div></section>
     <section class="card sec"><b>How to get points</b><div class="tag">${isStaff(u.role)?"✅ Check in at class +5<br>🛠️ Publish a game +20":"✅ Check in at class +10<br>🎮 Finish a game +10<br>🏆 Win a live class game +50"}</div></section>
     <section class="card sec"><b>Recent points</b><div id="lg">${u.log&&u.log.length?u.log.map(l=>`<div class="lgrow"><span>${KIND[l.k]||l.k}${l.n?" · "+esc(l.n):""}</span><span>+${l.p}</span></div>`).join(""):`<div class="tag">No points yet. Check in at class to start! ✋</div>`}</div></section>
-    <button class="btn alt" id="out">Log out</button>`;
+    <button class="btn alt" id="out">Log out</button>
+    <button class="btn alt" id="delacct" style="opacity:.8">🗑 Delete my account</button><a class="tag" href="privacy.html" style="text-align:center">Privacy policy</a>`;
     app.querySelectorAll("[data-av]").forEach(b=>b.onclick=()=>{a.avatar=b.dataset.av;saveAv(u.id,a.avatar);setAcct(a);if(window.hvSyncSoon)hvSyncSoon();draw()});
     $("#out").onclick=()=>{if(confirm("Log out?")){setAcct(null);go("home")}};
+    $("#delacct").onclick=async()=>{if(u.role==="master"){toast("The master account cannot be deleted here");return}
+      if(!confirm("Delete your account and all your stars, avatar and attendance? This cannot be undone."))return;const pw=prompt("Type your password to confirm:");if(!pw)return;
+      try{const j=await api({action:"acct_delete",id:u.id,token:a.token,password:pw});if(j.ok){setAcct(null);try{["hv_avmap","hv_notifs","hv_queue","hv_verse","hv_prayed","hv_gallery"].forEach(k=>localStorage.removeItem(k))}catch{}toast("Your account was deleted");go("home")}else toast(j.error==="login"?"Wrong password":"Could not delete. Try again.")}catch{toast("No internet connection")}};
     if(u.role==="coordinator"||isTop(u.role))api({action:"access_list",id:u.id,token:a.token}).then(j=>{const e=$("#pendN");if(e&&j.ok&&j.pending.length)e.textContent="("+j.pending.length+" waiting)"}).catch(()=>{});
   };
   draw();

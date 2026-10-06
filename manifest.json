@@ -1,12 +1,12 @@
 {
   "name": "Heavenly Visions",
   "short_name": "Heavenly Visions",
-  "description": "Sunday School lessons for every grade",
+  "description": "Sunday School lessons, games, prayers and fun for kids of every grade",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f7ecdc",
-  "theme_color": "#f7ecdc",
+  "background_color": "#141a2b",
+  "theme_color": "#141a2b",
   "icons": [
     {
       "src": "icon-192.png",
@@ -24,5 +24,13 @@
       "type": "image/png",
       "purpose": "maskable"
     }
-  ]
+  ],
+  "id": "./",
+  "lang": "en",
+  "dir": "auto",
+  "categories": [
+    "education",
+    "kids"
+  ],
+  "orientation": "any"
 }

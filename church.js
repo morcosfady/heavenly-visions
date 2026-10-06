@@ -19,7 +19,7 @@ const L={items:[],q:"",grade:"all",type:"all",topic:"all"};
 const host=u=>{try{return new URL(u).hostname.replace(/^www\./,"")}catch{return ""}};
 function previewOf(u){
   let m=u.match(/drive\.google\.com\/file\/d\/([\w-]+)/);if(m)return `<div class="rsvid"><iframe src="https://drive.google.com/file/d/${m[1]}/preview" title="Preview" loading="lazy"></iframe></div>`;
-  m=u.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})/);if(m)return `<div class="rsvid"><iframe src="https://www.youtube.com/embed/${m[1]}" allowfullscreen title="Video"></iframe></div>`;
+  m=u.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})/);if(m)return `<div class="rsvid"><iframe src="https://www.youtube-nocookie.com/embed/${m[1]}" allowfullscreen title="Video"></iframe></div>`;
   if(/\.(png|jpe?g|webp|gif)(\?.*)?$/i.test(u))return `<img class="rsimg" src="${E(u)}" alt="Preview" loading="lazy">`;
   return `<div class="empty">This link opens in a new tab.</div>`}
 async function library(){

@@ -162,6 +162,7 @@ Object.assign(D,{
 "In the print window choose \"Save as PDF\" as the printer.":"في نافذة الطباعة اختر \"حفظ كملف PDF\" كطابعة.","No competition result this month.":"لا نتيجة مسابقة هذا الشهر.","No events this month.":"لا فعاليات هذا الشهر.","Android: Chrome menu, then \"Add to Home screen\". iPhone: Safari Share button, then \"Add to Home Screen\".":"أندرويد: قائمة كروم ثم \"إضافة إلى الشاشة الرئيسية\". آيفون: زر المشاركة في سفاري ثم \"إضافة إلى الشاشة الرئيسية\".",
 "Open any lesson and tap \"Copy link\" to send it to parents on WhatsApp.":"افتح أي درس واضغط \"انسخ الرابط\" لإرساله على واتساب.","Video":"فيديو"
 });
+Object.assign(D,{"Privacy policy":"سياسة الخصوصية","Delete my account":"حذف حسابي"});
 Object.assign(D,window.HV_AR_EXTRA||{});
 const WD={"Sunday":"الأحد","Monday":"الإثنين","Tuesday":"الثلاثاء","Wednesday":"الأربعاء","Thursday":"الخميس","Friday":"الجمعة","Saturday":"السبت","Sun":"الأحد","Mon":"الإثنين","Tue":"الثلاثاء","Wed":"الأربعاء","Thu":"الخميس","Fri":"الجمعة","Sat":"السبت"};
 const MO={"January":"يناير","February":"فبراير","March":"مارس","April":"أبريل","May":"مايو","June":"يونيو","July":"يوليو","August":"أغسطس","September":"سبتمبر","October":"أكتوبر","November":"نوفمبر","December":"ديسمبر","Jan":"يناير","Feb":"فبراير","Mar":"مارس","Apr":"أبريل","Jun":"يونيو","Jul":"يوليو","Aug":"أغسطس","Sep":"سبتمبر","Oct":"أكتوبر","Nov":"نوفمبر","Dec":"ديسمبر"};
