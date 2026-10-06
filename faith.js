@@ -1,4 +1,4 @@
-/* Heavenly Visions: Daily Verse Challenge, Prayer Corner, Coptic Calendar.
+/* Heavenly Visions: Daily Verse Challenge and Coptic Calendar.
    Verses come from verses.js (the curriculum memory verses). Dates are computed here (no data needed).
    Prayer texts and the saint list are STARTER content that Fady must review (see HANDOFF). */
 (function(){
@@ -67,34 +67,6 @@ function finishVerse(){
   if(window.hvFx)hvFx.burst(innerWidth/2,innerHeight/3,"✨",14);
   if(window.hvAward)hvAward("verse",k,"Daily verse")}
 
-/* ========== PRAYERS ========== */
-const PRAYERS=[
-{id:"morning",ic:"🌅",t:"Morning prayer",when:"am",x:["Thank You, God, for a new day.","Please be with me at school and at home.","Help me to be kind, honest and brave.","Amen."]},
-{id:"before-meal",ic:"🍎",t:"Before a meal",when:"",x:["Thank You, Lord, for this food.","Bless it, and bless the hands that made it.","Please help children who are hungry.","Amen."]},
-{id:"after-meal",ic:"🥣",t:"After a meal",when:"",x:["Thank You, Lord, for filling us.","We are grateful for everything You give us.","Amen."]},
-{id:"study",ic:"📚",t:"Before study",when:"",x:["Lord Jesus, open my mind to learn.","Help me to listen and to do my best.","Amen."]},
-{id:"family",ic:"👨‍👩‍👧",t:"For my family",when:"",x:["Lord, please bless my family.","Keep us safe and help us love one another.","Bless my friends and my teachers too.","Amen."]},
-{id:"thanks",ic:"💛",t:"Thank You, God",when:"",x:["Thank You, God, for my family, my friends and my church.","Thank You for the sun, the rain and every good thing.","Thank You for loving me.","Amen."]},
-{id:"night",ic:"🌙",t:"Night prayer",when:"pm",x:["Thank You, Jesus, for today.","Forgive me for the times I was not kind.","Keep me safe while I sleep, and send Your angels to watch over me.","Amen."]},
-{id:"lords",ic:"🙏",t:"The Lord's Prayer",when:"",x:["Our Father who art in heaven, hallowed be Thy name.","Thy kingdom come. Thy will be done on earth as it is in heaven.","Give us this day our daily bread.","And forgive us our trespasses, as we forgive those who trespass against us.","And lead us not into temptation, but deliver us from the evil one.","For Thine is the kingdom and the power and the glory forever. Amen."],src:"Matthew 6:9-13"},
-{id:"trisagion",ic:"✨",t:"Holy God (Trisagion)",when:"",x:["Holy God, Holy Mighty, Holy Immortal,","Who was crucified for us,","Have mercy on us."],src:"Church prayer"},
-{id:"psalm23",ic:"🐑",t:"The Lord is my Shepherd",when:"",x:["The Lord is my shepherd; I shall not want.","He makes me to lie down in green pastures; He leads me beside the still waters.","He restores my soul; He leads me in the paths of righteousness for His name's sake.","Surely goodness and mercy shall follow me all the days of my life, and I will dwell in the house of the Lord forever."],src:"Psalm 23 (KJV, adapted)"}];
-const prayedToday=()=>(jget("hv_prayed",{})[dkey(today())])||[];
-function prayersPage(){
-  const done=prayedToday();
-  app.innerHTML=`${topbar("Prayers","🙏","Talk to God","home")}
-  <div class="grid prgrid">${PRAYERS.map(p=>`<button class="tile prtile ${done.includes(p.id)?"done":""}" style="--c:#a86fd0" data-go="pr-${p.id}"><span class="ic">${p.ic}</span><span class="nm">${E(p.t)}</span><span class="ct">${done.includes(p.id)?"Prayed today ✅":"Tap to pray"}</span></button>`).join("")}</div>`}
-function prayerPage(id){
-  const p=PRAYERS.find(x=>x.id===id);if(!p)return prayersPage();const done=prayedToday().includes(id);
-  app.innerHTML=`${topbar(E(p.t),p.ic,p.src?E(p.src):"A prayer for you","prayers")}
-  <div class="prayer"><div class="candle" aria-hidden="true"><i></i><b></b></div><div class="ptext">${p.x.map(l=>`<p>${E(l)}</p>`).join("")}</div></div>
-  <div class="two"><button class="btn gold" id="pdone" ${done?"disabled":""}>${done?"Prayed today ✅":"🙏 I prayed"}</button></div>`;
-  const b=document.getElementById("pdone");b.onclick=()=>{const m=jget("hv_prayed",{}),k=dkey(today());m[k]=(m[k]||[]).concat(id);Object.keys(m).sort().slice(0,-14).forEach(x=>delete m[x]);jset("hv_prayed",m);
-    b.disabled=true;b.textContent="Prayed today ✅";if(window.hvFx){const r=b.getBoundingClientRect();hvFx.burst(r.left+r.width/2,r.top,"🕯️",8)}
-    if(window.hvAward)hvAward("prayer",id+"-"+k,p.t);else toast("God bless you 🙏")}}
-window.hvPrayerNudge=function(){const h=today().getHours(),d=prayedToday();
-  if(h>=5&&h<11&&!d.includes("morning"))return {id:"morning",t:"Good morning! Say your morning prayer 🌅"};
-  if(h>=19&&!d.includes("night"))return {id:"night",t:"Time for your night prayer 🌙"};return null};
 
 /* ========== COPTIC CALENDAR ========== */
 const CM=["Tout","Baba","Hator","Kiahk","Toba","Amshir","Baramhat","Baramouda","Bashans","Paoni","Epep","Mesori","Nasie"];

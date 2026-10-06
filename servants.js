@@ -23,14 +23,25 @@ const STATUS={draft:["Draft","#9a9ec4"],ready:["Ready","#3fae6a"],done:["Done","
 const chip=s=>`<span class="spl" style="--sc:${STATUS[s][1]}">${STATUS[s][0]}</span>`;
 
 /* ---------- tool cards on the Servants Workshop page ---------- */
+const TEMPLATES=[["Bring a Bible","Please bring your Bible next Sunday.","📖","bring"],["No class","There is no Sunday School this week. See you next Sunday!","🚫","church"],["Trip reminder","Please remember the trip. Bring a lunch and a water bottle.","🚌","church"],["Great job","Great job everyone today! Keep it up.","🌟","church"]];
+window.hvPostBtn=function(){return isStaff()?`<button class="btn gold postbtn" data-go="announce">📢 Post news</button>`:""};
+window.hvQuickNews=function(){
+  if(!isStaff())return "";
+  return `<form class="card sec" id="qnf"><h2>📢 Quick news</h2><label class="field">Title<input id="qnt" maxlength="50" required></label><label class="field">Message<textarea id="qnm" maxlength="300" rows="2" required class="as-search"></textarea></label>
+   ${A().user.role==="coordinator"?`<label class="field">Send to<select id="qng"><option value="mine">My class (${E(A().user.grade)})</option><option value="all">Everyone</option></select></label>`:""}
+   <button class="btn gold" type="submit">📢 Post now</button><div id="qnmsg" role="status" class="tag"></div><button type="button" class="btn alt" data-go="announce">More options</button></form>`};
+document.addEventListener("submit",async e=>{if(e.target.id!=="qnf")return;e.preventDefault();const m=document.getElementById("qnmsg"),u=A().user;m.textContent="Posting...";
+  const g=document.getElementById("qng"),grades=u.role==="coordinator"?(g&&g.value==="all"?["all"]:[u.grade]):u.role==="servant"?[u.grade]:["all"];
+  try{const r=await call({action:"an_save",a:{title:document.getElementById("qnt").value,msg:document.getElementById("qnm").value,ic:"📢",cat:"church",date:"",exp:"",pin:false,grades}});
+    if(r.ok){toast("Posted ✅");e.target.reset();m.textContent="Posted. Kids will see it on the home screen."}else m.textContent="Could not post. Fill the title and message."}catch{m.textContent="No internet connection."}});
 window.hvSvTools=function(){
   if(!isStaff())return "";
   const top=["coordinator","priest","master"].includes(A().user.role);
   return `<div class="svtools"><button class="svt" style="--tc:var(--c-serv)" data-go="planner"><span>📝</span><b>Lesson Planner</b><small>Plan each Sunday</small></button>
    <button class="svt" style="--tc:var(--c-games)" data-go="announce"><span>📢</span><b>Announcements</b><small>Tell your class</small></button>
    <button class="svt" style="--tc:var(--c-kids)" data-go="followup"><span>📞</span><b>Follow up</b><small>Kids who missed</small></button>
-   <button class="svt" style="--tc:var(--c-church)" data-go="library"><span>📚</span><b>Library</b><small>Worksheets and links</small></button>${window.hvAiTool?hvAiTool():""}${top?`
-   <button class="svt" style="--tc:var(--c-arena)" data-go="report"><span>📊</span><b>Monthly report</b><small>For Abouna</small></button>`:""}</div>`};
+   <button class="svt" style="--tc:var(--c-church)" data-go="library"><span>📚</span><b>Library</b><small>Worksheets and links</small></button>${top?`<button class="svt" style="--tc:var(--c-cal)" data-go="events"><span>🎉</span><b>Events and trips</b><small>Add or change events</small></button>`:""}${window.hvAiTool?hvAiTool():""}${top?`
+   <button class="svt" style="--tc:var(--c-church)" data-go="report"><span>📊</span><b>Monthly report</b><small>For Abouna</small></button>`:""}</div>`};
 
 function gate(title,ic,back){
   if(window.hvLock&&hvLock())return true;
@@ -152,6 +163,7 @@ async function announce(){
   const a=A().user;
   app.innerHTML=`${topbar("Announcements","📢","Tell your class")}
   <form class="card sec" id="anf"><h2>New announcement</h2>
+   <div class="field"><span>Quick start</span><div class="ds-chips" id="ant2">${TEMPLATES.map((t,k)=>`<button type="button" class="ds-chip" data-t="${k}">${t[2]} ${t[0]}</button>`).join("")}</div></div>
    <label class="field">Title<input id="ant" maxlength="50" required></label>
    <label class="field">Message<textarea id="anm" maxlength="300" rows="3" required class="as-search"></textarea></label>
    <div class="field"><span>Picture</span><div class="ds-chips" id="ani">${ICONS.map((x,k)=>`<button type="button" class="ds-chip" data-i="${x}" aria-pressed="${k===0}">${x}</button>`).join("")}</div></div>
@@ -162,6 +174,7 @@ async function announce(){
    <button class="btn gold" type="submit">📢 Post it</button><div id="anmsg" role="status" class="tag"></div></form>
   <section class="sec"><h2>Posted</h2>${items.length?items.map(x=>annCard(x,true)).join(""):`<div class="empty">Nothing posted yet.</div>`}</section>`;
   let icon="📢",cat="church";
+  document.getElementById("ant2").onclick=e=>{const b=e.target.closest("[data-t]");if(!b)return;const t=TEMPLATES[+b.dataset.t];document.getElementById("ant").value=t[0];document.getElementById("anm").value=t[1];icon=t[2];cat=t[3];document.querySelectorAll("#ani [data-i]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.i===icon));document.querySelectorAll("#anc [data-c]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.c===cat))};
   document.getElementById("ani").onclick=e=>{const b=e.target.closest("[data-i]");if(!b)return;icon=b.dataset.i;document.querySelectorAll("#ani [data-i]").forEach(x=>x.setAttribute("aria-pressed",x===b))};
   document.getElementById("anc").onclick=e=>{const b=e.target.closest("[data-c]");if(!b)return;cat=b.dataset.c;document.querySelectorAll("#anc [data-c]").forEach(x=>x.setAttribute("aria-pressed",x===b))};
   const gs=document.getElementById("angs");if(gs)gs.onclick=e=>{const b=e.target.closest("[data-g]");if(!b)return;if(b.dataset.g==="all")gs.querySelectorAll("[data-g]").forEach(x=>x.setAttribute("aria-pressed",x===b));else{gs.querySelector("[data-g=all]").setAttribute("aria-pressed","false");b.setAttribute("aria-pressed",b.getAttribute("aria-pressed")!=="true")}};
@@ -237,7 +250,8 @@ st.textContent=`
 .pld{display:flex;justify-content:space-between;align-items:center;gap:8px}.plt{font-family:var(--display);font-weight:800;font-size:var(--fs-l)}
 .spl{border-radius:999px;padding:3px 12px;background:color-mix(in srgb,var(--sc) 24%,transparent);color:var(--ink);font-weight:900;font-size:.74rem;border:1px solid var(--sc)}
 .plyear{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:8px}.pyd{display:flex;flex-direction:column;align-items:center;padding:6px 2px;border-radius:12px;border:2px solid var(--sc);background:color-mix(in srgb,var(--sc) 20%,transparent);color:var(--ink);font:inherit;min-height:52px}.pyd b{font-size:1rem}.pyd small{font-size:.62rem;color:var(--muted);font-weight:700}
-.plmat{display:flex;flex-direction:column;gap:4px}.sharebtn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:inherit}
+.plmat{display:flex;flex-direction:column;gap:4px}.postbtn{min-height:52px}
+.sharebtn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:inherit}
 .plm{display:flex;align-items:center;gap:8px;min-height:44px;font-weight:700}.plm input{width:22px;height:22px}
 textarea.as-search{resize:vertical}
 .sunday{position:fixed;inset:0;z-index:90;display:flex;flex-direction:column;gap:12px;padding:18px max(18px,env(safe-area-inset-left)) calc(18px + env(safe-area-inset-bottom,0px));background:radial-gradient(circle at 50% 0,#27306a,#0a0f2e 70%);color:#fff}

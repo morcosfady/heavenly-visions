@@ -14,9 +14,9 @@ function Shot($file, $w, $h, $scale, $lang, $to, $framed) {
   if ($framed) { python (Join-Path $PSScriptRoot "crop.py") $png $w $h $scale } else { python -c "from PIL import Image;import os;p=r'$png';Image.open(p).convert('RGB').save(p[:-4]+'.jpg','JPEG',quality=88,optimize=True);os.remove(p)" }
   Write-Output ("{0} {1}" -f $file, (Test-Path ($png.Substring(0, $png.Length - 4) + ".jpg")))
 }
-$phone = @(@("01-home", "#home"), @("02-kids-corner", "#kids"), @("03-daily-verse", "#verse"), @("04-coptic-calendar", "#calendar"), @("05-bedtime", "#bedtime"), @("06-prayers", "#prayers"), @("07-coloring", "#color-ark"), @("08-class-arena", "#arena"))
+$phone = @(@("01-home", "#home"), @("02-my-treasures", "#kids"), @("03-daily-verse", "#verse"), @("04-coptic-calendar", "#calendar"), @("05-bedtime", "#bedtime"), @("07-coloring", "#color-ark"))
 foreach ($p in $phone) { Shot "store\screenshots\phone\en-$($p[0])" 360 640 3 "en" $p[1] $true }
-foreach ($p in @(@("01-home", "#home"), @("02-kids-corner", "#kids"), @("04-coptic-calendar", "#calendar"))) {
+foreach ($p in @(@("01-home", "#home"), @("02-my-treasures", "#kids"), @("04-coptic-calendar", "#calendar"))) {
   Shot "store\screenshots\tablet\en-10in-$($p[0])" 800 1280 2 "en" $p[1] $false
   Shot "store\screenshots\tablet\en-7in-$($p[0])" 600 960 2 "en" $p[1] $false
 }

@@ -1,4 +1,4 @@
-/* Heavenly Visions: Class Arena (class vs class, never kid vs kid) and the printable Monthly Report.
+/* Heavenly Visions: the printable Monthly Report (the Class Arena was removed).
    Scores and numbers come from the server. Kids only get class level numbers. */
 (function(){
 const E=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -9,37 +9,6 @@ async function call(body){const a=A();const r=await fetch(window.GAMES_URL,{meth
 const monthName=m=>{const a=m.split("-");return new Date(+a[0],+a[1]-1,1).toLocaleDateString("en-US",{month:"long",year:"numeric"})};
 const canSet=()=>{const a=A();return !!(a&&(a.user.role==="coordinator"||a.user.role==="priest"||a.user.role==="master"))};
 const secOf=g=>(typeof SECTIONS!=="undefined"&&SECTIONS.find(s=>s.name===g))||{ic:"🏫",c:"#8e6bd1"};
-
-/* ========== ARENA ========== */
-function celebrate(h){
-  const o=document.createElement("div");o.className="lvup";o.setAttribute("role","dialog");o.setAttribute("aria-label","Competition winner");
-  const sc=secOf(h.winner);
-  o.innerHTML=`<div class="lvbox"><div class="lvglow"></div><div class="lvic">🏆</div><div class="lvk">${E(monthName(h.m)).toUpperCase()} WINNER</div><div class="lvn">${sc.ic} ${E(h.winner)}</div>${h.prize?`<div class="lvk" style="letter-spacing:.1em">Prize: ${E(h.prize)}</div>`:""}<button class="btn gold" id="lvok">Congratulations!</button></div>`;
-  if(window.hvNotify)hvNotify({id:"cp-"+h.m,ic:"🏆",t:h.winner+" won the "+monthName(h.m)+" competition",go:"arena"});
-  document.body.appendChild(o);if(window.confetti){confetti();setTimeout(confetti,1200)}
-  const close=()=>o.remove();o.querySelector("#lvok").onclick=close;o.addEventListener("click",e=>{if(e.target===o)close()});o.querySelector("#lvok").focus()}
-function checkEnd(r){const h=r&&r.hall&&r.hall[0];if(!h||!h.winner)return;const seen=jget("hv_cp_seen",[]);if(seen.includes(h.m))return;seen.push(h.m);jset("hv_cp_seen",seen.slice(-12));celebrate(h)}
-window.hvArenaCheck=async function(){const a=A();if(!a||!window.GAMES_URL||!a.user.grade&&a.user.role==="student")return;
-  const k=new Date().toISOString().slice(0,10);if(jget("hv_cp_day","")===k)return;jset("hv_cp_day",k);
-  try{const r=await call({action:"cp_state"});if(r.ok)checkEnd(r)}catch{}};
-
-async function arena(){
-  const a=A();app.innerHTML=`${topbar("Class Arena","🏟️","Class against class","home")}<div id="arb" class="sec"><div class="ds-skel" style="height:220px"></div></div>`;
-  if(!a){document.getElementById("arb").innerHTML=`<div class="card sec" style="text-align:center"><b>Login to join the Arena</b><button class="btn gold" data-go="login">👤 Login or create profile</button></div>`;return}
-  let r;try{r=await call({action:"cp_state"});if(!r.ok)throw 0}catch{document.getElementById("arb").innerHTML=`<div class="card sec" style="text-align:center"><b>Could not load</b><button class="btn gold" id="rt">Try again</button></div>`;document.getElementById("rt").onclick=arena;return}
-  checkEnd(r);
-  const b=document.getElementById("arb"),st=r.standings,top=st.slice(0,3),max=Math.max(1,...st.map(x=>x.score));
-  const now=new Date(),dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate(),pct=Math.round(now.getDate()*100/dim);
-  const order=[top[1],top[0],top[2]].filter(Boolean);const place=x=>top.indexOf(x)+1;
-  b.innerHTML=`<div class="card ar-head"><div><b>${monthName(r.month)}</b><div class="tag">${r.active?"Competition is on":"No competition running"}</div></div>${r.active&&r.prize?`<span class="ar-prize">🎁 ${E(r.prize)}</span>`:""}</div>
-  ${r.active?`<div><div class="ds-bar" id="arm" aria-label="Month progress"><i style="--w:${pct}%"></i></div><div class="tag">${dim-now.getDate()} days left this month</div></div>`:""}
-  ${st.length?`<div class="podium" role="img" aria-label="Top classes" style="grid-template-columns:repeat(${order.length},minmax(0,1fr));max-width:${order.length*130}px;margin-inline:auto;width:100%">${order.map(x=>{const sc=secOf(x.grade),p=place(x);return `<div class="pod p${p}" style="--pc:${sc.c}"><div class="pod-ic">${p===1?"🏆":sc.ic}</div><div class="pod-bar" style="--h:${Math.max(24,Math.round(x.score/max*100))}%"><b>${x.score}</b></div><div class="pod-n">${E(x.grade)}</div><div class="pod-m">${["🥇","🥈","🥉"][p-1]}</div></div>`}).join("")}</div>`:`<div class="ds-empty"><div class="em">🏟️</div><b>No classes yet</b>Kids with a class will show here.</div>`}
-  <section class="card sec"><h2>All classes</h2>${st.map((x,i)=>{const sc=secOf(x.grade);return `<div class="ar-row ${x.grade===r.mine?"me":""}" style="--pc:${sc.c}"><span class="ar-rk">${i+1}</span><span class="ar-ic">${sc.ic}</span><span class="ar-n"><b>${E(x.grade)}${x.grade===r.mine?" (you)":""}</b><span class="ds-bar"><i style="--w:${x.score}%;background:${sc.c}"></i></span><small>Attendance ${x.att===null?"none yet":x.att+"%"} · ${x.stars} stars per kid · ${x.kids} kids</small></span><b class="ar-s">${x.score}</b></div>`}).join("")}<div class="tag">Score = ${Math.round(r.weights.att*100)}% attendance + ${Math.round(r.weights.stars*100)}% stars per kid (${r.weights.target} stars per kid is full marks). Small and big classes compete fairly.</div></section>
-  ${canSet()?`<section class="card sec"><h2>Run the competition</h2>${r.active?`<button class="btn alt" id="arstop">⏹ End it now and pick the winner</button>`:`<label class="field">Prize (optional)<input id="arpr" maxlength="80" placeholder="Example: Pizza party"></label><button class="btn gold" id="arstart">▶ Start this month's competition</button>`}</section>`:""}
-  ${r.hall.length?`<section class="card sec"><h2>🏛️ Hall of Fame</h2>${r.hall.map(h=>`<div class="hf"><span class="hf-m">${monthName(h.m)}</span><b>${secOf(h.winner).ic} ${E(h.winner||"No winner")}</b><small>${h.score} points${h.prize?" · "+E(h.prize):""}</small></div>`).join("")}</section>`:""}`;
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{b.classList.add("go");document.querySelectorAll(".pod-bar").forEach(x=>x.classList.add("up"))}));
-  const go2=async(on)=>{try{const x=await call({action:"cp_set",on,prize:on?document.getElementById("arpr").value:""});if(x.ok){toast(on?"Competition started 🏁":"Competition ended 🏆");arena()}else toast("Not allowed")}catch{toast("No internet connection")}};
-  const s1=document.getElementById("arstart");if(s1)s1.onclick=()=>go2(true);const s2=document.getElementById("arstop");if(s2)s2.onclick=()=>{if(confirm("End the competition now?"))go2(false)}}
 
 /* ========== MONTHLY REPORT ========== */
 function monthOptions(){const o=[],d=new Date();for(let i=0;i<12;i++){const x=new Date(d.getFullYear(),d.getMonth()-i,1),v=x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0");o.push(`<option value="${v}">${monthName(v)}</option>`)}return o.join("")}
@@ -69,7 +38,7 @@ function reportHtml(r){
    <footer class="rp-foot">Made ${E(r.generated)} · Glory be to God forever. Amen. ✝</footer></article>`}
 
 /* ---------- routes and tool card ---------- */
-window.arenaRoute=function(h){if(h==="arena"){arena();return true}if(h==="report"){reportPage();return true}return false};
+window.arenaRoute=function(h){if(h==="report"){reportPage();return true}return false};
 
 const st=document.createElement("style");
 st.textContent=`

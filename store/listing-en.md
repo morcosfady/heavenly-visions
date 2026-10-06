@@ -3,7 +3,7 @@
 **App name (30 characters max):** Heavenly Visions
 
 **Short description (80 characters max):**
-Sunday School lessons, games, prayers and fun for kids of every grade.
+Sunday School lessons, games and fun for kids of every grade.
 
 **Full description (4000 characters max):**
 
@@ -16,11 +16,10 @@ FOR CHILDREN
 • Build your own avatar and spend stars in the rewards shop
 • Games, quizzes and live class games that your servant starts on the big screen
 • The Bible in two easy English translations (WEB and KJV)
-• Prayer corner: morning, meals, study, family and night prayers
 • Coptic calendar with feasts, fasts and a saint for each day
 • Coloring pages and your own gallery
 • Bedtime corner with short Bible stories and a night prayer
-• Works offline for lessons, quizzes, games, prayers and the calendar
+• Works offline for lessons, quizzes, games and the calendar
 
 FOR SERVANTS
 • Lesson planner with a full screen Sunday Mode for the TV
@@ -35,10 +34,10 @@ No ads. No tracking. No chat. Children never see other children's names or ranki
 
 
 **What is new (500 characters max):**
-First release! Lessons, daily verse, prayers, Coptic calendar, coloring, bedtime corner, rewards shop, games and tools for servants.
+First release! Lessons, daily verse, Coptic calendar, coloring, bedtime corner, rewards shop, games and tools for servants.
 
 **Category:** Education (secondary: Parenting is not needed)
-**Tags:** Sunday School, Coptic, Bible, kids, church, prayers
+**Tags:** Sunday School, Coptic, Bible, kids, church
 **Contact email:** heavenlyvisions25@gmail.com
 **Website:** https://morcosfady.github.io/heavenly-visions/
 **Privacy policy:** https://morcosfady.github.io/heavenly-visions/privacy.html
@@ -50,6 +49,5 @@ First release! Lessons, daily verse, prayers, Coptic calendar, coloring, bedtime
 3. A new verse every day
 4. Coptic feasts, fasts and saints
 5. Short bedtime stories and a night prayer
-6. Talk to God: simple prayers
-7. Color Bible pictures
-8. Class against class, never kid against kid
+6. Color Bible pictures
+7. Spend your stars in the rewards shop

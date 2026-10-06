@@ -1,4 +1,4 @@
-/* Heavenly Visions: Kids Corner (stars, levels, avatar, rewards shop, badges).
+/* Heavenly Visions: My Treasures (was Kids Corner) (stars, levels, avatar, rewards shop, badges).
    The server decides everything that counts (stars, prices, what you own). This file draws it.
    The shop list must match SHOP in apps-script/games-backend.gs (tests/backend-sim.js checks that). */
 (function(){
@@ -139,7 +139,7 @@ window.hvLevelUp=function(lv){
 window.hvBadgeToast=function(keys){(keys||[]).forEach((k,i)=>{const b=BADGES.find(x=>x[0]===k);if(b)setTimeout(()=>toast("🏅 New badge: "+b[2]),900+i*2300)})};
 
 /* ---------- pages ---------- */
-function loginNeeded(){app.innerHTML=`${topbar("Kids Corner","🌟","Your stars and avatar")}<div class="card sec" style="text-align:center"><div style="font-size:3rem">🌟</div><b>Login to earn stars</b><p class="tag" style="margin:0">Make a profile to collect stars, build your avatar and win badges.</p><button class="btn gold" data-go="login">👤 Login or create profile</button></div>`}
+function loginNeeded(){app.innerHTML=`${topbar("My Treasures","🌟","Your stars and avatar")}<div class="card sec" style="text-align:center"><div style="font-size:3rem">🌟</div><b>Login to earn stars</b><p class="tag" style="margin:0">Make a profile to collect stars, build your avatar and win badges.</p><button class="btn gold" data-go="login">👤 Login or create profile</button></div>`}
 
 function hero(u){
   const lv=levelOf(u.score||0);
@@ -177,7 +177,7 @@ function earnTab(){return `<div class="kc-earn">${EARN.map(e=>`<div class="kc-er
 function kidsPage(){
   const a=A();if(!a){loginNeeded();return}
   const u=a.user;if(!S.cur)S.cur=Object.assign({},DEF,u.av||{});
-  app.innerHTML=`${topbar("Kids Corner","🌟","Your stars and avatar")}<div class="kc-wrap">${hero(u)}<div class="kc-main">
+  app.innerHTML=`${topbar("My Treasures","🌟","Your stars and avatar")}<div class="kc-wrap">${hero(u)}<div class="kc-main">
   <div class="ds-seg" id="kcTabs" role="tablist">${[["avatar","🧒 Avatar"],["shop","🛍️ Shop"],["badges","🏅 Badges"],["earn","⭐ Earn"]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${S.tab===t[0]}" role="tab">${t[1]}</button>`).join("")}</div>
   <section class="card sec" id="kcBody">${S.tab==="avatar"?avatarTab(u):S.tab==="shop"?shopTab(u):S.tab==="badges"?badgesTab(u):earnTab()}</section></div></div>`;
   requestAnimationFrame(()=>requestAnimationFrame(()=>document.getElementById("kcBar")?.classList.add("go")));

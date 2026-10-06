@@ -31,7 +31,7 @@ function draw(){
     body.onclick=e=>{const t=e.target.closest("[data-st]");if(!t)return;const s=STORIES.find(x=>x.id===t.dataset.st);
       document.getElementById("bstory").innerHTML=`<article class="card sec bstory"><h2>${s.ic} ${E(s.t)}</h2><div class="tag">${E(s.ref)}</div>${s.x.map(p=>`<p>${E(p)}</p>`).join("")}</article>`;
       document.getElementById("bstory").scrollIntoView({behavior:"smooth",block:"start"})};return}
-  body.innerHTML=`<article class="card sec bstory" style="text-align:center"><div style="font-size:3.4rem">🙏</div><h2>Night prayer</h2>${NIGHT.map(p=>`<p>${E(p)}</p>`).join("")}<button class="btn gold" data-go="pr-night">🕯️ I prayed</button></article>`;body.onclick=null}
+  body.innerHTML=`<article class="card sec bstory" style="text-align:center"><div style="font-size:3.4rem">🙏</div><h2>Night prayer</h2>${NIGHT.map(p=>`<p>${E(p)}</p>`).join("")}</article>`;body.onclick=null}
 
 window.bedtimeRoute=function(h){if(h==="bedtime"){bedPage();return true}return false};
 

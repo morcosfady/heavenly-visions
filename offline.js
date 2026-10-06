@@ -33,7 +33,7 @@ setTimeout(flush,4000);
 /* "Available offline" chip for the home screen */
 window.hvOfflineChip=function(){
   const ok=!!(navigator.serviceWorker&&navigator.serviceWorker.controller);
-  return ok?`<span class="offchip" title="The app works without internet for lessons, quizzes, games, prayers and the calendar">✅ Available offline</span>`:""};
+  return ok?`<span class="offchip" title="The app works without internet for lessons, quizzes, games and the calendar">✅ Available offline</span>`:""};
 
 const st=document.createElement("style");
 st.textContent=`

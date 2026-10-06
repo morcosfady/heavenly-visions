@@ -43,22 +43,18 @@ window.hvToday=function(v){
   const cal=window.hvCalToday?hvCalToday():{ev:[],fast:null};
   const sa=cal.ev.find(x=>x.type==="saint"),fe=cal.ev.find(x=>x.type==="feast");
   const lead=fe?fe.ic+" "+fe.t:sa?sa.ic+" "+sa.t:cal.fast?"🌙 "+cal.fast.t:"Feasts, fasts and saints";
-  const nudge=window.hvPrayerNudge?hvPrayerNudge():null;
   return `<section aria-label="Today" class="sec"><h2 class="sech"><span>Today</span></h2>
   <div class="today" id="todayStrip">
    <button class="tcard verse2" style="--tc:var(--gold)" data-go="verse"><span class="k">📖 Verse of the day${done?" ✅":""}</span><span class="t">“${E(tv[0])}”</span><span class="s">${E(tv[1])} · ${done?"Done today! Open your verse jar":"Tap to learn it"}</span></button>
-   ${nudge?`<button class="tcard" style="--tc:var(--c-pray)" data-go="pr-${nudge.id}"><span class="k">🙏 Prayer time</span><span class="t">${E(nudge.t)}</span><span class="s">Tap to pray</span><span class="em" aria-hidden="true">🕯️</span></button>`:""}
    <button class="tcard" style="--tc:var(--c-cal)" data-go="calendar"><span class="k">📅 ${E(g)}</span><span class="t">${c.day} ${c.name}, ${c.year}</span><span class="s">${E(lead)}</span><span class="em" aria-hidden="true">🗓️</span></button>
    <button class="tcard" id="nextEvent" style="--tc:var(--c-church)" data-go="events"><span class="k">🎉 Next event</span><span class="t">No events yet</span><span class="s">Trips, retreats and feasts will show here.</span><span class="em" aria-hidden="true">⛪</span></button>
   </div><div class="tdots" id="tdots" aria-hidden="true"></div></section>`};
 
 const MORE=[
-  ["kids","🌟","Kids Corner","Stars, avatar, shop","--c-kids"],
+  ["kids","🌟","My Treasures","Stars, avatar, shop","--c-kids"],
   ["bedtime","🛏️","Bedtime","Stories and prayer","--c-bed"],
-  ["prayers","🙏","Prayers","Talk to God","--c-pray"],
   ["coloring","🎨","Coloring","Color and keep","--c-color"],
-  ["calendar","📅","Calendar","Feasts and events","--c-cal"],
-  ["arena","🏟️","Class Arena","Class vs class","--c-arena"]];
+  ["calendar","📅","Calendar","Feasts and events","--c-cal"]];
 function calIcon(){const d=new Date();return `<span class="calicon"><i>${d.toLocaleDateString("en-US",{month:"short"}).toUpperCase()}</i><b>${d.getDate()}</b></span>`}
 window.hvMoreDoors=function(){
   return `<section class="sec" aria-label="More to explore"><h2 class="sech"><span>More to explore</span></h2><nav class="doors2">${MORE.map((m,i)=>`<button class="mdoor" style="--dc:var(${m[4]})" data-go="${m[0]}"><span class="big" aria-hidden="true">${m[0]==="calendar"?calIcon():m[1]}</span><b>${m[2]}</b><small>${m[3]}</small></button>`).join("")}</nav></section>`};
@@ -125,5 +121,5 @@ function todayDots(){const s=document.getElementById("todayStrip"),d=document.ge
 /* the welcome sheet waits for the logo splash to finish, then shows right away */
 function welcomeSoon(){if(document.getElementById("intro"))return setTimeout(welcomeSoon,120);if((location.hash||"#home")==="#home"||location.hash==="")welcome()}
 
-window.hvHomeInit=function(){welcomeSoon();todayDots();if(window.hvLoadAnn)hvLoadAnn();if(window.hvThisSunday)hvThisSunday();if(window.hvNextEvent)hvNextEvent();if(window.hvArenaCheck)hvArenaCheck();if(window.hvNotifScan)hvNotifScan();if(window.hvBellPaint)hvBellPaint();const oc=document.getElementById("offchip");if(oc&&window.hvOfflineChip)oc.innerHTML=hvOfflineChip()};
+window.hvHomeInit=function(){welcomeSoon();todayDots();if(window.hvLoadAnn)hvLoadAnn();if(window.hvThisSunday)hvThisSunday();if(window.hvNextEvent)hvNextEvent();if(window.hvNotifScan)hvNotifScan();if(window.hvBellPaint)hvBellPaint();const oc=document.getElementById("offchip");if(oc&&window.hvOfflineChip)oc.innerHTML=hvOfflineChip()};
 })();
