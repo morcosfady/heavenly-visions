@@ -361,7 +361,7 @@ function detailOf(ctx, s, t) {
   var u = s.u;
   var offs = dayList(ctx.all['ns_' + u.church + '|' + u.grade]).concat(dayList(ctx.all['ns_' + u.church + '|*']));
   var cal = s.sess.map(function (d) { return { d: dayStr(d), s: s.ci[d] !== undefined ? 'p' : 'm', t: s.ci[d] !== undefined ? clock(s.ci[d]) : '' }; });
-  offs.filter(function (d) { return d >= s.joined && d <= t; }).forEach(function (d) { cal.push({ d: dayStr(d), s: 'n', t: '' }); });
+  offs.filter(function (d, i) { return d >= s.joined && d <= t && offs.indexOf(d) === i; }).forEach(function (d) { cal.push({ d: dayStr(d), s: 'n', t: '' }); });
   cal.sort(function (x, y) { return x.d < y.d ? -1 : 1; });
   var months = {};
   s.sess.forEach(function (d) {
