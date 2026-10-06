@@ -159,7 +159,7 @@ function wireChat(){
     if(sv){en.saved=!en.saved;saveHist(h);sv.setAttribute("aria-pressed",en.saved);sv.textContent=en.saved?"⭐":"☆";toast(en.saved?"Saved ⭐":"Removed from saved")}}}
 
 /* ================= home door and route ================= */
-window.hvLumiDoor=function(){if(!URL_())return "";return `<button class="door d-lumi wide" data-go="lumi"><span class="big lm-peek" aria-hidden="true">${hvLumiSvg("happy",92)}</span><b>Ask Lumi</b><small>Questions about God and the Church</small></button>`};
+window.hvLumiDoor=function(){if(!URL_())return "";return `<button class="lm-fab" data-go="lumi" aria-label="Ask Lumi, questions about God and the Church"><span class="lm-fab-i" aria-hidden="true">${hvLumiSvg("happy",56)}</span><b>Ask Lumi</b></button>`};
 window.lumiChatRoute=function(h){if(h==="lumi"){page();return true}return false};
 
 const st=document.createElement("style");
@@ -173,8 +173,10 @@ st.textContent=`
 @keyframes lmbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}@keyframes lmtilt{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(3deg)}}
 @keyframes lmjump{0%,100%{transform:translateY(0)}40%{transform:translateY(-9px)}}@keyframes lmblink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
 @keyframes lmhalo{0%,100%{opacity:.75}50%{opacity:1}}@keyframes lmpop{0%,100%{opacity:.35}50%{opacity:1}}
-.d-lumi{background:linear-gradient(135deg,#4d9fe0 0%,#2b6fb8 60%,#24589a 100%)!important;grid-column:1/-1;min-height:128px}
-.doors .d-lumi{grid-column:1/-1}.d-lumi .big{right:14px;top:10px;font-size:1rem}.d-lumi .big .lumi-svg{filter:drop-shadow(0 4px 8px rgba(0,0,0,.3))}
+.lm-fab{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:60;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;padding:0;cursor:pointer;min-width:64px;min-height:64px;font-family:inherit}
+.lm-fab-i{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#4d9fe0,#2b6fb8);box-shadow:0 6px 18px rgba(20,50,100,.45),0 0 0 3px rgba(255,255,255,.55);transition:transform .15s}
+.lm-fab:active .lm-fab-i{transform:scale(.94)}
+.lm-fab b{font-size:.78rem;font-weight:900;color:#fff;background:#2b6fb8;padding:2px 9px;border-radius:999px;box-shadow:0 2px 8px rgba(20,50,100,.4);white-space:nowrap}
 .lm-wrap{display:flex;flex-direction:column;gap:12px;max-width:760px;margin-inline:auto;width:100%}
 .lm-hero{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:var(--r-l);background:linear-gradient(135deg,rgba(150,200,245,.28),rgba(255,255,255,.08));border:1px solid var(--glass-b)}
 .lm-big{flex:none;width:128px;height:128px}.lm-name h1{margin:0}.lm-prev{display:inline-block;margin-left:6px;font-size:.7rem;font-weight:900;padding:2px 8px;border-radius:999px;background:var(--gold-soft);color:var(--ink);vertical-align:middle}
