@@ -45,7 +45,7 @@ var LM_SYN = [
   ['heaven', 'paradise', 'kingdom'],
   ['marriage', 'matrimony', 'wedding', 'married']
 ];
-var LM_STOP = { a: 1, an: 1, the: 1, is: 1, are: 1, was: 1, were: 1, do: 1, does: 1, did: 1, to: 1, of: 1, in: 1, on: 1, at: 1, it: 1, its: 1, and: 1, or: 1, for: 1, why: 1, what: 1, who: 1, how: 1, when: 1, where: 1, which: 1, can: 1, we: 1, you: 1, i: 1, me: 1, my: 1, our: 1, us: 1, they: 1, them: 1, that: 1, this: 1, with: 1, about: 1, tell: 1, please: 1, there: 1, so: 1, be: 1, have: 1, has: 1, had: 1, will: 1, would: 1, should: 1, could: 1, from: 1, by: 1, as: 1, if: 1, not: 1, no: 1, yes: 1, am: 1, lumi: 1, know: 1, mean: 1, means: 1, called: 1, say: 1, said: 1, kid: 1, kids: 1, child: 1, children: 1, best: 1, game: 1, games: 1, video: 1, videos: 1, people: 1, thing: 1, things: 1 };
+var LM_STOP = { a: 1, an: 1, the: 1, is: 1, are: 1, was: 1, were: 1, do: 1, does: 1, did: 1, to: 1, of: 1, in: 1, on: 1, at: 1, it: 1, its: 1, and: 1, or: 1, for: 1, why: 1, what: 1, who: 1, how: 1, when: 1, where: 1, which: 1, can: 1, we: 1, you: 1, i: 1, me: 1, my: 1, our: 1, us: 1, they: 1, them: 1, that: 1, this: 1, with: 1, about: 1, tell: 1, please: 1, there: 1, so: 1, be: 1, have: 1, has: 1, had: 1, will: 1, would: 1, should: 1, could: 1, from: 1, by: 1, as: 1, if: 1, not: 1, no: 1, yes: 1, am: 1, lumi: 1, know: 1, mean: 1, means: 1, called: 1, say: 1, said: 1, kid: 1, kids: 1, child: 1, children: 1, best: 1, game: 1, games: 1, video: 1, videos: 1, people: 1, thing: 1, things: 1, make: 1, makes: 1, help: 1, helps: 1 };
 
 function lmNorm(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9' ]+/g, ' ').replace(/\s+/g, ' ').trim(); }
 function lmStem(w) {
@@ -100,23 +100,52 @@ function lmIndex(c) {
 function lmHas(arr, w) { return arr.indexOf(w) >= 0; }
 
 /* the best cards for a question. level is 'little' or 'older'. onlyApproved keeps unapproved cards out. */
+/* typing mistakes: a word that no card knows is replaced by the closest word that cards do know (baptisim becomes baptism). Words that stay unknown are remembered. */
+var lmLastUnknown = [];
+function lmLev(a, b) {
+  var prev = [], i, j;
+  for (j = 0; j <= b.length; j++) prev[j] = j;
+  for (i = 1; i <= a.length; i++) {
+    var cur = [i];
+    for (j = 1; j <= b.length; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a.charAt(i - 1) === b.charAt(j - 1) ? 0 : 1));
+    prev = cur;
+  }
+  return prev[b.length];
+}
+function lmFixTypos(q, df) {
+  var idx = lmSynIndex(), out = [];
+  lmNorm(q).split(' ').forEach(function (t) {
+    if (!t || LM_STOP[t] || t.length < 4 || /^[0-9]+$/.test(t)) { out.push(t); return; }
+    var st = lmStem(t);
+    if (df[st] || idx[st]) { out.push(t); return; }
+    if (st.length < 5) { out.push(t); lmLastUnknown.push(t); return; }   /* short words are not guessed */
+    var best = null, max = st.length >= 8 ? 2 : 1;
+    Object.keys(df).forEach(function (v) { if (v.length >= 4 && Math.abs(v.length - st.length) <= max && lmLev(v, st) <= max && (!best || df[v] > df[best])) best = v; });
+    if (best) out.push(best); else { out.push(t); lmLastUnknown.push(t); }
+  });
+  return out.join(' ');
+}
 function lumiSearch(cards, q, level, n, onlyApproved, minScore) {
-  var Q = lmQuery(q);
-  if (!Q.main.length) return [];
+  lmLastUnknown = [];
   var pool = cards.filter(function (c) { return !onlyApproved || c.status === 'approved'; });
   var df = {};
   pool.forEach(function (c) { var ix = lmIndex(c), seen = {}; ix.title.concat(ix.kw, ix.tags, ix.text).forEach(function (w) { if (!seen[w]) { seen[w] = 1; df[w] = (df[w] || 0) + 1 } }); });
+  q = lmFixTypos(q, df);
+  var Q = lmQuery(q);
+  if (!Q.main.length) return [];
+  var hasWord = Q.main.some(function (w) { return !/^[0-9]+$/.test(w); });
   var N = Math.max(pool.length, 1);
   var idf = function (w) { return Math.log(1 + N / (1 + (df[w] || 0))); };
   var scored = pool.map(function (c) {
-    var ix = lmIndex(c), s = 0, hits = 0;
+    var ix = lmIndex(c), s = 0, hits = 0, strong = false, wordHit = false;
     Q.main.forEach(function (w) {
       var h = 0;
-      if (lmHas(ix.title, w)) { s += 6 * idf(w); h = 1; }
-      if (lmHas(ix.kw, w)) { s += 5 * idf(w); h = 1; }
-      if (lmHas(ix.tags, w)) { s += 3 * idf(w); h = 1; }
+      if (lmHas(ix.title, w)) { s += 6 * idf(w); h = 1; strong = true; }
+      if (lmHas(ix.kw, w)) { s += 5 * idf(w); h = 1; strong = true; }
+      if (lmHas(ix.tags, w)) { s += 3 * idf(w); h = 1; strong = true; }
       if (lmHas(ix.text, w)) { s += 1.2 * idf(w); h = 1; }
       hits += h;
+      if (h && !/^[0-9]+$/.test(w)) wordHit = true;
     });
     Q.extra.forEach(function (w) {
       if (lmHas(ix.title, w)) s += 2.5 * idf(w);
@@ -128,6 +157,8 @@ function lumiSearch(cards, q, level, n, onlyApproved, minScore) {
     s *= 0.5 + 0.5 * coverage;
     if (level === 'little' && c.level === 'older') s *= 0.8;
     if (level === 'older' && c.level === 'little') s *= 0.85;
+    if (!wordHit && hasWord) s = 0;   /* numbers alone (like 5 plus 7) never find a card */
+    if (!strong && s < 9) s = 0;   /* a match only inside the card text is too weak to answer a child */
     return { c: c, s: s };
   }).filter(function (x) { return x.s >= (minScore === undefined ? 4 : minScore); });
   scored.sort(function (a, b) { return b.s - a.s; });
@@ -167,12 +198,13 @@ function lmFix(c) {
     source: clip(c.source, 100), ref: clip(c.ref, 100),
     links: (Array.isArray(c.links) ? c.links : []).map(function (t) { return clip(t, 40); }).filter(function (t) { return /^[A-Za-z0-9 .-]+$/.test(t); }).slice(0, 4),
     verse: c.verse && c.verse.text && c.verse.ref ? { text: clip(c.verse.text, 300), ref: clip(c.verse.ref, 50) } : null,
+    videos: (Array.isArray(c.videos) ? c.videos : []).filter(function (v) { return /^[A-Za-z0-9_-]{11}$/.test(String(v)); }).slice(0, 3),
     verify: !!c.verify, url: /^https:\/\/(www\.)?st-takla\.org\//.test(String(c.url || '')) ? clip(c.url, 300) : ''
   };
   return o;
 }
 function lmPublic(c) {
-  return { id: c.id, title: c.title, text: c.text, tags: c.tags, kw: c.kw, level: c.level, source: c.source, ref: c.ref, links: c.links || [], verse: c.verse || null, verify: !!c.verify, url: c.url || '', status: c.status, edited: !!c.edited, isnew: !!c.isnew };
+  return { id: c.id, title: c.title, text: c.text, tags: c.tags, kw: c.kw, level: c.level, source: c.source, ref: c.ref, links: c.links || [], verse: c.verse || null, verify: !!c.verify, url: c.url || '', videos: c.videos || [], status: c.status, edited: !!c.edited, isnew: !!c.isnew };
 }
 
 /* every card with its status: base cards, then what a servant changed, then the cards a servant added */

@@ -62,7 +62,14 @@ const isStaffNow=()=>{const a=A();return !!(a&&a.user.role!=="student"&&!a.user.
 const S={tab:"chat",msgs:[],busy:false,mood:"happy",emoji:false,deep:(()=>{try{return sessionStorage.getItem("hv_lumi_deep")==="1"}catch{return false}})()};
 const hist=()=>jget("hv_lumi",[]);
 const saveHist=h=>jset("hv_lumi",h.slice(0,60));
-const LINKTXT=r=>/^quiz-/.test(r)?["🏆","Take the quiz"]:/^l-/.test(r)?["▶","Watch the lesson"]:r==="calendar"?["📅","See in calendar"]:r==="m-saints"?["👼","More saints"]:r==="m-feasts"?["🎉","More feasts"]:r==="verse"?["📜","Daily verse"]:r==="games"?["🎮","Play a game"]:/^b-|^bible$/.test(r)?["📖","Read it in the Bible"]:r==="bedtime"?["🌙","Bedtime stories"]:r==="coloring"?["🎨","Coloring"]:null;
+/* ---- the channel videos: a real thumbnail the child can tap. Only videos that exist (the V list in index.html) are shown, never a "coming soon" one. ---- */
+function vidInfo(id){try{const v=(typeof V!=="undefined"?V:[]).find(x=>x[0]===id);return v?{id,title:v[1],dur:v[2]}:null}catch{return null}}
+function lessonVid(r){try{const m=String(r).match(/^l-([a-z0-9]+)-(.+)$/);if(!m||typeof lessonVids!=="function")return null;const vs=lessonVids(m[1],m[2]);return vs&&vs[0]?vidInfo(vs[0][0]):null}catch{return null}}
+function videosFor(a){const out=[];(a.videos||[]).forEach(id=>{const v=vidInfo(id);if(v&&!out.some(x=>x.id===id))out.push(v)});(a.links||[]).forEach(r=>{const v=lessonVid(r);if(v&&!out.some(x=>x.id===v.id))out.push(v)});return out.slice(0,2)}
+function videoHtml(a){const vs=videosFor(a||{});if(!vs.length)return "";
+  return `<div class="lm-vids"><div class="lm-vh">🎬 Watch it</div>${vs.map(v=>`<button class="vcard lm-vcard" data-v="${E(v.id)}" aria-label="Watch the video: ${E(v.title)}"><img src="https://i.ytimg.com/vi/${E(v.id)}/hqdefault.jpg" alt="" loading="lazy"><span class="vplay">▶</span><span class="vdur">${E(v.dur)}</span><div class="vlab"><b>${E(v.title)}</b><small>Tap to watch</small></div></button>`).join("")}</div>`}
+window.lumiVideoHtml=videoHtml;
+const LINKTXT=r=>/^quiz-/.test(r)?["🏆","Take the quiz"]:/^l-/.test(r)?null:r==="calendar"?["📅","See in calendar"]:r==="m-saints"?["👼","More saints"]:r==="m-feasts"?["🎉","More feasts"]:r==="verse"?["📜","Daily verse"]:r==="games"?["🎮","Play a game"]:/^b-|^bible$/.test(r)?["📖","Read it in the Bible"]:r==="bedtime"?["🌙","Bedtime stories"]:r==="coloring"?["🎨","Coloring"]:null;
 const EMOJIS=["😊","🙏","✝️","⭐","📖","🕊️","🐑","❤️","🎉","😮","🤔","👍"];
 
 function avatar(){const a=A();return a?(window.hvAvatarOf&&a.user.av?hvAvatarOf(a,34):`<span>${E(a.avatar||"😇")}</span>`):"<span>🙂</span>"}
@@ -70,6 +77,7 @@ function ansHtml(en,saved){const a=en.a;
   return `<div class="lm-msg lm-l"><div class="lm-face">${hvLumiSvg(a.mood,38)}</div><div class="lm-bub" data-e="${en.id}">
    <p class="lm-t">${E(a.answer)}</p>
    ${a.verse?`<div class="lm-verse">“${E(a.verse.text)}”<b>${E(a.verse.ref)}</b></div>`:""}
+   ${videoHtml(a)}
    ${a.deep?`<div class="lm-deep">🧑‍🏫 Servant mode: a longer answer for lesson preparation</div>`:""}
    ${a.sources&&a.sources.length?`<div class="lm-src">${a.sources.map(s=>`<span class="lm-chip">${E(s.label)}</span>`).join("")}</div>`:""}
    ${a.links&&a.links.length?`<div class="lm-links">${a.links.map(r=>{const t=LINKTXT(r);return t?`<button class="lm-lb" data-go="${E(r)}">${t[0]} ${t[1]}</button>`:""}).join("")}</div>`:""}
@@ -190,6 +198,7 @@ st.textContent=`
 .lm-emo{display:flex;flex-wrap:wrap;gap:2px;padding:6px;border-radius:18px;background:var(--glass);border:1px solid var(--glass-b)}.lm-emo[hidden]{display:none}.lm-cnt{font-size:.8rem;color:var(--muted);text-align:right}
 .lm-hl{display:flex;flex-direction:column;gap:10px}.lm-hi{display:flex;flex-direction:column;gap:2px;text-align:left;padding:12px 14px;min-height:56px;border-radius:var(--r-m);border:1px solid var(--glass-b);background:var(--glass);color:var(--ink);font:inherit}.lm-hq{font-weight:900}.lm-ha{color:var(--muted);font-size:.9rem}.lm-hi small{color:var(--muted)}
 .lm-sheet .lm-msg{animation:none}
+.lm-vids{display:flex;flex-direction:column;gap:8px}.lm-vh{font-weight:900;font-size:.9rem;color:var(--gold)}.lm-vcard{max-width:420px}
 .lm-servant{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r-m);border:1.5px dashed var(--gold);background:color-mix(in srgb,var(--gold) 10%,transparent);min-height:52px}.lm-servant small{display:block;color:var(--muted);font-weight:700}
 .lm-deep{font-size:.8rem;font-weight:900;color:var(--gold)}.lm-refs{display:flex;flex-direction:column;gap:4px;font-size:.92rem;padding:8px 10px;border-radius:12px;background:var(--line)}.lm-ext{display:inline-flex;align-items:center;min-height:44px;font-weight:800;color:var(--gold)}
 @media (max-width:420px){.lm-big{width:96px;height:96px}.lm-big .lumi-svg{width:96px;height:96px}.lm-bub{max-width:86%}}

@@ -30,7 +30,11 @@
    "ref": "Genesis 1:1"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "ArIC3kr3um0",
+   "_volkElfX1k"
+  ]
  },
  {
   "id": "bible-adam-eve",
@@ -64,7 +68,11 @@
    "ref": "Genesis 3:9"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "apX8Aj9cmkI",
+   "XXrEYm55i0c"
+  ]
  },
  {
   "id": "bible-noah",
@@ -362,7 +370,11 @@
    "ref": "Daniel 6:22"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "iuXjBbh0kp0",
+   "S3xfjAHz2d4"
+  ]
  },
  {
   "id": "bible-jonah",
@@ -465,7 +477,10 @@
    "ref": "Luke 1:38"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "nf9nTCL1GMk"
+  ]
  },
  {
   "id": "bible-wise-men",
@@ -702,7 +717,10 @@
   },
   "verify": false,
   "approved": false,
-  "url": "https://st-takla.org/Feastes-&-Special-Events/Great-Lent-Baskha/Coptic-El-Soom-Al-Kabir-09-Sundays-of-Great-Lent.html"
+  "url": "https://st-takla.org/Feastes-&-Special-Events/Great-Lent-Baskha/Coptic-El-Soom-Al-Kabir-09-Sundays-of-Great-Lent.html",
+  "videos": [
+   "lrN2Cwo0xWE"
+  ]
  },
  {
   "id": "bible-lost-sheep",
@@ -768,7 +786,10 @@
    "ref": "Luke 22:19"
   },
   "verify": true,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "2CEJrgi4uGc"
+  ]
  },
  {
   "id": "bible-resurrection",
@@ -801,7 +822,10 @@
    "ref": "Matthew 28:6"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "ZH6C0fpF_Vc"
+  ]
  },
  {
   "id": "bible-pentecost",
@@ -836,7 +860,10 @@
    "ref": "Acts 2:4"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "CMnye7L_E2o"
+  ]
  },
  {
   "id": "bible-paul",
@@ -900,7 +927,10 @@
   "verse": null,
   "verify": false,
   "approved": false,
-  "url": "https://st-takla.org/books/en/pope-shenouda-iii/comparative-theology/mary-titles.html"
+  "url": "https://st-takla.org/books/en/pope-shenouda-iii/comparative-theology/mary-titles.html",
+  "videos": [
+   "7fVngbW80HY"
+  ]
  },
  {
   "id": "word-pascha",
@@ -1309,7 +1339,10 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "sRSsgo4-D0o"
+  ]
  },
  {
   "id": "pray-for-others",
@@ -1556,6 +1589,9 @@
    "ref": "1 Thessalonians 5:18"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "sRSsgo4-D0o"
+  ]
  }
 ]

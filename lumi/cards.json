@@ -30,7 +30,11 @@
    "ref": "Genesis 1:1"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "ArIC3kr3um0",
+   "_volkElfX1k"
+  ]
  },
  {
   "id": "bible-adam-eve",
@@ -64,7 +68,11 @@
    "ref": "Genesis 3:9"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "apX8Aj9cmkI",
+   "XXrEYm55i0c"
+  ]
  },
  {
   "id": "bible-noah",
@@ -362,7 +370,11 @@
    "ref": "Daniel 6:22"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "iuXjBbh0kp0",
+   "S3xfjAHz2d4"
+  ]
  },
  {
   "id": "bible-jonah",
@@ -465,7 +477,10 @@
    "ref": "Luke 1:38"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "nf9nTCL1GMk"
+  ]
  },
  {
   "id": "bible-wise-men",
@@ -702,7 +717,10 @@
   },
   "verify": false,
   "approved": false,
-  "url": "https://st-takla.org/Feastes-&-Special-Events/Great-Lent-Baskha/Coptic-El-Soom-Al-Kabir-09-Sundays-of-Great-Lent.html"
+  "url": "https://st-takla.org/Feastes-&-Special-Events/Great-Lent-Baskha/Coptic-El-Soom-Al-Kabir-09-Sundays-of-Great-Lent.html",
+  "videos": [
+   "lrN2Cwo0xWE"
+  ]
  },
  {
   "id": "bible-lost-sheep",
@@ -768,7 +786,10 @@
    "ref": "Luke 22:19"
   },
   "verify": true,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "2CEJrgi4uGc"
+  ]
  },
  {
   "id": "bible-resurrection",
@@ -801,7 +822,10 @@
    "ref": "Matthew 28:6"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "ZH6C0fpF_Vc"
+  ]
  },
  {
   "id": "bible-pentecost",
@@ -836,7 +860,10 @@
    "ref": "Acts 2:4"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "CMnye7L_E2o"
+  ]
  },
  {
   "id": "bible-paul",
@@ -900,7 +927,10 @@
   "verse": null,
   "verify": false,
   "approved": false,
-  "url": "https://st-takla.org/books/en/pope-shenouda-iii/comparative-theology/mary-titles.html"
+  "url": "https://st-takla.org/books/en/pope-shenouda-iii/comparative-theology/mary-titles.html",
+  "videos": [
+   "7fVngbW80HY"
+  ]
  },
  {
   "id": "word-pascha",
@@ -1309,7 +1339,10 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "sRSsgo4-D0o"
+  ]
  },
  {
   "id": "pray-for-others",
@@ -1556,7 +1589,10 @@
    "ref": "1 Thessalonians 5:18"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "sRSsgo4-D0o"
+  ]
  },
  {
   "id": "faith-trinity-one-god",
@@ -1694,7 +1730,12 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "7fVngbW80HY",
+   "ZDRMmShq1jg",
+   "cjRS8Zs58Dk"
+  ]
  },
  {
   "id": "faith-theotokos-why-honor",
@@ -1722,7 +1763,10 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "ZDRMmShq1jg"
+  ]
  },
  {
   "id": "faith-holy-spirit",
@@ -1863,7 +1907,11 @@
    "ref": "John 6:51"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "2CEJrgi4uGc",
+   "Rq7UcDSDdLg"
+  ]
  },
  {
   "id": "sac-matrimony",
@@ -1962,7 +2010,11 @@
    "qudas",
    "kodas",
    "holy qurbana",
-   "worship"
+   "worship",
+   "why do we go to church",
+   "why go to church",
+   "going to church",
+   "why church"
   ],
   "level": "little",
   "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
@@ -2049,7 +2101,10 @@
   "links": [],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "WhiR1XqxIBM"
+  ]
  },
  {
   "id": "church-haykal",
@@ -2075,7 +2130,10 @@
   "verse": null,
   "verify": false,
   "approved": false,
-  "url": "https://st-takla.org/faith/en/terms/sanctuary.html"
+  "url": "https://st-takla.org/faith/en/terms/sanctuary.html",
+  "videos": [
+   "WhiR1XqxIBM"
+  ]
  },
  {
   "id": "church-iconostasis",
@@ -2101,7 +2159,10 @@
   "verse": null,
   "verify": false,
   "approved": false,
-  "url": "https://st-takla.org/faith/en/terms/iconostasis-iconstand.html"
+  "url": "https://st-takla.org/faith/en/terms/iconostasis-iconstand.html",
+  "videos": [
+   "WhiR1XqxIBM"
+  ]
  },
  {
   "id": "church-altar",
@@ -2128,7 +2189,10 @@
   "verse": null,
   "verify": false,
   "approved": false,
-  "url": "https://st-takla.org/faith/en/terms/altar.html"
+  "url": "https://st-takla.org/faith/en/terms/altar.html",
+  "videos": [
+   "WhiR1XqxIBM"
+  ]
  },
  {
   "id": "church-domes-cross",
@@ -2153,7 +2217,10 @@
   "links": [],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "WhiR1XqxIBM"
+  ]
  },
  {
   "id": "church-icons",
@@ -2200,7 +2267,10 @@
    "bells",
    "burning",
    "shourieh",
-   "cense"
+   "cense",
+   "smoky",
+   "burn",
+   "perfume"
   ],
   "level": "all",
   "source": "St-Takla.org (our own words)",
@@ -2344,7 +2414,10 @@
   "links": [],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "ALQ2yXi4Yzc"
+  ]
  },
  {
   "id": "church-bishop-pope",
@@ -2418,7 +2491,9 @@
    "first pope",
    "alexandria",
    "apostle",
-   "mar morqos"
+   "mar morqos",
+   "first pope of alexandria",
+   "who started the coptic church"
   ],
   "level": "older",
   "source": "St-Takla.org (our own words)",
@@ -2429,7 +2504,11 @@
   "verse": null,
   "verify": false,
   "approved": false,
-  "url": "https://st-takla.org/books/en/church/synaxarium/08-bermodah/30-baramouda-mark.html"
+  "url": "https://st-takla.org/books/en/church/synaxarium/08-bermodah/30-baramouda-mark.html",
+  "videos": [
+   "7TxD6UvY9G4",
+   "FwCOA9rChw4"
+  ]
  },
  {
   "id": "pray-agpeya",
@@ -2480,7 +2559,10 @@
    "lord's prayer",
    "our father",
    "morning prayer",
-   "bedtime prayer"
+   "bedtime prayer",
+   "why do we pray",
+   "why pray",
+   "why should we pray"
   ],
   "level": "little",
   "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
@@ -2522,7 +2604,10 @@
   "verse": null,
   "verify": false,
   "approved": false,
-  "url": "https://st-takla.org/faith/en/terms/fasting.html"
+  "url": "https://st-takla.org/faith/en/terms/fasting.html",
+  "videos": [
+   "YjAI1Rkck-U"
+  ]
  },
  {
   "id": "fast-wed-fri",
@@ -2582,7 +2667,10 @@
   "verse": null,
   "verify": false,
   "approved": false,
-  "url": "https://st-takla.org/faith/en/terms/fasting.html"
+  "url": "https://st-takla.org/faith/en/terms/fasting.html",
+  "videos": [
+   "B1APrQsFZ1E"
+  ]
  },
  {
   "id": "feast-coptic-calendar-nayrouz",
@@ -2613,7 +2701,10 @@
   "verse": null,
   "verify": false,
   "approved": false,
-  "url": "https://st-takla.org/faith/en/terms/calendar-coptic.html"
+  "url": "https://st-takla.org/faith/en/terms/calendar-coptic.html",
+  "videos": [
+   "BHKgrAQCs3A"
+  ]
  },
  {
   "id": "hist-holy-family-egypt",
@@ -2785,7 +2876,10 @@
   "verse": null,
   "verify": false,
   "approved": false,
-  "url": "https://st-takla.org/books/en/pope-shenouda-iii/spiritual-means/holy-communion-preparation.html"
+  "url": "https://st-takla.org/books/en/pope-shenouda-iii/spiritual-means/holy-communion-preparation.html",
+  "videos": [
+   "2CEJrgi4uGc"
+  ]
  },
  {
   "id": "virtue-forgiveness-kids",
@@ -2875,7 +2969,10 @@
    "ref": "Psalm 119:105"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "hS4Ux62FcJ0"
+  ]
  },
  {
   "id": "bible-old-new-testament",
@@ -2906,7 +3003,10 @@
   "verse": null,
   "verify": false,
   "approved": false,
-  "url": "https://st-takla.org/pub_Deuterocanon/Deuterocanon-Apocrypha_El-Asfar_El-Kanoneya_El-Tanya__0-index.html"
+  "url": "https://st-takla.org/pub_Deuterocanon/Deuterocanon-Apocrypha_El-Asfar_El-Kanoneya_El-Tanya__0-index.html",
+  "videos": [
+   "hS4Ux62FcJ0"
+  ]
  },
  {
   "id": "faith-angels",
@@ -2939,7 +3039,10 @@
    "ref": "Psalm 34:7"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "u9PhDJkbQHM"
+  ]
  },
  {
   "id": "faith-saints",
@@ -2999,7 +3102,10 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "Do41H2mzad8"
+  ]
  },
  {
   "id": "feast-resurrection",
@@ -3032,6 +3138,34 @@
    "ref": "Matthew 28:6"
   },
   "verify": false,
+  "approved": false,
+  "videos": [
+   "ZH6C0fpF_Vc"
+  ]
+ },
+ {
+  "id": "sac-seven",
+  "title": "How many sacraments are there?",
+  "text": "The Coptic Orthodox Church has seven sacraments. A sacrament is a holy gift of God, where we receive His grace through the Church. The seven sacraments are Baptism, Chrismation with the Holy Myron, the Eucharist or Holy Communion, Repentance and Confession, the Unction of the Sick, Matrimony, and the Priesthood. Baptism and Chrismation are received one time. We can receive Communion and Confession many times. Each sacrament has its own card in Lumi, so you can ask about any of them.",
+  "tags": [
+   "sacrament",
+   "church",
+   "liturgy"
+  ],
+  "kw": [
+   "seven sacraments",
+   "7 sacraments",
+   "how many sacraments",
+   "list of sacraments",
+   "sacraments",
+   "holy mysteries"
+  ],
+  "level": "all",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "",
+  "links": [],
+  "verse": null,
+  "verify": true,
   "approved": false
  },
  {
@@ -3061,7 +3195,12 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "FwCOA9rChw4",
+   "7TxD6UvY9G4",
+   "KyOjtZjBBQ4"
+  ]
  },
  {
   "id": "saint-joseph",
@@ -3121,7 +3260,11 @@
    "ref": "John 1:29"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "el-9WkiWryU",
+   "duAYMBpBRe8"
+  ]
  },
  {
   "id": "saint-stephen",
@@ -3239,7 +3382,11 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "wzs5AUAI8AI",
+   "NeeQC_AwgdQ"
+  ]
  },
  {
   "id": "saint-mina",
@@ -3379,7 +3526,10 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "9LJMzNc5w9w"
+  ]
  },
  {
   "id": "saint-bishoy",
@@ -3463,7 +3613,10 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "wzEpgARzpo4"
+  ]
  },
  {
   "id": "saint-michael",
@@ -3491,7 +3644,11 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "u9PhDJkbQHM",
+   "O94kIqHBOYA"
+  ]
  },
  {
   "id": "saint-gabriel",
@@ -3549,7 +3706,11 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "pvg0arL3GfU",
+   "WQ-viHh3seU"
+  ]
  },
  {
   "id": "saint-cyril",
@@ -3747,7 +3908,10 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "2L2h8Wxv9fo"
+  ]
  },
  {
   "id": "saint-john-beloved",
@@ -3833,7 +3997,11 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "1Cjo-Zxt-Cs",
+   "LtLLDDaH56I"
+  ]
  },
  {
   "id": "feast-nayrouz",
@@ -3864,7 +4032,10 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "BHKgrAQCs3A"
+  ]
  },
  {
   "id": "feast-cross",
@@ -3926,7 +4097,10 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "nf9nTCL1GMk"
+  ]
  },
  {
   "id": "feast-nativity",
@@ -3957,7 +4131,11 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "alqMhECRjw0",
+   "BqnM-BuA9MY"
+  ]
  },
  {
   "id": "feast-theophany",
@@ -4078,7 +4256,10 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "6ZfefQb5R6U"
+  ]
  },
  {
   "id": "feast-holy-week",
@@ -4137,7 +4318,10 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "UQfpRmoRAAI"
+  ]
  },
  {
   "id": "feast-pentecost",
@@ -4166,7 +4350,10 @@
   ],
   "verse": null,
   "verify": true,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "CMnye7L_E2o"
+  ]
  },
  {
   "id": "feast-transfiguration",
@@ -4195,7 +4382,10 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "gMAFxDCTzr8"
+  ]
  },
  {
   "id": "feast-dormition",
@@ -4309,7 +4499,11 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "sGdE0I9DA8w",
+   "I_iuKkKC_Zg"
+  ]
  },
  {
   "id": "feast-circumcision",
@@ -4367,7 +4561,11 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "alqMhECRjw0",
+   "BqnM-BuA9MY"
+  ]
  },
  {
   "id": "fast-apostles",
@@ -4394,7 +4592,11 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "videos": [
+   "I_iuKkKC_Zg",
+   "sGdE0I9DA8w"
+  ]
  },
  {
   "id": "fast-st-mary",

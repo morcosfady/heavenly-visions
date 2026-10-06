@@ -21,14 +21,22 @@ var LM_MSG = {
   slow: "One moment! Let me finish thinking 🐑",
   closed: "Lumi is resting right now 💤 Ask your servant or Abouna!"
 };
-var LM_BAD = /\b(fuck\w*|shit\w*|bitch\w*|asshole|dick|pussy|cunt|slut|whore|porn\w*|nigg\w*|retard\w*)\b/i;
+var LM_BAD = /\b(fuck\w*|shit\w*|bitch\w*|asshole|dick|pussy|cunt|slut|whore|porn\w*|nigg\w*|retard\w*|stupid|idiot|moron|dumb|shut up|hate you)\b/i;
+var LM_BAD_MASKED = /\bf[u*]{1,3}c?k\w*|\bs[h*]{1,2}[i*]t\b|\bb[i*]tch\w*/i;
+/* sh1t, f**k, $hit: the common ways to hide a bad word */
+function lmIsBad(q) {
+  var plain = String(q).toLowerCase().replace(/[01345@$!7]/g, function (c) { return { '0': 'o', '1': 'i', '3': 'e', '4': 'a', '5': 's', '@': 'a', '$': 's', '!': 'i', '7': 't' }[c]; });
+  return LM_BAD.test(q) || LM_BAD.test(plain) || LM_BAD_MASKED.test(String(q).toLowerCase());
+}
 var LM_ADULT = /\b(sex\w*|naked|nude|rape\w*|condom|pregnan\w*|masturbat\w*)\b/i;
 var LM_WORRY = [/\bkill (my ?self|me)\b/i, /\bsuicid\w*/i, /\bwant(ed)? to die\b/i, /\bwanna die\b/i, /\bhurt(ing)? (my ?self|me)\b/i, /\bcut(ting)? (my ?self|my (arm|wrist)s?)\b/i,
   /\bend my life\b/i, /\bhate my ?self\b/i, /\b(nobody|no one) (loves|likes|cares about) me\b/i, /\bbull(y|ied|ies|ying)\b/i, /\b(hits|hit|beats|beat|hurts|slaps) me\b/i,
   /\babus(e|ed|ing)\b/i, /\btouch(ed|es|ing)? me\b/i, /\bnot safe\b/i, /\bunsafe\b/i, /\brun(ning)? away\b/i, /\b(i am|i'm|im|i feel|feel(ing)?) (so |very |really )?(sad|lonely|alone|depressed|hopeless)\b/i,
   /\beveryone hates me\b/i, /\bi have no friends\b/i, /\bno friends\b/i, /\bwant to disappear\b/i, /\bscared (to go )?home\b/i, /\bafraid (of|to go) (my )?(dad|mom|home|house)\b/i,
   /\b(mean|nasty|cruel) to me\b/i, /\bmake(s)? fun of me\b/i, /\blaugh(s|ed)? at me\b/i, /\bnobody (plays|talks) (with|to) me\b/i, /\bcry(ing)? (every|all)\b/i, /\bi (am|'m) (so )?scared\b/i, /\bbeing hurt\b/i, /\bhurts? (a lot|so much)\b/i];
-var LM_SENSITIVE = /\b(died|dies|dead|death|funeral|passed away|hell|punish\w*|nightmare\w*|scary dream\w*|devil|demon\w*|satan\w*|ghost\w*|end of the world|apocalypse|divorce\w*|fighting|parents fight\w*|islam\w*|muslim\w*|buddh\w*|hindu\w*|jewish|judaism|atheis\w*|catholic\w*|protestant\w*)\b/i;
+var LM_SENSITIVE = /\b(died|dies|dead|death|funeral|passed away|hell|punish\w*|nightmare\w*|scary dream\w*|devil|demon\w*|satan\w*|ghost\w*|end of the world|world (will )?ends?|ends? of (the )?world|doomsday|apocalypse|(when|if|after) (we|i|you|people) die|after death|going to die|will i die|am i going to die|divorce\w*|fighting|parents fight\w*|islam\w*|muslim\w*|buddh\w*|hindu\w*|jewish|judaism|atheis\w*|catholic\w*|protestant\w*)\b/i;
+var LM_FAMILY = /\b(died|dies|dead|death|funeral|passed away|(when|if|after) (we|i|you|people) die|after death|going to die|will i die|divorce\w*|fighting|parents fight\w*)\b/i;
+var LM_TRICK = /\b(ignore (all |any )?(your |the |previous |these )?(rules|instructions)|system prompt|you are now|pretend (you are|to be|you're)|repeat after me|jailbreak|act as (a|an)|forget (your|all|the) (rules|instructions)|developer mode)\b/i;
 var LM_GENERIC = { kid: 1, child: 1, best: 1, good: 1, bad: 1, big: 1, game: 1, video: 1, people: 1, thing: 1, day: 1, time: 1, like: 1, love: 1, make: 1, new: 1, old: 1, help: 1, little: 1 };
 
 function lmNow() { return Date.now(); }
@@ -130,7 +138,7 @@ function lmCompose(card, level, sensitive, deep) {
   var text = deep ? lmDash(sn.slice(0, n).join('').trim()) : lmCap(lmDash(sn.slice(0, n).join('').trim()), level);
   if (sensitive) text += ' It is also good to talk about this with a servant, Abouna or your parents 🙏';
   else if (level === 'older' && card.tags.indexOf('bible') >= 0 && !(card.links || []).some(function (r) { return /^b-/.test(r); })) text += ' Can you find this story in your Bible? 📖';
-  var mood = card.tags.indexOf('prayer') >= 0 ? 'praying' : (card.tags.indexOf('martyr') >= 0 || card.tags.indexOf('sacrament') >= 0 || card.tags.indexOf('fast') >= 0 || sensitive) ? 'gentle' : 'happy';
+  var mood = sensitive ? 'gentle' : card.tags.indexOf('prayer') >= 0 ? 'praying' : (card.tags.indexOf('martyr') >= 0 || card.tags.indexOf('sacrament') >= 0 || card.tags.indexOf('fast') >= 0) ? 'gentle' : 'happy';
   return { answer: text, verse: level !== 'little' && card.verse && card.verse.text ? { text: card.verse.text, ref: card.verse.ref } : null, mood: mood };
 }
 
@@ -155,9 +163,12 @@ function lmAsk(b, u) {
   if (mine >= (deep ? Math.max(cfg.perKid, 100) : cfg.perKid) || (total >= cfg.perDay && !deep)) return lmBlocked('nap', LM_MSG.nap, 'gentle');
   p.setProperty(tk, String(now)); p.setProperty(kq, String(mine + 1)); p.setProperty(ka, String(total + 1));
   var seed = q.length + now % 97;
-  if (LM_BAD.test(q)) return lmReply({ answer: LM_MSG.bad, mood: 'gentle', followups: lmPickTitles(all, 3, seed) }, { safety: 'bad' });
+  if (lmIsBad(q)) return lmReply({ answer: LM_MSG.bad, mood: 'gentle', followups: lmPickTitles(all, 3, seed) }, { safety: 'bad' });
   if (LM_ADULT.test(q)) { lmHistAdd(p, u, q, LM_MSG.adult, []); return lmReply({ answer: LM_MSG.adult, mood: 'gentle' }, { safety: 'adult' }); }
+  if (LM_TRICK.test(q)) return lmReply({ answer: LM_MSG.off, mood: 'happy', followups: lmPickTitles(all, 3, seed) }, { safety: 'offtopic' });
   var sensitive = LM_SENSITIVE.test(q);
+  /* family loss and family trouble are for a grown-up, not for a card */
+  if (LM_FAMILY.test(q) && !/\b(jesus|christ|cross|lord|saint|martyr)\b/i.test(q)) { lmHistAdd(p, u, q, LM_MSG.adult, []); return lmReply({ answer: LM_MSG.adult, mood: 'gentle' }, { safety: 'sensitive' }); }
   lmCount(p, q, false);
   var gold = lmGold(p, q);
   if (gold) {
@@ -165,19 +176,22 @@ function lmAsk(b, u) {
     return lmReply({ answer: lmDash(gold.a), verse: gold.v && gold.v.text ? gold.v : null, sources: [{ id: 'gold', title: 'Servant answer', label: '⭐ From your servants' }], mood: 'happy' }, { gold: true });
   }
   var hits = lumiSearch(all, q, level, 5, true, 4);
+  /* a name or word that no card knows (and only a weak match) means Lumi does not know, she does not guess */
+  if (hits.length && lmLastUnknown.length && lmWords(q).length <= 5 && hits[0].score < 25 && !deep) hits = [];
   if (!hits.length) {
     if (sensitive) { lmHistAdd(p, u, q, LM_MSG.adult, []); lmUnanswered(p, q); return lmReply({ answer: LM_MSG.adult, mood: 'gentle' }, { safety: 'sensitive' }); }
     var vocab = lmQuery(q), idx = lmSynIndex();
-    var churchy = vocab.main.some(function (w) { return !LM_GENERIC[w] && (idx[w] || all.some(function (c) { var ix = lmIndex(c); return lmHas(ix.kw, w) || lmHas(ix.tags, w); })); });
+    var churchy = /\b(st|saint|anba|abouna|pope|coptic|orthodox|church|jesus|christ|god|bible|lord|priest|angel|mary)\b/i.test(q) || vocab.main.some(function (w) { return !LM_GENERIC[w] && !/^[0-9]+$/.test(w) && (idx[w] || all.some(function (c) { var ix = lmIndex(c); return lmHas(ix.kw, w) || lmHas(ix.tags, w); })); });
     if (churchy) { lmUnanswered(p, q); lmCount(p, q, true); lmHistAdd(p, u, q, LM_MSG.unknown, []); return lmReply({ answer: LM_MSG.unknown, mood: 'gentle' }, { unknown: true }); }
     lmHistAdd(p, u, q, LM_MSG.off, []);
     return lmReply({ answer: LM_MSG.off, mood: 'happy', followups: lmPickTitles(all, 3, seed) }, { safety: 'offtopic' });
   }
+  if (sensitive && hits[0].score < 14 && !deep) { lmHistAdd(p, u, q, LM_MSG.adult, []); lmUnanswered(p, q); return lmReply({ answer: LM_MSG.adult, mood: 'gentle' }, { safety: 'sensitive' }); }
   var top = hits[0], card = all.filter(function (c) { return c.id === top.id; })[0], ans = lmCompose(card, level, sensitive, deep);
   var close = hits.filter(function (h, i) { return i === 0 || h.score >= top.score * 0.75; }).slice(0, deep ? 3 : 2).map(function (h) { return all.filter(function (c) { return c.id === h.id; })[0]; });
   var sources = close.map(function (c) { return { id: c.id, title: c.title, label: lmLabel(c) }; }).filter(function (x, i, arr) { return arr.map(function (y) { return y.label; }).indexOf(x.label) === i; });
   lmHistAdd(p, u, q, ans.answer, close.map(function (c) { return c.id; }));
-  var extra = { safety: sensitive ? 'sensitive' : 'ok' };
+  var extra = { safety: sensitive ? 'sensitive' : 'ok', videos: (card.videos || []).slice(0, 2) };
   if (deep) {
     extra.deep = true;
     extra.refs = close.filter(function (c) { return c.ref; }).map(function (c) { return { title: c.title, ref: c.ref }; });

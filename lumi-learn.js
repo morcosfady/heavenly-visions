@@ -82,7 +82,7 @@ function storyPage(){
   const s=ST.s,last=ST.p===s.pages.length,txt=last?null:s.pages[ST.p];
   H.innerHTML=`${back("stories")}<h2 class="ll-h">${E(s.title)}</h2><div class="ll-dots" aria-hidden="true">${s.pages.concat(["end"]).map((_,k)=>`<i class="${k<=ST.p?"on":""}"></i>`).join("")}</div>
    ${last?`${bubble("excited",`<p class="ll-t"><b>The end!</b></p><p class="ll-t">${E(s.ask)}</p>${s.verse?`<div class="lm-verse">“${E(s.verse.text)}”<b>${E(s.verse.ref)}</b></div>`:""}${s.ref?`<div class="lm-src"><span class="lm-chip">${E(s.label)}</span></div>`:""}`)}
-    <div class="ll-acts"><button class="btn gold" data-askme="${E(s.title)}">💬 Ask Lumi about it</button>${(s.links||[]).map(r=>`<button class="btn alt" data-go="${E(r)}">${/^quiz/.test(r)?"🏆 Take the quiz":/^l-/.test(r)?"▶ Watch the lesson":/^b-/.test(r)?"📖 Read it in the Bible":"Learn more"}</button>`).join("")}</div>`
+    <div class="ll-acts"><button class="btn gold" data-askme="${E(s.title)}">💬 Ask Lumi about it</button>${(s.links||[]).filter(r=>!/^l-/.test(r)).map(r=>`<button class="btn alt" data-go="${E(r)}">${/^quiz/.test(r)?"🏆 Take the quiz":/^b-/.test(r)?"📖 Read it in the Bible":"Learn more"}</button>`).join("")}</div>${window.lumiVideoHtml?lumiVideoHtml({videos:s.videos,links:s.links}):""}`
     :`<div class="ll-page"><p class="ll-ptxt">${E(txt)}</p></div>`}
    <div class="two"><button class="btn alt" data-spage="-1" ${ST.p===0?"disabled":""}>⬅ Back</button>${last?`<button class="btn alt" data-lb="stories">More stories</button>`:`<button class="btn gold" data-spage="1">Next ➡</button>`}</div>`;
   if(last&&s.kind==="bible")stars("bible","lumi-story-"+s.id+"-"+day(),s.title);wire()}

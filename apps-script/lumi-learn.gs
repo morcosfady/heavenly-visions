@@ -88,7 +88,7 @@ function lmStory(all, id, level) {
   for (var i = 0; i < sn.length && pages.length < (level === 'little' ? 14 : 8); i += per) pages.push(sn.slice(i, i + per).join(' '));
   var ask = card.id.indexOf('bible-') === 0 ? 'Can you find this story in your Bible? 📖' : 'What do you think was the bravest thing in this story? 🐑';
   return { ok: true, mode: 'story', id: card.id, title: card.title, kind: card.id.indexOf('saint-') === 0 ? 'saint' : 'bible', pages: pages, ask: ask, ref: card.ref || '', verse: level !== 'little' && card.verse ? card.verse : null,
-    links: (card.links || []).slice(0, 2), label: lmLabel(card) };
+    links: (card.links || []).slice(0, 2), videos: (card.videos || []).slice(0, 2), label: lmLabel(card) };
 }
 
 function lmWordOf(title) { var m = title.match(/^What (?:does|is) (?:the )?(?:word )?(.+?)(?: mean)?\?$/i); return (m ? m[1] : title.replace(/\?$/, '')).replace(/^the /i, ''); }

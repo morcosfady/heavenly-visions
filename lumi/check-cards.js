@@ -6,6 +6,7 @@ const files = process.argv.slice(2).length ? process.argv.slice(2) : [path.join(
 
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const quizIds = new Set([...html.matchAll(/id:\s*"([a-z0-9-]+)"\s*,\s*(?:t|title|name)/g)].map(m => m[1]));
+const knownVideos = new Set((() => { try { return eval('[' + html.match(/const V=\[([\s\S]*?)\n\];/)[1] + ']').map(v => v[0]) } catch (e) { return [] } })());
 const quizBlock = (html.match(/const QUIZZES=\[[\s\S]*?\n\];/) || [''])[0];
 [...quizBlock.matchAll(/\{id:"([a-z0-9-]+)"/g)].forEach(m => quizIds.add(m[1]));
 const cur = fs.readFileSync(path.join(root, 'curriculum.js'), 'utf8');
@@ -46,6 +47,7 @@ files.forEach(f => {
     if (typeof c.ref !== 'string') say(f, id, 'ref must be a string');
     if (!Array.isArray(c.links)) say(f, id, 'links must be an array'); else c.links.forEach(r => { if (!okRoute(r)) say(f, id, 'unknown link route ' + r) });
     if (c.verse && (!c.verse.text || !c.verse.ref)) say(f, id, 'verse needs text and ref');
+    if (c.videos !== undefined && (!Array.isArray(c.videos) || c.videos.length > 3 || c.videos.some(v => !knownVideos.has(v)))) say(f, id, 'videos must be 1 to 3 ids that exist in the V list of index.html');
     if (typeof c.verify !== 'boolean') say(f, id, 'verify must be true or false');
     if (c.approved !== false) say(f, id, 'approved must be false');
   });

@@ -31,6 +31,10 @@ const approve = (e, ids) => e.post({ id: 'serv3', action: 'lumi_review', ids: id
   ok('the answer has chips, follow ups, a mood and a time', r.sources[0].label && r.followups.length >= 1 && ['happy', 'gentle', 'praying'].includes(r.mood) && typeof r.ts === 'number');
   ok('no em dash or web address in what kids see', !/[–—]|https?:/.test(JSON.stringify(r)));
   ok('older kids get up to 170 words', words(r.answer) <= 171);
+  r = await ask(E, 'kid4b', 'Who is St. Mary?');
+  ok('an answer about St. Mary carries her channel videos (real YouTube ids)', r.ok && Array.isArray(r.videos) && r.videos.length >= 1 && r.videos.every(v => /^[A-Za-z0-9_-]{11}$/.test(v)));
+  r = await ask(E, 'kid4b', 'What is the Trinity?');
+  ok('an answer with no video on its card sends no video (nothing "coming soon")', r.ok && (r.videos || []).length === 0);
   r = await ask(E, 'kid2a', 'What is the Trinity?');
   ok('little kids get short answers (about 70 words)', r.ok && words(r.answer) <= 71 && r.verse === null);
   r = await ask(E, 'kid3a', 'Tell me about Noah');
