@@ -2,7 +2,7 @@
    as DRAFTS in the Game Builder (never published). The key never touches this app: it lives in the helper script.
    While AI_URL is empty the page explains that the helper is not set up yet. */
 (function(){
-const AI_URL_LIVE="";   /* paste the web app URL of apps-script/ai-helper.gs here (setup steps are at the top of that file) */
+const AI_URL_LIVE="https://script.google.com/macros/s/AKfycbzXju7nonxxB4UWEAuJhrzAGjjmFKQFE9z7Lw3QBMcv-igANjHifxbCKSFD7rAkWIqlDA/exec";   /* paste the web app URL of apps-script/ai-helper.gs here (setup steps are at the top of that file) */
 const AI_URL=(()=>{try{const q=new URLSearchParams(location.search).get("ai");if(q&&location.hostname==="localhost")return q}catch{}return AI_URL_LIVE})();
 const E=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const A=()=>window.hvAcct&&hvAcct();
