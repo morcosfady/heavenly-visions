@@ -1,0 +1,6 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lumi faces</title>
+<style>body{margin:0;padding:20px;font-family:Nunito,system-ui,sans-serif;background:linear-gradient(160deg,#d9ecff,#fdf3dc);color:#243049}
+h1{margin:0 0 12px}.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}.c{background:#ffffffaa;border-radius:20px;padding:14px;text-align:center;font-weight:800}</style></head>
+<body><h1>Lumi, all faces</h1><div class="g" id="g"></div>
+<script src="../lumi-chat.js"></script>
+<script>["happy","thinking","praying","gentle","excited","sleepy"].forEach(m=>{const d=document.createElement("div");d.className="c";d.innerHTML=hvLumiSvg(m,150)+"<div>"+m+"</div>";document.getElementById("g").appendChild(d)})</script></body></html>
