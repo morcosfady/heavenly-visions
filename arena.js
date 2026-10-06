@@ -44,7 +44,7 @@ async function arena(){
 /* ========== MONTHLY REPORT ========== */
 function monthOptions(){const o=[],d=new Date();for(let i=0;i<12;i++){const x=new Date(d.getFullYear(),d.getMonth()-i,1),v=x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0");o.push(`<option value="${v}">${monthName(v)}</option>`)}return o.join("")}
 function reportPage(){
-  const a=A();if(!a||!(a.user.role==="coordinator"||a.user.role==="priest"||a.user.role==="master")){app.innerHTML=`${topbar("Monthly Report","📊","Coordinators and priests","servants")}<div class="empty">This is for coordinators and priests.</div>`;return}
+  const a=A();if(!a||!(a.user.role==="coordinator"||a.user.role==="priest"||a.user.role==="master")){app.innerHTML=`${topbar("Monthly Report","📊","Coordinators and priests","servants")}<div class="empty" data-ic="📊">The monthly report is for coordinators and priests. Ask yours to share it with you.</div>`;return}
   app.innerHTML=`${topbar("Monthly Report","📊","For Abouna and the team","servants")}
   <div class="card sec"><label class="field">Month<select id="rpm">${monthOptions()}</select></label><button class="btn gold" id="rpgo">📊 Generate monthly report</button><div id="rpmsg" class="tag" role="status"></div></div><div id="rpout"></div>`;
   document.getElementById("rpgo").onclick=async()=>{const m=document.getElementById("rpm").value,msg=document.getElementById("rpmsg");msg.textContent="Building the report...";

@@ -184,9 +184,9 @@ window.hvLoadAnn=async function(){
   catch{}};
 async function newsPage(){
   const a=A();app.innerHTML=`${topbar("News","📢","From your teachers")}<div id="nl" class="sec"><div class="ds-skel" style="height:100px"></div></div>`;
-  if(!a){document.getElementById("nl").innerHTML=`<div class="empty">Login to see news.</div>`;return}
+  if(!a){document.getElementById("nl").innerHTML=`<div class="empty" data-ic="📢">Login to see the news from your church.</div>`;return}
   try{const r=await call({action:"an_list"});const hide=jget("hv_an_hide",[]);const it=r.ok?r.items.filter(x=>!hide.includes(x.id)):[];
-    document.getElementById("nl").innerHTML=it.length?it.map(x=>annCard(x,false)).join(""):`<div class="ds-empty"><div class="em">📭</div><b>No news right now</b>Check back soon!</div>`;
+    document.getElementById("nl").innerHTML=it.length?it.map(x=>annCard(x,false)).join(""):`<div class="ds-empty"><div class="em">📢</div><b>No news right now</b>When your church posts something, it will show up here.</div>`;
     jset("hv_an_seen",it.map(x=>x.id).concat(jget("hv_an_seen",[])).slice(0,60))}catch{document.getElementById("nl").innerHTML=`<div class="empty">No internet connection.</div>`}}
 
 /* kids: This Sunday card */
@@ -236,7 +236,7 @@ st.textContent=`
 .pld{display:flex;justify-content:space-between;align-items:center;gap:8px}.plt{font-family:var(--display);font-weight:800;font-size:var(--fs-l)}
 .spl{border-radius:999px;padding:3px 12px;background:color-mix(in srgb,var(--sc) 24%,transparent);color:var(--ink);font-weight:900;font-size:.74rem;border:1px solid var(--sc)}
 .plyear{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:8px}.pyd{display:flex;flex-direction:column;align-items:center;padding:6px 2px;border-radius:12px;border:2px solid var(--sc);background:color-mix(in srgb,var(--sc) 20%,transparent);color:var(--ink);font:inherit;min-height:52px}.pyd b{font-size:1rem}.pyd small{font-size:.62rem;color:var(--muted);font-weight:700}
-.plmat{display:flex;flex-direction:column;gap:4px}.plm{display:flex;align-items:center;gap:8px;font-weight:700}.plm input{width:22px;height:22px}
+.plmat{display:flex;flex-direction:column;gap:4px}.plm{display:flex;align-items:center;gap:8px;min-height:44px;font-weight:700}.plm input{width:22px;height:22px}
 textarea.as-search{resize:vertical}
 .sunday{position:fixed;inset:0;z-index:90;display:flex;flex-direction:column;gap:12px;padding:18px max(18px,env(safe-area-inset-left)) calc(18px + env(safe-area-inset-bottom,0px));background:radial-gradient(circle at 50% 0,#27306a,#0a0f2e 70%);color:#fff}
 .smtop{display:flex;align-items:center;justify-content:space-between;gap:12px}.smdots{display:flex;gap:8px}.smdots i{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.25);display:block}.smdots i.on{background:#f6d27a;box-shadow:0 0 12px #f6d27a;transform:scale(1.3)}.smdots i.done{background:#f6d27a}

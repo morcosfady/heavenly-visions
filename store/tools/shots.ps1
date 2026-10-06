@@ -16,7 +16,6 @@ function Shot($file, $w, $h, $scale, $lang, $to, $framed) {
 }
 $phone = @(@("01-home", "#home"), @("02-kids-corner", "#kids"), @("03-daily-verse", "#verse"), @("04-coptic-calendar", "#calendar"), @("05-bedtime", "#bedtime"), @("06-prayers", "#prayers"), @("07-coloring", "#color-ark"), @("08-class-arena", "#arena"))
 foreach ($p in $phone) { Shot "store\screenshots\phone\en-$($p[0])" 360 640 3 "en" $p[1] $true }
-foreach ($p in @(@("01-home", "#home"), @("02-kids-corner", "#kids"), @("04-coptic-calendar", "#calendar"), @("06-prayers", "#prayers"))) { Shot "store\screenshots\phone\ar-$($p[0])" 360 640 3 "ar" $p[1] $true }
 foreach ($p in @(@("01-home", "#home"), @("02-kids-corner", "#kids"), @("04-coptic-calendar", "#calendar"))) {
   Shot "store\screenshots\tablet\en-10in-$($p[0])" 800 1280 2 "en" $p[1] $false
   Shot "store\screenshots\tablet\en-7in-$($p[0])" 600 960 2 "en" $p[1] $false

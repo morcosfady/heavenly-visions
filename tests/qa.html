@@ -1,0 +1,33 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>QA routes</title></head><body>
+<pre id="out">running</pre>
+<script>
+/* TEST ONLY. Opens the app in an iframe of a given width, visits every route, and reports errors, sideways scroll and
+   small tap targets. Needs: python -m http.server 8001 and node tests/att-server.js (fake data).
+   Run: chrome --headless=new --dump-dom --virtual-time-budget=90000 "http://localhost:8001/tests/qa.html?w=360&u=k3_1" */
+(async function(){
+  const q=new URLSearchParams(location.search),w=+(q.get("w")||360),u=q.get("u")||"k3_1";
+  const out=document.getElementById("out"),res={w,u,routes:[]};
+  try{const c=await (await fetch("http://localhost:8788/")).json();
+    localStorage.setItem("hv_acct",JSON.stringify({user:c[u].user,token:c[u].token}));
+    localStorage.setItem("hv_welcomed","1");localStorage.setItem("hv_intro_seen","1");localStorage.setItem("hv_notifs","[]")}catch(e){res.seed=String(e)}
+  const f=document.createElement("iframe");f.style.cssText="width:"+w+"px;height:800px;border:0";
+  f.src="../index.html?api=http://localhost:8788&nointro=1#home";document.body.appendChild(f);
+  await new Promise(r=>f.onload=r);
+  const win=f.contentWindow,errs=[];win.addEventListener("error",e=>errs.push(String(e.message)));win.addEventListener("unhandledrejection",e=>errs.push("rej "+(e.reason&&e.reason.message||e.reason)));
+  const oe=win.console.error;win.console.error=function(){errs.push("console "+[].slice.call(arguments).join(" ").slice(0,120));oe.apply(this,arguments)};
+  const routes=(q.get("r")||"home,media,m-kg,m-g3,l-kg-1.1,attendance,attsheet,servants,quizzes,bible,b-Genesis,b-Genesis-1,b-John-3,games,g-memory,g-scramble,verse,prayers,pr-morning,pr-night,calendar,bedtime,coloring,color-ark,color-gallery,kids,arena,report,planner,announce,news,followup,library,events,login,profile,join,builder,ai,ds").split(",");
+  const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+  await sleep(2500);
+  for(const r of routes){
+    errs.length=0;win.location.hash="#"+r;await sleep(1500);
+    const d=win.document,de=d.documentElement,small=[];
+    d.querySelectorAll("button,a,input,select,[role=button]").forEach(el=>{const b=el.getBoundingClientRect();
+      if(el.matches("input[type=checkbox],input[type=radio]")&&el.closest("label")&&el.closest("label").getBoundingClientRect().height>=44)return;if(b.width>0&&b.height>0&&(b.width<44||b.height<44)&&getComputedStyle(el).visibility!=="hidden"&&!el.closest("[hidden]"))small.push((el.id||el.className||el.tagName).toString().slice(0,24)+" "+Math.round(b.width)+"x"+Math.round(b.height))});
+    const text=(d.getElementById("app")||d.body).innerText.replace(/\s+/g," ").slice(0,60);
+    res.routes.push({r,hscroll:de.scrollWidth>de.clientWidth+1?de.scrollWidth+">"+de.clientWidth:0,errs:errs.slice(0,3),small:small.slice(0,6),n:small.length,text});
+  }
+  out.textContent=JSON.stringify(res,null,1);
+  document.title="DONE";
+})();
+</script></body></html>

@@ -19,7 +19,7 @@ const css=`
 .mygame .gt2{font-weight:900;line-height:1.2;min-width:0;overflow-wrap:anywhere}
 .mygame .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px;align-items:center}
 .mygame .acts{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-.mini{border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:8px 4px;font-weight:800;font-size:.85rem}
+.mini{min-height:44px;min-width:44px;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:8px 10px;font-weight:800;font-size:.85rem}
 .mini.danger{color:var(--bad)}
 .filters{display:flex;gap:6px;flex-wrap:wrap}
 .filters button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-weight:800;font-size:.85rem}

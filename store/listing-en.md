@@ -15,11 +15,11 @@ FOR CHILDREN
 • Stars, levels and badges for coming to class, finishing quizzes and playing games
 • Build your own avatar and spend stars in the rewards shop
 • Games, quizzes and live class games that your servant starts on the big screen
-• Bible in English (KJV) and Arabic (Smith and Van Dyck), with read aloud
+• The Bible in two easy English translations (WEB and KJV)
 • Prayer corner: morning, meals, study, family and night prayers
 • Coptic calendar with feasts, fasts and a saint for each day
 • Coloring pages and your own gallery
-• Bedtime corner with calm sleeping songs, short Bible stories and a sleep timer
+• Bedtime corner with short Bible stories and a night prayer
 • Works offline for lessons, quizzes, games, prayers and the calendar
 
 FOR SERVANTS
@@ -33,10 +33,9 @@ FOR SERVANTS
 SAFE FOR CHILDREN
 No ads. No tracking. No chat. Children never see other children's names or rankings. You can delete your account in the app at any time.
 
-Arabic and English, right to left layout included.
 
 **What is new (500 characters max):**
-First release! Lessons, daily verse, prayers, Coptic calendar, coloring, bedtime corner, rewards shop, games and tools for servants. Now in Arabic too.
+First release! Lessons, daily verse, prayers, Coptic calendar, coloring, bedtime corner, rewards shop, games and tools for servants.
 
 **Category:** Education (secondary: Parenting is not needed)
 **Tags:** Sunday School, Coptic, Bible, kids, church, prayers
@@ -50,7 +49,7 @@ First release! Lessons, daily verse, prayers, Coptic calendar, coloring, bedtime
 2. Earn stars, build your avatar, win badges
 3. A new verse every day
 4. Coptic feasts, fasts and saints
-5. Calm bedtime songs and stories
+5. Short bedtime stories and a night prayer
 6. Talk to God: simple prayers
 7. Color Bible pictures
 8. Class against class, never kid against kid

@@ -14,23 +14,9 @@ const addDays=(d,n)=>{const x=new Date(d.getFullYear(),d.getMonth(),d.getDate()+
 const diffDays=(a,b)=>Math.round((new Date(b.getFullYear(),b.getMonth(),b.getDate())-new Date(a.getFullYear(),a.getMonth(),a.getDate()))/86400000);
 const dayOfYear=d=>Math.floor((new Date(d.getFullYear(),d.getMonth(),d.getDate())-new Date(d.getFullYear(),0,0))/86400000);
 
-/* ---------- speech ---------- */
-const AR=()=>window.hvLang&&hvLang()==="ar";
-function voices(){return window.speechSynthesis?speechSynthesis.getVoices().filter(v=>new RegExp("^"+(AR()?"ar":"en"),"i").test(v.lang)):[]}
-function speak(text){if(!window.speechSynthesis)return toast("This phone cannot read aloud");speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.rate=.85;u.lang=AR()?"ar-SA":"en-US";
-  const want=jget("hv_voice",""),v=voices().find(x=>x.name===want);if(v)u.voice=v;speechSynthesis.speak(u)}
-function voicePicker(){const vs=voices();if(vs.length<2)return "";const cur=jget("hv_voice","");
-  return `<label class="field" style="max-width:260px"><span class="tag">Voice</span><select id="fvoice">${vs.map(v=>`<option value="${E(v.name)}" ${v.name===cur?"selected":""}>${E(v.name)}</option>`).join("")}</select></label>`}
-function wirePicker(){const s=document.getElementById("fvoice");if(s)s.onchange=()=>jset("hv_voice",s.value)}
-if(window.speechSynthesis)speechSynthesis.onvoiceschanged=()=>{};
 
 /* ========== DAILY VERSE ========== */
-function pool(group){
-  const L=typeof LVERSE!=="undefined"?LVERSE:{};const out=[];
-  Object.keys(L).forEach(k=>{const v=L[k];if(!v[0]||/\.\.\.|…/.test(v[0])||v[0].length<18)return;const g=k.split("|")[0];
-    const little=["prek","kg","g1","g2"].includes(g);
-    if(group==="little"?(little&&v[0].length<=90):(!little&&["g3","g4","g5"].includes(g)||(g==="g2"&&v[0].length>70)))out.push({text:v[0].trim(),ref:v[1]})});
-  const seen={};return out.filter(v=>seen[v.ref]?false:(seen[v.ref]=1))}
+function pool(group){return (group==="little"?DV_LITTLE:DV_OLDER).map(v=>({text:v[0],ref:v[1]}))}
 function groupOf(){const a=A();const g=a&&a.user.grade;return g&&!["Pre K","KG","Grade 1","Grade 2"].includes(g)?"older":"little"}
 function verseFor(d,group){const p=pool(group||groupOf());if(!p.length)return {text:"Let the little children come to Me.",ref:"Matthew 19:14"};return p[dayOfYear(d)*7%p.length]}
 window.hvTodayVerse=()=>verseFor(today());
@@ -53,8 +39,8 @@ function drawVerse(){
   const head=`<div class="vtop">${flame()}${dots()}</div>`;
   if(s===0){const w=words(v.text);
     box.innerHTML=`${head}<div class="parch" aria-live="polite"><div class="pk">Step 1 of 3. Read it</div><p class="ptxt">${w.map((x,i)=>`<span style="animation-delay:${reduce()?0:i*140}ms">${E(x)} </span>`).join("")}</p><div class="pref" style="animation-delay:${reduce()?0:w.length*140+200}ms">${E(v.ref)}</div></div>
-    <div class="two"><button class="btn alt" id="vlisten">🔊 Listen</button><button class="btn gold" id="vnext">I read it ➜</button></div>${voicePicker()}`;
-    document.getElementById("vlisten").onclick=()=>speak(v.text+". "+v.ref);document.getElementById("vnext").onclick=()=>{speechSynthesis&&speechSynthesis.cancel();V.step=1;V.game=null;drawVerse()};wirePicker();return}
+    <div class="two"><button class="btn gold" id="vnext">I read it ➜</button></div>`;
+    document.getElementById("vnext").onclick=()=>{V.step=1;V.game=null;drawVerse()};return}
   if(s===1){const w=words(v.text),parity=dayOfYear(today())%2;
     if(!V.game)V.game=(parity===1&&w.length<=9&&w.length>=3)?{t:"order",w:shuffle(w.map((x,i)=>({x,i}))),got:[]}:blanks(w);
     const g=V.game;
@@ -69,9 +55,8 @@ function drawVerse(){
     box.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{if(b.dataset.r===v.ref)finishVerse();else{b.animate([{transform:"translateX(-6px)"},{transform:"translateX(6px)"},{transform:"none"}],{duration:260});toast("Almost! Try another one 🙂")}});return}
   if(s===4||s===3){const jar=Object.keys(vstate().days).sort().reverse();
     box.innerHTML=`${head}<div class="parch glow"><div class="pk">${s===3?"Well done! You learned it!":"Today's verse is done ✅"}</div><p class="ptxt">“${E(v.text)}”</p><div class="pref on">${E(v.ref)}</div></div>
-    <div class="two"><button class="btn alt" id="vlisten">🔊 Listen</button><button class="btn gold" data-go="prayers">🙏 Say a prayer</button></div>
-    <section class="card sec"><h2>🫙 My verse jar (${jar.length})</h2><div class="jar">${jar.slice(0,30).map(k=>{const x=vstate().days[k];return `<div class="jv"><b>${E(x.ref)}</b><span>${E(x.text)}</span><small>${k}</small></div>`}).join("")}</div></section>`;
-    document.getElementById("vlisten").onclick=()=>speak(v.text+". "+v.ref)}}
+    <div class="two"><button class="btn gold" data-go="prayers">🙏 Say a prayer</button></div>
+    <section class="card sec"><h2>🫙 My verse jar (${jar.length})</h2><div class="jar">${jar.slice(0,30).map(k=>{const x=vstate().days[k];return `<div class="jv"><b>${E(x.ref)}</b><span>${E(x.text)}</span><small>${k}</small></div>`}).join("")}</div></section>`;}}
 function blanks(w){const idx=w.map((x,i)=>({x,i,l:clean(x).length})).filter(o=>o.l>=4).sort((a,b)=>b.l-a.l).slice(0,Math.min(3,Math.max(1,Math.floor(w.length/4)))).map(o=>o.i);
   const parts=w.map((x,i)=>({x,b:idx.includes(i),done:false}));const real=parts.filter(p=>p.b).map(p=>p.x.replace(/[^A-Za-z']/g,""));
   const decoys=["love","light","peace","joy","faith","hope","praise","truth"].filter(d=>!real.map(clean).includes(d)).slice(0,2);
@@ -97,14 +82,13 @@ const PRAYERS=[
 const prayedToday=()=>(jget("hv_prayed",{})[dkey(today())])||[];
 function prayersPage(){
   const done=prayedToday();
-  app.innerHTML=`${topbar("Prayers","🙏","Talk to God","home")}<div class="note">Our servants are still checking these prayers. More are coming soon.</div>
+  app.innerHTML=`${topbar("Prayers","🙏","Talk to God","home")}
   <div class="grid prgrid">${PRAYERS.map(p=>`<button class="tile prtile ${done.includes(p.id)?"done":""}" style="--c:#a86fd0" data-go="pr-${p.id}"><span class="ic">${p.ic}</span><span class="nm">${E(p.t)}</span><span class="ct">${done.includes(p.id)?"Prayed today ✅":"Tap to pray"}</span></button>`).join("")}</div>`}
 function prayerPage(id){
   const p=PRAYERS.find(x=>x.id===id);if(!p)return prayersPage();const done=prayedToday().includes(id);
   app.innerHTML=`${topbar(E(p.t),p.ic,p.src?E(p.src):"A prayer for you","prayers")}
   <div class="prayer"><div class="candle" aria-hidden="true"><i></i><b></b></div><div class="ptext">${p.x.map(l=>`<p>${E(l)}</p>`).join("")}</div></div>
-  <div class="two"><button class="btn alt" id="plisten">🔊 Read to me</button><button class="btn gold" id="pdone" ${done?"disabled":""}>${done?"Prayed today ✅":"🙏 I prayed"}</button></div>${voicePicker()}`;
-  document.getElementById("plisten").onclick=()=>speak(p.x.join(" "));wirePicker();
+  <div class="two"><button class="btn gold" id="pdone" ${done?"disabled":""}>${done?"Prayed today ✅":"🙏 I prayed"}</button></div>`;
   const b=document.getElementById("pdone");b.onclick=()=>{const m=jget("hv_prayed",{}),k=dkey(today());m[k]=(m[k]||[]).concat(id);Object.keys(m).sort().slice(0,-14).forEach(x=>delete m[x]);jset("hv_prayed",m);
     b.disabled=true;b.textContent="Prayed today ✅";if(window.hvFx){const r=b.getBoundingClientRect();hvFx.burst(r.left+r.width/2,r.top,"🕯️",8)}
     if(window.hvAward)hvAward("prayer",id+"-"+k,p.t);else toast("God bless you 🙏")}}
@@ -169,7 +153,7 @@ function calendarPage(){
    ${f?`<div class="fastban">🌙 ${E(f.t)} is on now. Fasting reminds us to pray and love God more.</div>`:""}
    ${fe?`<div class="fe">${fe.ic} <b>${E(fe.t)}</b> today. ${E(fe.note||"")}</div>`:""}</section>
   ${sa?saintCard(sa,true):nextSaint?`<div class="tag">Next saint: ${E(nextSaint.t)} ${CNT(diffDays(t,nextSaint.d))}</div>`:""}
-  <section class="card sec"><h2>Coming up</h2><div class="list">${up.map(x=>`<div class="upr"><span class="upi">${x.ic}</span><span class="upn"><b>${E(x.t)}</b><small>${x.d.toLocaleDateString("en-US",{month:"short",day:"numeric"})}</small></span><span class="upc">${CNT(diffDays(t,x.d))}</span>${LINK[x.id]?`<button class="mini" data-go="${LINK[x.id]}" aria-label="Learn about ${E(x.t)}">📺</button>`:""}</div>`).join("")}</div></section>
+  <section class="card sec"><h2>Coming up</h2><div class="list">${up.map(x=>`<div class="upr"><span class="upi">${x.ic}</span><span class="upn"><b>${E(x.t)}</b><small>${x.d.toLocaleDateString("en-US",{month:"short",day:"numeric"})}</small></span><span class="upc">${CNT(diffDays(t,x.d))}</span>${LINK[x.id]?`<button class="watchbtn" data-go="${LINK[x.id]}" aria-label="Watch the video about ${E(x.t)}">▶ Watch</button>`:""}</div>`).join("")}</div></section>
   <section class="card sec"><div class="calnav"><button class="btn alt" id="cprev" aria-label="Previous month">◀</button><h2 style="margin:0" id="cmt"></h2><button class="btn alt" id="cnext" aria-label="Next month">▶</button></div><div id="cgrid"></div>
    <div class="as-leg" style="display:flex;gap:12px;flex-wrap:wrap;font-size:.78rem;font-weight:800;color:var(--muted)"><span>🟡 Feast</span><span>🟣 Fast</span><span>🔵 Saint</span><span>🟢 Event</span></div><div id="cday" class="tag" role="status">Tap a day to see what it is.</div></section>`;
   drawMonth();if(window.hvLoadEvents)hvLoadEvents().then(()=>{if(document.getElementById("cgrid"))drawMonth()});
@@ -222,9 +206,10 @@ st.textContent=`
 .fastban{margin-top:6px;padding:10px 12px;border-radius:14px;background:color-mix(in srgb,#8e6bd1 24%,transparent);font-weight:800}.fe{margin-top:6px;padding:10px 12px;border-radius:14px;background:var(--gold-soft);color:var(--ink);font-weight:700}
 .saint{position:relative;display:flex;flex-direction:column;gap:8px;overflow:hidden}.saint .k{font-weight:900;font-size:var(--fs-s);letter-spacing:.08em;text-transform:uppercase;color:var(--c-cal)}.saintic{position:absolute;right:14px;top:10px;font-size:3.4rem;animation:floaty 5.5s ease-in-out infinite}
 .saint p{margin:0;font-weight:700;line-height:1.5}.learn{padding:10px 12px;border-radius:14px;background:var(--sky-soft);font-weight:800;color:var(--ink)}
+.watchbtn{flex:none;min-height:44px;min-width:44px;padding:0 14px;border-radius:999px;border:1.5px solid var(--gold);background:transparent;color:var(--ink);font:inherit;font-weight:900;font-size:.9rem}.upn{min-width:0}
 .upr{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.upi{font-size:1.6rem}.upn{flex:1;display:flex;flex-direction:column}.upn small{color:var(--muted);font-weight:700}.upc{font-weight:900;color:var(--gold)}
 .calnav{display:flex;justify-content:space-between;align-items:center;gap:8px}.calnav .btn{padding:8px 14px;min-height:44px}
-.cgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.cgrid .ch{text-align:center;font-weight:900;font-size:.75rem;color:var(--muted)}
+.cgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}.cgrid .ch{text-align:center;font-weight:900;font-size:.75rem;color:var(--muted)}
 .cd{aspect-ratio:1;border-radius:12px;border:1.5px solid var(--line);background:transparent;color:var(--ink);padding:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;font:inherit;line-height:1.1;min-height:44px}.cd b{font-size:.9rem}.cd small{font-size:.6rem;color:var(--muted);font-weight:700}
 .cd.now{border-color:var(--gold);background:var(--gold-soft)}.dots{display:flex;gap:2px;height:6px}.dots i{width:6px;height:6px;border-radius:50%;display:block}
 @media (prefers-reduced-motion:reduce){.ptxt span,.pref{opacity:1;animation:none}.candle i,.vflame .fl,.saintic{animation:none}}

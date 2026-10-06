@@ -177,9 +177,9 @@ function earnTab(){return `<div class="kc-earn">${EARN.map(e=>`<div class="kc-er
 function kidsPage(){
   const a=A();if(!a){loginNeeded();return}
   const u=a.user;if(!S.cur)S.cur=Object.assign({},DEF,u.av||{});
-  app.innerHTML=`${topbar("Kids Corner","🌟","Your stars and avatar")}${hero(u)}
+  app.innerHTML=`${topbar("Kids Corner","🌟","Your stars and avatar")}<div class="kc-wrap">${hero(u)}<div class="kc-main">
   <div class="ds-seg" id="kcTabs" role="tablist">${[["avatar","🧒 Avatar"],["shop","🛍️ Shop"],["badges","🏅 Badges"],["earn","⭐ Earn"]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${S.tab===t[0]}" role="tab">${t[1]}</button>`).join("")}</div>
-  <section class="card sec" id="kcBody">${S.tab==="avatar"?avatarTab(u):S.tab==="shop"?shopTab(u):S.tab==="badges"?badgesTab(u):earnTab()}</section>`;
+  <section class="card sec" id="kcBody">${S.tab==="avatar"?avatarTab(u):S.tab==="shop"?shopTab(u):S.tab==="badges"?badgesTab(u):earnTab()}</section></div></div>`;
   requestAnimationFrame(()=>requestAnimationFrame(()=>document.getElementById("kcBar")?.classList.add("go")));
   wire(u)}
 

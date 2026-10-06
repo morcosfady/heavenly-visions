@@ -2,11 +2,39 @@
   "rules": {
     ".read": false,
     ".write": false,
+    "hostkeys": {
+      "$pin": {
+        ".write": "$pin.matches(/^[0-9]{6}$/) && ((!data.exists() || !root.child('live').child($pin).child('meta').exists()) && newData.exists() || !newData.exists() && !root.child('live').child($pin).child('meta').exists())",
+        ".validate": "newData.isString() && newData.val().length >= 16 && newData.val().length <= 64"
+      }
+    },
+    "hs": {
+      "$pin": {
+        ".write": "$pin.matches(/^[0-9]{6}$/) && (!newData.exists() || newData.isString() && newData.val().length <= 64)"
+      }
+    },
+    "pk": {
+      "$pin": {
+        ".write": "$pin.matches(/^[0-9]{6}$/) && !root.child('live').child($pin).child('meta').exists() && !newData.exists()",
+        "$uid": {
+          ".write": "$pin.matches(/^[0-9]{6}$/) && ((!data.exists() || newData.val() === data.val()) && newData.exists() && root.child('live').child($pin).child('meta').exists() || !newData.exists() && !root.child('live').child($pin).child('meta').exists())",
+          ".validate": "newData.isString() && newData.val().length >= 16 && newData.val().length <= 64"
+        }
+      }
+    },
+    "ps": {
+      "$pin": {
+        ".write": "$pin.matches(/^[0-9]{6}$/) && !root.child('live').child($pin).child('meta').exists() && !newData.exists()",
+        "$uid": {
+          ".write": "$pin.matches(/^[0-9]{6}$/) && (!newData.exists() || newData.isString() && newData.val().length <= 64)"
+        }
+      }
+    },
     "live": {
       "$pin": {
         ".read": "$pin.matches(/^[0-9]{6}$/)",
         "meta": {
-          ".write": "$pin.matches(/^[0-9]{6}$/)",
+          ".write": "$pin.matches(/^[0-9]{6}$/) && (root.child('hostkeys').child($pin).exists() && newData.parent().parent().parent().child('hs').child($pin).val() === root.child('hostkeys').child($pin).val() && root.child('hs').child($pin).val() !== root.child('hostkeys').child($pin).val() || !root.child('live').child($pin).child('meta').exists() && newData.parent().parent().parent().child('hostkeys').child($pin).exists())",
           ".validate": "newData.hasChildren(['title','n','state'])",
           "title": {
             ".validate": "newData.isString() && newData.val().length <= 100"
@@ -22,7 +50,7 @@
           }
         },
         "cur": {
-          ".write": "$pin.matches(/^[0-9]{6}$/)",
+          ".write": "$pin.matches(/^[0-9]{6}$/) && root.child('hostkeys').child($pin).exists() && newData.parent().parent().parent().child('hs').child($pin).val() === root.child('hostkeys').child($pin).val() && root.child('hs').child($pin).val() !== root.child('hostkeys').child($pin).val()",
           ".validate": "newData.hasChildren(['k','text','ch','dur','t0'])",
           "k": {
             ".validate": "newData.isNumber()"
@@ -49,27 +77,28 @@
           }
         },
         "rev": {
-          ".write": "$pin.matches(/^[0-9]{6}$/)",
+          ".write": "$pin.matches(/^[0-9]{6}$/) && root.child('hostkeys').child($pin).exists() && newData.parent().parent().parent().child('hs').child($pin).val() === root.child('hostkeys').child($pin).val() && root.child('hs').child($pin).val() !== root.child('hostkeys').child($pin).val()",
           "$any": {
             ".validate": true
           }
         },
         "sc": {
-          ".write": "$pin.matches(/^[0-9]{6}$/)",
+          ".write": "$pin.matches(/^[0-9]{6}$/) && root.child('hostkeys').child($pin).exists() && newData.parent().parent().parent().child('hs').child($pin).val() === root.child('hostkeys').child($pin).val() && root.child('hs').child($pin).val() !== root.child('hostkeys').child($pin).val()",
           "$uid": {
             ".validate": "newData.isNumber()"
           }
         },
         "fin": {
-          ".write": "$pin.matches(/^[0-9]{6}$/)",
-          "$any": {
+          ".write": "$pin.matches(/^[0-9]{6}$/) && root.child('hostkeys').child($pin).exists() && newData.parent().parent().parent().child('hs').child($pin).val() === root.child('hostkeys').child($pin).val() && root.child('hs').child($pin).val() !== root.child('hostkeys').child($pin).val()",
+          "$uid": {
+            ".write": "$pin.matches(/^[0-9]{6}$/) && newData.val() === true && (root.child('pk').child($pin).child($uid).exists() && newData.parent().parent().parent().parent().child('ps').child($pin).child($uid).val() === root.child('pk').child($pin).child($uid).val() && root.child('ps').child($pin).child($uid).val() !== root.child('pk').child($pin).child($uid).val() || !root.child('pk').child($pin).child($uid).exists() && newData.parent().parent().parent().parent().child('pk').child($pin).child($uid).exists())",
             ".validate": true
           }
         },
         "players": {
-          ".write": "$pin.matches(/^[0-9]{6}$/) && !newData.exists()",
+          ".write": "$pin.matches(/^[0-9]{6}$/) && !newData.exists() && root.child('hostkeys').child($pin).exists() && newData.parent().parent().parent().child('hs').child($pin).val() === root.child('hostkeys').child($pin).val() && root.child('hs').child($pin).val() !== root.child('hostkeys').child($pin).val()",
           "$uid": {
-            ".write": "$pin.matches(/^[0-9]{6}$/) && (!data.exists() || !newData.exists())",
+            ".write": "$pin.matches(/^[0-9]{6}$/) && (!data.exists() && newData.exists() && (root.child('pk').child($pin).child($uid).exists() && newData.parent().parent().parent().parent().child('ps').child($pin).child($uid).val() === root.child('pk').child($pin).child($uid).val() && root.child('ps').child($pin).child($uid).val() !== root.child('pk').child($pin).child($uid).val() || !root.child('pk').child($pin).child($uid).exists() && newData.parent().parent().parent().parent().child('pk').child($pin).child($uid).exists()) || !newData.exists() && root.child('pk').child($pin).child($uid).exists() && newData.parent().parent().parent().parent().child('ps').child($pin).child($uid).val() === root.child('pk').child($pin).child($uid).val() && root.child('ps').child($pin).child($uid).val() !== root.child('pk').child($pin).child($uid).val())",
             ".validate": "newData.hasChildren(['n'])",
             "n": {
               ".validate": "newData.isString() && newData.val().length <= 40"
@@ -86,11 +115,10 @@
           }
         },
         "ans": {
-          ".write": "$pin.matches(/^[0-9]{6}$/) && !newData.exists()",
+          ".write": "$pin.matches(/^[0-9]{6}$/) && !newData.exists() && root.child('hostkeys').child($pin).exists() && newData.parent().parent().parent().child('hs').child($pin).val() === root.child('hostkeys').child($pin).val() && root.child('hs').child($pin).val() !== root.child('hostkeys').child($pin).val()",
           "$k": {
-            ".write": "$pin.matches(/^[0-9]{6}$/) && !newData.exists()",
             "$uid": {
-              ".write": "$pin.matches(/^[0-9]{6}$/) && (!newData.exists() || (!data.exists() && root.child('live/'+$pin+'/players/'+$uid).exists() && root.child('live/'+$pin+'/cur/open').val() == true && (root.child('live/'+$pin+'/cur/k').val()+'') == $k && now <= root.child('live/'+$pin+'/cur/t0').val() + root.child('live/'+$pin+'/cur/dur').val()*1000 + 3000))",
+              ".write": "$pin.matches(/^[0-9]{6}$/) && !data.exists() && newData.exists() && root.child('pk').child($pin).child($uid).exists() && newData.parent().parent().parent().parent().parent().child('ps').child($pin).child($uid).val() === root.child('pk').child($pin).child($uid).val() && root.child('ps').child($pin).child($uid).val() !== root.child('pk').child($pin).child($uid).val() && root.child('live').child($pin).child('players').child($uid).exists() && root.child('live').child($pin).child('cur').child('open').val() == true && (root.child('live').child($pin).child('cur').child('k').val()+'') == $k && now <= root.child('live').child($pin).child('cur').child('t0').val() + root.child('live').child($pin).child('cur').child('dur').val()*1000 + 3000",
               ".validate": "newData.hasChildren(['c','t'])",
               "c": {
                 ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 3"

@@ -75,7 +75,8 @@ html[data-route="home"] .rays{animation:shimmer 9s ease-in-out infinite alternat
   .card,.tile,.verse,.search,.qcard,.reader,.stage,.mygame,.item,.sheet{background:var(--surface)}}
 h2{position:relative;padding-bottom:.5rem}
 h2::after{content:"";position:absolute;left:0;bottom:0;width:48px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--gold),transparent)}
-.empty::before{content:"🌤️";display:block;font-size:2rem;margin-bottom:6px}
+.empty::before{content:"📭";display:block;font-size:2rem;margin-bottom:6px}
+.empty[data-ic]::before{content:attr(data-ic)}
 .tile.soon{opacity:.6}
 .tile.soon::before{content:"⏳";position:absolute;right:10px;top:8px;font-size:.9rem}
 .tile.soon:hover,.tile.soon:active{transform:none}
@@ -101,7 +102,7 @@ h2::after{content:"";position:absolute;left:0;bottom:0;width:48px;height:2px;bor
 .door.shine::after{animation:dshine 1.3s ease-out}
 @keyframes dshine{from{opacity:1;transform:translateX(-180%) skewX(-20deg)}to{opacity:1;transform:translateX(420%) skewX(-20deg)}}
 .door b,.door small{position:relative;z-index:1}
-.door .big{z-index:1;animation:floaty 5.5s ease-in-out infinite}
+.door .big{z-index:1;right:12px;top:12px;animation:floaty 5.5s ease-in-out infinite}
 .d-att .big{animation-duration:6.4s;animation-delay:-1.3s}.d-games .big{animation-duration:5.9s;animation-delay:-2.6s}
 .d-quiz .big{animation-duration:6.8s;animation-delay:-3.4s}.d-bible .big{animation-duration:6.1s;animation-delay:-.7s}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
@@ -125,8 +126,8 @@ h2::after{content:"";position:absolute;left:0;bottom:0;width:48px;height:2px;bor
 @keyframes rip{to{transform:scale(1);opacity:0}}
 
 /* ---------- screen transitions ---------- */
-#app>*{animation:rise .3s cubic-bezier(.2,.8,.2,1) both}
-.grid>*,.doors>*,.list>*,.books>*,.chaps>*{animation:rise .32s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*35ms)}
+#app>*{animation:rise .25s cubic-bezier(.2,.8,.2,1) both}
+.grid>*,.doors>*,.list>*,.books>*,.chaps>*{animation:rise .25s cubic-bezier(.2,.8,.2,1) both;animation-delay:min(calc(var(--i,0)*30ms),120ms)}
 :is(.grid,.doors,.list,.books,.chaps)>:nth-child(1){--i:0}
 :is(.grid,.doors,.list,.books,.chaps)>:nth-child(2){--i:1}
 :is(.grid,.doors,.list,.books,.chaps)>:nth-child(3){--i:2}
@@ -147,6 +148,7 @@ h2::after{content:"";position:absolute;left:0;bottom:0;width:48px;height:2px;bor
   .door{min-height:170px}.door .big{font-size:5.4rem}
   .row{grid-template-columns:200px 1fr}
 }
+@media (min-width:900px){.list.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
 @media (min-width:1025px){
   .wrap{max-width:1100px;padding-inline:32px;gap:24px}
   .hubhead img{width:min(300px,28vw)}

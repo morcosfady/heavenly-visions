@@ -8,15 +8,15 @@ Everything here was made without creating any account and without paying anythin
 |---|---|
 | `icons/android/` | Launcher icons (mdpi to xxxhdpi), Play Store icon 512, adaptive icon (foreground, background, color), splash logo |
 | `icons/ios/` | App Store icon 1024 (no transparency) and all the small sizes |
-| `graphics/` | Play feature graphic 1024x500 in English and Arabic |
-| `screenshots/phone/` | 1080x1920 phone screenshots (8 English, 4 Arabic) |
+| `graphics/` | Play feature graphic 1024x500 |
+| `screenshots/phone/` | 1080x1920 phone screenshots (8) |
 | `screenshots/tablet/` | 7 inch (1200x1920) and 10 inch (1600x2560) tablet screenshots |
 | `listing-en.md`, `listing-ar.md` | Store text: title, short description, full description, what is new |
 | `data-safety.md` | Answers for the Play Data safety form, content rating and Families notes |
 | `twa-manifest.json` | Settings for Bubblewrap (the Android wrapper) |
 | `assetlinks.template.json` | The file that proves the website and the Android app belong together |
 | `tools/` | Scripts that made the icons, graphics and screenshots (re-run them any time) |
-| `../privacy.html` | The privacy policy page (English and Arabic). URL: https://morcosfady.github.io/heavenly-visions/privacy.html |
+| `../privacy.html` | The privacy policy page . URL: https://morcosfady.github.io/heavenly-visions/privacy.html |
 
 ## Read this first: four things to decide before publishing
 
@@ -52,7 +52,7 @@ Costs: one time $25 Google Play developer fee. The app and the tools are free.
 
 ### C. Play Console
 1. Create the developer account at https://play.google.com/console (identity check, $25).
-2. **Create app**: name `Heavenly Visions`, default language English, App, Free. Add the Arabic listing as a translation.
+2. **Create app**: name `Heavenly Visions`, default language English, App, Free.
 3. **Main store listing**: paste text from `listing-en.md` and `listing-ar.md`. Upload `icons/android/play-store-icon-512.png`, `graphics/feature-graphic-*.png`, and the screenshots. Phone: at least 2, up to 8. Tablets: upload the 7 and 10 inch sets.
 4. **App content** (all required):
    - Privacy policy URL: `https://morcosfady.github.io/heavenly-visions/privacy.html`
@@ -90,8 +90,8 @@ python store/tools/make-icons.py
 powershell -File store/tools/shots.ps1
 ```
 
-Feature graphics are made from `tools/feature.html` (open it with `?lang=ar` for Arabic).
+Feature graphics are made from `tools/feature.html`.
 
 ## Sources and licenses
 
-Pictures, icons and coloring pages are original. Bible text: KJV and WEB (public domain, bible-api.com) and Arabic Smith and Van Dyck (public domain, getbible.net). Fonts: Cinzel, Nunito, Cairo, Amiri (Open Font License, Google Fonts). Videos are from the Heavenly Visions YouTube channel.
+Pictures, icons and coloring pages are original. Bible text: KJV and WEB (public domain, bible-api.com). Fonts: Cinzel, Nunito (Open Font License, Google Fonts). Videos are from the Heavenly Visions YouTube channel.

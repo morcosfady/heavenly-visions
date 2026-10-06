@@ -1,9 +1,8 @@
-/* Heavenly Visions: app shell. Top bar (avatar, stars, language), Today strip, new doors, first visit welcome,
+/* Heavenly Visions: app shell. Top bar (avatar, stars), Today strip, new doors, first visit welcome,
    "coming soon" pages for the sections that arrive in later phases, and the #ds design system page. */
 (function(){
 const A=()=>window.hvAcct&&hvAcct();
 const E=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const lang=()=>{try{return localStorage.getItem("hv_lang")||"en"}catch{return "en"}};
 const avOf=a=>{if(window.hvAvatarOf&&a&&a.user&&a.user.av)return hvAvatarOf(a,36);const v=a&&(a.avatar||"😇");return v==="logo"?`<img src="logo.png" alt="" style="width:100%;height:100%;object-fit:contain">`:v};
 const balOf=a=>(a.user.score||0)-(a.user.spent||0);
 
@@ -21,12 +20,12 @@ window.hvCopticDate=copticDate;
 
 /* ---------- top bar ---------- */
 window.hvTopBar=function(){
-  const a=A(),l=lang();
+  const a=A();
   const me=a?`<button class="sb-me" data-go="profile" aria-label="My profile"><span class="sb-av">${avOf(a)}</span><span class="nm">${E((a.user.first||a.user.name||"").split(" ")[0])}</span></button>`
     :`<button class="sb-login" data-go="login">👤 Login</button>`;
   const stars=a?`<button class="sb-stars" id="sbStars" data-go="profile" aria-label="${balOf(a)} stars"><i>⭐</i><span id="sbN">${balOf(a)}</span></button>`:"";
   const bell=a?`<button class="sb-bell" id="sbBell" aria-label="Notifications">🔔<i class="sb-badge" hidden></i></button>`:"";
-  return `<div class="shellbar">${me}<div class="sb-right">${bell}${stars}<div class="sb-lang" role="group" aria-label="Language"><button data-lang="en" aria-pressed="${l==="en"}">EN</button><button data-lang="ar" aria-pressed="${l==="ar"}" lang="ar">ع</button></div></div></div>`};
+  return `<div class="shellbar">${me}<div class="sb-right">${bell}${stars}</div></div>`};
 
 /* the counter pops and stars fly in when points are added (called by hvAward) */
 window.hvRefreshBarAvatar=function(){const a=A(),el=document.querySelector(".sb-av");if(a&&el)el.innerHTML=avOf(a)};
@@ -46,22 +45,23 @@ window.hvToday=function(v){
   const lead=fe?fe.ic+" "+fe.t:sa?sa.ic+" "+sa.t:cal.fast?"🌙 "+cal.fast.t:"Feasts, fasts and saints";
   const nudge=window.hvPrayerNudge?hvPrayerNudge():null;
   return `<section aria-label="Today" class="sec"><h2 class="sech"><span>Today</span></h2>
-  <div class="today">
+  <div class="today" id="todayStrip">
    <button class="tcard verse2" style="--tc:var(--gold)" data-go="verse"><span class="k">📖 Verse of the day${done?" ✅":""}</span><span class="t">“${E(tv[0])}”</span><span class="s">${E(tv[1])} · ${done?"Done today! Open your verse jar":"Tap to learn it"}</span></button>
    ${nudge?`<button class="tcard" style="--tc:var(--c-pray)" data-go="pr-${nudge.id}"><span class="k">🙏 Prayer time</span><span class="t">${E(nudge.t)}</span><span class="s">Tap to pray</span><span class="em" aria-hidden="true">🕯️</span></button>`:""}
    <button class="tcard" style="--tc:var(--c-cal)" data-go="calendar"><span class="k">📅 ${E(g)}</span><span class="t">${c.day} ${c.name}, ${c.year}</span><span class="s">${E(lead)}</span><span class="em" aria-hidden="true">🗓️</span></button>
    <button class="tcard" id="nextEvent" style="--tc:var(--c-church)" data-go="events"><span class="k">🎉 Next event</span><span class="t">No events yet</span><span class="s">Trips, retreats and feasts will show here.</span><span class="em" aria-hidden="true">⛪</span></button>
-  </div></section>`};
+  </div><div class="tdots" id="tdots" aria-hidden="true"></div></section>`};
 
 const MORE=[
   ["kids","🌟","Kids Corner","Stars, avatar, shop","--c-kids"],
-  ["bedtime","🛏️","Bedtime","Songs and stories","--c-bed"],
+  ["bedtime","🛏️","Bedtime","Stories and prayer","--c-bed"],
   ["prayers","🙏","Prayers","Talk to God","--c-pray"],
   ["coloring","🎨","Coloring","Color and keep","--c-color"],
   ["calendar","📅","Calendar","Feasts and events","--c-cal"],
   ["arena","🏟️","Class Arena","Class vs class","--c-arena"]];
+function calIcon(){const d=new Date();return `<span class="calicon"><i>${d.toLocaleDateString("en-US",{month:"short"}).toUpperCase()}</i><b>${d.getDate()}</b></span>`}
 window.hvMoreDoors=function(){
-  return `<section class="sec" aria-label="More to explore"><h2 class="sech"><span>More to explore</span></h2><nav class="doors2">${MORE.map((m,i)=>`<button class="mdoor" style="--dc:var(${m[4]})" data-go="${m[0]}"><span class="big" aria-hidden="true">${m[1]}</span><b>${m[2]}</b><small>${m[3]}</small></button>`).join("")}</nav></section>`};
+  return `<section class="sec" aria-label="More to explore"><h2 class="sech"><span>More to explore</span></h2><nav class="doors2">${MORE.map((m,i)=>`<button class="mdoor" style="--dc:var(${m[4]})" data-go="${m[0]}"><span class="big" aria-hidden="true">${m[0]==="calendar"?calIcon():m[1]}</span><b>${m[2]}</b><small>${m[3]}</small></button>`).join("")}</nav></section>`};
 
 /* ---------- coming soon pages ---------- */
 const SOON={};
@@ -87,7 +87,7 @@ function dsPage(){
   <section class="card sec"><h2>Stats and badges</h2><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"><div class="ds-stat"><b>12</b>Sundays</div><div class="ds-stat"><b>🔥 4</b>Streak</div><div class="ds-stat"><b>⭐ 120</b>Stars</div></div>
    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px"><div class="ds-badge on"><i>🌱</i>First Sunday</div><div class="ds-badge on"><i>🔥</i>4 in a row</div><div class="ds-badge lock"><i>🏅</i>10 Sundays</div><div class="ds-badge lock"><i>👑</i>8 in a row</div></div></section>
   <section class="card sec"><h2>Buttons and states</h2><button class="btn gold" id="dsBurst">⭐ Star burst</button><button class="btn" id="dsToast">Show a toast</button><button class="btn" id="dsSheet">Open a sheet</button>
-   <div class="ds-skel" style="height:60px"></div><div class="ds-empty"><div class="em">🌤️</div><b>Nothing here yet</b>See you Sunday! 🙏</div></section>`;
+   <div class="ds-skel" style="height:60px"></div><div class="ds-empty"><div class="em">📭</div><b>Nothing here yet</b>See you Sunday! 🙏</div></section>`;
   const r=document.getElementById("dsCharts");hvChart.play(r);
   document.querySelectorAll(".ds-bar").forEach(b=>requestAnimationFrame(()=>requestAnimationFrame(()=>b.classList.add("go"))));
   document.getElementById("dsBurst").onclick=e=>{const b=e.currentTarget.getBoundingClientRect();hvFx.burst(b.left+b.width/2,b.top,"⭐",12)};
@@ -111,12 +111,19 @@ function welcome(){
    <button data-go="login" data-close><i>🙏</i><span>I am a servant or coordinator<small>Login to open the Servants Workshop</small></span></button>
    <button data-close><i>👀</i><span>Just looking around<small>You can login any time from the top</small></span></button></div>`,"Welcome")}
 
-/* ---------- clicks: language toggle and soon cards ---------- */
+/* ---------- clicks ---------- */
 document.addEventListener("click",e=>{
-  const l=e.target.closest("[data-lang]");
-  if(l){const v=l.dataset.lang;if(window.hvSetLang)hvSetLang(v);return}
-  if(e.target.closest("[data-soon]"))toast("The daily verse challenge is coming in Phase 3 ✨")});
-document.documentElement.lang=lang();
+  if(e.target.closest("[data-soon]"))toast("Coming soon ✨")});
+try{localStorage.removeItem("hv_lang")}catch{}
+document.documentElement.lang="en";
 
-window.hvHomeInit=function(){setTimeout(welcome,900);if(window.hvLoadAnn)hvLoadAnn();if(window.hvThisSunday)hvThisSunday();if(window.hvNextEvent)hvNextEvent();if(window.hvArenaCheck)hvArenaCheck();if(window.hvNotifScan)hvNotifScan();if(window.hvBellPaint)hvBellPaint();const oc=document.getElementById("offchip");if(oc&&window.hvOfflineChip)oc.innerHTML=hvOfflineChip()};
+/* dots under the Today strip follow the swipe */
+function todayDots(){const s=document.getElementById("todayStrip"),d=document.getElementById("tdots");if(!s||!d||s.scrollWidth<=s.clientWidth+4){if(d)d.hidden=true;return}
+  const n=s.children.length;d.innerHTML=Array.from({length:n},(_,i)=>`<i class="${i?"":"on"}"></i>`).join("");
+  s.addEventListener("scroll",()=>{const k=Math.round(s.scrollLeft/Math.max(1,(s.scrollWidth-s.clientWidth))*(n-1));d.querySelectorAll("i").forEach((x,j)=>x.classList.toggle("on",j===k))},{passive:true})}
+
+/* the welcome sheet waits for the logo splash to finish, then shows right away */
+function welcomeSoon(){if(document.getElementById("intro"))return setTimeout(welcomeSoon,120);if((location.hash||"#home")==="#home"||location.hash==="")welcome()}
+
+window.hvHomeInit=function(){welcomeSoon();todayDots();if(window.hvLoadAnn)hvLoadAnn();if(window.hvThisSunday)hvThisSunday();if(window.hvNextEvent)hvNextEvent();if(window.hvArenaCheck)hvArenaCheck();if(window.hvNotifScan)hvNotifScan();if(window.hvBellPaint)hvBellPaint();const oc=document.getElementById("offchip");if(oc&&window.hvOfflineChip)oc.innerHTML=hvOfflineChip()};
 })();

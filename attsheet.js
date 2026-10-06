@@ -85,7 +85,7 @@ st.textContent=`
 .go .as-line .ln{stroke-dashoffset:0;transition:stroke-dashoffset 1.2s ease}
 .as-line text{fill:var(--muted);font-size:9px;font-weight:700}
 .as-trendbox{display:flex;gap:8px;flex-wrap:wrap}
-.as-sel{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:8px 10px;font:inherit;font-weight:700}
+.as-sel{min-height:44px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:8px 10px;font:inherit;font-weight:700}
 .as-hist{display:flex;flex-direction:column}
 .as-hist div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);font-weight:700;font-size:.9rem}
 @media (prefers-reduced-motion:reduce){.as-ring-fg{transition:none;stroke-dasharray:var(--d) 400}.as-bar i{transition:none;width:var(--w)}.as-col i{animation:none}.as-line .ln{stroke-dashoffset:0;transition:none}.as-skel{animation:none}}

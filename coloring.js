@@ -146,7 +146,7 @@ st.textContent=`
 .cstage{position:relative;overflow:hidden;background:#fff;border-radius:18px;border:3px solid var(--gold);aspect-ratio:1;width:min(100%,640px);margin-inline:auto;box-shadow:var(--sh)}
 .cwrap{position:absolute;inset:0;transform-origin:0 0}.cwrap svg,.cwrap canvas{position:absolute;inset:0;width:100%;height:100%;display:block}.cwrap canvas{pointer-events:none}
 .czoom{position:absolute;right:8px;bottom:8px;display:flex;flex-direction:column;gap:6px}.czoom button{width:44px;height:44px;border-radius:50%;border:1px solid var(--glass-b);background:rgba(255,255,255,.9);color:#222;font-size:1.1rem}
-.cpal{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:10px;border-radius:var(--r-l);background:linear-gradient(180deg,var(--glass),color-mix(in srgb,var(--c-color) 14%,var(--glass)));border:1px solid var(--glass-b)}
+.cpal{display:grid;grid-template-columns:repeat(6,minmax(44px,1fr));gap:6px;padding:8px;border-radius:var(--r-l);background:linear-gradient(180deg,var(--glass),color-mix(in srgb,var(--c-color) 14%,var(--glass)));border:1px solid var(--glass-b)}
 .cc{aspect-ratio:1;min-height:0;min-width:0;border-radius:50%;border:3px solid transparent;box-shadow:inset 0 0 0 2px rgba(0,0,0,.18),0 3px 6px rgba(0,0,0,.25)}.cc[aria-pressed=true]{border-color:#fff;transform:scale(1.14);box-shadow:0 0 0 3px var(--gold),0 6px 12px rgba(0,0,0,.35)}
 .cc.rainbow{background:conic-gradient(red,orange,yellow,green,cyan,blue,magenta,red)}
 @media (min-width:600px){.cpal{grid-template-columns:repeat(12,1fr)}}

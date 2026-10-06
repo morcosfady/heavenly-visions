@@ -8,7 +8,7 @@ st.textContent=`
 .loginbtn .sc{background:rgba(43,29,5,.15);padding:2px 8px;border-radius:999px}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .seg button{padding:12px;border-radius:14px;border:2px solid var(--line);background:var(--surface);color:var(--ink);font-weight:800;font-size:1rem}
-.seg button[aria-pressed=true]{border-color:var(--gold);background:var(--gold-soft)}
+.seg button[aria-pressed=true]{border-color:var(--gold);background:var(--gold);color:#2b1d05}
 .pf-hero{text-align:center;padding:22px 16px;border-radius:24px;color:#fff;background:linear-gradient(145deg,#2f8fc0,#8e6bd1);box-shadow:var(--shadow)}
 .pf-av{font-size:3.4rem;width:88px;height:88px;line-height:88px;margin:0 auto 6px;border-radius:50%;background:rgba(255,255,255,.2);border:3px solid rgba(255,255,255,.6)}
 .pf-name{font-family:var(--display);font-size:1.4rem;font-weight:800}
@@ -151,7 +151,7 @@ async function profile(){
     <section class="card sec"><b>How to get points</b><div class="tag">${isStaff(u.role)?"✅ Check in at class +5<br>🛠️ Publish a game +20":"✅ Check in at class +10<br>🎮 Finish a game +10<br>🏆 Win a live class game +50"}</div></section>
     <section class="card sec"><b>Recent points</b><div id="lg">${u.log&&u.log.length?u.log.map(l=>`<div class="lgrow"><span>${KIND[l.k]||l.k}${l.n?" · "+esc(l.n):""}</span><span>+${l.p}</span></div>`).join(""):`<div class="tag">No points yet. Check in at class to start! ✋</div>`}</div></section>
     <button class="btn alt" id="out">Log out</button>
-    <button class="btn alt" id="delacct" style="opacity:.8">🗑 Delete my account</button><a class="tag" href="privacy.html" style="text-align:center">Privacy policy</a>`;
+    <button class="btn alt" id="delacct" style="opacity:.8">🗑 Delete my account</button><a class="tag privlink" href="privacy.html">Privacy policy</a>`;
     app.querySelectorAll("[data-av]").forEach(b=>b.onclick=()=>{a.avatar=b.dataset.av;saveAv(u.id,a.avatar);setAcct(a);if(window.hvSyncSoon)hvSyncSoon();draw()});
     $("#out").onclick=()=>{if(confirm("Log out?")){setAcct(null);go("home")}};
     $("#delacct").onclick=async()=>{if(u.role==="master"){toast("The master account cannot be deleted here");return}
