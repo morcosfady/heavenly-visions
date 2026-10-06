@@ -40,7 +40,7 @@ const avMap=()=>{try{return JSON.parse(localStorage.getItem("hv_avmap")||"{}")}c
 const savedAv=id=>avMap()[id]||AVATARS[0];
 const saveAv=(id,v)=>{try{const m=avMap();m[id]=v;localStorage.setItem("hv_avmap",JSON.stringify(m))}catch{}};
 const avHTML=(v,px)=>v===MASTER_AV?`<img src="logo.png" alt="" style="width:${px}px;height:${px}px;object-fit:contain;border-radius:50%;display:block">`:v;
-const LEVELS=[[0,"Seedling","🌱"],[50,"Helper","🕊️"],[150,"Disciple","✝️"],[300,"Light Bearer","🕯️"],[600,"Champion","👑"]];
+const LEVELS=[[0,"Little Lamb","🐑"],[50,"Shepherd's Helper","🪈"],[150,"Faithful Friend","🤝"],[300,"Light Bearer","🕯️"],[600,"Temple Builder","⛪"],[1000,"Saint in Training","😇"]];
 const TIER={student:["🎒","Student"],servant:["🙏","Servant"],coordinator:["🧭","Coordinator"],priest:["⛪","Priest"],master:["👑","Master"]};
 const isStaff=r=>r!=="student";
 const isTop=r=>r==="priest"||r==="master";
@@ -58,7 +58,7 @@ const CHURCHES=[
 const nz=t=>String(t||"").toLowerCase().replace(/\bsaint\b/g,"st").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
 const findChurch=v=>CHURCHES.find(c=>nz(c.name)===nz(v));
 const searchChurch=q=>{const w=nz(q).split(" ").filter(Boolean);return CHURCHES.filter(c=>{const h=nz(c.name+" "+c.addr);return w.every(x=>h.includes(x))})};
-const KIND={attend:"Checked in",selfplay:"Played a game",publish:"Published a game",live:"Played live"};
+const KIND={attend:"Checked in",selfplay:"Played a game",publish:"Published a game",live:"Played live",quiz:"Quiz",quizbonus:"Perfect quiz",verse:"Daily verse",bible:"Read the Bible",color:"Coloring",lesson:"Lesson done",streak:"Sundays in a row"};
 const acct=()=>{try{return JSON.parse(localStorage.getItem("hv_acct")||"null")}catch{return null}};
 const setAcct=a=>{try{a?localStorage.setItem("hv_acct",JSON.stringify(a)):localStorage.removeItem("hv_acct")}catch{}};
 async function api(body){const r=await fetch(GU(),{method:"POST",body:JSON.stringify(body)});return r.json()}
@@ -73,10 +73,15 @@ window.acctChip=function(){const head=document.querySelector(".hubhead");if(!hea
   const bar=document.createElement("div");bar.className="acctbar";bar.appendChild(b);head.parentNode.insertBefore(bar,head)};
 
 /* give points (called from the app) */
-window.hvAward=async function(kind,ref,label){const a=acct();if(!a||!GU())return;
-  try{const j=await api({action:"award",id:a.user.id,token:a.token,kind,ref,label});
-    if(j.ok){a.user=j.user;setAcct(a);if(j.added){toast("+"+j.added+" stars ⭐");if(window.confetti)confetti();if(window.hvStarsRefresh)hvStarsRefresh(j.added)}}
-    else if(j.error==="auth")setAcct(null)}catch{}};
+let awardQ=Promise.resolve();
+window.hvAward=function(kind,ref,label,n){awardQ=awardQ.then(()=>doAward(kind,ref,label,n));return awardQ};
+async function doAward(kind,ref,label,n){const a=acct();if(!a||!GU())return;
+  try{const before=level(a.user.score);const j=await api({action:"award",id:a.user.id,token:a.token,kind,ref,label,n});
+    if(j.ok){a.user=j.user;setAcct(a);if(j.added){toast("+"+j.added+" stars ⭐");if(window.confetti&&!n)confetti();if(window.hvStarsRefresh)hvStarsRefresh(j.added)}
+      else if(j.capped)toast("That is enough stars for today. Come back tomorrow! 🌙");
+      const after=level(a.user.score);if(after.name!==before.name&&window.hvLevelUp)setTimeout(()=>hvLevelUp(after),700);
+      if(j.badges&&j.badges.length&&window.hvBadgeToast)hvBadgeToast(j.badges)}
+    else if(j.error==="auth")setAcct(null)}catch{}}
 
 /* ---------- login / create profile ---------- */
 function authPage(mode,startRole){
@@ -139,19 +144,16 @@ async function profile(){
     <div class="pf-hero"><div class="pf-av" id="avBig" style="overflow:hidden;display:flex;align-items:center;justify-content:center">${avHTML(a.avatar||AVATARS[0],80)}</div>
       <div class="pf-name">${esc(u.name)}</div>
       <div class="pf-sub">${TIER[u.role][0]} ${TIER[u.role][1]}${u.grade?" · "+esc(u.grade):""}<br>${esc(u.church)}</div>
-      <div class="pf-score">⭐ ${u.score}<small>POINTS</small></div>
+      <div class="pf-score">⭐ ${u.score-(u.spent||0)}<small>STARS TO SPEND</small></div><button class="btn gold" data-go="kids" style="margin-top:10px">🌟 Kids Corner: avatar, shop, badges</button>
       <div class="pf-bar"><i style="width:${lv.pct}%"></i></div>
       <div class="pf-lv">${lv.ic} ${lv.name}${lv.next?` · ${lv.next} more to ${lv.nxName}`:" · top level!"}</div></div>
     <section class="card sec"><b>Pick your picture</b><div class="avs">${(u.role==="master"?[MASTER_AV]:[]).concat(AVATARS).map(x=>`<button data-av="${x}" aria-pressed="${(a.avatar||AVATARS[0])===x}" ${x===MASTER_AV?'aria-label="Master logo" style="padding:4px;overflow:hidden"':""}>${avHTML(x,34)}</button>`).join("")}</div></section>
     <section class="card sec"><b>How to get points</b><div class="tag">${isStaff(u.role)?"✅ Check in at class +5<br>🛠️ Publish a game +20":"✅ Check in at class +10<br>🎮 Finish a game +10<br>🏆 Win a live class game +50"}</div></section>
     <section class="card sec"><b>Recent points</b><div id="lg">${u.log&&u.log.length?u.log.map(l=>`<div class="lgrow"><span>${KIND[l.k]||l.k}${l.n?" · "+esc(l.n):""}</span><span>+${l.p}</span></div>`).join(""):`<div class="tag">No points yet. Check in at class to start! ✋</div>`}</div></section>
-    <section class="card sec"><b>🏅 Leaderboard</b><div id="lb" class="sec"><div class="tag">Loading…</div></div></section>
     <button class="btn alt" id="out">Log out</button>`;
     app.querySelectorAll("[data-av]").forEach(b=>b.onclick=()=>{a.avatar=b.dataset.av;saveAv(u.id,a.avatar);setAcct(a);if(window.hvSyncSoon)hvSyncSoon();draw()});
     $("#out").onclick=()=>{if(confirm("Log out?")){setAcct(null);go("home")}};
     if(u.role==="coordinator"||isTop(u.role))api({action:"access_list",id:u.id,token:a.token}).then(j=>{const e=$("#pendN");if(e&&j.ok&&j.pending.length)e.textContent="("+j.pending.length+" waiting)"}).catch(()=>{});
-    fetch(GU()+"?action=leaderboard").then(r=>r.json()).then(j=>{const el=$("#lb");if(!el)return;
-      el.innerHTML=(j.rows||[]).slice(0,10).map((r,i)=>`<div class="lbrow ${r.n===u.name&&r.s===u.score?"me":""}"><span>${["🥇","🥈","🥉"][i]||i+1}</span><b>${esc(r.n)}</b><span class="tag">${(TIER[r.r]||TIER.student)[0]} ${esc(r.g||"")}</span><span class="pt">${r.s}</span></div>`).join("")||`<div class="tag">Nobody yet.</div>`}).catch(()=>{});
   };
   draw();
   try{const j=await api({action:"me",id:a.user.id,token:a.token});

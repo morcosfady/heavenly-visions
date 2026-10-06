@@ -26,13 +26,7 @@ function doGet(e) {
     return out({ ok: true, game: JSON.parse(s) });
   }
   if (a === 'leaderboard') {
-    var all = p.getProperties();
-    var rows = Object.keys(all).filter(function (k) { return k.indexOf('u_') === 0; }).map(function (k) {
-      var u = JSON.parse(all[k]);
-      return { n: u.name, s: u.score, r: u.role, g: u.grade };
-    });
-    rows.sort(function (x, y) { return y.s - x.s; });
-    return out({ ok: true, rows: rows.slice(0, 30) });
+    return out({ ok: true, rows: [] });
   }
   return out({ ok: false });
 }
@@ -48,13 +42,63 @@ function removeGame(p, id) {
 
 /* ---------- accounts and scores ---------- */
 
+/* STARS CONFIG: change the numbers here. student / servant = stars for one action.
+   per = stars per unit (the phone sends n units, at most max). min and max clamp n for games.
+   cap = most stars one person can earn from this kind in one day (Chicago time). 0 = no cap. */
 var RULES = {
-  attend: { student: 10, servant: 5 },
-  lesson: { student: 5, servant: 0 },
-  selfplay: { student: 10, servant: 0 },
-  publish: { student: 0, servant: 20 },
-  livewin: { student: 0, servant: 0 }
+  attend: { student: 10, servant: 5, cap: 0 },
+  lesson: { student: 5, servant: 0, cap: 30 },
+  selfplay: { student: 10, servant: 0, min: 3, max: 10, cap: 60 },
+  publish: { student: 0, servant: 20, cap: 0 },
+  livewin: { student: 0, servant: 0, cap: 0 },
+  quiz: { student: 0, servant: 0, per: 1, max: 10, cap: 40 },
+  quizbonus: { student: 5, servant: 0, cap: 15 },
+  verse: { student: 5, servant: 0, cap: 5 },
+  color: { student: 2, servant: 0, cap: 10 },
+  bible: { student: 2, servant: 0, cap: 10 }
 };
+var STREAK_BONUS = 10;
+var STREAK_EVERY = 4;
+
+/* Shop: id = [price, slot]. Must match the list in kids.js. */
+var SHOP = {
+  hat_cap: [15, 'hat'], hat_shepherd: [30, 'hat'], hat_crown: [80, 'hat'], hat_mitre: [150, 'hat'],
+  halo_gold: [40, 'halo'], halo_stars: [90, 'halo'],
+  wings_white: [70, 'wings'], wings_gold: [160, 'wings'],
+  robe_royal: [70, 'robe'], robe_light: [130, 'robe'], robe_blue: [20, 'robe'], robe_green: [25, 'robe'],
+  pet_fish: [25, 'pet'], pet_lamb: [40, 'pet'], pet_dove: [60, 'pet'], pet_lion: [110, 'pet'],
+  bg_cloud: [20, 'bg'], bg_desert: [30, 'bg'], bg_church: [40, 'bg'], bg_stars: [50, 'bg'], bg_ark: [60, 'bg'], bg_rainbow: [120, 'bg'],
+  frame_gold: [40, 'frame'], frame_rainbow: [90, 'frame'], frame_glow: [150, 'frame']
+};
+var AV_RANGES = { skin: 6, hair: 6, hc: 8, eyes: 4, fit: 6, acc: 3 };
+
+/* Badges: key and the rule that earns it. Names and hints are in kids.js. */
+var BADGE_RULES = {
+  first_star: function (u) { return u.score >= 1; },
+  stars_100: function (u) { return u.score >= 100; },
+  stars_500: function (u) { return u.score >= 500; },
+  first_sunday: function (u) { return (u.cnt.attend || 0) >= 1; },
+  sunday_10: function (u) { return (u.cnt.attend || 0) >= 10; },
+  streak_4: function (u) { return !!u.sb; },
+  shopper: function (u) { return (u.own || []).length >= 1; },
+  collector: function (u) { return (u.own || []).length >= 8; },
+  quiz_whiz: function (u) { return (u.cnt.quizbonus || 0) >= 3; },
+  gamer: function (u) { return (u.cnt.selfplay || 0) >= 10; },
+  scholar: function (u) { return (u.cnt.lesson || 0) >= 10; },
+  reader: function (u) { return (u.cnt.bible || 0) >= 10; },
+  artist: function (u) { return (u.cnt.color || 0) >= 5; },
+  verse_7: function (u) { return (u.cnt.verse || 0) >= 7; }
+};
+
+function evalBadges(u) {
+  u.cnt = u.cnt || {};
+  u.badges = u.badges || [];
+  var fresh = [];
+  Object.keys(BADGE_RULES).forEach(function (k) {
+    if (u.badges.indexOf(k) < 0 && BADGE_RULES[k](u)) { u.badges.push(k); fresh.push(k); }
+  });
+  return fresh;
+}
 
 function sha(text) {
   var bytes = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, text);
@@ -71,15 +115,20 @@ function isStaff(role) { return role !== 'student'; }
 
 function isTop(role) { return role === 'priest' || role === 'master'; }
 
-function pointsFor(role, kind) {
+function pointsFor(role, kind, n) {
   var rule = RULES[kind];
   if (!rule) return 0;
-  return role === 'student' ? rule.student : rule.servant;
+  var base = role === 'student' ? rule.student : rule.servant;
+  var units = Math.floor(Number(n));
+  if (rule.per) return role === 'student' ? Math.max(0, Math.min(rule.max, units || 0)) * rule.per : 0;
+  if (rule.min && base) return Math.max(rule.min, Math.min(rule.max, units || rule.max));
+  return base;
 }
 
 function publicUser(u) {
   return { id: u.id, username: u.username, name: u.name, church: u.church, role: u.role,
-    grade: u.grade, req: u.req || '', score: u.score, log: u.log, joined: u.joined };
+    grade: u.grade, req: u.req || '', score: u.score, log: u.log, joined: u.joined,
+    spent: u.spent || 0, own: u.own || [], av: u.av || null, badges: u.badges || [] };
 }
 
 function saveUser(p, u) {
@@ -248,7 +297,35 @@ function attendAccount(p, me, b) {
     list.push({ n: me.name, g: me.grade, c: me.church, t: Date.now() });
     p.setProperty(listKey, JSON.stringify(list));
   }
-  return { ok: true };
+  var bonus = 0;
+  if (me.role === 'student') {
+    var st = streakNow(p, me);
+    if (st > 0 && st % STREAK_EVERY === 0) {
+      var u2 = JSON.parse(p.getProperty('u_' + me.id));
+      u2.score += STREAK_BONUS;
+      u2.sb = true;
+      u2.cnt = u2.cnt || {};
+      u2.cnt.streak = (u2.cnt.streak || 0) + 1;
+      u2.log = (u2.log || []);
+      u2.log.unshift({ k: 'streak', p: STREAK_BONUS, t: Date.now(), n: st + ' Sundays in a row' });
+      u2.log = u2.log.slice(0, 15);
+      evalBadges(u2);
+      saveUser(p, u2);
+      bonus = STREAK_BONUS;
+    }
+  }
+  return { ok: true, bonus: bonus };
+}
+
+function streakNow(p, me) {
+  var ctx = { all: {} };
+  ctx.all['ss_' + me.church + '|' + me.grade] = p.getProperty('ss_' + me.church + '|' + me.grade) || '';
+  ctx.all['ns_' + me.church + '|' + me.grade] = p.getProperty('ns_' + me.church + '|' + me.grade) || '';
+  ctx.all['ns_' + me.church + '|*'] = p.getProperty('ns_' + me.church + '|*') || '';
+  ctx.all['a_' + me.id] = p.getProperty('a_' + me.id) || '';
+  var joined = Math.floor(((me.joined || 0) - EPOCH) / 86400000);
+  var sess = sessionDays(ctx, me.church, me.grade, joined, 99999);
+  return streaks(sess, checkinsOf(ctx, me.id)).cur;
 }
 
 function attCtx(p) {
@@ -578,16 +655,55 @@ function accountAction(p, b) {
     return { ok: true };
   }
   if (b.action === 'award') {
-    var pts = pointsFor(me.role, b.kind);
+    var pts = pointsFor(me.role, b.kind, b.n);
     var key = b.kind + ':' + String(b.ref || '').slice(0, 40);
-    if (!pts || me.done.indexOf(key) >= 0) return { ok: true, added: 0, user: publicUser(me) };
+    if (!pts || me.done.indexOf(key) >= 0) return { ok: true, added: 0, user: publicUser(me), badges: [] };
+    var rule = RULES[b.kind], day = today();
+    if (!me.dc || me.dc.d !== day) me.dc = { d: day, s: {} };
+    if (rule.cap) {
+      pts = Math.min(pts, Math.max(0, rule.cap - (me.dc.s[b.kind] || 0)));
+      if (!pts) return { ok: true, added: 0, capped: true, user: publicUser(me), badges: [] };
+    }
+    me.dc.s[b.kind] = (me.dc.s[b.kind] || 0) + pts;
     me.done.push(key);
     if (me.done.length > 300) me.done.shift();
     me.score += pts;
+    me.cnt = me.cnt || {};
+    me.cnt[b.kind] = (me.cnt[b.kind] || 0) + 1;
     me.log.unshift({ k: b.kind, p: pts, t: Date.now(), n: String(b.label || '').slice(0, 40) });
     me.log = me.log.slice(0, 15);
+    var fresh = evalBadges(me);
     saveUser(p, me);
-    return { ok: true, added: pts, user: publicUser(me) };
+    return { ok: true, added: pts, user: publicUser(me), badges: fresh };
+  }
+  if (b.action === 'shop_buy') {
+    var item = SHOP[b.item];
+    me.own = me.own || [];
+    if (!item) return { ok: false, error: 'item' };
+    if (me.own.indexOf(b.item) >= 0) return { ok: false, error: 'owned' };
+    if (me.score - (me.spent || 0) < item[0]) return { ok: false, error: 'poor' };
+    me.spent = (me.spent || 0) + item[0];
+    me.own.push(b.item);
+    var fresh2 = evalBadges(me);
+    saveUser(p, me);
+    return { ok: true, user: publicUser(me), badges: fresh2 };
+  }
+  if (b.action === 'avatar_set') {
+    var av = b.av || {}, clean = {};
+    for (var k in AV_RANGES) {
+      var v = Math.floor(Number(av[k]));
+      if (!(v >= 0 && v < AV_RANGES[k])) return { ok: false, error: 'avatar' };
+      clean[k] = v;
+    }
+    var slots = ['hat', 'halo', 'wings', 'robe', 'pet', 'bg', 'frame'];
+    for (var i = 0; i < slots.length; i++) {
+      var id = String(av[slots[i]] || '');
+      if (id && (!SHOP[id] || SHOP[id][1] !== slots[i] || (me.own || []).indexOf(id) < 0)) return { ok: false, error: 'avatar' };
+      clean[slots[i]] = id;
+    }
+    me.av = clean;
+    saveUser(p, me);
+    return { ok: true, user: publicUser(me) };
   }
   return { ok: false };
 }
@@ -598,7 +714,7 @@ function doPost(e) {
   lock.waitLock(20000);
   try {
     var p = PropertiesService.getScriptProperties();
-    if (['signup', 'login', 'me', 'update', 'award', 'attend'].indexOf(b.action) >= 0 || b.action.indexOf('att_') === 0 || b.action.indexOf('access_') === 0 || b.action.indexOf('sync_') === 0 || b.action.indexOf('live_') === 0) return out(accountAction(p, b));
+    if (['signup', 'login', 'me', 'update', 'award', 'attend', 'shop_buy', 'avatar_set'].indexOf(b.action) >= 0 || b.action.indexOf('att_') === 0 || b.action.indexOf('access_') === 0 || b.action.indexOf('sync_') === 0 || b.action.indexOf('live_') === 0) return out(accountAction(p, b));
     var who = getUser(p, b);
     if (!who || !isStaff(who.role)) return out({ ok: false, error: 'denied' });
     if (b.action === 'delete') {

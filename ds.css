@@ -66,7 +66,7 @@ h2.sech::before,h2.sech::after{content:"";position:static;flex:1;width:auto;heig
 .ds-chip{padding:8px 16px;border-radius:999px;border:2px solid var(--line);background:var(--glass);color:var(--ink);font:inherit;font-weight:800;font-size:var(--fs-s)}
 .ds-chip[aria-pressed=true]{border-color:var(--gold);background:var(--gold-soft)}
 .ds-seg{display:flex;background:var(--glass);border:1px solid var(--glass-b);border-radius:999px;padding:4px}
-.ds-seg button{flex:1;border:0;background:transparent;color:var(--muted);border-radius:999px;font:inherit;font-weight:800;padding:8px 10px}
+.ds-seg button{flex:1;border:0;background:transparent;color:var(--muted);border-radius:999px;font:inherit;font-weight:800;font-size:.86rem;padding:8px 4px}
 .ds-seg button[aria-pressed=true]{background:var(--gold);color:#2b1d05;box-shadow:0 4px 12px rgba(227,180,92,.5)}
 
 /* stat card, badge, avatar, bar, skeleton, fab, empty */

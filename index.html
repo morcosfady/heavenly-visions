@@ -178,7 +178,7 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;font-weight:700}
 </head>
 <body>
 <link rel="stylesheet" href="theme.css?v=1">
-<link rel="stylesheet" href="ds.css?v=1">
+<link rel="stylesheet" href="ds.css?v=2">
 
 <div id="intro" aria-label="Intro">
   <div class="intro-logo" id="introEnd"><img id="introLogo" alt="Heavenly Visions"><p>Learn · Play · Grow in Faith</p></div>
@@ -194,7 +194,8 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;font-weight:700}
 <script src="live.js?v=1"></script>
 <script src="theme.js?v=1"></script>
 <script src="ds.js?v=1"></script>
-<script src="shell.js?v=1"></script>
+<script src="shell.js?v=2"></script>
+<script src="kids.js?v=1"></script>
 <script src="curriculum.js?v=1"></script>
 <script src="verses.js?v=1"></script>
 <script src="lessongames.js?v=1"></script>
@@ -204,7 +205,7 @@ const LOGO="data:image/webp;base64,UklGRmRTAABXRUJQVlA4WAoAAAAQAAAAKwEA0QAAQUxQS
 const CHANNEL="https://www.youtube.com/@Heavenly-Visions1";
 const PLAYLIST="https://www.youtube.com/playlist?list=PLODEsfRWZ4X_2gHH9xGWFMAk50Q9iNGzF";
 // Attendance web app (Google Apps Script). Empty = attendance not switched on yet.
-const GAMES_URL="https://script.google.com/macros/s/AKfycbw8IM61QcNvGL6X0gvueC3GCxzpPtARXKgdD0MyPMFEWUNYJpKKAf8R6Msx5ZRh_4Nt/exec";window.GAMES_URL=GAMES_URL;
+const GAMES_URL=(()=>{try{const q=new URLSearchParams(location.search).get("api");if(q&&location.hostname==="localhost")return q}catch{}return "https://script.google.com/macros/s/AKfycbw8IM61QcNvGL6X0gvueC3GCxzpPtARXKgdD0MyPMFEWUNYJpKKAf8R6Msx5ZRh_4Nt/exec"})();window.GAMES_URL=GAMES_URL;
 const ATTEND_URL="https://script.google.com/macros/s/AKfycbw1GmjKo9zVdUrvA0br7lfDJcNRGYSJaaMyBzQ305vv38G2lxoYRM5KtSqjsEf5R_sz/exec";
 const IS_LIVE=/github\.io$|^localhost$|^127\.0\.0\.1$/.test(location.hostname);
 const $=s=>document.querySelector(s);
@@ -642,7 +643,7 @@ function quiz(id){const Q=QUIZZES.find(q=>q.id===id);if(!Q)return quizzes();let 
       const k=+b.dataset.k;app.querySelectorAll(".opt").forEach(o=>{o.disabled=true;if(+o.dataset.k===x.a)o.classList.add("right")});
       if(k===x.a){score++;$("#fb").innerHTML=`<p class="ok">Correct! 🎉</p>`}else{b.classList.add("wrong");$("#fb").innerHTML=`<p class="err">Not quite. The right answer is in green.</p>`}
       setTimeout(()=>{i++;i<order.length?draw():end()},1300)}))}
-  function end(){const st=starsFor(score,order.length);const best=store.get("best",{});if(best[id]==null||score>best[id]){best[id]=score;store.set("best",best)}
+  function end(){const st=starsFor(score,order.length);if(window.hvAward){hvAward("quiz",id+"-"+todayKey(),Q.name,score);if(st===3)hvAward("quizbonus",id+"-"+todayKey(),Q.name)}const best=store.get("best",{});if(best[id]==null||score>best[id]){best[id]=score;store.set("best",best)}
     if(st===3)confetti();
     app.innerHTML=`${topbar(Q.name,Q.ic,"Quiz complete","quizzes")}
     <div class="qcard" style="text-align:center"><div class="stars">${"⭐".repeat(st)}${"☆".repeat(3-st)}</div>
@@ -695,7 +696,7 @@ function bibleBook(name){const b=BOOKS.find(x=>x[0]===name);if(!b)return bible()
   app.innerHTML=`${topbar(b[0],"📖","Choose a chapter","bible")}<div class="chaps">${Array.from({length:b[1]},(_,i)=>`<button class="ch" data-go="b-${encodeURIComponent(b[0])}-${i+1}">${i+1}</button>`).join("")}</div>`}
 function stopVoice(){if(window.hvAud){hvAud.pause();hvAud=null}if(window.speechSynthesis)speechSynthesis.cancel()}
 async function bibleRead(name,ch){const b=BOOKS.find(x=>x[0]===name);if(!b)return bible();ch=Math.min(Math.max(1,ch),b[1]);
-  const fs=store.get("fs",1.08);store.set("lastRead",{b:name,c:ch});stopVoice();
+  const fs=store.get("fs",1.08);store.set("lastRead",{b:name,c:ch});stopVoice();if(window.hvAward)hvAward("bible",name+"-"+ch,name+" "+ch);
   const bi=BOOKS.indexOf(b),prev=ch>1?[name,ch-1]:bi>0?[BOOKS[bi-1][0],BOOKS[bi-1][1]]:null,next=ch<b[1]?[name,ch+1]:bi<BOOKS.length-1?[BOOKS[bi+1][0],1]:null;
   const link=(x,l)=>x?`<button class="btn alt" data-go="b-${encodeURIComponent(x[0])}-${x[1]}">${l}</button>`:"";
   
@@ -725,7 +726,7 @@ function route(){closeSheet();if(!(location.hash||"").startsWith("#b-"))stopVoic
   else if(h==="games")games();else if(h==="g-memory")memory();else if(h==="g-scramble")scramble();
   else if(h==="bible")bible();
   else if(h.startsWith("b-")){const m=h.slice(2).match(/^(.*?)(?:-(\d+))?$/);m[2]?bibleRead(m[1],+m[2]):bibleBook(m[1])}
-  else if(!(window.builderRoute&&builderRoute(h))&&!(window.profileRoute&&profileRoute(h))&&!(window.liveRoute&&liveRoute(h))&&!(window.lgRoute&&lgRoute(h))&&!(window.shellRoute&&shellRoute(h)))hub();window.scrollTo(0,0)}
+  else if(!(window.builderRoute&&builderRoute(h))&&!(window.profileRoute&&profileRoute(h))&&!(window.liveRoute&&liveRoute(h))&&!(window.lgRoute&&lgRoute(h))&&!(window.kidsRoute&&kidsRoute(h))&&!(window.shellRoute&&shellRoute(h)))hub();window.scrollTo(0,0)}
 function go(h){const t="#"+h;if(location.hash===t)route();else location.hash=h}
 document.addEventListener("click",async e=>{
   const g=e.target.closest("[data-go]");if(g){if(g.hasAttribute("data-close"))closeSheet();go(g.dataset.go);return}

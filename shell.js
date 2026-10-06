@@ -4,7 +4,8 @@
 const A=()=>window.hvAcct&&hvAcct();
 const E=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const lang=()=>{try{return localStorage.getItem("hv_lang")||"en"}catch{return "en"}};
-const avOf=a=>{const v=a&&(a.avatar||"😇");return v==="logo"?`<img src="logo.png" alt="" style="width:100%;height:100%;object-fit:contain">`:v};
+const avOf=a=>{if(window.hvAvatarOf&&a&&a.user&&a.user.av)return hvAvatarOf(a,36);const v=a&&(a.avatar||"😇");return v==="logo"?`<img src="logo.png" alt="" style="width:100%;height:100%;object-fit:contain">`:v};
+const balOf=a=>(a.user.score||0)-(a.user.spent||0);
 
 /* ---------- Coptic date (Reingold and Dershowitz, fixed day 1825030 = 1 Tout, year 1) ---------- */
 const MONTHS=["Tout","Baba","Hator","Kiahk","Toba","Amshir","Baramhat","Baramouda","Bashans","Paoni","Epep","Mesori","Nasie"];
@@ -23,13 +24,14 @@ window.hvTopBar=function(){
   const a=A(),l=lang();
   const me=a?`<button class="sb-me" data-go="profile" aria-label="My profile"><span class="sb-av">${avOf(a)}</span><span class="nm">${E((a.user.first||a.user.name||"").split(" ")[0])}</span></button>`
     :`<button class="sb-login" data-go="login">👤 Login</button>`;
-  const stars=a?`<button class="sb-stars" id="sbStars" data-go="profile" aria-label="${a.user.score} stars"><i>⭐</i><span id="sbN">${a.user.score}</span></button>`:"";
+  const stars=a?`<button class="sb-stars" id="sbStars" data-go="profile" aria-label="${balOf(a)} stars"><i>⭐</i><span id="sbN">${balOf(a)}</span></button>`:"";
   return `<div class="shellbar">${me}<div class="sb-right">${stars}<div class="sb-lang" role="group" aria-label="Language"><button data-lang="en" aria-pressed="${l==="en"}">EN</button><button data-lang="ar" aria-pressed="${l==="ar"}" lang="ar">ع</button></div></div></div>`};
 
 /* the counter pops and stars fly in when points are added (called by hvAward) */
+window.hvRefreshBarAvatar=function(){const a=A(),el=document.querySelector(".sb-av");if(a&&el)el.innerHTML=avOf(a)};
 window.hvStarsRefresh=function(added){
   const a=A(),n=document.getElementById("sbN"),b=document.getElementById("sbStars");
-  if(a&&n){n.textContent=a.user.score;if(b){b.setAttribute("aria-label",a.user.score+" stars");b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop");
+  if(a&&n){n.textContent=balOf(a);if(b){b.setAttribute("aria-label",balOf(a)+" stars");b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop");
     if(window.hvFx&&added)hvFx.fly(document.body,b,"⭐",Math.min(6,added))}}};
 
 /* ---------- today strip ---------- */
@@ -54,7 +56,6 @@ window.hvMoreDoors=function(){
 
 /* ---------- coming soon pages ---------- */
 const SOON={
-  kids:{ic:"🌟",t:"Kids Corner",c:"--c-kids",p:"Phase 2",l:["Earn stars and level up","Build your own avatar","Rewards shop and badges"]},
   bedtime:{ic:"🛏️",t:"Bedtime",c:"--c-bed",p:"Phase 4",l:["Calm sleeping songs","Bedtime Bible stories","Sleep timer"]},
   prayers:{ic:"🙏",t:"Prayers",c:"--c-pray",p:"Phase 3",l:["Morning, meal and night prayers","Read aloud","A small star for praying"]},
   coloring:{ic:"🎨",t:"Coloring",c:"--c-color",p:"Phase 4",l:["Bible pictures to color","Crayon box and stickers","Save to my gallery"]},
