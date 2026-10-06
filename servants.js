@@ -27,7 +27,8 @@ window.hvSvTools=function(){
   if(!isStaff())return "";
   return `<div class="svtools"><button class="svt" style="--tc:var(--c-serv)" data-go="planner"><span>📝</span><b>Lesson Planner</b><small>Plan each Sunday</small></button>
    <button class="svt" style="--tc:var(--c-games)" data-go="announce"><span>📢</span><b>Announcements</b><small>Tell your class</small></button>
-   <button class="svt" style="--tc:var(--c-kids)" data-go="followup"><span>📞</span><b>Follow up</b><small>Kids who missed</small></button></div>`};
+   <button class="svt" style="--tc:var(--c-kids)" data-go="followup"><span>📞</span><b>Follow up</b><small>Kids who missed</small></button>
+   <button class="svt" style="--tc:var(--c-church)" data-go="library"><span>📚</span><b>Library</b><small>Worksheets and links</small></button></div>`};
 
 function gate(title,ic,back){
   if(window.hvLock&&hvLock())return true;
@@ -225,7 +226,7 @@ document.addEventListener("click",e=>{const h=e.target.closest("[data-ahide]");i
 
 const st=document.createElement("style");
 st.textContent=`
-.svtools{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.svt{display:flex;flex-direction:column;align-items:center;gap:2px;padding:14px 6px;border-radius:var(--r-m);border:1px solid color-mix(in srgb,var(--tc) 55%,transparent);background:linear-gradient(160deg,color-mix(in srgb,var(--tc) 22%,var(--glass)),var(--glass));color:var(--ink);font:inherit;text-align:center}
+.svtools{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}@media (min-width:600px){.svtools{grid-template-columns:repeat(4,1fr)}}.svt{display:flex;flex-direction:column;align-items:center;gap:2px;padding:14px 6px;border-radius:var(--r-m);border:1px solid color-mix(in srgb,var(--tc) 55%,transparent);background:linear-gradient(160deg,color-mix(in srgb,var(--tc) 22%,var(--glass)),var(--glass));color:var(--ink);font:inherit;text-align:center}
 .svt span{font-size:2rem}.svt b{font-family:var(--display);font-size:.9rem}.svt small{color:var(--muted);font-weight:700;font-size:.7rem}
 .plcard{display:flex;flex-direction:column;gap:6px;padding:14px;border-radius:var(--r-l);border:1px solid var(--glass-b);background:var(--glass)}.plcard.now{border-color:var(--gold);box-shadow:0 0 22px -8px var(--gold)}
 .pld{display:flex;justify-content:space-between;align-items:center;gap:8px}.plt{font-family:var(--display);font-weight:800;font-size:var(--fs-l)}

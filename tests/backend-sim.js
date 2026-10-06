@@ -263,3 +263,23 @@ ok('progress counts this month', A('as1', { action: 'fu_list' }).done === 1);
 ok('servant of another grade cannot touch the kid', A('as4', { action: 'fu_set', target: kidId, kind: 'visited' }).error === 'denied');
 ok('priest can with a grade', A('p1x', { action: 'fu_set', grade: 'Grade 3', target: kidId, kind: 'visited' }).ok);
 ok('bad kind refused', A('as1', { action: 'fu_set', target: kidId, kind: 'hack' }).error === 'missing');
+
+/* ---------- resource library and events ---------- */
+ok('student cannot read the library', A('ak1', { action: 'rs_list' }).error === 'denied');
+ok('servant adds a link', A('as1', { action: 'rs_save', r: { title: 'Noah worksheet', type: 'worksheet', grade: 'Grade 3', topic: 'Noah', url: 'https://drive.google.com/file/d/abc123/view' } }).ok);
+ok('plain http link refused', A('as1', { action: 'rs_save', r: { title: 'Bad', url: 'http://example.com/x' } }).error === 'missing');
+ok('javascript link refused', A('as1', { action: 'rs_save', r: { title: 'Bad', url: 'javascript:alert(1)' } }).error === 'missing');
+ok('servant of another grade can read church library', A('as4', { action: 'rs_list' }).items.length === 1);
+ok('servant forced to own class for a grade resource', (() => { const r = A('as4', { action: 'rs_save', r: { title: 'G4 sheet', grade: 'Grade 3', url: 'https://example.org/a.pdf' } }); return r.ok && r.item.grade === 'Grade 4' })());
+ok('servant cannot delete another class item', A('as4', { action: 'rs_delete', rid: A('as1', { action: 'rs_list' }).items.find(x => x.title === 'Noah worksheet').id }).error === 'denied');
+ok('other church does not see the library', A('ako', { action: 'rs_list' }).error === 'denied');
+ok('student cannot add an event', A('ak1', { action: 'ev_save', e: { title: 'Trip', date: '2026-11-01' } }).error === 'denied');
+ok('servant cannot add an event', A('as1', { action: 'ev_save', e: { title: 'Trip', date: '2026-11-01' } }).error === 'denied');
+const evt = A('c1x', { action: 'ev_save', e: { title: 'Fall retreat', date: '2026-11-07', end: '2026-11-08', time: '09:00', place: 'Camp Lake', cat: 'retreat', ic: '⛺', desc: 'Pack warm clothes' } });
+ok('coordinator adds an event for own class', evt.ok && evt.item.grades.join() === 'Grade 3');
+ok('kid in that class sees it', A('ak1', { action: 'ev_list' }).items.some(x => x.title === 'Fall retreat'));
+ok('kid in another class does not', !A('ak4', { action: 'ev_list' }).items.some(x => x.title === 'Fall retreat'));
+ok('kid of another church does not', A('ako', { action: 'ev_list' }).items.length === 0);
+ok('priest posts for everyone', A('p1x', { action: 'ev_save', e: { title: 'Nayrouz party', date: '2026-11-14', grades: ['all'], cat: 'feast' } }).ok && A('ak4', { action: 'ev_list' }).items.some(x => x.title === 'Nayrouz party'));
+ok('coordinator cannot delete a priest event', A('c1x', { action: 'ev_delete', eid: A('ak4', { action: 'ev_list' }).items.find(x => x.title === 'Nayrouz party').id }).error === 'denied');
+ok('coordinator deletes own event', A('c1x', { action: 'ev_delete', eid: evt.item.id }).ok && !A('ak1', { action: 'ev_list' }).items.some(x => x.title === 'Fall retreat'));

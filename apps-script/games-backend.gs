@@ -758,6 +758,89 @@ function fuAction(p, me, b) {
   return { ok: false, error: 'missing' };
 }
 
+/* ---------- Resource library (links only) and church events ----------
+   rs_<church>   resource links of one church (title, type, class, topic, https link)
+   ev_<church>   events and trips of one church
+   Servants read the library and can add links. Only coordinators, priests and the master add events. */
+
+var RS_TYPES = ['worksheet', 'coloring', 'craft', 'song', 'slides', 'video', 'link'];
+var EV_CATS = ['trip', 'retreat', 'feast', 'convention', 'service'];
+
+function cleanUrl(u) {
+  var x = String(u || '').trim();
+  if (x.length > 300 || !/^https:\/\/[A-Za-z0-9.-]+\.[A-Za-z]{2,}(\/[^\s]*)?$/.test(x)) return '';
+  return x;
+}
+
+function resAction(p, me, b) {
+  if (!isStaff(me.role) || me.req) return { ok: false, error: 'denied' };
+  var key = 'rs_' + me.church, list = readJson(p, key, []);
+  if (b.action === 'rs_list') return { ok: true, items: list };
+  if (b.action === 'rs_save') {
+    var r = b.r || {}, url = cleanUrl(r.url), title = cleanText(r.title, 60).trim();
+    if (!url || !title) return { ok: false, error: 'missing' };
+    var grade = cleanText(r.grade, 20) || 'all';
+    if (grade !== 'all' && me.role === 'servant' && grade !== me.grade) grade = me.grade;
+    var id = r.id && /^[a-z0-9]{6,12}$/.test(r.id) ? r.id : randomText().slice(0, 8);
+    var prev = list.filter(function (x) { return x.id === id; })[0];
+    if (prev && !(me.role !== 'servant' || prev.byGrade === me.grade)) return { ok: false, error: 'denied' };
+    var item = { id: id, title: title, type: RS_TYPES.indexOf(r.type) >= 0 ? r.type : 'link', grade: grade, topic: cleanText(r.topic, 30), url: url,
+      by: me.name, byGrade: me.grade, ts: prev ? prev.ts : Date.now() };
+    var out = list.filter(function (x) { return x.id !== id; });
+    out.unshift(item);
+    while (JSON.stringify(out).length > 8800 && out.length > 1) out.pop();
+    p.setProperty(key, JSON.stringify(out));
+    return { ok: true, item: item };
+  }
+  if (b.action === 'rs_delete') {
+    var t = list.filter(function (x) { return x.id === b.rid; })[0];
+    if (!t) return { ok: true };
+    if (me.role === 'servant' && t.byGrade !== me.grade) return { ok: false, error: 'denied' };
+    p.setProperty(key, JSON.stringify(list.filter(function (x) { return x.id !== b.rid; })));
+    return { ok: true };
+  }
+  return { ok: false, error: 'missing' };
+}
+
+function evAction(p, me, b) {
+  var key = 'ev_' + me.church, t = today(), keep = dayStr(dayNum(t) - 60);
+  var list = readJson(p, key, []).filter(function (e) { return (e.end || e.date) >= keep; });
+  if (b.action === 'ev_list') {
+    var staff = isStaff(me.role) && !me.req;
+    var rows = list.filter(function (e) { return staff || !e.grades.length || e.grades.indexOf('all') >= 0 || e.grades.indexOf(me.grade) >= 0; });
+    rows.sort(function (x, y) { return x.date < y.date ? -1 : 1; });
+    return { ok: true, items: rows, canEdit: me.role === 'coordinator' || isTop(me.role) };
+  }
+  if (!(me.role === 'coordinator' || isTop(me.role))) return { ok: false, error: 'denied' };
+  if (b.action === 'ev_save') {
+    var e = b.e || {}, title = cleanText(e.title, 60).trim();
+    if (!title || !isDate(e.date)) return { ok: false, error: 'missing' };
+    var grades;
+    if (me.role === 'coordinator') grades = (Array.isArray(e.grades) && e.grades.indexOf('all') >= 0) ? ['all'] : [me.grade];
+    else grades = Array.isArray(e.grades) && e.grades.length ? e.grades.slice(0, 14).map(function (g) { return cleanText(g, 20); }) : ['all'];
+    var id = e.id && /^[a-z0-9]{6,12}$/.test(e.id) ? e.id : randomText().slice(0, 8);
+    var prev = list.filter(function (x) { return x.id === id; })[0];
+    if (prev && me.role === 'coordinator' && !(prev.byGrade === me.grade)) return { ok: false, error: 'denied' };
+    var item = { id: id, title: title, date: e.date, end: isDate(e.end) && e.end >= e.date ? e.end : '', time: /^[0-9]{2}:[0-9]{2}$/.test(String(e.time || '')) ? e.time : '',
+      place: cleanText(e.place, 60), desc: cleanText(e.desc, 300), ic: cleanText(e.ic, 8) || '🎉', cat: EV_CATS.indexOf(e.cat) >= 0 ? e.cat : 'service',
+      grades: grades, by: me.name, byGrade: me.grade, ts: Date.now() };
+    var out = list.filter(function (x) { return x.id !== id; });
+    out.push(item);
+    out.sort(function (x, y) { return x.date < y.date ? 1 : -1; });
+    while (JSON.stringify(out).length > 8800 && out.length > 1) out.pop();
+    p.setProperty(key, JSON.stringify(out));
+    return { ok: true, item: item };
+  }
+  if (b.action === 'ev_delete') {
+    var tg = list.filter(function (x) { return x.id === b.eid; })[0];
+    if (!tg) return { ok: true };
+    if (me.role === 'coordinator' && tg.byGrade !== me.grade) return { ok: false, error: 'denied' };
+    p.setProperty(key, JSON.stringify(list.filter(function (x) { return x.id !== b.eid; })));
+    return { ok: true };
+  }
+  return { ok: false, error: 'missing' };
+}
+
 function accountAction(p, b) {
   if (b.action === 'signup') {
     var un = String(b.username || '').trim().toLowerCase();
@@ -823,6 +906,8 @@ function accountAction(p, b) {
   if (/^lp_/.test(b.action)) return planAction(p, me, b);
   if (/^an_/.test(b.action)) return annAction(p, me, b);
   if (/^fu_/.test(b.action)) return fuAction(p, me, b);
+  if (/^rs_/.test(b.action)) return resAction(p, me, b);
+  if (/^ev_/.test(b.action)) return evAction(p, me, b);
   if (b.action === 'live_finish') {
     if (!isStaff(me.role)) return { ok: false, error: 'denied' };
     var sid = String(b.sid || '').slice(0, 30), list = (b.results || []).slice(0, 120), given = 0;
@@ -925,7 +1010,7 @@ function doPost(e) {
   lock.waitLock(20000);
   try {
     var p = PropertiesService.getScriptProperties();
-    if (['signup', 'login', 'me', 'update', 'award', 'attend', 'shop_buy', 'avatar_set'].indexOf(b.action) >= 0 || b.action.indexOf('att_') === 0 || b.action.indexOf('lp_') === 0 || b.action.indexOf('an_') === 0 || b.action.indexOf('fu_') === 0 || b.action.indexOf('access_') === 0 || b.action.indexOf('sync_') === 0 || b.action.indexOf('live_') === 0) return out(accountAction(p, b));
+    if (['signup', 'login', 'me', 'update', 'award', 'attend', 'shop_buy', 'avatar_set'].indexOf(b.action) >= 0 || b.action.indexOf('att_') === 0 || b.action.indexOf('lp_') === 0 || b.action.indexOf('an_') === 0 || b.action.indexOf('fu_') === 0 || b.action.indexOf('rs_') === 0 || b.action.indexOf('ev_') === 0 || b.action.indexOf('access_') === 0 || b.action.indexOf('sync_') === 0 || b.action.indexOf('live_') === 0) return out(accountAction(p, b));
     var who = getUser(p, b);
     if (!who || !isStaff(who.role)) return out({ ok: false, error: 'denied' });
     if (b.action === 'delete') {

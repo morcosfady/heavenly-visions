@@ -49,7 +49,7 @@ window.hvToday=function(v){
    <button class="tcard verse2" style="--tc:var(--gold)" data-go="verse"><span class="k">📖 Verse of the day${done?" ✅":""}</span><span class="t">“${E(tv[0])}”</span><span class="s">${E(tv[1])} · ${done?"Done today! Open your verse jar":"Tap to learn it"}</span></button>
    ${nudge?`<button class="tcard" style="--tc:var(--c-pray)" data-go="pr-${nudge.id}"><span class="k">🙏 Prayer time</span><span class="t">${E(nudge.t)}</span><span class="s">Tap to pray</span><span class="em" aria-hidden="true">🕯️</span></button>`:""}
    <button class="tcard" style="--tc:var(--c-cal)" data-go="calendar"><span class="k">📅 ${E(g)}</span><span class="t">${c.day} ${c.name}, ${c.year}</span><span class="s">${E(lead)}</span><span class="em" aria-hidden="true">🗓️</span></button>
-   <button class="tcard" style="--tc:var(--c-church)" data-go="calendar"><span class="k">🎉 Next event</span><span class="t">No events yet</span><span class="s">Trips, retreats and feasts will show here.</span><span class="em" aria-hidden="true">⛪</span></button>
+   <button class="tcard" id="nextEvent" style="--tc:var(--c-church)" data-go="events"><span class="k">🎉 Next event</span><span class="t">No events yet</span><span class="s">Trips, retreats and feasts will show here.</span><span class="em" aria-hidden="true">⛪</span></button>
   </div></section>`};
 
 const MORE=[
@@ -119,5 +119,5 @@ document.addEventListener("click",e=>{
   if(e.target.closest("[data-soon]"))toast("The daily verse challenge is coming in Phase 3 ✨")});
 document.documentElement.lang=lang();
 
-window.hvHomeInit=function(){setTimeout(welcome,900);if(window.hvLoadAnn)hvLoadAnn();if(window.hvThisSunday)hvThisSunday()};
+window.hvHomeInit=function(){setTimeout(welcome,900);if(window.hvLoadAnn)hvLoadAnn();if(window.hvThisSunday)hvThisSunday();if(window.hvNextEvent)hvNextEvent()};
 })();
