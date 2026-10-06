@@ -81,7 +81,7 @@ async function doAward(kind,ref,label,n){const a=acct();if(!a||!GU())return;
       else if(j.capped)toast("That is enough stars for today. Come back tomorrow! 🌙");
       const after=level(a.user.score);if(after.name!==before.name&&window.hvLevelUp)setTimeout(()=>hvLevelUp(after),700);
       if(j.badges&&j.badges.length&&window.hvBadgeToast)hvBadgeToast(j.badges)}
-    else if(j.error==="auth")setAcct(null)}catch{}}
+    else if(j.error==="auth")setAcct(null)}catch{if(window.hvQueueAward)hvQueueAward(kind,ref,label,n)}}
 
 /* ---------- login / create profile ---------- */
 function authPage(mode,startRole){

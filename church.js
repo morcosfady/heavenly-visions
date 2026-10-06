@@ -66,7 +66,7 @@ function addRes(){
 const CATS={trip:["🚌","Trip","#2a9d8f"],retreat:["⛺","Retreat","#8e6bd1"],feast:["🎉","Feast","#e3b45c"],convention:["🏛️","Convention","#4b57c9"],service:["⛪","Service","#e86f8a"]};
 let EV=null,EVP=null;
 window.hvLoadEvents=function(force){const a=A();if(!a||!window.GAMES_URL)return Promise.resolve([]);if(EV&&!force)return Promise.resolve(EV);if(EVP&&!force)return EVP;
-  EVP=call({action:"ev_list"}).then(r=>{EV=r.ok?r.items:[];window.hvEvCache=EV;window.hvEvCan=!!r.canEdit;EVP=null;return EV}).catch(()=>{EVP=null;return EV||[]});return EVP};
+  EVP=call({action:"ev_list"}).then(r=>{EV=r.ok?r.items:[];if(r.ok&&window.hvCacheSet)hvCacheSet("ev",EV);window.hvEvCache=EV;window.hvEvCan=!!r.canEdit;EVP=null;return EV}).catch(()=>{EVP=null;if(!EV&&window.hvCacheGet){EV=hvCacheGet("ev")||[];window.hvEvCache=EV}return EV||[]});return EVP};
 const upcoming=l=>{const t=dkey(new Date());return l.filter(e=>(e.end||e.date)>=t)};
 function ics(e){const esc=s=>String(s||"").replace(/\\/g,"\\\\").replace(/[,;]/g,m=>"\\"+m).replace(/\n/g,"\\n");
   const ds=e.date.replace(/-/g,""),de=(e.end||e.date),endNext=dkey(new Date(parse(de).getTime()+86400000)).replace(/-/g,"");

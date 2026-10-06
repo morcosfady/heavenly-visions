@@ -175,10 +175,12 @@ function annCard(x,mine){const c=CATS[x.cat]||CATS.church,seen=jget("hv_an_seen"
 /* kids: announcement cards on the home screen and a full list */
 window.hvLoadAnn=async function(){
   const a=A(),box=document.getElementById("annbox");if(!a||!box||!window.GAMES_URL)return;
-  try{const r=await call({action:"an_list"});if(!r.ok||!document.getElementById("annbox"))return;const hide=jget("hv_an_hide",[]);
-    const items=r.items.filter(x=>!hide.includes(x.id));if(!items.length)return;
+  let list=null,off=false;try{const r=await call({action:"an_list"});if(r.ok){list=r.items;if(window.hvCacheSet)hvCacheSet("an",list)}}catch{}
+  if(!list&&window.hvCacheGet){list=hvCacheGet("an");off=!!list}
+  try{if(!list||!document.getElementById("annbox"))return;const hide=jget("hv_an_hide",[]);
+    const items=list.filter(x=>!hide.includes(x.id));if(!items.length)return;
     const unread=items.filter(x=>!jget("hv_an_seen",[]).includes(x.id)).length;
-    box.innerHTML=`<section class="sec" aria-label="Announcements"><h2 class="sech"><span>📢 News${unread?` <i class="andot"></i>`:""}</span></h2><div class="today">${items.slice(0,4).map(x=>annCard(x,false)).join("")}</div>${items.length>4?`<button class="btn alt" data-go="news">See all (${items.length})</button>`:""}</section>`}
+    box.innerHTML=`<section class="sec" aria-label="Announcements"><h2 class="sech"><span>📢 News${unread?` <i class="andot"></i>`:""}${off?` <small class="spl" style="--sc:#9a9ec4">Offline</small>`:""}</span></h2><div class="today">${items.slice(0,4).map(x=>annCard(x,false)).join("")}</div>${items.length>4?`<button class="btn alt" data-go="news">See all (${items.length})</button>`:""}</section>`}
   catch{}};
 async function newsPage(){
   const a=A();app.innerHTML=`${topbar("News","📢","From your teachers")}<div id="nl" class="sec"><div class="ds-skel" style="height:100px"></div></div>`;

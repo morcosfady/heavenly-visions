@@ -25,7 +25,8 @@ window.hvTopBar=function(){
   const me=a?`<button class="sb-me" data-go="profile" aria-label="My profile"><span class="sb-av">${avOf(a)}</span><span class="nm">${E((a.user.first||a.user.name||"").split(" ")[0])}</span></button>`
     :`<button class="sb-login" data-go="login">👤 Login</button>`;
   const stars=a?`<button class="sb-stars" id="sbStars" data-go="profile" aria-label="${balOf(a)} stars"><i>⭐</i><span id="sbN">${balOf(a)}</span></button>`:"";
-  return `<div class="shellbar">${me}<div class="sb-right">${stars}<div class="sb-lang" role="group" aria-label="Language"><button data-lang="en" aria-pressed="${l==="en"}">EN</button><button data-lang="ar" aria-pressed="${l==="ar"}" lang="ar">ع</button></div></div></div>`};
+  const bell=a?`<button class="sb-bell" id="sbBell" aria-label="Notifications">🔔<i class="sb-badge" hidden></i></button>`:"";
+  return `<div class="shellbar">${me}<div class="sb-right">${bell}${stars}<div class="sb-lang" role="group" aria-label="Language"><button data-lang="en" aria-pressed="${l==="en"}">EN</button><button data-lang="ar" aria-pressed="${l==="ar"}" lang="ar">ع</button></div></div></div>`};
 
 /* the counter pops and stars fly in when points are added (called by hvAward) */
 window.hvRefreshBarAvatar=function(){const a=A(),el=document.querySelector(".sb-av");if(a&&el)el.innerHTML=avOf(a)};
@@ -120,5 +121,5 @@ document.addEventListener("click",e=>{
   if(e.target.closest("[data-soon]"))toast("The daily verse challenge is coming in Phase 3 ✨")});
 document.documentElement.lang=lang();
 
-window.hvHomeInit=function(){setTimeout(welcome,900);if(window.hvLoadAnn)hvLoadAnn();if(window.hvThisSunday)hvThisSunday();if(window.hvNextEvent)hvNextEvent();if(window.hvArenaCheck)hvArenaCheck()};
+window.hvHomeInit=function(){setTimeout(welcome,900);if(window.hvLoadAnn)hvLoadAnn();if(window.hvThisSunday)hvThisSunday();if(window.hvNextEvent)hvNextEvent();if(window.hvArenaCheck)hvArenaCheck();if(window.hvNotifScan)hvNotifScan();if(window.hvBellPaint)hvBellPaint();const oc=document.getElementById("offchip");if(oc&&window.hvOfflineChip)oc.innerHTML=hvOfflineChip()};
 })();

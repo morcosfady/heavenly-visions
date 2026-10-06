@@ -15,6 +15,7 @@ function celebrate(h){
   const o=document.createElement("div");o.className="lvup";o.setAttribute("role","dialog");o.setAttribute("aria-label","Competition winner");
   const sc=secOf(h.winner);
   o.innerHTML=`<div class="lvbox"><div class="lvglow"></div><div class="lvic">🏆</div><div class="lvk">${E(monthName(h.m)).toUpperCase()} WINNER</div><div class="lvn">${sc.ic} ${E(h.winner)}</div>${h.prize?`<div class="lvk" style="letter-spacing:.1em">Prize: ${E(h.prize)}</div>`:""}<button class="btn gold" id="lvok">Congratulations!</button></div>`;
+  if(window.hvNotify)hvNotify({id:"cp-"+h.m,ic:"🏆",t:h.winner+" won the "+monthName(h.m)+" competition",go:"arena"});
   document.body.appendChild(o);if(window.confetti){confetti();setTimeout(confetti,1200)}
   const close=()=>o.remove();o.querySelector("#lvok").onclick=close;o.addEventListener("click",e=>{if(e.target===o)close()});o.querySelector("#lvok").focus()}
 function checkEnd(r){const h=r&&r.hall&&r.hall[0];if(!h||!h.winner)return;const seen=jget("hv_cp_seen",[]);if(seen.includes(h.m))return;seen.push(h.m);jset("hv_cp_seen",seen.slice(-12));celebrate(h)}

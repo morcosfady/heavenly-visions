@@ -178,7 +178,7 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;font-weight:700}
 </head>
 <body>
 <link rel="stylesheet" href="theme.css?v=1">
-<link rel="stylesheet" href="ds.css?v=3">
+<link rel="stylesheet" href="ds.css?v=4">
 
 <div id="intro" aria-label="Intro">
   <div class="intro-logo" id="introEnd"><img id="introLogo" alt="Heavenly Visions"><p>Learn · Play · Grow in Faith</p></div>
@@ -201,7 +201,9 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;font-weight:700}
 <script src="coloring.js?v=1"></script>
 <script src="servants.js?v=2"></script>
 <script src="church.js?v=1"></script>
-<script src="arena.js?v=1"></script>
+<script src="arena.js?v=2"></script>
+<script src="offline.js?v=1"></script>
+<script src="notify.js?v=1"></script>
 <script src="curriculum.js?v=1"></script>
 <script src="verses.js?v=1"></script>
 <script src="lessongames.js?v=1"></script>
@@ -349,7 +351,7 @@ function hub(){
   <div id="annbox"></div>
   ${window.hvToday?hvToday(v):`<div class="verse">“${esc(v[0])}”<cite>${v[1]}</cite></div>`}
   ${window.hvMoreDoors?hvMoreDoors():""}
-  <footer><button class="workshop" data-go="servants">🛠️ Servants Workshop</button></footer>`;
+  <footer><button class="workshop" data-go="servants">🛠️ Servants Workshop</button><div id="offchip"></div></footer>`;
   if(window.hvHomeInit)hvHomeInit();
 }
 function topbar(title,ic,sub,back="home"){
