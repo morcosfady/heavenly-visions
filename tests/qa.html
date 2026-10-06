@@ -12,11 +12,11 @@
     localStorage.setItem("hv_acct",JSON.stringify({user:c[u].user,token:c[u].token}));
     localStorage.setItem("hv_welcomed","1");localStorage.setItem("hv_intro_seen","1");localStorage.setItem("hv_notifs","[]")}catch(e){res.seed=String(e)}
   const f=document.createElement("iframe");f.style.cssText="width:"+w+"px;height:800px;border:0";
-  f.src="../index.html?api=http://localhost:8788&nointro=1#home";document.body.appendChild(f);
+  f.src="../index.html?api=http://localhost:8788&nointro=1&ai=http://localhost:8789#home";document.body.appendChild(f);
   await new Promise(r=>f.onload=r);
   const win=f.contentWindow,errs=[];win.addEventListener("error",e=>errs.push(String(e.message)));win.addEventListener("unhandledrejection",e=>errs.push("rej "+(e.reason&&e.reason.message||e.reason)));
   const oe=win.console.error;win.console.error=function(){errs.push("console "+[].slice.call(arguments).join(" ").slice(0,120));oe.apply(this,arguments)};
-  const routes=(q.get("r")||"home,media,m-kg,m-g3,l-kg-1.1,attendance,attsheet,servants,quizzes,bible,b-Genesis,b-Genesis-1,b-John-3,games,g-memory,g-scramble,verse,calendar,bedtime,coloring,color-ark,color-gallery,kids,report,planner,announce,news,followup,library,events,login,profile,join,builder,ai,ds").split(",");
+  const routes=(q.get("r")||"home,media,m-kg,m-g3,l-kg-1.1,attendance,attsheet,servants,quizzes,bible,b-Genesis,b-Genesis-1,b-John-3,games,g-memory,g-scramble,verse,calendar,bedtime,coloring,color-ark,color-gallery,kids,report,planner,announce,news,followup,library,events,login,profile,join,builder,ai,lumi-cards,ds").split(",");
   const sleep=ms=>new Promise(r=>setTimeout(r,ms));
   await sleep(2500);
   for(const r of routes){

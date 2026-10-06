@@ -1,0 +1,1547 @@
+[
+ {
+  "id": "bible-creation",
+  "title": "How did God make the world?",
+  "text": "In the beginning there was nothing, and God made everything. On the first day He said, \"Let there be light,\" and there was light. Then He made the sky, the sea and the dry land. He filled the land with plants and trees. He made the sun, the moon and the stars. He made fish for the sea and birds for the sky, and then animals on the land. On the sixth day God made people, Adam and Eve, and He loved them very much. God looked at everything and said it was very good. On the seventh day He rested. When you look at a flower or the stars, you can thank God who made them.",
+  "tags": [
+   "bible",
+   "creation",
+   "genesis"
+  ],
+  "kw": [
+   "creation",
+   "world",
+   "six days",
+   "god made",
+   "light",
+   "beginning",
+   "genesis"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "Genesis 1:1-2:3",
+  "links": [
+   "quiz-creation",
+   "l-kg-2.1",
+   "b-Genesis-1"
+  ],
+  "verse": {
+   "text": "In the beginning God created the heaven and the earth.",
+   "ref": "Genesis 1:1"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-adam-eve",
+  "title": "Adam and Eve in the garden",
+  "text": "God made Adam and Eve and put them in the beautiful Garden of Eden. They had everything they needed and they could talk with God. God asked them to obey one rule: do not eat the fruit of one special tree. But Eve and Adam listened to the serpent instead of God, and they ate it. They felt sorry and hid. God called, \"Where are you?\" because He still loved them. They had to leave the garden, but God did not forget them. He promised that one day a Savior would come. That Savior is Jesus Christ. This story teaches us to obey God, and to say sorry when we make a mistake.",
+  "tags": [
+   "bible",
+   "genesis",
+   "adam"
+  ],
+  "kw": [
+   "adam",
+   "eve",
+   "eden",
+   "garden",
+   "serpent",
+   "fruit",
+   "first people",
+   "fall"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "Genesis 2-3",
+  "links": [
+   "l-kg-7.1",
+   "l-prek-3.1",
+   "b-Genesis-3"
+  ],
+  "verse": {
+   "text": "And the LORD God called unto Adam, and said unto him, Where art thou?",
+   "ref": "Genesis 3:9"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-noah",
+  "title": "Noah and the ark",
+  "text": "Many people forgot God, but Noah loved Him and listened to Him. God told Noah to build a very big boat called an ark. Noah obeyed even though it took a long time. God told him to bring his family and two of every kind of animal into the ark. Then rain fell for many days and the earth was covered with water. Noah and everyone in the ark were safe because God took care of them. When the water went down, they came out. God put a rainbow in the sky and promised never to flood the whole earth again. When you see a rainbow, remember that God keeps His promises.",
+  "tags": [
+   "bible",
+   "genesis",
+   "noah"
+  ],
+  "kw": [
+   "noah",
+   "ark",
+   "flood",
+   "rainbow",
+   "animals",
+   "boat",
+   "two by two"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "Genesis 6-9",
+  "links": [
+   "l-prek-3.2",
+   "l-g3-1.4",
+   "b-Genesis-6"
+  ],
+  "verse": {
+   "text": "But Noah found grace in the eyes of the LORD.",
+   "ref": "Genesis 6:8"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-abraham",
+  "title": "Abraham trusts God",
+  "text": "Abraham was a man who trusted God completely. One day God told him to leave his home and go to a new land that God would show him. Abraham did not know the way, but he obeyed and took his wife Sarah and his family. God promised to make his family into a great nation, and that through his family all the world would be blessed. Abraham and Sarah waited many years, and in the end God gave them a son named Isaac. Abraham teaches us to trust God even when we cannot see the road ahead. The Church also remembers how Abraham welcomed three guests with kindness.",
+  "tags": [
+   "bible",
+   "genesis",
+   "abraham",
+   "prophet"
+  ],
+  "kw": [
+   "abraham",
+   "abram",
+   "sarah",
+   "isaac",
+   "promise",
+   "faith",
+   "father of faith"
+  ],
+  "level": "older",
+  "source": "Bible (KJV)",
+  "ref": "Genesis 12:1-4; 15:1-6; 18:1-15; 21:1-3",
+  "links": [
+   "l-prek-4.3",
+   "b-Genesis-12"
+  ],
+  "verse": {
+   "text": "And he believed in the LORD; and he counted it to him for righteousness.",
+   "ref": "Genesis 15:6"
+  },
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "bible-joseph",
+  "title": "Joseph and his brothers",
+  "text": "Joseph was the son of Jacob, and Jacob loved him very much. His brothers became jealous and sold him to travelers who took him to Egypt. Joseph was far from home, but God was with him. He worked hard and told the truth, even when it was hard. Later he helped Pharaoh, the king of Egypt, to save food for seven years when there would be no rain. When Joseph became a leader in Egypt, his hungry brothers came to him for food. Joseph could have been angry, but he forgave them and took care of his whole family. Joseph teaches us to forgive, and to trust that God can turn bad things into good.",
+  "tags": [
+   "bible",
+   "genesis",
+   "joseph",
+   "virtue"
+  ],
+  "kw": [
+   "joseph",
+   "brothers",
+   "egypt",
+   "coat",
+   "dreams",
+   "forgive",
+   "pharaoh",
+   "sold"
+  ],
+  "level": "older",
+  "source": "Bible (KJV)",
+  "ref": "Genesis 37; 39-45; 50:15-21",
+  "links": [
+   "l-kg-5.3",
+   "b-Genesis-37"
+  ],
+  "verse": {
+   "text": "But as for you, ye thought evil against me; but God meant it unto good.",
+   "ref": "Genesis 50:20"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-baby-moses",
+  "title": "Baby Moses in the basket",
+  "text": "The king of Egypt was unkind to God's people, the Israelites. A mother who loved her baby boy hid him for as long as she could. Then she made a little basket, put the baby inside, and placed it gently among the reeds by the river. His big sister Miriam stayed nearby to watch. The princess, the daughter of Pharaoh, came to the river and found the basket. She felt sorry for the baby and wanted to keep him. Miriam asked if she should find someone to care for him, and she brought the baby's own mother. The princess named him Moses. God took care of baby Moses, and He takes care of you too.",
+  "tags": [
+   "bible",
+   "exodus",
+   "moses",
+   "prophet"
+  ],
+  "kw": [
+   "moses",
+   "baby moses",
+   "basket",
+   "nile",
+   "river",
+   "miriam",
+   "princess",
+   "pharaoh"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "Exodus 1:22-2:10",
+  "links": [
+   "l-kg-1.3",
+   "b-Exodus-2"
+  ],
+  "verse": null,
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-burning-bush",
+  "title": "Moses and the burning bush",
+  "text": "When Moses grew up, he looked after sheep in the desert. One day he saw a bush that was on fire, but the fire did not burn it up. Moses came closer. God spoke to him from the bush and told him to take off his shoes because he was standing on holy ground. God said He had seen how His people were suffering in Egypt, and He would send Moses to lead them out. Moses felt shy and afraid, but God promised, \"I will be with you.\" The Church also sees the bush that burned but was not burned up as a sign of St. Mary, who carried God the Son and was not harmed.",
+  "tags": [
+   "bible",
+   "exodus",
+   "moses",
+   "mary"
+  ],
+  "kw": [
+   "burning bush",
+   "moses",
+   "fire",
+   "holy ground",
+   "shoes",
+   "i am",
+   "sinai"
+  ],
+  "level": "all",
+  "source": "Bible (KJV)",
+  "ref": "Exodus 3:1-15",
+  "links": [
+   "l-prek-4.6",
+   "b-Exodus-3"
+  ],
+  "verse": {
+   "text": "And God said unto Moses, I AM THAT I AM.",
+   "ref": "Exodus 3:14"
+  },
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "bible-red-sea",
+  "title": "Moses, Pharaoh and the Red Sea",
+  "text": "God sent Moses to ask Pharaoh to let the Israelites go free. Pharaoh said no again and again, so God showed His power with signs in Egypt. At last Pharaoh let the people go. They left in a hurry, but then Pharaoh changed his mind and his army chased them. The Israelites came to the Red Sea and were afraid. Moses told them not to be afraid. God opened a path through the sea, and the people walked across on dry ground with water like walls on both sides. They were safe on the other side, and they sang and thanked God. God rescues His people, and the Church sees the crossing as a sign of Baptism.",
+  "tags": [
+   "bible",
+   "exodus",
+   "moses"
+  ],
+  "kw": [
+   "red sea",
+   "moses",
+   "plagues",
+   "pharaoh",
+   "exodus",
+   "passover",
+   "crossing",
+   "freedom"
+  ],
+  "level": "older",
+  "source": "Bible (KJV)",
+  "ref": "Exodus 5-14",
+  "links": [
+   "l-kg-3.6",
+   "b-Exodus-14"
+  ],
+  "verse": {
+   "text": "The LORD shall fight for you, and ye shall hold your peace.",
+   "ref": "Exodus 14:14"
+  },
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "bible-commandments",
+  "title": "The Ten Commandments",
+  "text": "After God freed the Israelites, they traveled to Mount Sinai. Moses went up the mountain and God gave him the Ten Commandments, written on two stone tablets. The first commandments teach us to love God: worship only Him, honor His name and keep His day holy. The others teach us to love people: honor your father and mother, do not kill, do not steal, do not lie, and do not wish for what belongs to others. The commandments are God's gift to show us how to live well. Jesus said they come down to two things: love God with all your heart, and love your neighbor as yourself.",
+  "tags": [
+   "bible",
+   "exodus",
+   "moses",
+   "virtue"
+  ],
+  "kw": [
+   "ten commandments",
+   "commandments",
+   "laws",
+   "sinai",
+   "tablets",
+   "moses",
+   "rules"
+  ],
+  "level": "older",
+  "source": "Bible (KJV)",
+  "ref": "Exodus 20:1-17; Matthew 22:37-40",
+  "links": [
+   "l-g3-1.9",
+   "b-Exodus-20"
+  ],
+  "verse": {
+   "text": "Thou shalt have no other gods before me.",
+   "ref": "Exodus 20:3"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-david-goliath",
+  "title": "David and Goliath",
+  "text": "The Philistine army had a giant soldier named Goliath. Every day he shouted at God's people and everyone was afraid. David was only a young shepherd boy, but he trusted God. He had already protected his sheep from a lion and a bear with God's help. David said he would fight Goliath. The king offered his armor, but it was too big, so David took only his sling and five smooth stones. David told Goliath that he came in the name of the Lord. With one stone from his sling, David defeated the giant. Later David became king of Israel. Even when we feel small, God can help us do great things.",
+  "tags": [
+   "bible",
+   "prophet",
+   "david",
+   "1-samuel"
+  ],
+  "kw": [
+   "david",
+   "goliath",
+   "giant",
+   "sling",
+   "shepherd",
+   "stone",
+   "brave",
+   "philistine"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "1 Samuel 17",
+  "links": [
+   "l-g1-6.5",
+   "b-1 Samuel-17"
+  ],
+  "verse": {
+   "text": "the battle is the LORD's",
+   "ref": "1 Samuel 17:47"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-daniel",
+  "title": "Daniel in the lions' den",
+  "text": "Daniel loved God and prayed three times every day. Some men in the land of Babylon were jealous of him. They tricked the king, Darius, into making a rule that no one could pray to anyone but the king. Daniel kept praying to God anyway. The king was sad, but the rule had to be kept, and Daniel was put into a den full of lions. The king could not sleep all night. In the morning he hurried to the den and called out to Daniel. Daniel answered that God had sent His angel to shut the lions' mouths. Daniel was safe. We can be brave and keep praying, because God is always with us.",
+  "tags": [
+   "bible",
+   "prophet",
+   "daniel"
+  ],
+  "kw": [
+   "daniel",
+   "lions",
+   "lion den",
+   "lions den",
+   "darius",
+   "babylon",
+   "angel",
+   "prayer"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "Daniel 6",
+  "links": [
+   "quiz-daniel",
+   "b-Daniel-6"
+  ],
+  "verse": {
+   "text": "My God hath sent his angel, and hath shut the lions' mouths",
+   "ref": "Daniel 6:22"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-jonah",
+  "title": "Jonah and the big fish",
+  "text": "God asked Jonah to go to the city of Nineveh and tell the people to stop doing wrong. Jonah did not want to go, so he got on a ship going the other way. God sent a great storm. Jonah knew it was because of him, and he asked the sailors to throw him into the sea. The storm stopped. God sent a big fish to swallow Jonah, and he stayed inside for three days and three nights. Jonah prayed and said sorry, and the fish put him on dry land. This time Jonah obeyed and went to Nineveh. The people listened and turned back to God, and God forgave them. God is kind and forgives when we say sorry.",
+  "tags": [
+   "bible",
+   "prophet",
+   "jonah"
+  ],
+  "kw": [
+   "jonah",
+   "whale",
+   "big fish",
+   "nineveh",
+   "storm",
+   "three days",
+   "swallowed"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "Jonah 1-4",
+  "links": [
+   "l-kg-3.1S",
+   "b-Jonah-2"
+  ],
+  "verse": {
+   "text": "Salvation is of the LORD.",
+   "ref": "Jonah 2:9"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-esther",
+  "title": "Queen Esther",
+  "text": "Esther was a young Jewish woman who became queen of Persia. Her cousin Mordecai had raised her, and he told her to be careful and not to tell the king that she was Jewish. A proud man named Haman made a plan to harm the Jewish people. Mordecai asked Esther to speak to the king. It was dangerous to go to the king without being called, but Esther was brave. She asked the people to fast and pray for three days, and then she went to the king. God helped her, and the king listened and saved her people. Esther teaches us to pray, to be brave, and to help others when God gives us a chance.",
+  "tags": [
+   "bible",
+   "esther",
+   "prayer",
+   "fast"
+  ],
+  "kw": [
+   "esther",
+   "queen",
+   "mordecai",
+   "haman",
+   "persia",
+   "brave",
+   "purim",
+   "king"
+  ],
+  "level": "older",
+  "source": "Bible (KJV)",
+  "ref": "Esther 2-8",
+  "links": [
+   "l-g1-2.5",
+   "b-Esther-4"
+  ],
+  "verse": {
+   "text": "who knoweth whether thou art come to the kingdom for such a time as this?",
+   "ref": "Esther 4:14"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-nativity",
+  "title": "The angel visits Mary and Jesus is born",
+  "text": "In the town of Nazareth lived a young woman named Mary. The angel Gabriel came to her and said that God had chosen her to be the mother of Jesus, the Son of God. Mary was surprised, but she trusted God and said, \"Let it be to me according to your word.\" We call her the Theotokos, the Mother of God. Before Jesus was born, Mary and Joseph traveled to Bethlehem. There was no room for them at the inn, so Jesus was born in a stable and laid in a manger. Angels told shepherds nearby the good news, and the shepherds hurried to see the baby. Jesus is the Savior God sent to the world.",
+  "tags": [
+   "bible",
+   "jesus",
+   "mary",
+   "feast"
+  ],
+  "kw": [
+   "annunciation",
+   "gabriel",
+   "mary",
+   "birth of jesus",
+   "christmas",
+   "nativity",
+   "bethlehem",
+   "manger",
+   "shepherds"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "Luke 1:26-38; Luke 2:1-20",
+  "links": [
+   "quiz-stmary",
+   "l-kg-2.8S",
+   "l-prek-3.4",
+   "b-Luke-2"
+  ],
+  "verse": {
+   "text": "Behold the handmaid of the Lord; be it unto me according to thy word.",
+   "ref": "Luke 1:38"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-wise-men",
+  "title": "The wise men and the star",
+  "text": "After Jesus was born, wise men from the east saw a special star. They knew it meant that a great King had been born, so they traveled a long way to find Him. They went to Jerusalem and asked where the baby was. King Herod was jealous and wanted to harm the child, but the wise men did not tell him where Jesus was. The star led them to Bethlehem. When they saw Jesus with Mary His mother, they bowed down and worshiped Him. They gave Him gifts of gold, frankincense and myrrh. God warned them in a dream not to go back to Herod, so they went home another way.",
+  "tags": [
+   "bible",
+   "jesus",
+   "feast"
+  ],
+  "kw": [
+   "wise men",
+   "magi",
+   "star",
+   "gold",
+   "frankincense",
+   "myrrh",
+   "herod",
+   "three kings",
+   "epiphany"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "Matthew 2:1-12",
+  "links": [
+   "l-prek-3.5",
+   "b-Matthew-2"
+  ],
+  "verse": {
+   "text": "Where is he that is born King of the Jews? for we have seen his star in the east, and are come to worship him.",
+   "ref": "Matthew 2:2"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-baptism-jesus",
+  "title": "The baptism of Jesus",
+  "text": "When Jesus grew up, He went to the Jordan River where John the Baptist was baptizing people. Jesus asked John to baptize Him. John was surprised, but he did it. When Jesus came up out of the water, the heavens opened. The Holy Spirit came down on Jesus like a dove, and the voice of God the Father spoke from heaven, \"This is my beloved Son, in whom I am well pleased.\" In this one moment we see all three Persons of the Holy Trinity. The Church celebrates this on the Feast of Theophany, and it shows us that our own Baptism is a special gift from God.",
+  "tags": [
+   "bible",
+   "jesus",
+   "trinity",
+   "sacrament",
+   "feast"
+  ],
+  "kw": [
+   "baptism of jesus",
+   "jordan",
+   "john the baptist",
+   "dove",
+   "theophany",
+   "epiphany",
+   "holy spirit"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "Matthew 3:13-17",
+  "links": [
+   "l-prek-4.1",
+   "b-Matthew-3"
+  ],
+  "verse": {
+   "text": "This is my beloved Son, in whom I am well pleased.",
+   "ref": "Matthew 3:17"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-disciples",
+  "title": "Jesus calls His disciples",
+  "text": "One day Jesus was walking by the Sea of Galilee. He saw two brothers, Simon, who was later called Peter, and Andrew. They were fishermen casting their nets. Jesus said, \"Follow me, and I will make you fishers of men.\" They left their nets and followed Him right away. Jesus then called two more brothers, James and John, who were also fishermen. Later He chose twelve disciples, also called apostles, to be with Him and learn from Him. After the Resurrection, they went out and told the world about Jesus. They were ordinary people, and Jesus can use anyone who is willing to say yes when He calls.",
+  "tags": [
+   "bible",
+   "jesus",
+   "disciples",
+   "matthew"
+  ],
+  "kw": [
+   "disciples",
+   "apostles",
+   "twelve",
+   "peter",
+   "andrew",
+   "fishers of men",
+   "fishermen",
+   "follow me"
+  ],
+  "level": "older",
+  "source": "Bible (KJV)",
+  "ref": "Matthew 4:18-22; Luke 6:12-16",
+  "links": [
+   "b-Matthew-4"
+  ],
+  "verse": {
+   "text": "Follow me, and I will make you fishers of men.",
+   "ref": "Matthew 4:19"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-feeding-5000",
+  "title": "Jesus feeds the five thousand",
+  "text": "A very large crowd followed Jesus to hear Him teach, and the day grew late. The people were hungry. The disciples found one boy who had five small barley loaves and two little fish. Jesus took the boy's lunch, looked up to heaven and thanked God. Then He broke the bread and gave it to the disciples to share. Everyone ate until they were full, about five thousand men, besides women and children. Afterward the disciples gathered twelve baskets of leftovers. This miracle shows that Jesus cares when we are hungry, and that when we share what we have, God can make it enough.",
+  "tags": [
+   "bible",
+   "jesus",
+   "miracle"
+  ],
+  "kw": [
+   "feeding",
+   "5000",
+   "five thousand",
+   "loaves",
+   "fish",
+   "bread",
+   "miracle",
+   "lunch",
+   "baskets"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "John 6:1-14; Matthew 14:13-21",
+  "links": [
+   "b-John-6"
+  ],
+  "verse": {
+   "text": "I am the bread of life",
+   "ref": "John 6:35"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-calming-storm",
+  "title": "Jesus calms the storm",
+  "text": "One evening Jesus and His disciples got into a boat to cross the lake. Jesus was tired and fell asleep. Suddenly a big storm came, the waves were high and water filled the boat. The disciples were very scared and woke Jesus up. Jesus stood up and said to the wind and the sea, \"Peace, be still.\" At once the wind stopped and everything was calm. Jesus asked the disciples why they had so little faith. They were amazed that even the wind and the sea obey Him. When you are scared, you can pray, because Jesus is with you in every storm.",
+  "tags": [
+   "bible",
+   "jesus",
+   "miracle"
+  ],
+  "kw": [
+   "storm",
+   "calming the storm",
+   "boat",
+   "waves",
+   "peace be still",
+   "wind",
+   "sea",
+   "afraid"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "Mark 4:35-41",
+  "links": [
+   "l-g1-1.4",
+   "b-Mark-4"
+  ],
+  "verse": {
+   "text": "Peace, be still.",
+   "ref": "Mark 4:39"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-good-samaritan",
+  "title": "The good Samaritan",
+  "text": "Jesus told a story about a man who was hurt by robbers on the road and left on the ground. A priest walked past without helping. Another man from the temple saw him and also walked by. Then a Samaritan came. Samaritans and Jews did not usually get along, but this man stopped. He cleaned and bandaged the wounds, put the man on his own donkey, took him to an inn and paid for his care. Jesus asked who was a neighbor to the hurt man. The answer was, the one who showed mercy. Jesus told us to go and do the same. Our neighbor is anyone who needs our help.",
+  "tags": [
+   "bible",
+   "jesus",
+   "parable",
+   "virtue"
+  ],
+  "kw": [
+   "good samaritan",
+   "samaritan",
+   "neighbor",
+   "parable",
+   "helping",
+   "mercy",
+   "robbers",
+   "kindness"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "Luke 10:25-37",
+  "links": [
+   "l-prek-7.4",
+   "b-Luke-10"
+  ],
+  "verse": {
+   "text": "Go, and do thou likewise.",
+   "ref": "Luke 10:37"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-prodigal-son",
+  "title": "The prodigal son",
+  "text": "Jesus told a story about a father with two sons. The younger son asked for his share of the money, left home and spent it all on foolish things. Soon he was hungry and had nothing. He decided to go back home and say sorry. While he was still far away, his father saw him, ran to him and hugged him. The son said he was sorry, and the father welcomed him and gave a big party. The father in the story is like God. God is always ready to welcome us back when we say sorry. The Church remembers this story during the Great Lent season.",
+  "tags": [
+   "bible",
+   "jesus",
+   "parable",
+   "virtue"
+  ],
+  "kw": [
+   "prodigal son",
+   "lost son",
+   "father",
+   "forgiveness",
+   "parable",
+   "welcome home",
+   "repentance"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "Luke 15:11-32",
+  "links": [
+   "quiz-prodigal",
+   "l-kg-5.4",
+   "l-g1-4.1S",
+   "b-Luke-15"
+  ],
+  "verse": {
+   "text": "But when he was yet a great way off, his father saw him, and had compassion, and ran, and fell on his neck, and kissed him.",
+   "ref": "Luke 15:20"
+  },
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "bible-lost-sheep",
+  "title": "The lost sheep",
+  "text": "Jesus told a story about a shepherd with a hundred sheep. One day one sheep wandered away and got lost. The shepherd left the other ninety-nine and went to look for the lost one. He searched and searched until he found it. He was so happy that he put the sheep on his shoulders and carried it home. Then he called his friends and said, \"Rejoice with me, I have found my sheep!\" Jesus is the Good Shepherd, and we are His sheep. He loves every one of us, and when we are lost or sad He comes looking for us.",
+  "tags": [
+   "bible",
+   "jesus",
+   "parable"
+  ],
+  "kw": [
+   "lost sheep",
+   "shepherd",
+   "good shepherd",
+   "sheep",
+   "parable",
+   "found",
+   "lost"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "Luke 15:1-7",
+  "links": [
+   "l-kg-3.5",
+   "l-g1-4.5",
+   "b-Luke-15"
+  ],
+  "verse": {
+   "text": "Rejoice with me; for I have found my sheep which was lost.",
+   "ref": "Luke 15:6"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-last-supper",
+  "title": "The Last Supper",
+  "text": "On the night before His crucifixion, Jesus ate a special meal with His twelve disciples. During the meal He took bread, thanked God, broke it and gave it to them, saying it was His body. Then He took the cup of wine and said it was His blood, given for many. He told them to do this in remembrance of Him. The Church believes that Jesus gave us the Holy Eucharist at this supper, and we celebrate it in every Holy Liturgy. Jesus also washed His disciples' feet to show that those who love Him must serve others with humility. We remember this on Holy Thursday.",
+  "tags": [
+   "bible",
+   "jesus",
+   "sacrament",
+   "liturgy"
+  ],
+  "kw": [
+   "last supper",
+   "eucharist",
+   "communion",
+   "holy thursday",
+   "washing feet",
+   "bread",
+   "wine",
+   "upper room"
+  ],
+  "level": "older",
+  "source": "Bible (KJV)",
+  "ref": "Luke 22:14-20; John 13:1-15",
+  "links": [
+   "b-Luke-22"
+  ],
+  "verse": {
+   "text": "This is my body which is given for you: this do in remembrance of me.",
+   "ref": "Luke 22:19"
+  },
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "bible-resurrection",
+  "title": "Jesus dies on the cross and rises again",
+  "text": "Jesus loves us so much that He gave His life for us. On Good Friday He was nailed to the cross and He died, so that our sins could be forgiven. This is a very sad day, but it is also the day He saved us. His friends placed His body in a tomb. On the third day, early on Sunday morning, some women went to the tomb and found it empty. An angel told them, \"He is risen.\" Jesus appeared to His disciples and they were filled with joy. Jesus defeated death and gives us new life. We celebrate this every Sunday, and especially on the Feast of the Resurrection.",
+  "tags": [
+   "bible",
+   "jesus",
+   "feast"
+  ],
+  "kw": [
+   "crucifixion",
+   "cross",
+   "good friday",
+   "resurrection",
+   "easter",
+   "pascha",
+   "empty tomb",
+   "risen"
+  ],
+  "level": "older",
+  "source": "Bible (KJV)",
+  "ref": "Matthew 27:32-28:10; Luke 23-24",
+  "links": [
+   "l-g3-S.2",
+   "b-Matthew-28"
+  ],
+  "verse": {
+   "text": "He is not here: for he is risen, as he said.",
+   "ref": "Matthew 28:6"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-pentecost",
+  "title": "Pentecost: the Holy Spirit comes",
+  "text": "After Jesus rose from the dead and went up to heaven, He told His disciples to wait in Jerusalem for the gift of the Holy Spirit. They gathered together, with St. Mary and others, and prayed. On the day of Pentecost, a sound like a strong wind filled the house, and what looked like flames rested on each of them. They were filled with the Holy Spirit and began to speak in other languages, so people from many countries could hear about Jesus in their own language. That day about three thousand people were baptized. We call Pentecost the birthday of the Church.",
+  "tags": [
+   "bible",
+   "trinity",
+   "feast",
+   "acts"
+  ],
+  "kw": [
+   "pentecost",
+   "holy spirit",
+   "tongues",
+   "fire",
+   "upper room",
+   "birthday of the church",
+   "acts",
+   "disciples"
+  ],
+  "level": "all",
+  "source": "Bible (KJV)",
+  "ref": "Acts 2:1-41",
+  "links": [
+   "quiz-pentecost",
+   "l-g2-1.4",
+   "b-Acts-2"
+  ],
+  "verse": {
+   "text": "And they were all filled with the Holy Ghost, and began to speak with other tongues, as the Spirit gave them utterance.",
+   "ref": "Acts 2:4"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-paul",
+  "title": "The conversion of St. Paul",
+  "text": "Saul was a man who did not believe in Jesus, and he was unkind to the early Christians. One day he was traveling to the city of Damascus when a bright light from heaven shone around him and he fell to the ground. A voice said, \"Saul, Saul, why do you persecute me?\" It was Jesus. Saul could not see. His companions led him into the city, where a faithful man named Ananias prayed for him. Saul could see again, and he was baptized. He became Paul, a great apostle who traveled to many places and wrote letters that are now part of the New Testament. Jesus can change anyone's heart.",
+  "tags": [
+   "bible",
+   "saint",
+   "acts",
+   "paul"
+  ],
+  "kw": [
+   "paul",
+   "saul",
+   "damascus",
+   "conversion",
+   "apostle",
+   "ananias",
+   "blind",
+   "light"
+  ],
+  "level": "older",
+  "source": "Bible (KJV)",
+  "ref": "Acts 9:1-19",
+  "links": [
+   "l-g1-6.1S",
+   "b-Acts-9"
+  ],
+  "verse": {
+   "text": "Saul, Saul, why persecutest thou me?",
+   "ref": "Acts 9:4"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "word-theotokos",
+  "title": "What does Theotokos mean?",
+  "text": "Theotokos is a Greek word. It means \"God-bearer,\" or Mother of God. We use it for St. Mary, the Virgin Mary. We call her this because the child she carried and gave birth to is Jesus Christ, who is truly God and truly man. It is a title that honors Jesus first. The Church uses this name for St. Mary in many prayers and hymns. When you hear \"Theotokos\" in church, you can think of St. Mary as the mother who loved Jesus and cared for Him, and who also loves us and prays for us.",
+  "tags": [
+   "mary",
+   "church",
+   "jesus"
+  ],
+  "kw": [
+   "theotokos",
+   "mother of god",
+   "god bearer",
+   "virgin mary",
+   "st mary",
+   "tetokos",
+   "meaning"
+  ],
+  "level": "all",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "",
+  "links": [
+   "quiz-stmary",
+   "m-saints"
+  ],
+  "verse": null,
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "word-pascha",
+  "title": "What does Pascha mean?",
+  "text": "Pascha is a word from the old Jewish Passover, when God saved His people from Egypt. In the Church, Pascha means the great feast of the Resurrection, when Jesus passed from death to life and saved us from sin. We also call the Holy Week before the feast \"Pascha Week,\" when we remember the last days of Jesus: the Last Supper, His crucifixion and His burial. We pray long services and fast. Then comes the joyful night and day of the Resurrection, which is the most important feast of the Church year. Pascha reminds us that Jesus has won over death.",
+  "tags": [
+   "feast",
+   "jesus",
+   "church",
+   "calendar"
+  ],
+  "kw": [
+   "pascha",
+   "easter",
+   "resurrection",
+   "holy week",
+   "passover",
+   "great feast",
+   "paschal"
+  ],
+  "level": "older",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "",
+  "links": [
+   "m-feasts",
+   "calendar"
+  ],
+  "verse": null,
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "word-agpeya",
+  "title": "What is the Agpeya?",
+  "text": "The Agpeya is the Coptic Orthodox book of prayers. The word means \"the hours.\" It has prayers for different times of the day and night. Each prayer is called an hour, and it includes psalms, readings from the Gospel and short prayers. In the book we find the prayers of the morning, the third, sixth and ninth hours, sunset, bedtime and midnight. The prayers help us to talk with God throughout the day, like a friend we visit many times. Many Coptic families keep an Agpeya at home, and kids can start with the morning and bedtime prayers.",
+  "tags": [
+   "prayer",
+   "church",
+   "liturgy"
+  ],
+  "kw": [
+   "agpeya",
+   "agbia",
+   "book of hours",
+   "prayer book",
+   "hours",
+   "seven prayers",
+   "psalms"
+  ],
+  "level": "older",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "Agpeya",
+  "links": [
+   "l-g2-4.10",
+   "l-g4-1.5",
+   "bedtime"
+  ],
+  "verse": null,
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "word-hosanna",
+  "title": "What does Hosanna mean?",
+  "text": "Hosanna is a Hebrew word that means \"save us,\" and it also became a shout of joy and praise. On Palm Sunday, Jesus rode into Jerusalem on a donkey. Crowds spread branches and cloaks on the road and shouted \"Hosanna to the Son of David!\" They welcomed Him as their King. Today we sing Hosanna in the Church on Palm Sunday, holding palm leaves and crosses in a procession. It reminds us to welcome Jesus into our hearts with joy. He is the one who really saves us.",
+  "tags": [
+   "church",
+   "feast",
+   "jesus"
+  ],
+  "kw": [
+   "hosanna",
+   "palm sunday",
+   "palms",
+   "son of david",
+   "jerusalem",
+   "donkey",
+   "shout"
+  ],
+  "level": "all",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "Matthew 21:1-11",
+  "links": [
+   "m-feasts",
+   "b-Matthew-21"
+  ],
+  "verse": {
+   "text": "Hosanna to the Son of David: Blessed is he that cometh in the name of the Lord; Hosanna in the highest.",
+   "ref": "Matthew 21:9"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "word-alleluia",
+  "title": "What does Alleluia mean?",
+  "text": "Alleluia is a word from Hebrew that means \"praise the Lord.\" It is also written Hallelujah. It is a joyful word, and we use it to thank and praise God. In the Church we say or sing Alleluia many times during the Holy Liturgy and in the hymns. In the Psalms people call out Alleluia to praise God for His great love. When you sing Alleluia, you are joining the angels and saints in praising God, and you can sing it any time you feel happy and thankful.",
+  "tags": [
+   "church",
+   "prayer",
+   "liturgy"
+  ],
+  "kw": [
+   "alleluia",
+   "hallelujah",
+   "praise the lord",
+   "praise",
+   "psalm",
+   "hymn",
+   "sing"
+  ],
+  "level": "all",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "Psalm 146:1",
+  "links": [
+   "verse"
+  ],
+  "verse": {
+   "text": "Praise ye the LORD. Praise the LORD, O my soul.",
+   "ref": "Psalm 146:1"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "word-kyrie-eleison",
+  "title": "What does Kyrie eleison mean?",
+  "text": "Kyrie eleison is Greek. It means \"Lord, have mercy.\" In Coptic Orthodox services we say it often, as a short prayer that asks God for His kindness and help. We ask for mercy for ourselves, for our family, for the world and for the people who are sick or sad. We say it many times in a row in the Agpeya and in the Holy Liturgy. It is short and simple, and kids can pray it any time, quietly, when they need God's help or when they are worried.",
+  "tags": [
+   "prayer",
+   "church",
+   "liturgy"
+  ],
+  "kw": [
+   "kyrie eleison",
+   "kirie eleyson",
+   "lord have mercy",
+   "mercy",
+   "greek",
+   "short prayer"
+  ],
+  "level": "all",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "",
+  "links": [
+   "l-g4-1.5"
+  ],
+  "verse": null,
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "word-amen",
+  "title": "What does Amen mean?",
+  "text": "Amen is a Hebrew word that means \"so be it\" or \"truly.\" When we say Amen at the end of a prayer, we are agreeing with it and making it our own. In the Holy Liturgy, when the priest prays, the people answer \"Amen\" to say, \"Yes, we believe this and we pray it too.\" In the Coptic Church the people also say it in Coptic as \"Amin.\" Saying Amen helps all the people pray together as one body. Next time you say Amen, say it clearly and think about what you just prayed.",
+  "tags": [
+   "prayer",
+   "church",
+   "liturgy"
+  ],
+  "kw": [
+   "amen",
+   "amin",
+   "so be it",
+   "truly",
+   "end of prayer",
+   "meaning"
+  ],
+  "level": "all",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "",
+  "links": [
+   "verse"
+  ],
+  "verse": null,
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "word-iconostasis",
+  "title": "What does the word iconostasis mean?",
+  "text": "The iconostasis is a wall or screen of icons in front of the altar area in many Orthodox churches. In a Coptic church it is often called the iconostasis or the haykal screen, and it stands between the nave, where the people stand, and the haykal, where the altar is. The icons on it show Jesus, St. Mary, the saints and angels. The icons are like windows that remind us that heaven and earth are joined in worship. They are not just pictures: we honor and kiss the icons to show our love for those they show. In many churches the screen has a door in the middle that is opened during the Liturgy.",
+  "tags": [
+   "church",
+   "icon",
+   "liturgy"
+  ],
+  "kw": [
+   "iconostasis",
+   "icon screen",
+   "icons",
+   "haykal screen",
+   "altar",
+   "church wall",
+   "curtain"
+  ],
+  "level": "older",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "",
+  "links": [
+   "m-saints"
+  ],
+  "verse": null,
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "word-korban",
+  "title": "What is the Korban?",
+  "text": "Korban means \"offering.\" In the Coptic Church it is the special bread that is prepared for the Holy Liturgy. It is a small round loaf of bread with a cross on it, made with great care by people of the church, who say prayers while they work. During the Liturgy the priest offers the Korban on the altar together with the wine. Through the prayers and the work of the Holy Spirit they become the Body and Blood of Jesus Christ in Holy Communion. This is why the bread is treated with so much respect. It is a way that we give to God what He has first given to us.",
+  "tags": [
+   "liturgy",
+   "church",
+   "sacrament"
+  ],
+  "kw": [
+   "korban",
+   "qurbana",
+   "qorban",
+   "offering bread",
+   "bread",
+   "communion",
+   "holy bread",
+   "altar"
+  ],
+  "level": "older",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "",
+  "links": [
+   "m-feasts"
+  ],
+  "verse": null,
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "pray-lords-prayer",
+  "title": "The Lord's Prayer",
+  "text": "The Lord's Prayer is the prayer Jesus Himself taught His disciples. We pray it in the Agpeya, in the Holy Liturgy and every day. Here it is: \"Our Father which art in heaven, Hallowed be thy name. Thy kingdom come, Thy will be done in earth, as it is in heaven. Give us this day our daily bread. And forgive us our debts, as we forgive our debtors. And lead us not into temptation, but deliver us from evil: For thine is the kingdom, and the power, and the glory, for ever. Amen.\" In this prayer we praise God, ask for what we need and ask Him to forgive us.",
+  "tags": [
+   "prayer",
+   "jesus",
+   "bible"
+  ],
+  "kw": [
+   "lords prayer",
+   "our father",
+   "prayer jesus taught",
+   "pray",
+   "our father who art in heaven",
+   "matthew 6"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "Matthew 6:9-13",
+  "links": [
+   "l-prek-6.7",
+   "bedtime",
+   "b-Matthew-6"
+  ],
+  "verse": null,
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "pray-trisagion",
+  "title": "The Trisagion prayer",
+  "text": "The Trisagion means \"Thrice Holy,\" because we say \"holy\" three times. It is a short prayer that we pray many times in the Agpeya and the Holy Liturgy. It says: \"Holy God, Holy Mighty, Holy Immortal, who was crucified for us, have mercy on us.\" The three holies remind us of the Holy Trinity: the Father, the Son and the Holy Spirit. We also pray it with the angels, who praise God as holy day and night. When you are praying, you can say the Trisagion slowly to remember how great and kind God is.",
+  "tags": [
+   "prayer",
+   "trinity",
+   "liturgy"
+  ],
+  "kw": [
+   "trisagion",
+   "thrice holy",
+   "holy god holy mighty",
+   "qudsos",
+   "holy immortal",
+   "have mercy on us"
+  ],
+  "level": "all",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "Isaiah 6:3",
+  "links": [
+   "l-g4-1.5"
+  ],
+  "verse": null,
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "pray-psalm-23",
+  "title": "Psalm 23: The Lord is my shepherd",
+  "text": "Psalm 23 was written by King David, who had been a shepherd boy. It says that God takes care of us like a shepherd cares for his sheep. \"The LORD is my shepherd; I shall not want. He maketh me to lie down in green pastures: he leadeth me beside the still waters. He restoreth my soul: he leadeth me in the paths of righteousness for his name's sake. Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me. Thou preparest a table before me in the presence of mine enemies: thou anointest my head with oil; my cup runneth over. Surely goodness and mercy shall follow me all the days of my life: and I will dwell in the house of the LORD for ever.\"",
+  "tags": [
+   "prayer",
+   "bible",
+   "psalm",
+   "david"
+  ],
+  "kw": [
+   "psalm 23",
+   "shepherd",
+   "the lord is my shepherd",
+   "psalms",
+   "valley",
+   "green pastures",
+   "comfort"
+  ],
+  "level": "all",
+  "source": "Bible (KJV)",
+  "ref": "Psalm 23",
+  "links": [
+   "bedtime",
+   "b-Psalms-23"
+  ],
+  "verse": null,
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "pray-morning",
+  "title": "A simple morning prayer",
+  "text": "When we wake up, we can thank God for a new day. Here is a simple prayer you can say: \"Thank You, God, for this new day. Thank You for keeping me safe all night. Please be with me today, at home and at school. Help me to be kind, to tell the truth and to obey. Bless my family and my friends. Keep me in Your love. Amen.\" You can make the sign of the cross before you pray. Praying in the morning helps us remember that God is with us all day long. When you are older, you can learn the Agpeya morning prayer, called Prime.",
+  "tags": [
+   "prayer",
+   "virtue"
+  ],
+  "kw": [
+   "morning prayer",
+   "wake up",
+   "good morning",
+   "pray in the morning",
+   "start the day",
+   "prime"
+  ],
+  "level": "little",
+  "source": "Heavenly Visions app content",
+  "ref": "",
+  "links": [
+   "l-g2-4.10"
+  ],
+  "verse": null,
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "pray-evening",
+  "title": "A simple evening prayer",
+  "text": "At the end of the day, we can say thank you to God before we sleep. Here is a simple prayer: \"Thank You, Jesus, for today. Thank You for my family, my food and my friends. I am sorry for the things I did wrong today. Please forgive me and help me do better. Keep me safe while I sleep, and send Your angels to guard me. Bless everyone I love. Amen.\" You can make the sign of the cross and lie down in peace, knowing God watches over you. The Agpeya also has special prayers for sunset, bedtime and midnight when you are ready to learn them.",
+  "tags": [
+   "prayer",
+   "virtue"
+  ],
+  "kw": [
+   "evening prayer",
+   "night prayer",
+   "bedtime prayer",
+   "before bed",
+   "sleep",
+   "goodnight",
+   "angels"
+  ],
+  "level": "little",
+  "source": "Heavenly Visions app content",
+  "ref": "",
+  "links": [
+   "bedtime"
+  ],
+  "verse": null,
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "pray-meal",
+  "title": "A prayer before a meal",
+  "text": "Before we eat, we stop and thank God for our food. God gives us everything we have, and we say thank you just like we thank someone for a gift. Here is a simple prayer: \"Thank You, God, for this food. Thank You for the people who made it. Bless it and bless us. Help us to share with others who are hungry. Amen.\" The Church also has a grace prayer in the Agpeya for meals. We can make the sign of the cross before eating, and after the meal we say thank you again. Remember that many people in the world do not have enough food, so we pray for them as well.",
+  "tags": [
+   "prayer",
+   "virtue"
+  ],
+  "kw": [
+   "grace",
+   "prayer before meal",
+   "thank you for food",
+   "blessing food",
+   "dinner prayer",
+   "lunch",
+   "eat"
+  ],
+  "level": "little",
+  "source": "Heavenly Visions app content",
+  "ref": "",
+  "links": [
+   "l-g3-2.11"
+  ],
+  "verse": null,
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "pray-for-others",
+  "title": "A prayer for other people",
+  "text": "We can pray for other people, because God listens and loves them too. The Bible tells us to pray for each other. Here is a simple prayer: \"Lord Jesus, please bless my mom and dad, my family and my friends. Please help those who are sick and comfort those who are sad. Help people who are hungry or alone. Please take care of our priest, our Pope and our church. Help me to be a good friend to everyone. Amen.\" You can add the names of people you want to pray for. When we pray for others we show love, and it makes our own heart kinder.",
+  "tags": [
+   "prayer",
+   "virtue"
+  ],
+  "kw": [
+   "pray for others",
+   "intercession",
+   "pray for family",
+   "pray for friends",
+   "sick",
+   "help",
+   "bless"
+  ],
+  "level": "all",
+  "source": "Heavenly Visions app content",
+  "ref": "",
+  "links": [
+   "l-prek-6.4"
+  ],
+  "verse": null,
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "pray-agpeya-how",
+  "title": "How do we pray the Agpeya?",
+  "text": "When we pray the Agpeya, we stand, facing east, and make the sign of the cross. We start with the Thanksgiving Prayer. Then we pray the psalms that belong to that hour, and a short reading from the Gospel. After that we say \"Kyrie eleison\" (Lord, have mercy) many times and the Trisagion, and we pray the Lord's Prayer. Each hour ends with other short prayers and a blessing. We do not need to hurry. We can pray a little at a time, and if the book is long, a parent or a servant can help us. The Agpeya teaches us to talk to God throughout the day.",
+  "tags": [
+   "prayer",
+   "church",
+   "liturgy"
+  ],
+  "kw": [
+   "how to pray agpeya",
+   "agpeya",
+   "pray the hours",
+   "steps",
+   "psalms",
+   "sign of the cross",
+   "how to pray"
+  ],
+  "level": "older",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "Agpeya",
+  "links": [
+   "l-g2-4.10",
+   "l-g4-1.5"
+  ],
+  "verse": null,
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "pray-agpeya-hours",
+  "title": "When do we pray the Agpeya hours?",
+  "text": "The Agpeya has prayers for different times of the day. The first hour is Prime, in the morning, when we thank God for the new day. The third hour is Terce, in the middle of the morning, and we remember the Holy Spirit coming at Pentecost. The sixth hour is Sext, at noon, and we remember Jesus on the cross. The ninth hour is None, in the afternoon, and we remember Jesus giving His spirit. The eleventh hour is Vespers, at sunset, and we thank God for the day. The twelfth hour is Compline, at bedtime, and the Midnight prayers are for waiting for Jesus. You do not need to pray all of them at once. You can start with one or two.",
+  "tags": [
+   "prayer",
+   "church",
+   "liturgy"
+  ],
+  "kw": [
+   "agpeya hours",
+   "seven hours",
+   "prime",
+   "terce",
+   "sext",
+   "none",
+   "vespers",
+   "compline",
+   "midnight",
+   "times of prayer"
+  ],
+  "level": "older",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "Agpeya",
+  "links": [
+   "l-g2-4.10",
+   "l-g4-1.5"
+  ],
+  "verse": null,
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "virtue-love",
+  "title": "What does it mean to love like Jesus?",
+  "text": "Jesus said that the most important thing we can do is love God and love other people. His love is kind and gives. Jesus loved us so much that He died for us on the cross. We can love like Jesus when we share our toys and food, help a friend who is sad, listen to our parents and teachers, and are kind even to people who are not kind to us. Love is more than words, it is what we do. When we love others, we show them the love of God, and our hearts become full of joy.",
+  "tags": [
+   "virtue",
+   "jesus",
+   "bible"
+  ],
+  "kw": [
+   "love",
+   "love one another",
+   "loving",
+   "friends",
+   "new commandment",
+   "kind",
+   "care"
+  ],
+  "level": "all",
+  "source": "Bible (KJV)",
+  "ref": "John 13:34; 1 John 4:8",
+  "links": [
+   "l-prek-6.4"
+  ],
+  "verse": {
+   "text": "A new commandment I give unto you, That ye love one another; as I have loved you",
+   "ref": "John 13:34"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "virtue-kindness",
+  "title": "Being kind",
+  "text": "Being kind means treating other people the way we like to be treated. A kind person shares, says nice words, helps others and does not make fun of anyone. We can be kind at home, at school and at church. We can help a younger child, include someone who is alone, or say please and thank you. Kindness does not have to be big. Small things matter to God. Jesus was always kind to everyone, to children, to people who were sick, and even to people who were rude to Him. When we are kind, we become more like Jesus.",
+  "tags": [
+   "virtue",
+   "jesus"
+  ],
+  "kw": [
+   "kindness",
+   "kind",
+   "being nice",
+   "golden rule",
+   "share",
+   "help",
+   "nice words"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "Luke 6:31; Ephesians 4:32",
+  "links": [
+   "l-prek-7.4"
+  ],
+  "verse": {
+   "text": "And as ye would that men should do to you, do ye also to them likewise.",
+   "ref": "Luke 6:31"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "virtue-forgiveness",
+  "title": "Forgiving others",
+  "text": "To forgive means to let go of anger when someone hurts us, and to give them another chance. It can be hard, but Jesus teaches us to forgive. Jesus forgave the people who nailed Him to the cross. God forgives us when we are sorry, so we should forgive others too. In the Lord's Prayer we ask God to forgive us as we forgive others. Forgiving does not mean that what happened was okay. It means we choose peace over being angry. If we are hurt, we can tell a parent or a teacher, and we can pray for the person who hurt us.",
+  "tags": [
+   "virtue",
+   "jesus",
+   "prayer"
+  ],
+  "kw": [
+   "forgiveness",
+   "forgive",
+   "say sorry",
+   "sorry",
+   "anger",
+   "fight",
+   "apologize",
+   "peace"
+  ],
+  "level": "all",
+  "source": "Bible (KJV)",
+  "ref": "Ephesians 4:32; Matthew 6:12",
+  "links": [
+   "l-g2-3.2",
+   "l-kg-5.1",
+   "l-prek-5.6"
+  ],
+  "verse": {
+   "text": "And be ye kind one to another, tenderhearted, forgiving one another, even as God for Christ's sake hath forgiven you.",
+   "ref": "Ephesians 4:32"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "virtue-honesty",
+  "title": "Telling the truth",
+  "text": "Honesty means telling the truth, even when it is hard. God loves the truth, and Jesus is called the Truth. When we make a mistake, it is better to say what happened and say sorry than to lie. Lying can hurt people and breaks trust. Telling the truth makes our hearts light and makes people trust us. Being honest also means not cheating on a test or taking something that is not ours. If you made a mistake and feel afraid, you can pray and ask God for courage. Parents and teachers are usually happy when we are honest, even if we did something wrong.",
+  "tags": [
+   "virtue",
+   "bible"
+  ],
+  "kw": [
+   "honesty",
+   "honest",
+   "truth",
+   "lying",
+   "lie",
+   "cheat",
+   "tell the truth",
+   "steal"
+  ],
+  "level": "all",
+  "source": "Bible (KJV)",
+  "ref": "Proverbs 12:22; Ephesians 4:25",
+  "links": [
+   "l-g3-1.9"
+  ],
+  "verse": {
+   "text": "Lying lips are abomination to the LORD: but they that deal truly are his delight.",
+   "ref": "Proverbs 12:22"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "virtue-gratitude",
+  "title": "Saying thank you to God",
+  "text": "Gratitude means being thankful. Everything we have comes from God: our family, our food, our home, our friends, and even the air we breathe. When we say thank you to God, we remember how good He is. In the Holy Liturgy and in the Agpeya, we begin many prayers with thanksgiving. We can thank God every day when we wake up, before we eat and before we go to sleep. We can also thank people who help us, like parents, teachers and friends. A thankful heart is a happy heart, and it helps us not to complain.",
+  "tags": [
+   "virtue",
+   "prayer",
+   "bible"
+  ],
+  "kw": [
+   "gratitude",
+   "thankful",
+   "thank you",
+   "thanks",
+   "thanksgiving",
+   "grateful",
+   "blessings"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "1 Thessalonians 5:18",
+  "links": [
+   "l-g3-2.11"
+  ],
+  "verse": {
+   "text": "In every thing give thanks: for this is the will of God in Christ Jesus concerning you.",
+   "ref": "1 Thessalonians 5:18"
+  },
+  "verify": false,
+  "approved": false
+ }
+]

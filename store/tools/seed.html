@@ -9,6 +9,6 @@
     localStorage.setItem("hv_acct",JSON.stringify({user:c[u].user,token:c[u].token}));
     localStorage.setItem("hv_welcomed","1");localStorage.setItem("hv_intro_seen","1");
     localStorage.setItem("hv_verse",JSON.stringify({days:{}}));localStorage.setItem("hv_notifs","[]")}catch(e){}
-  location.replace("../../index.html?api=http://localhost:8788&nointro=1"+to);
+  location.replace("../../index.html?api=http://localhost:8788&nointro=1"+(q.get("ai")?"&ai="+encodeURIComponent(q.get("ai")):"")+to);
 })();
 </script></body></html>

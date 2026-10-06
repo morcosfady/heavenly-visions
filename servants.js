@@ -40,7 +40,7 @@ window.hvSvTools=function(){
   return `<div class="svtools"><button class="svt" style="--tc:var(--c-serv)" data-go="planner"><span>📝</span><b>Lesson Planner</b><small>Plan each Sunday</small></button>
    <button class="svt" style="--tc:var(--c-games)" data-go="announce"><span>📢</span><b>Announcements</b><small>Tell your class</small></button>
    <button class="svt" style="--tc:var(--c-kids)" data-go="followup"><span>📞</span><b>Follow up</b><small>Kids who missed</small></button>
-   <button class="svt" style="--tc:var(--c-church)" data-go="library"><span>📚</span><b>Library</b><small>Worksheets and links</small></button>${top?`<button class="svt" style="--tc:var(--c-cal)" data-go="events"><span>🎉</span><b>Events and trips</b><small>Add or change events</small></button>`:""}${window.hvAiTool?hvAiTool():""}${top?`
+   <button class="svt" style="--tc:var(--c-church)" data-go="library"><span>📚</span><b>Library</b><small>Worksheets and links</small></button>${top?`<button class="svt" style="--tc:var(--c-cal)" data-go="events"><span>🎉</span><b>Events and trips</b><small>Add or change events</small></button>`:""}${window.hvAiTool?hvAiTool():""}${window.hvLumiTool?hvLumiTool():""}${top?`
    <button class="svt" style="--tc:var(--c-church)" data-go="report"><span>📊</span><b>Monthly report</b><small>For Abouna</small></button>`:""}</div>`};
 
 function gate(title,ic,back){

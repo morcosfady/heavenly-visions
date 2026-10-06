@@ -7,7 +7,8 @@
    4. Deploy, New deployment, Web app, Execute as: Me, Who has access: Anyone. Approve the permission screen.
    5. Paste the new web app URL into AI_URL at the top of aihelper.js in the app, then push.
    Checks on every request: the caller must be an approved servant, coordinator, priest or master (asked from the games backend),
-   and has a daily limit per person and a daily limit for everyone. Nothing is stored except those two counters. */
+   and has a daily limit per person and a daily limit for everyone. Nothing is stored except those two counters.
+   Ask Lumi: the second file lumi.gs (same project) handles the actions that start with lumi_ (see lumi.gs). */
 var MAIN_URL = 'CHANGE_ME';
 var MODEL = 'claude-haiku-4-5-20251001';
 var PER_USER_PER_DAY = 8;
@@ -116,6 +117,7 @@ function doPost(e) {
   try {
     var u = who(b);
     if (!u) return out({ ok: false, error: 'denied' });
+    if (String(b.action || '').indexOf('lumi_') === 0) return out(lumiPost(b, u));
     var topic = clip(b.topic, 120);
     if (!topic && !clip(b.text, 10)) return out({ ok: false, error: 'missing' });
     var wanted = [];

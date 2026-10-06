@@ -13,6 +13,7 @@ const MSG={limit:"You used all your AI helps for today. Come back tomorrow.",bus
 const S={sel:{kahoot:true,verse:true,wordsearch:true}};
 const gradeId=g=>{const s=(typeof SECTIONS!=="undefined"?SECTIONS:[]).find(x=>x.name===g);return s?s.id:""};
 
+window.hvAiUrl=()=>AI_URL;
 window.hvAiTool=function(){return `<button class="svt" style="--tc:var(--c-kids)" data-go="ai"><span>✨</span><b>AI Helper</b><small>Make games fast</small></button>`};
 
 function page(){
