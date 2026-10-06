@@ -32,7 +32,9 @@ Lumi is a helper for Coptic Orthodox Sunday School kids. It may ONLY answer from
   - "Heavenly Visions kid summary of Coptic Orthodox teaching" for doctrine and church life explained in our own words.
   - "Heavenly Visions kid summary, Synaxarium style" for saint summaries written in our own words from the Coptic Synaxarium tradition.
   - "Heavenly Visions app content" for things already in this app (prayer texts in the Agpeya style that the app uses, lesson content).
-  Never copy sentences from copyrighted books or websites. Write in your own words.
+  - "St-Takla.org (our own words)" when you checked the card against a page of st-takla.org (the Coptic Orthodox site the owner approved as our main source). Then also fill `url` with the exact page address.
+  Never copy sentences from any book or website, even from St-Takla.org. Read the page, then write in your own words at a kid level. (St-Takla.org allows copying with a credit and a link, but our cards are short rewrites.)
+- `url`: optional. The exact https://st-takla.org/... page the card was checked against. Required when source is "St-Takla.org (our own words)".
 - `ref`: Bible reference(s) for Bible-based cards, or a short note such as "Synaxarium, 11 Tout" or "Agpeya, Prime". Empty string if none.
 - `links`: optional app routes that help the kid learn more. Valid routes: `quiz-<id>` (see the quiz list in index.html `QUIZZES`), `l-<grade>-<lesson>` (a lesson page, for example `l-kg-2.1`, see curriculum.js), `m-saints`, `m-feasts`, `calendar`, `verse`, `bible`, `b-<Book>-<chapter>` (for example `b-Genesis-6`), `games`, `bedtime`, `coloring`. Only use routes you checked exist. Leave `[]` if unsure.
 - `verse`: optional, a short KJV or WEB quote that fits the card with its reference, or null. Quote exactly. Only if you are sure of the wording.

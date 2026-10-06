@@ -217,7 +217,7 @@
    "sinai"
   ],
   "level": "all",
-  "source": "Bible (KJV)",
+  "source": "St-Takla.org (our own words)",
   "ref": "Exodus 3:1-15",
   "links": [
    "l-prek-4.6",
@@ -227,8 +227,9 @@
    "text": "And God said unto Moses, I AM THAT I AM.",
    "ref": "Exodus 3:14"
   },
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/books/en/pope-shenouda-iii/comparative-theology/mary-titles.html"
  },
  {
   "id": "bible-red-sea",
@@ -670,7 +671,7 @@
  {
   "id": "bible-prodigal-son",
   "title": "The prodigal son",
-  "text": "Jesus told a story about a father with two sons. The younger son asked for his share of the money, left home and spent it all on foolish things. Soon he was hungry and had nothing. He decided to go back home and say sorry. While he was still far away, his father saw him, ran to him and hugged him. The son said he was sorry, and the father welcomed him and gave a big party. The father in the story is like God. God is always ready to welcome us back when we say sorry. The Church remembers this story during the Great Lent season.",
+  "text": "Jesus told a story about a father with two sons. The younger son asked for his share of the money, left home and spent it all on foolish things. Soon he was hungry and had nothing. He decided to go back home and say sorry. While he was still far away, his father saw him, ran to him and hugged him. The son said he was sorry, and the father welcomed him and gave a big party. The father in the story is like God. God is always ready to welcome us back when we say sorry. The Church reads this story on one of the Sundays of Great Lent, as a picture of repentance and of the joy in heaven when someone comes back to God.",
   "tags": [
    "bible",
    "jesus",
@@ -687,7 +688,7 @@
    "repentance"
   ],
   "level": "little",
-  "source": "Bible (KJV)",
+  "source": "St-Takla.org (our own words)",
   "ref": "Luke 15:11-32",
   "links": [
    "quiz-prodigal",
@@ -699,8 +700,9 @@
    "text": "But when he was yet a great way off, his father saw him, and had compassion, and ran, and fell on his neck, and kissed him.",
    "ref": "Luke 15:20"
   },
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/Feastes-&-Special-Events/Great-Lent-Baskha/Coptic-El-Soom-Al-Kabir-09-Sundays-of-Great-Lent.html"
  },
  {
   "id": "bible-lost-sheep",
@@ -873,7 +875,7 @@
  {
   "id": "word-theotokos",
   "title": "What does Theotokos mean?",
-  "text": "Theotokos is a Greek word. It means \"God-bearer,\" or Mother of God. We use it for St. Mary, the Virgin Mary. We call her this because the child she carried and gave birth to is Jesus Christ, who is truly God and truly man. It is a title that honors Jesus first. The Church uses this name for St. Mary in many prayers and hymns. When you hear \"Theotokos\" in church, you can think of St. Mary as the mother who loved Jesus and cared for Him, and who also loves us and prays for us.",
+  "text": "Theotokos is a Greek word. \"Theo\" means God and \"tokos\" means one who bears, so it means \"she who bore God,\" or the Mother of God. The Church gives this title to St. Mary, the Virgin Mary, because the Child she carried and gave birth to is Jesus Christ, who is truly God and truly man. So the title is really about Jesus first. The Bible shows this when Elizabeth greeted Mary as \"the mother of my Lord\" (Luke 1:43). When you hear Theotokos in a hymn or prayer, remember that St. Mary is the mother who loved Jesus, and she is honored by the whole Church.",
   "tags": [
    "mary",
    "church",
@@ -889,20 +891,21 @@
    "meaning"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [
    "quiz-stmary",
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/books/en/pope-shenouda-iii/comparative-theology/mary-titles.html"
  },
  {
   "id": "word-pascha",
   "title": "What does Pascha mean?",
-  "text": "Pascha is a word from the old Jewish Passover, when God saved His people from Egypt. In the Church, Pascha means the great feast of the Resurrection, when Jesus passed from death to life and saved us from sin. We also call the Holy Week before the feast \"Pascha Week,\" when we remember the last days of Jesus: the Last Supper, His crucifixion and His burial. We pray long services and fast. Then comes the joyful night and day of the Resurrection, which is the most important feast of the Church year. Pascha reminds us that Jesus has won over death.",
+  "text": "Pascha comes from a Hebrew word that means Passover. Long ago, God saved His people from Egypt on the night of the Passover lamb. In the Church, Pascha is the name of Holy Week, when we remember how Jesus gave His life on the cross to save us and to lift us up to heaven. Holy Week has special services, and the church is quiet and serious. Orthodox Christians also use the word Pascha for the joyful feast of the Resurrection instead of the word Easter. Pascha reminds us that Jesus, our true Passover, saves us and brings us from sadness to joy.",
   "tags": [
    "feast",
    "jesus",
@@ -919,20 +922,21 @@
    "paschal"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [
    "m-feasts",
    "calendar"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/pasch-holy-week.html"
  },
  {
   "id": "word-agpeya",
   "title": "What is the Agpeya?",
-  "text": "The Agpeya is the Coptic Orthodox book of prayers. The word means \"the hours.\" It has prayers for different times of the day and night. Each prayer is called an hour, and it includes psalms, readings from the Gospel and short prayers. In the book we find the prayers of the morning, the third, sixth and ninth hours, sunset, bedtime and midnight. The prayers help us to talk with God throughout the day, like a friend we visit many times. Many Coptic families keep an Agpeya at home, and kids can start with the morning and bedtime prayers.",
+  "text": "The Agpeya is the Coptic Orthodox prayer book. Its name comes from a Coptic word that means \"hour,\" so it is often called the Book of Hours. It has seven prayer times: Prime in the morning, the Third, Sixth and Ninth hours during the day, the Eleventh hour at sunset, the Twelfth hour at bedtime, and the Midnight prayer. A special Veil prayer is for priests and monks. Each hour has psalms, a reading from the Gospel and short prayers, and each one reminds us of something Jesus did for us. The Agpeya helps us talk with God through the whole day, and kids can start with the morning and bedtime prayers.",
   "tags": [
    "prayer",
    "church",
@@ -948,7 +952,7 @@
    "psalms"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "Agpeya",
   "links": [
    "l-g2-4.10",
@@ -956,8 +960,9 @@
    "bedtime"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/Agpeya.html"
  },
  {
   "id": "word-hosanna",
@@ -994,7 +999,7 @@
  {
   "id": "word-alleluia",
   "title": "What does Alleluia mean?",
-  "text": "Alleluia is a word from Hebrew that means \"praise the Lord.\" It is also written Hallelujah. It is a joyful word, and we use it to thank and praise God. In the Church we say or sing Alleluia many times during the Holy Liturgy and in the hymns. In the Psalms people call out Alleluia to praise God for His great love. When you sing Alleluia, you are joining the angels and saints in praising God, and you can sing it any time you feel happy and thankful.",
+  "text": "Alleluia, also written Hallelujah, is a Hebrew word that means \"praise the Lord.\" It is a joyful word that we use to thank and praise God. In the Church we sing Alleluia in prayers, hymns and spiritual songs. The Bible shows that the angels and saints in heaven praise God with this same word (Revelation 19:1). So when we sing Alleluia in church, we join the heavenly creatures in their praise. In the Psalms, people also call out Alleluia to praise God for His great love. You can sing Alleluia any time you feel happy and thankful.",
   "tags": [
    "church",
    "prayer",
@@ -1010,7 +1015,7 @@
    "sing"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "Psalm 146:1",
   "links": [
    "verse"
@@ -1020,12 +1025,13 @@
    "ref": "Psalm 146:1"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/hallelujah.html"
  },
  {
   "id": "word-kyrie-eleison",
   "title": "What does Kyrie eleison mean?",
-  "text": "Kyrie eleison is Greek. It means \"Lord, have mercy.\" In Coptic Orthodox services we say it often, as a short prayer that asks God for His kindness and help. We ask for mercy for ourselves, for our family, for the world and for the people who are sick or sad. We say it many times in a row in the Agpeya and in the Holy Liturgy. It is short and simple, and kids can pray it any time, quietly, when they need God's help or when they are worried.",
+  "text": "Kyrie eleison is Greek. It means \"Lord, have mercy.\" It is a very old short prayer that the Church says or sings in worship. We say it again and again in the Agpeya, where each hour has it many times, and also in the Holy Liturgy. When we say it, we ask God for His kindness and help, for ourselves, for our family, for the sick and sad, and for the whole world. It is short and simple, so kids can pray it quietly any time, for example when they feel worried, when they have done something wrong, or when they know someone who needs help.",
   "tags": [
    "prayer",
    "church",
@@ -1040,19 +1046,20 @@
    "short prayer"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [
    "l-g4-1.5"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/kyrie-eleison.html"
  },
  {
   "id": "word-amen",
   "title": "What does Amen mean?",
-  "text": "Amen is a Hebrew word that means \"so be it\" or \"truly.\" When we say Amen at the end of a prayer, we are agreeing with it and making it our own. In the Holy Liturgy, when the priest prays, the people answer \"Amen\" to say, \"Yes, we believe this and we pray it too.\" In the Coptic Church the people also say it in Coptic as \"Amin.\" Saying Amen helps all the people pray together as one body. Next time you say Amen, say it clearly and think about what you just prayed.",
+  "text": "Amen is a word we say at the end of a prayer. It means \"so be it\" or \"let it be so.\" When we say Amen, we are agreeing with what was prayed and making the prayer our own. That is why people in church say it after prayers and blessings. Even though it is a tiny word, it is important, because it shows that we mean what we prayed and that we trust God to hear us. Next time you say Amen at the end of a prayer, say it clearly and slowly, and think about the words you just prayed. Amen helps all of us pray together.",
   "tags": [
    "prayer",
    "church",
@@ -1067,19 +1074,20 @@
    "meaning"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [
    "verse"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/amen.html"
  },
  {
   "id": "word-iconostasis",
   "title": "What does the word iconostasis mean?",
-  "text": "The iconostasis is a wall or screen of icons in front of the altar area in many Orthodox churches. In a Coptic church it is often called the iconostasis or the haykal screen, and it stands between the nave, where the people stand, and the haykal, where the altar is. The icons on it show Jesus, St. Mary, the saints and angels. The icons are like windows that remind us that heaven and earth are joined in worship. They are not just pictures: we honor and kiss the icons to show our love for those they show. In many churches the screen has a door in the middle that is opened during the Liturgy.",
+  "text": "The iconostasis is a wooden or marble stand that holds holy icons in a Coptic church. It stands in front of the altar area. It has three doors, and the middle one, called the Royal Door, leads to the main altar. On one side of the Royal Door we see the icon of our Lord Jesus, and on the other side the icon of St. Mary. More icons of saints and angels are placed around them. The icons remind us that the saints and the angels are with us when we praise God. They are not a wall that keeps people away. They help us remember Jesus and His friends while we pray.",
   "tags": [
    "church",
    "icon",
@@ -1095,19 +1103,20 @@
    "curtain"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/iconostasis-iconstand.html"
  },
  {
   "id": "word-korban",
   "title": "What is the Korban?",
-  "text": "Korban means \"offering.\" In the Coptic Church it is the special bread that is prepared for the Holy Liturgy. It is a small round loaf of bread with a cross on it, made with great care by people of the church, who say prayers while they work. During the Liturgy the priest offers the Korban on the altar together with the wine. Through the prayers and the work of the Holy Spirit they become the Body and Blood of Jesus Christ in Holy Communion. This is why the bread is treated with so much respect. It is a way that we give to God what He has first given to us.",
+  "text": "Korban means \"offering.\" It is the special bread that the church uses for the Holy Liturgy, also called the Eucharistic bread. It is a small round loaf made from fine wheat flour, water and yeast, with no salt. Before it is baked, it is stamped with a design. In the middle is a part called the Despatikon, which means \"lordly,\" with twelve crosses around it for the twelve apostles. It also has five small holes that remind us of the nails and the spear, and the word \"holy\" three times. In the Liturgy, this bread becomes the Body of Christ. That is why we treat it with great respect.",
   "tags": [
    "liturgy",
    "church",
@@ -1124,19 +1133,20 @@
    "altar"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/eucharistic-bread.html"
  },
  {
   "id": "pray-lords-prayer",
   "title": "The Lord's Prayer",
-  "text": "The Lord's Prayer is the prayer Jesus Himself taught His disciples. We pray it in the Agpeya, in the Holy Liturgy and every day. Here it is: \"Our Father which art in heaven, Hallowed be thy name. Thy kingdom come, Thy will be done in earth, as it is in heaven. Give us this day our daily bread. And forgive us our debts, as we forgive our debtors. And lead us not into temptation, but deliver us from evil: For thine is the kingdom, and the power, and the glory, for ever. Amen.\" In this prayer we praise God, ask for what we need and ask Him to forgive us.",
+  "text": "The Lord's Prayer is the prayer Jesus Himself taught His disciples. We pray it in the Agpeya, in the Holy Liturgy and every day. In the Coptic Church we say it like this: \"Our Father who art in heaven, hallowed be Thy name. Thy kingdom come. Thy will be done on earth as it is in heaven. Give us this day our daily bread. And forgive us our trespasses, as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil, in Christ Jesus our Lord. For Thine is the kingdom, the power and the glory, forever. Amen.\" In this prayer we praise God, ask for what we need and ask Him to forgive us.",
   "tags": [
    "prayer",
    "jesus",
@@ -1151,7 +1161,7 @@
    "matthew 6"
   ],
   "level": "little",
-  "source": "Bible (KJV)",
+  "source": "St-Takla.org (our own words)",
   "ref": "Matthew 6:9-13",
   "links": [
    "l-prek-6.7",
@@ -1160,12 +1170,13 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "url": "https://st-takla.org/Prayers-Slawat/Pray-Archive-01-10/Coptic-Prayer-01-The-Lords-Prayer.html"
  },
  {
   "id": "pray-trisagion",
   "title": "The Trisagion prayer",
-  "text": "The Trisagion means \"Thrice Holy,\" because we say \"holy\" three times. It is a short prayer that we pray many times in the Agpeya and the Holy Liturgy. It says: \"Holy God, Holy Mighty, Holy Immortal, who was crucified for us, have mercy on us.\" The three holies remind us of the Holy Trinity: the Father, the Son and the Holy Spirit. We also pray it with the angels, who praise God as holy day and night. When you are praying, you can say the Trisagion slowly to remember how great and kind God is.",
+  "text": "The Trisagion is a Greek word that means \"Thrice Holy,\" because we say \"holy\" three times. It is a short hymn that the Church sings and prays in its services, and it is chanted in all our liturgies. We say: \"Holy God, Holy Mighty, Holy Immortal, who was crucified for us, have mercy on us.\" In the Coptic Church, the whole hymn is a prayer to Jesus Christ. The three holies also remind us of the Holy Trinity, the Father, the Son and the Holy Spirit, and we join the angels in praising God as holy. When you pray, you can say the Trisagion slowly to remember how great and kind God is.",
   "tags": [
    "prayer",
    "trinity",
@@ -1180,14 +1191,15 @@
    "have mercy on us"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "Isaiah 6:3",
   "links": [
    "l-g4-1.5"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/trisagion.html"
  },
  {
   "id": "pray-psalm-23",
@@ -1329,7 +1341,7 @@
  {
   "id": "pray-agpeya-how",
   "title": "How do we pray the Agpeya?",
-  "text": "When we pray the Agpeya, we stand, facing east, and make the sign of the cross. We start with the Thanksgiving Prayer. Then we pray the psalms that belong to that hour, and a short reading from the Gospel. After that we say \"Kyrie eleison\" (Lord, have mercy) many times and the Trisagion, and we pray the Lord's Prayer. Each hour ends with other short prayers and a blessing. We do not need to hurry. We can pray a little at a time, and if the book is long, a parent or a servant can help us. The Agpeya teaches us to talk to God throughout the day.",
+  "text": "Each hour of the Agpeya follows a pattern, so it becomes easy to learn. We begin with an introduction that includes the Lord's Prayer, then the Prayer of Thanksgiving and Psalm 50, which asks God for mercy. After that we pray the psalms for that hour and a short reading from the Gospel. Then come short prayers for the needs of the world, and we say \"Lord, have mercy\" forty-one times. The hour ends with more short prayers. We do not need to hurry. We can pray a little at a time, and a parent or a servant can help us find the place in the book. The Agpeya teaches us to talk to God all through the day.",
   "tags": [
    "prayer",
    "church",
@@ -1345,20 +1357,21 @@
    "how to pray"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "Agpeya",
   "links": [
    "l-g2-4.10",
    "l-g4-1.5"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/Agpeya.html"
  },
  {
   "id": "pray-agpeya-hours",
   "title": "When do we pray the Agpeya hours?",
-  "text": "The Agpeya has prayers for different times of the day. The first hour is Prime, in the morning, when we thank God for the new day. The third hour is Terce, in the middle of the morning, and we remember the Holy Spirit coming at Pentecost. The sixth hour is Sext, at noon, and we remember Jesus on the cross. The ninth hour is None, in the afternoon, and we remember Jesus giving His spirit. The eleventh hour is Vespers, at sunset, and we thank God for the day. The twelfth hour is Compline, at bedtime, and the Midnight prayers are for waiting for Jesus. You do not need to pray all of them at once. You can start with one or two.",
+  "text": "The Agpeya has prayers for seven times in the day and night. Prime, the first hour, is at about 6 in the morning, and it celebrates the Resurrection and the new light. The Third hour, about 9 in the morning, remembers the Holy Spirit coming down on the apostles. The Sixth hour, at noon, remembers Jesus on the cross. The Ninth hour, about 3 in the afternoon, remembers Jesus dying for us and the thief who repented. The Eleventh hour, at sunset, remembers Jesus' body being taken down from the cross. The Twelfth hour, at bedtime, remembers His burial. The Midnight prayer reminds us that Jesus will come again. You can start with one or two hours.",
   "tags": [
    "prayer",
    "church",
@@ -1377,15 +1390,16 @@
    "times of prayer"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "Agpeya",
   "links": [
    "l-g2-4.10",
    "l-g4-1.5"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/Agpeya.html"
  },
  {
   "id": "virtue-love",
@@ -1769,7 +1783,7 @@
  {
   "id": "sac-chrismation",
   "title": "Chrismation (Holy Myron)",
-  "text": "Right after baptism, the priest anoints the newly baptized person with the holy oil called Myron, also called chrism. He makes the sign of the cross with the oil on many parts of the body, like the forehead, hands and feet, and he prays. This is the sacrament of Chrismation, and it is how we receive the gift of the Holy Spirit. The Holy Myron is very special. It is made and blessed by the Pope together with the bishops, and it is only made once in a long while. We receive Chrismation one time, just like baptism. It seals us as God's own children so the Holy Spirit lives in us.",
+  "text": "Right after baptism comes the sacrament of Chrismation. The priest anoints the newly baptized person with the Holy Myron, a special blessed oil. The Myron is made from olive oil mixed with sweet spices, and the Church also uses it in baptism and when a church building or its holy vessels are blessed. Through this anointing we receive the Holy Spirit living in us. It also strengthens us, and after it we have the right to receive Holy Communion. The Church has used holy anointing oil since the Old Testament, when God told Moses to prepare it for priests and kings. Chrismation is received one time, just like baptism. Ask Abouna if you would like to know more about how it is made.",
   "tags": [
    "sacrament",
    "trinity"
@@ -1784,12 +1798,13 @@
    "seal"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "1 John 2:20",
   "links": [],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/chrism-myron.html"
  },
  {
   "id": "sac-confession",
@@ -1906,7 +1921,7 @@
  {
   "id": "sac-unction",
   "title": "Unction of the Sick",
-  "text": "The sacrament of the Unction of the Sick is for people who are ill. The priests pray over a blessed oil and anoint the sick person with it, asking God to heal their body and soul and forgive their sins. In the Coptic Church the prayer is traditionally done by several priests together, often seven, and it uses readings from the Bible. The Church teaches that God can give healing, comfort or peace, and we trust His love in every case. If someone in your family is sick, you can ask Abouna to visit and pray. Kids can pray for the sick too, and send them a kind card or a call.",
+  "text": "The sacrament of the Unction of the Sick is for people who are ill. The priest prays over blessed oil and anoints the sick person with it, and the family prays together with him. We ask God to heal the person in body and soul and to forgive their sins. This comes from the letter of St. James, who told the sick to call for the priests of the church to pray and anoint with oil in the name of the Lord. In this sacrament seven lamps are lit during the prayers. The Church teaches that God is the One who gives the cure, and we trust His love in every case. If someone in your family is sick, you can ask Abouna to visit and pray. Kids can pray for the sick too, and send them a kind card or a call.",
   "tags": [
    "sacrament",
    "prayer"
@@ -1922,12 +1937,13 @@
    "pray for sick"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "James 5:14-15",
   "links": [],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/unction-of-the-sick.html"
  },
  {
   "id": "church-liturgy-what",
@@ -2038,7 +2054,7 @@
  {
   "id": "church-haykal",
   "title": "What is the Haykal?",
-  "text": "The Haykal is the sanctuary, the most holy part of the church, at the east end behind the iconostasis. It is the place where the altar stands and where the priest and deacons serve the Holy Liturgy. It reminds us of heaven. Only the clergy and those who have blessings to serve there, such as ordained deacons, enter it, and they take off their shoes out of respect, like Moses on holy ground at the burning bush. The word haykal comes from the word for temple. We do not enter the Haykal unless Abouna says it is okay, because it is a very holy place.",
+  "text": "The Haykal is the sanctuary, the most holy part of the church. It is where the altar stands, and it is where the priest and deacons serve the Holy Liturgy. The Haykal reminds us of heaven, where God's throne is. Because it is so holy, only the clergy and those who have a blessing to serve there go in, and we do not enter the Haykal unless Abouna says it is okay. Moses once had to take off his shoes because he stood on holy ground, and this reminds us to be very respectful in holy places. When the curtain opens during the Liturgy, we stay still and look toward the altar with love.",
   "tags": [
    "church",
    "liturgy"
@@ -2053,17 +2069,18 @@
    "altar room"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "Exodus 3:5",
   "links": [],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/sanctuary.html"
  },
  {
   "id": "church-iconostasis",
   "title": "What is the iconostasis?",
-  "text": "The iconostasis is the wall of icons that stands between the nave and the Haykal. Its name means a stand for icons. On it you will see icons of Jesus, the Virgin Mary, angels, and saints, often with doors in the middle. It does not block us from God. It teaches us that the saints and angels are praying with us, and it shows the holy place beyond. During parts of the Liturgy the curtains or doors are opened, and we see the altar. In many Coptic churches the iconostasis is a beautiful wall with carved wood and paintings. You can look at the icons and say a little prayer to each saint.",
+  "text": "The iconostasis is the stand of icons in front of the Haykal. Its name means a stand for icons, and it is made of wood or marble. It has three doors, and the middle one is called the Royal Door, which leads to the altar. On one side of the Royal Door you will see the icon of Jesus Christ, and on the other side the icon of the Virgin Mary. There are also icons of angels and saints. The iconostasis does not shut us out from God. It reminds us that the saints and heavenly creatures are with us, joining us in praising God. You can look at the icons and say a little prayer to each saint.",
   "tags": [
    "church",
    "icon"
@@ -2078,17 +2095,18 @@
    "partition"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/iconostasis-iconstand.html"
  },
  {
   "id": "church-altar",
   "title": "The altar",
-  "text": "The altar is the holy table in the middle of the Haykal. It is the most important place in the church, because this is where the bread and wine become the Body and Blood of Jesus during the Holy Liturgy. It is covered with a special cloth, and it holds the cross, the Gospel and the holy vessels. It reminds us of the table of the Last Supper and also of the tomb and the cross where Jesus offered Himself for us. Only the priest and the deacons come near it. Many churches also have more than one altar, but a priest serves the Liturgy on only one altar each day.",
+  "text": "The altar is the holy table in the middle of the Haykal, the sanctuary. It is the most important place in the church, because this is where the Holy Sacrifice is offered, and the bread and wine become the Body and Blood of Jesus during the Holy Liturgy. Four pillars stand around it with a little dome above, called a canopy. The altar reminds us of the tomb of the Lord Jesus Christ, where His body was laid, and it also reminds us of the cross where He gave Himself for us. Because it is so holy, we treat it with great respect, and we only go near it when Abouna says it is okay.",
   "tags": [
    "church",
    "liturgy",
@@ -2104,12 +2122,13 @@
    "cloth"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/altar.html"
  },
  {
   "id": "church-domes-cross",
@@ -2139,7 +2158,7 @@
  {
   "id": "church-icons",
   "title": "Why do we have icons?",
-  "text": "Icons are holy pictures of Jesus, the Virgin Mary, the angels and the saints. We do not worship them. We worship only God. We kiss them and light candles in front of them to show love and respect, like kissing a photo of someone we love. Icons are also like windows to heaven, helping us remember the saints and their stories, and reminding us that they are alive in Christ and pray for us. They are not just art. Icons are painted with prayer and in a special style, with a gold halo around the heads of the holy ones. Every Coptic home has an icon corner or a few icons.",
+  "text": "Icons are holy pictures of Jesus, the Virgin Mary, the angels and the saints. We do not worship icons. We worship only God. We honor the icons, which is a way of honoring the ones they show, like kissing a photo of someone we love. The icons around us remind us that the saints and the heavenly beings are with us, joining us in praising God, and that the saints are alive in Christ and pray for us. Icons help us remember their stories. In church you will see icons on the iconostasis and in many places on the walls. You can look at them and say a little prayer to each saint.",
   "tags": [
    "icon",
    "saint",
@@ -2156,17 +2175,18 @@
    "paintings"
   ],
   "level": "little",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "url": "https://st-takla.org/books/en/pope-shenouda-iii/comparative-theology/icons.html"
  },
  {
   "id": "church-incense",
   "title": "Why do we use incense?",
-  "text": "We use incense in church because it is a sign of prayer going up to God. The Bible speaks of prayers rising like incense, and in the Old Testament God asked His people to burn incense in the temple. The priest holds the censer, which is a small metal pot on chains with little bells, and the sweet smoke fills the church. It reminds us of the presence of God and of the sweet smell of prayers. The deacons and the priest cense the altar, the icons, the Gospel and the people. The three chains remind some people of the Trinity. In the Agpeya, some prayers are said with incense too.",
+  "text": "We use incense in church because it is a sign of prayer going up to God. Incense is a sweet mixture of gums, resin and spices that is burned in worship. The Psalms say, Let my prayer be set before You as incense. In the Old Testament, incense was burned in the temple, and in the Book of Revelation the heavenly priests hold golden censers full of incense. The censer is the metal container that holds the burning coals, and the priest and deacons use it to cense the altar, the icons and the people. As the little pieces of incense burn and give off their sweet smell, they remind us to give ourselves to God in prayer.",
   "tags": [
    "church",
    "prayer",
@@ -2183,12 +2203,13 @@
    "cense"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
-  "ref": "Revelation 8:3-4; Exodus 30:7",
+  "source": "St-Takla.org (our own words)",
+  "ref": "Psalm 141:2; Revelation 5:8",
   "links": [],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/incense.html"
  },
  {
   "id": "church-candles",
@@ -2220,7 +2241,7 @@
  {
   "id": "pray-sign-of-cross",
   "title": "The sign of the cross",
-  "text": "The sign of the cross is a prayer we make with our hand. We touch our forehead, then our chest, then our right shoulder and then our left shoulder, while saying, In the name of the Father, and the Son, and the Holy Spirit, one God. Amen. We remember that Jesus died on the cross for us, and we say we belong to the Holy Trinity. In the Coptic Church we make the sign of the cross with the right hand, going from right to left across the shoulders. We make it when we begin to pray, when we eat, when we pass a church, before a test and when we are afraid. It is a small way to ask for God's help.",
+  "text": "The sign of the cross is a prayer we make with our hand. We touch our forehead and our chest, and then we cross over our shoulders, while saying, In the name of the Father, and the Son, and the Holy Spirit, one God. Amen. We remember that Jesus died on the cross for us, and we say that we belong to the Holy Trinity. We make it when we begin to pray, when we eat, when we pass a church, before a test and when we are afraid. It is a small way to ask for God's help. Ask Abouna or a servant to show you how to make it, and they will help you practice.",
   "tags": [
    "prayer",
    "trinity",
@@ -2328,7 +2349,7 @@
  {
   "id": "church-bishop-pope",
   "title": "Bishops and the Pope",
-  "text": "A bishop is the leader of a diocese, which is a group of churches in one region. Bishops are the successors of the apostles, and they ordain priests and deacons, bless the holy oil together and take care of the church. In our church many bishops are monks who gave up the world to live a life of prayer. Above them, the Pope is the head of the whole Coptic Orthodox Church. He is the bishop of Alexandria and the Pope of Alexandria and the Patriarch of the See of St. Mark. He is chosen by the church and ordained as the successor of St. Mark, and we pray for him by name in the Liturgy.",
+  "text": "A bishop is the leader of a diocese, which is a group of churches in one region, and priests serve under their bishop. Above the bishops, the Pope of Alexandria is the head of the whole Coptic Orthodox Church. His title is the Pope of Alexandria and Patriarch of the See of St. Mark, and he is the successor of St. Mark, who founded our church. The word patriarch means a father and a leader. In the earliest times the head of the church was the bishop of Alexandria, who was called Pope, a word that also means father. We pray for our Pope and our bishops by name, and we ask Abouna to teach us more about how the church is led.",
   "tags": [
    "church",
    "history"
@@ -2344,17 +2365,18 @@
    "who leads"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/Coptic-church-1.html"
  },
  {
   "id": "hist-pope-alexandria",
   "title": "Who is the Pope of Alexandria?",
-  "text": "The Pope of Alexandria is the spiritual father and the head of the Coptic Orthodox Church. His full title is the Pope of Alexandria and Patriarch of the See of St. Mark. He lives in Egypt, where the Church began, and he takes care of Coptic Christians in Egypt and all over the world, including here. He leads the bishops, visits churches and prays for the people. When he visits a church, there is a big celebration, and people sing and ask for his blessing. We remember him in our prayers, and we ask God to keep him safe and wise. You can ask Abouna for the name of the current Pope.",
+  "text": "The Pope of Alexandria is the spiritual father and the head of the Coptic Orthodox Church. His title is the Pope of Alexandria and Patriarch of the See of St. Mark, because he is the successor of St. Mark, who founded our church in Egypt. The word pope means father, and the word patriarch means a father and a leader. He leads the bishops, and the bishops and priests serve under his care. We remember him in our prayers, and we ask God to keep him safe and wise. You can ask Abouna for the name of the current Pope.",
   "tags": [
    "church",
    "history"
@@ -2370,17 +2392,18 @@
    "who is the pope"
   ],
   "level": "little",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/Coptic-church-1.html"
  },
  {
   "id": "hist-st-mark",
   "title": "St. Mark the Apostle, founder of our church",
-  "text": "St. Mark the Apostle brought the Gospel to Egypt and founded the Church of Alexandria, which is why we are called the Church of St. Mark. He wrote the Gospel of Mark, and tradition tells us that he was one of the seventy apostles, and a helper to St. Peter. The Church teaches that he came to Alexandria, preached about Jesus, and many people believed and were baptized. He became the first Pope of Alexandria, and tradition says he died as a martyr in Alexandria. His story is told in our church tradition, and we honor him as our founder. We thank God for St. Mark and ask for his prayers.",
+  "text": "St. Mark the Apostle brought the Gospel to Egypt and founded the Church of Alexandria, which is why we are called the Church of St. Mark. He wrote the Gospel of Mark, and our Church counts him among the seventy apostles. He also helped other apostles like St. Peter, St. Paul and St. Barnabas. In Alexandria he preached about Jesus, and many people believed and were baptized. He became the first Pope of Alexandria, and he is remembered as a martyr who gave his life for Jesus there. His martyrdom is remembered in the Church on 30 Baramoudah. We thank God for St. Mark and ask for his prayers.",
   "tags": [
    "saint",
    "history",
@@ -2398,19 +2421,20 @@
    "mar morqos"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/books/en/church/synaxarium/08-bermodah/30-baramouda-mark.html"
  },
  {
   "id": "pray-agpeya",
   "title": "The Agpeya and the seven prayers",
-  "text": "The Agpeya is the Coptic book of the hours. It is our prayer book with the prayers for seven times in the day: Prime in the morning, Terce at the third hour, Sext at the sixth hour, None at the ninth hour, Vespers at sunset, Compline before bed, and the Midnight prayer. The Psalms are the main part of each, with a Gospel reading and short prayers. The book comes from the words of David who said that he praised God seven times a day. A good start for a child is to pray Prime in the morning and Compline before bed. You do not have to pray all seven at once. Start small and grow slowly.",
+  "text": "The Agpeya is the Coptic book of the hours. It is our prayer book for seven times in the day, plus a Midnight prayer: Prime in the morning, Terce at the third hour, Sext at the sixth hour, None at the ninth hour, Vespers in the evening, and Compline before bed. Each hour remembers a moment in the life and suffering of Jesus, for example Prime remembers the Resurrection. Every hour has Psalms, a reading from the Gospel and short prayers. The idea of praying seven times a day comes from the Psalm that says, Seven times a day do I praise thee. A good start for a child is to pray Prime in the morning and Compline before bed. You do not have to pray all of them at once. Start small and grow slowly.",
   "tags": [
    "prayer",
    "bible"
@@ -2429,15 +2453,16 @@
    "prayer book"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "Psalm 119:164",
   "links": [],
   "verse": {
    "text": "Seven times a day do I praise thee",
    "ref": "Psalm 119:164"
   },
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/canonical-hours-agbia.html"
  },
  {
   "id": "pray-how-to-pray",
@@ -2473,7 +2498,7 @@
  {
   "id": "fast-basics",
   "title": "What is fasting and why do we fast?",
-  "text": "Fasting means going without some food, or not eating for a period of time, to grow closer to God. It is not a punishment and it is not a diet. We fast to train our body and our heart to say no to what we want and to focus on prayer, so that we can be strong against sin. Fasting also helps us remember the poor and give to them. Fasting always goes together with prayer and doing good. Jesus fasted for forty days in the wilderness. The rules for fasting are different for each person based on age and health, so kids should ask Abouna and their parents what is right for them.",
+  "text": "Fasting means going without some food, or not eating for a period of time, to grow closer to God. It is not a punishment and it is not a diet. In the Coptic Church fasting means giving up meat and other animal products like eggs, milk and cheese. We fast to strengthen our spiritual life and to give our minds and hearts more room for God. Fasting always goes together with prayer and repentance, and we offer it to God alone. Jesus fasted for forty days in the wilderness, and the apostles and the early Church also fasted. The rules for fasting are different for each person based on age and health, so kids should ask Abouna and their parents what is right for them.",
   "tags": [
    "fast",
    "prayer",
@@ -2491,17 +2516,18 @@
    "hungry"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "Matthew 4:1-2; Matthew 6:16-18",
   "links": [],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/fasting.html"
  },
  {
   "id": "fast-wed-fri",
   "title": "Fasting on Wednesday and Friday",
-  "text": "In the Coptic Church we fast on most Wednesdays and Fridays during the year. Wednesday is the day when Judas agreed to betray Jesus, and Friday is the day Jesus died on the cross. So these days are for remembering and repenting. We also do not fast on Wednesdays and Fridays during the fifty days after Easter, because that is a time of joy. On a fasting day we abstain from animal products, such as meat, dairy and eggs, and many people eat a vegan style diet, and many fast until the afternoon. The exact rules differ by age and health. Children should ask Abouna and their parents how much to fast.",
+  "text": "In the Coptic Church we fast on Wednesdays and Fridays during the year. This is a very old practice, and the early Church already kept these two days as fast days. We do not keep the Wednesday and Friday fast during the fifty days after the Resurrection, because that is a time of joy. On a fasting day we give up animal products, like meat, eggs, milk and cheese, and we pray more. The exact rules differ by age and health, and a priest can give an exception when someone needs it. Children should ask Abouna and their parents how much to fast.",
   "tags": [
    "fast",
    "calendar",
@@ -2519,17 +2545,18 @@
    "fasting days"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/fasting.html"
  },
  {
   "id": "fast-great-lent",
   "title": "The Great Lent",
-  "text": "The Great Lent is the long fast before Easter, when we prepare to remember the death and Resurrection of Jesus. It is a time for more prayer, more kindness, more Bible reading and more giving. During Lent we keep a vegan style fast, with no meat or dairy products or eggs, and we eat simple foods. The Great Lent lasts about fifty-five days including Holy Week, and starts with a short fast before it called the Fast of Nineveh. It is not meant to be sad. It is a hopeful time as we walk with Jesus toward Pascha. Children should ask Abouna and parents about what they can fast, since it depends on age and health.",
+  "text": "The Great Lent is the long fast before Easter, when we prepare to remember the death and Resurrection of Jesus. It lasts fifty-five days, and it is the longest fast of the year. It includes the forty days that follow the example of Jesus, who fasted forty days, and it ends with Holy Week. It is a time for more prayer, more kindness, more Bible reading and more giving. During Lent we give up meat and animal products and eat simple foods. A short three day fast, called the Fast of Nineveh, comes a couple of weeks before Lent. The Great Lent is not meant to be sad. It is a hopeful time as we walk with Jesus toward Pascha. Children should ask Abouna and parents what they can fast, since it depends on age and health.",
   "tags": [
    "fast",
    "feast",
@@ -2547,19 +2574,20 @@
    "nineveh"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/fasting.html"
  },
  {
   "id": "feast-coptic-calendar-nayrouz",
   "title": "The Coptic calendar and Nayrouz",
-  "text": "The Coptic calendar is the calendar of the Coptic Church, and it comes from ancient Egypt. It has thirteen months, twelve months of thirty days and a little month at the end of five or six days. The new year begins on the first day of the month of Tout, and the feast of that day is called Nayrouz. It usually falls in September in our calendar. Nayrouz means a new year and is a day of joy, but the Church also remembers the martyrs, so the day has a mix of happy and holy feelings. Many of our feasts and saint days are counted by the Coptic calendar. Ask Abouna to show you the date today in Coptic.",
+  "text": "The Coptic calendar is the calendar of the Coptic Church, and it comes from the ancient Egyptian calendar. It has thirteen months: twelve months of thirty days, and a little month at the end of five days, or six days in a leap year. The new year begins on the first day of the month of Tout, usually on 11 September. The feast of that day is called Nayrouz, a word that means the beginning of the year. Nayrouz is a day of joy, but the Church also remembers the martyrs, because the Coptic years are counted from the time of the martyrs. Many of our feasts and saint days are counted by the Coptic calendar. Ask Abouna to show you today's date in Coptic.",
   "tags": [
    "calendar",
    "feast",
@@ -2577,14 +2605,15 @@
    "kiahk"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [
    "calendar"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/calendar-coptic.html"
  },
  {
   "id": "hist-holy-family-egypt",
@@ -2673,7 +2702,7 @@
  {
   "id": "hist-era-of-martyrs",
   "title": "Why does the Coptic calendar start from the Era of the Martyrs?",
-  "text": "The Coptic calendar counts its years from the Era of the Martyrs, which is also called Anno Martyrum. It starts from the year when the Roman emperor Diocletian began his rule, and many Christians in Egypt were martyred during his reign. The Church chose to count the years from then to honor the martyrs and never forget their faith. So the Coptic year number is lower than the regular year number by about 284 years. That means the Coptic year is not the same as the year in the usual calendar. Counting this way is a way to say thank you to all those who held on to Christ through hard times.",
+  "text": "The Coptic calendar counts its years from the Era of the Martyrs, which is also called Anno Martyrum. It starts in the year 284 A.D., when the Roman emperor Diocletian came to the throne. During his rule many Christians in Egypt were put to death because they would not give up their faith. The Church chose to start counting from then to honor the martyrs and never forget how faithful they were. So the Coptic year number is lower than the regular year number by about 284 years. Counting this way is a way to say thank you to all those who held on to Christ through hard times.",
   "tags": [
    "martyr",
    "calendar",
@@ -2691,19 +2720,20 @@
    "count years"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [
    "calendar"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/calendar-coptic.html"
  },
  {
   "id": "word-coptic",
   "title": "What does Coptic mean?",
-  "text": "The word Coptic comes from an old Greek word for Egypt, and it came to mean the people and the church of Egypt. So the Coptic Church is the church of Egypt, and Copts are the Christians of Egypt. The Coptic language is the last stage of the ancient Egyptian language, written mostly with Greek letters plus a few extra letters. It was spoken in Egypt for many centuries. Today it is used mainly in church for prayers and hymns, and some people in the Church learn to speak it again. In the Liturgy you will hear Coptic, Arabic and English. Some of the words, like Kyrie eleison, come from Greek.",
+  "text": "The word Coptic comes from the Greek word for Egypt, and it came to mean the people and the church of Egypt. So the Coptic Church is the church of Egypt, and Copts are the Christians of Egypt. The Coptic language is the last stage of the ancient Egyptian language. It is written with the Greek alphabet plus some extra letters taken from the old Egyptian writing for sounds that Greek does not have. Arabic became the everyday language in Egypt many centuries ago, but Coptic is still the language of the Church, and it is used in the prayers and hymns. Some Copts today learn it again so they can pray in it.",
   "tags": [
    "history",
    "church",
@@ -2721,17 +2751,18 @@
    "greek letters"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/Coptic-church-1.html"
  },
  {
   "id": "sac-communion-ready",
   "title": "Being ready for Holy Communion",
-  "text": "Holy Communion is the Body and Blood of Jesus, so we get ready for it with care. We try to confess our sins to our priest, be sorry for what we did wrong, and forgive those who upset us. In the Coptic Church we also fast before Communion, which means we do not eat or drink from the night before until after we receive, and the length depends on age and health. We come to church on time, dress neatly, listen to the Liturgy and pray. Only baptized Orthodox Christians may take Communion. If you are not sure whether you are ready, ask Abouna, and he will help you.",
+  "text": "Holy Communion is the Body and Blood of Jesus, so we get ready for it with care. We try to confess our sins to our priest and be truly sorry for what we did wrong. We make peace with anyone we have upset, because Jesus taught us to be reconciled with our brother before we come to the altar. In the Coptic Church we also fast before Communion, which means we do not eat or drink for a number of hours before we receive, and the length depends on age and health, so ask Abouna. We wash and come to church clean, listen to the Liturgy and pray with respect. If you are not sure whether you are ready, ask Abouna, and he will help you.",
   "tags": [
    "sacrament",
    "liturgy",
@@ -2748,12 +2779,13 @@
    "hungry"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "1 Corinthians 11:27-29",
   "links": [],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/books/en/pope-shenouda-iii/spiritual-means/holy-communion-preparation.html"
  },
  {
   "id": "virtue-forgiveness-kids",
@@ -2866,14 +2898,15 @@
    "psalms"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [
    "bible"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/pub_Deuterocanon/Deuterocanon-Apocrypha_El-Asfar_El-Kanoneya_El-Tanya__0-index.html"
  },
  {
   "id": "faith-angels",
@@ -3019,14 +3052,15 @@
    "apostle mark"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/08-bermodah/30-baramouda-mark.html",
   "ref": "",
   "links": [
    "m-saints",
    "calendar"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -3046,7 +3080,8 @@
    "joseph and mary"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/11-abeeb/26-epep-joseph.html",
   "ref": "Matthew 1:18-25; 2:13-23",
   "links": [
    "m-saints",
@@ -3075,7 +3110,8 @@
    "jordan"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/01-toot/02-tout-baptist.html",
   "ref": "Luke 1; Matthew 3; John 1:29",
   "links": [
    "m-saints"
@@ -3106,13 +3142,14 @@
    "acts"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/05-topah/01-toba-stephen.html",
   "ref": "Acts 6 and 7",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -3134,7 +3171,8 @@
    "rock"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/11-abeeb/05-epep-peter.html",
   "ref": "Matthew 4:18-20; John 21:15-17",
   "links": [
    "m-saints",
@@ -3163,7 +3201,8 @@
    "tarsus"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/11-abeeb/05-epep-peter.html",
   "ref": "Acts 9; Philippians 4:13",
   "links": [
    "m-saints",
@@ -3176,7 +3215,7 @@
  {
   "id": "saint-george",
   "title": "Who is St. George?",
-  "text": "St. George was a brave soldier who loved Jesus more than anything. When the emperor told him to stop believing in Jesus, he said no and stayed faithful. He was kind and he was not afraid. The Church calls him the Prince of Martyrs. Many pictures show him on a horse, and the stories about the dragon remind us that Jesus gives us strength over evil. Many churches in Egypt and around the world are named for him. When we feel afraid to do what is right, we can remember St. George and ask for his prayers.",
+  "text": "St. George was born in Cappadocia, and when he grew up he went to the emperor's court to take his father's place. There he saw that the emperor had turned against Jesus and ordered everyone to worship idols. George felt sad. He gave his money to the poor and set his servants free. He said no to the emperor and stayed faithful to Jesus, and the Lord gave him strength. He was kind and he was not afraid. The Church calls him the Prince of Martyrs. Many pictures show him on a horse, and many churches in Egypt and around the world are named for him. When we feel afraid to do what is right, we can remember St. George and ask for his prayers.",
   "tags": [
    "saint",
    "martyr"
@@ -3191,8 +3230,9 @@
    "knight"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
-  "ref": "",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/08-bermodah/23-baramouda-george.html",
+  "ref": "Synaxarium, 23 Baramouda",
   "links": [
    "m-saints",
    "quiz-stgeorge"
@@ -3204,7 +3244,7 @@
  {
   "id": "saint-mina",
   "title": "Who is St. Mina the Wonder Worker?",
-  "text": "St. Mina was a soldier in Egypt who loved to pray. He left the army and went to live in the desert as a monk, and then he told people about Jesus without fear. He is called the Wonder Worker because many people were healed and helped through his prayers. A famous monastery of St. Mina is near Alexandria, in the desert at Maryut, and people visit it from all over the world. Many Coptic children are named Mina. When we are sick or worried, we can ask St. Mina to pray for us.",
+  "text": "St. Mina was born in Egypt, and his mother had prayed to God for a child. When he grew up he was given an important job in his city. When the emperor ordered everyone to worship idols, Mina left his job and went to the desert to pray for many days. Then he came back to the city and bravely said that he believed in Jesus. The Church calls him the Wonder Worker, because many people were helped and healed through his prayers. His body was laid to rest in the Mariout area near Alexandria, and a big monastery of St. Mina stands there today. Many Coptic children are named Mina. When we are sick or worried, we can ask St. Mina to pray for us.",
   "tags": [
    "saint",
    "martyr"
@@ -3219,13 +3259,14 @@
    "menas"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
-  "ref": "",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/03-hatoor/15-hator-mina.html",
+  "ref": "Synaxarium, 15 Hatour",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -3246,19 +3287,20 @@
    "red sea"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/05-topah/22-toba-anthony.html",
   "ref": "",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "saint-pachomius",
   "title": "Who is St. Pachomius?",
-  "text": "St. Pachomius was a monk in Upper Egypt. As a young man he was made to serve as a soldier, and he was touched by the kindness of Christians who helped strangers. He later became a Christian and then a monk. Many early monks lived alone, but Pachomius started monasteries where monks lived together. They shared the work, prayed together and ate together. This is called community life, and so he is called the Father of Community Life. His rules helped many monasteries around the world. He teaches us that we are stronger when we love, share and help each other.",
+  "text": "St. Pachomius was born in Thebes in Upper Egypt, to parents who did not know Jesus. They wanted him to worship idols, but he refused. When he grew up he became a monk and learned the monk's life from St. Balamon. Later an angel told him to start a life where monks live together. Many monks gathered around him, and he built monasteries for them. He gave them a plan for working, praying and eating together. This is called community life, so he is called the Father of Community Life. He led the monks for forty years. He teaches us that we are stronger when we love, share and help each other.",
   "tags": [
    "saint",
    "history"
@@ -3272,13 +3314,14 @@
    "father of community life"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
-  "ref": "",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/09-bashans/14-pashans-pachomius.html",
+  "ref": "Synaxarium, 14 Bashans",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -3299,13 +3342,14 @@
    "anba makarios"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/07-baramhat/27-paramhat-macarius.html",
   "ref": "",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -3327,19 +3371,20 @@
    "ethiopian"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/10-bawoonah/24-paona-moses.html",
   "ref": "",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "saint-bishoy",
   "title": "Who is St. Bishoy?",
-  "text": "St. Bishoy was a monk in the desert of Egypt who loved Jesus and loved to serve. He is often called the Perfect Man, because of his love. A well known story tells that he washed the feet of a visitor, and the Church teaches that it was Jesus who came to him. Whether or not we remember the details, the lesson is clear: when we are kind to others, we are kind to Jesus. His monastery in Wadi El Natrun is still busy with monks and visitors today.",
+  "text": "St. Bishoy was born in a town called Shansa in Egypt. The story says his mother saw an angel in a dream, who asked her to give one of her children to serve God. The angel chose Bishoy, even though he was thin and small. When he grew up he went to the desert of Shiheet and became a monk. He prayed and worked very hard, and God made him worthy to see the Lord Jesus. He also found a simple way to teach about the Holy Trinity, using a basket with three ears. He is often called the Perfect Man because of his love. St. Bishoy teaches us to serve God with all our heart.",
   "tags": [
    "saint",
    "history"
@@ -3354,8 +3399,9 @@
    "washed feet"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
-  "ref": "Matthew 25:40",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/11-abeeb/08-epep-bishoy.html",
+  "ref": "Synaxarium, 8 Abib",
   "links": [
    "m-saints"
   ],
@@ -3366,7 +3412,7 @@
  {
   "id": "saint-shenouda",
   "title": "Who is St. Shenouda the Archimandrite?",
-  "text": "St. Shenouda the Archimandrite was a leader of monks in Upper Egypt. He was the head of a large community of monks and nuns, and he is called the Archimandrite, which means leader of the monks. He taught them to work, pray, study the Bible and help the poor. He wrote many sermons in the Coptic language. The White Monastery near Sohag is linked to him. St. Shenouda shows us that serving God and loving the poor go hand in hand.",
+  "text": "St. Shenouda the Archimandrite was born near Akhmim in Upper Egypt. He became the leader of a large monastery after Anba Bgoul. He followed the rules for community life that St. Pachomius wrote, and he added a promise that each monk had to make before joining. So many monks came to live there that the number reached 2200. The word Archimandrite means leader of the monks. He also went with St. Cyril to the Council of Ephesus. Before he died, he told his disciples to follow his steps and trusted them to God. St. Shenouda shows us that praying, working and living together in love make a strong family.",
   "tags": [
    "saint",
    "history"
@@ -3381,19 +3427,20 @@
    "anba shenouda"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
-  "ref": "",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/11-abeeb/07-epep-shenouda.html",
+  "ref": "Synaxarium, 7 Abib",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "saint-demiana",
   "title": "Who is St. Demiana?",
-  "text": "St. Demiana lived in Egypt and gave her life to Jesus. She was the daughter of a governor, and she gathered forty young women who prayed and served God together with her. They were brave and loved each other, and they stayed faithful to Jesus even in hard times. The Church remembers them with love. There is a famous monastery of St. Demiana in the Delta, and many girls in Egypt are named after her. Their story shows us that good friends help each other love God.",
+  "text": "St. Demiana lived in Egypt and gave her life to Jesus. She was the daughter of a governor, and she gathered forty young women who prayed and served God together with her. They were brave and loved each other, and they stayed faithful to Jesus even in hard times. The Church remembers them on the 13th of Tobi. There is a famous monastery of St. Demiana in the Delta, and many girls in Egypt are named after her. Their story shows us that good friends help each other love God.",
   "tags": [
    "saint",
    "martyr"
@@ -3408,13 +3455,14 @@
    "bursa"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/05-topah/13-toba-demiana.html",
   "ref": "",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -3435,13 +3483,14 @@
    "12th"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/06-amsheer/12-amshir-michael.html",
   "ref": "Daniel 12:1; Revelation 12:7",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -3462,7 +3511,8 @@
    "angel of good news"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/07-baramhat/29-paramhat-annunciation.html",
   "ref": "Luke 1:11-38",
   "links": [
    "m-saints",
@@ -3491,13 +3541,14 @@
    "pope of alexandria"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/09-bashans/07-pashans-athanasius.html",
   "ref": "Council of Nicea, 325",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -3519,20 +3570,21 @@
    "pope cyril"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/11-abeeb/03-epep-kyrillos.html",
   "ref": "Council of Ephesus, 431",
   "links": [
    "m-saints",
    "quiz-stmary"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "saint-mary-egypt",
   "title": "Who is St. Mary of Egypt?",
-  "text": "St. Mary of Egypt lived long ago. In her young life she was far from God. Then, during a visit to Jerusalem, she was moved to pray and she decided to change. She went into the desert beyond the Jordan River and lived there in prayer for many years. A priest named Zosimas met her near the end of her life. St. Mary of Egypt reminds us that no matter what has happened, God welcomes everyone who turns back to Him with all their heart.",
+  "text": "St. Mary of Egypt lived long ago. In her young life she was far from God. Then, during a visit to Jerusalem, she was moved to pray and she decided to change. She went into the desert beyond the Jordan River and lived there in prayer for many years. A priest named Zosimas met her near the end of her life. The Church remembers her on the 6th of Baramouda. St. Mary of Egypt reminds us that no matter what has happened, God welcomes everyone who turns back to Him with all their heart.",
   "tags": [
    "saint",
    "virtue",
@@ -3547,19 +3599,20 @@
    "holy repentant"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/08-bermodah/06-baramouda-mary.html",
   "ref": "",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "saint-abanoub",
   "title": "Who is St. Abanoub?",
-  "text": "St. Abanoub was a young boy who loved Jesus very much. He lived in Egypt and grew up in a Christian home, and his parents taught him to pray. When he was just a boy, he was brave and said that he believed in Jesus, even though it was not easy. He kept loving Jesus until the end. The Church loves him as one of the youngest saints. Many churches are named after him, and many children are named Abanoub. He shows us that children can be heroes of faith too.",
+  "text": "St. Abanoub was a young boy who loved Jesus very much. He was born in the town of Nehisa in Egypt, and his parents taught him to love God and to be kind. When he was about twelve years old, he gave his money to the poor and bravely said that he believed in Jesus, even though it was not easy. He kept loving Jesus until the end. The Church remembers him on the 24th of Abib, and his body rests in his church in Samanoud. Many children are named Abanoub. He shows us that children can be heroes of faith too.",
   "tags": [
    "saint",
    "martyr"
@@ -3574,19 +3627,20 @@
    "nehisa"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
-  "ref": "",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/11-abeeb/24-epep-apanoub.html",
+  "ref": "Synaxarium, 24 Abib",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "saint-kyrillos-vi",
   "title": "Who is Pope Kyrillos VI?",
-  "text": "Pope Kyrillos VI was the 116th Pope of Alexandria. Before he became Pope, he was a monk named Abouna Mina who lived a simple life of prayer. He loved the Holy Liturgy and prayed it very often. As Pope, he cared for the Church with much love and prayer. Many people say that they were helped through his prayers. He teaches us that prayer is very strong, and that a humble heart is dear to God. The Church honors him as a saint.",
+  "text": "Pope Kyrillos VI was the 116th Pope of Alexandria. Before he became Pope, he was a monk named Father Mina, who lived a simple life of prayer. He loved the Holy Liturgy and prayed it very often. He was Pope from 1959 until 1971, and he cared for the Church with much love and prayer. He also took care of the monastery of St. Mina in Mariout, where he is buried. Many people say that they were helped through his prayers. He teaches us that prayer is very strong, and that a humble heart is dear to God.",
   "tags": [
    "saint",
    "history",
@@ -3603,19 +3657,20 @@
    "liturgy every day"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/Saints/Coptic-Synaxarium-Orthodox-Saints-Biography-00-Coptic-Orthodox-Popes/Life-of-Coptic-Pope-116-Pope-Cyril-VI_.html",
   "ref": "",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "saint-shenouda-iii",
   "title": "Who was Pope Shenouda III?",
-  "text": "Pope Shenouda III was the 117th Pope of Alexandria. He loved the Bible and Sunday School, and he was a great teacher who helped many children and families learn about Jesus. Before he became Pope, he was a monk. He served the Church for many years and wrote many books. Many Copts remember him with love and respect. He reminds us to love the Bible and to keep learning about God.",
+  "text": "Pope Shenouda III was the 117th Pope of Alexandria. When he was sixteen he began to serve in Sunday School, and he kept teaching children for many years. Later he became a monk and lived in the desert of Wadi El Natrun. Then he became a bishop whose work was Christian education, and in 1971 he became Pope. He served the Church for about forty one years and wrote more than one hundred books. Many Copts remember him with love and respect. He reminds us to love the Bible and to keep learning about God.",
   "tags": [
    "saint",
    "history"
@@ -3630,13 +3685,14 @@
    "pope"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/Pope-1.html",
   "ref": "",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -3668,7 +3724,7 @@
  {
   "id": "saint-abraam",
   "title": "Who is Anba Abraam of Fayoum?",
-  "text": "Anba Abraam was a bishop of Fayoum in Egypt, about a hundred years ago. He loved the poor so much that he is called the Friend of the Poor. He gave away what he received and lived simply himself. People from all kinds of homes came to him, and he cared for them all. He prayed a lot. His example shows us that giving to others with a happy heart is one way to love Jesus.",
+  "text": "Anba Abraam was the bishop of Fayoum in Egypt. He lived in the 1800s and passed away in 1914, more than a hundred years ago. He loved the poor so much that he is called the Friend of the Poor. When he led a monastery, it became a safe place for thousands of poor people. As a bishop, he gave away everything he received, helped people with food and clothes, and let many poor people stay at his home. He prayed a lot. His example shows us that giving to others with a happy heart is one way to love Jesus.",
   "tags": [
    "saint",
    "virtue"
@@ -3683,13 +3739,14 @@
    "charity"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
-  "ref": "",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/10-bawoonah/03-paona-abraam.html",
+  "ref": "Synaxarium, 3 Baounah",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -3711,7 +3768,8 @@
    "evangelist"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/05-topah/04-toba.html",
   "ref": "John 19:26-27; 1 John 4:8",
   "links": [
    "m-saints"
@@ -3752,7 +3810,7 @@
  {
   "id": "saint-philopater",
   "title": "Who is St. Philopater Mercurius?",
-  "text": "St. Philopater Mercurius was a brave Roman soldier who followed Jesus. He is also called Abu Seifein, which means the one with two swords, because pictures show him with two swords. He loved Jesus and would not give up his faith. Many churches in Old Cairo and around Egypt are named after him. He teaches us to be loyal to Jesus, no matter what.",
+  "text": "St. Philopater Mercurius was born in Rome to Christian parents, and his name means lover of the Father. When he grew up he became a soldier in the army. The story says an angel gave him a sword and told him to remember the Lord God whenever he won against his enemies. That is why he is called Abu Seifein, which means the one with two swords: one for the army and one for the power of God. He would not honor the idols, and he stayed faithful to Jesus. He teaches us to be loyal to Jesus, no matter what.",
   "tags": [
    "saint",
    "martyr"
@@ -3767,13 +3825,14 @@
    "merkorios"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
-  "ref": "",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/03-hatoor/25-hator-mercurius.html",
+  "ref": "Synaxarium, 25 Hatour",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -3795,7 +3854,8 @@
    "era of the martyrs"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/Feastes-&-Special-Events/Nayrouz-Coptic-New-Year-Eid-El-Nairouz/Coptic-Year-Eid-Al-Nayroz-or-Nairoz-or-Nairuz_03-The-Feast-of-the-Nayrouz.html",
   "ref": "",
   "links": [
    "m-feasts",
@@ -3803,13 +3863,13 @@
    "calendar"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "feast-cross",
   "title": "What is the Feast of the Cross?",
-  "text": "The Feast of the Cross reminds us of the cross of Jesus. On the cross, Jesus gave His life out of love for us, and then He rose again. For us the cross is a sign of love and victory. We make the sign of the cross when we pray. In our calendar we celebrate the Feast of the Cross in the month of Tout, and there is another feast for the finding of the cross by St. Helena in the month of Baramhat. We love the cross because it shows how much Jesus loves us.",
+  "text": "The Feast of the Cross reminds us of the cross of Jesus. On the cross, Jesus gave His life out of love for us, and then He rose again. For us the cross is a sign of love and victory. We make the sign of the cross when we pray. Queen Helena, the mother of Emperor Constantine, found the Cross in Jerusalem and built a church for it. We celebrate the church of the Cross on the 17th of Tout, and the appearance of the Cross on the 10th of Baramhat. We love the cross because it shows how much Jesus loves us.",
   "tags": [
    "feast",
    "jesus",
@@ -3825,7 +3885,8 @@
    "helena"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/01-toot/17-tout-cross.html",
   "ref": "John 3:16",
   "links": [
    "m-feasts",
@@ -3835,13 +3896,13 @@
    "text": "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",
    "ref": "John 3:16"
   },
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "feast-annunciation",
   "title": "What is the Annunciation?",
-  "text": "The Annunciation is the day we remember when the angel Gabriel visited St. Mary. He told her that God had chosen her to be the mother of Jesus. St. Mary was humble and she said yes. She said, Let it be to me according to your word. We celebrate this feast every year, and it is a happy day. It teaches us to say yes to God, too.",
+  "text": "The Annunciation is the day we remember when the angel Gabriel visited St. Mary. He told her that God had chosen her to be the mother of Jesus. St. Mary was humble and she said yes. She said, Let it be to me according to your word. We celebrate this feast every year on the 29th of Baramhat, and it is a happy day. It teaches us to say yes to God, too.",
   "tags": [
    "feast",
    "mary",
@@ -3856,7 +3917,8 @@
    "mary and gabriel"
   ],
   "level": "little",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/07-baramhat/29-paramhat-annunciation.html",
   "ref": "Luke 1:26-38",
   "links": [
    "m-feasts",
@@ -3886,14 +3948,15 @@
    "koiahk"
   ],
   "level": "little",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/Feastes-&-Special-Events/Coptic-Nativity-of-Jesus-Christ-Milad-El-Masih/Coptic-Jesus-Incarnation-Christmas-01-7-January-or-25-December-Coptic-Calendar.html",
   "ref": "Luke 2:1-20",
   "links": [
    "m-feasts",
    "calendar"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -3916,14 +3979,15 @@
    "timkat"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/05-topah/11-toba-theophany.html",
   "ref": "Matthew 3:13-17",
   "links": [
    "m-feasts",
    "calendar"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -3945,13 +4009,14 @@
    "8 amshir"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/06-amsheer/08-amshir-temple.html",
   "ref": "Luke 2:22-38",
   "links": [
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -3974,14 +4039,15 @@
    "holy family in egypt"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/09-bashans/24-pashans-egypt.html",
   "ref": "Matthew 2:13-15; Isaiah 19:25",
   "links": [
    "m-feasts",
    "calendar"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -4003,7 +4069,8 @@
    "entry into jerusalem"
   ],
   "level": "little",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/faith/en/terms/palm-sunday.html",
   "ref": "Matthew 21:1-11",
   "links": [
    "m-feasts",
@@ -4061,14 +4128,15 @@
    "jesus goes up"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/faith/en/terms/ascension-day.html",
   "ref": "Acts 1:9-11",
   "links": [
    "m-feasts",
    "calendar"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -4119,13 +4187,14 @@
    "light"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/12-mesraa/13-mesra-transfiguration.html",
   "ref": "Matthew 17:1-8",
   "links": [
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -4147,20 +4216,21 @@
    "theotokos"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/12-mesraa/16-mesra-mary.html",
   "ref": "",
   "links": [
    "m-feasts",
    "quiz-stmary"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "feast-cana",
   "title": "What is the Wedding at Cana?",
-  "text": "Jesus went with St. Mary and His disciples to a wedding in a town called Cana. During the wedding, the family ran out of wine. St. Mary told the servants, Do whatever He tells you. Jesus asked them to fill big jars with water, and the water became wine. It was His first miracle. The Church celebrates this feast in the month of Tobi. Jesus cares about our needs, and St. Mary helps us ask Him.",
+  "text": "Jesus went with St. Mary and His disciples to a wedding in a town called Cana. During the wedding, the family ran out of wine. St. Mary told the servants, Do whatever He tells you. Jesus asked them to fill big jars with water, and the water became wine. It was His first miracle. The Church celebrates this feast on the 13th of Tobi. Jesus cares about our needs, and St. Mary helps us ask Him.",
   "tags": [
    "feast",
    "jesus",
@@ -4175,13 +4245,14 @@
    "wine"
   ],
   "level": "little",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/05-topah/13-toba-cana.html",
   "ref": "John 2:1-11",
   "links": [
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -4202,19 +4273,20 @@
    "10 baramhat"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/07-baramhat/10-paramhat.html",
   "ref": "",
   "links": [
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "feast-apostles",
   "title": "What is the Feast of the Apostles?",
-  "text": "The Feast of the Apostles remembers the twelve apostles and the saints who preached the Gospel, with special love for St. Peter and St. Paul. The apostles left everything to follow Jesus, and after Pentecost they went out to the world to tell people about Him. We would not know Jesus today without them. The feast comes at the end of the Apostles Fast, on the 5th of Abib. We thank God for their courage and ask for their prayers.",
+  "text": "The Feast of the Apostles remembers St. Peter and St. Paul, who preached about Jesus in Rome and loved Him until the end of their lives. Peter was a fisherman from Bethsaida, and Paul was born in Tarsus. The twelve apostles left everything to follow Jesus, and after Pentecost they went out to tell the world about Him. We would not know Jesus today without them. The feast is on the 5th of Abib, at the end of the Apostles Fast. We thank God for their courage and ask for their prayers.",
   "tags": [
    "feast",
    "saint",
@@ -4229,13 +4301,14 @@
    "disciples"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/11-abeeb/05-epep-peter.html",
   "ref": "",
   "links": [
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -4256,13 +4329,14 @@
    "law of moses"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/05-topah/06-toba-circumcision.html",
   "ref": "Luke 2:21",
   "links": [
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -4284,20 +4358,21 @@
    "28 koiahk"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/03-hatoor/16-hator-nativity.html",
   "ref": "",
   "links": [
    "calendar",
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "fast-apostles",
   "title": "What is the Apostles Fast?",
-  "text": "The Apostles Fast begins the day after the end of the Pentecost season and finishes on the Feast of the Apostles, the 5th of Abib. The length changes every year, because it depends on the date of Easter. The apostles fasted and prayed before they went to preach, and we follow their example. During the fast we eat plant based foods and pray more. It reminds us to be thankful for the apostles.",
+  "text": "The Apostles Fast begins on the Monday after Pentecost and finishes the day before the Feast of the Apostles, the 5th of Abib. The length changes every year, because it depends on the date of Easter. The apostles fasted and prayed before they went to preach, and we follow their example. During the fast we eat plant based foods and pray more. It reminds us to be thankful for the apostles.",
   "tags": [
    "fast",
    "saint"
@@ -4310,14 +4385,15 @@
    "fast of apostles"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/faith/en/terms/apostles-feast.html",
   "ref": "",
   "links": [
    "calendar",
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -4338,7 +4414,8 @@
    "fast of virgin"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/12-mesraa/16-mesra-mary.html",
   "ref": "",
   "links": [
    "calendar",
@@ -4346,7 +4423,7 @@
    "quiz-stmary"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -4368,13 +4445,14 @@
    "great fish"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/Feastes-&-Special-Events/Jonah-s-Fasting__Nineveh-s-Fast/Soom-Yonan__EN-03-How-many-days-People-of-Nineveh-fast.html",
   "ref": "Jonah 3",
   "links": [
    "calendar"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  }
 ]

@@ -17,7 +17,7 @@ const lessonIds = new Set();
 const okRoute = r => /^(m-saints|m-feasts|calendar|verse|bible|games|bedtime|coloring|quizzes)$/.test(r) || /^b-[A-Za-z0-9 ]+-\d+$/.test(r) ||
   (/^quiz-/.test(r) && (quizIds.size === 0 || quizIds.has(r.slice(5)))) || (/^l-/.test(r) && (lessonIds.size === 0 || lessonIds.has(r)));
 const TAGS = ['saint', 'feast', 'fast', 'sacrament', 'prayer', 'bible', 'church', 'history', 'virtue', 'trinity', 'mary', 'jesus', 'liturgy', 'calendar', 'martyr', 'angel', 'prophet', 'icon'];
-const SOURCES = ['Bible (KJV)', 'Bible (WEB)', 'Heavenly Visions kid summary of Coptic Orthodox teaching', 'Heavenly Visions kid summary, Synaxarium style', 'Heavenly Visions app content'];
+const SOURCES = ['Bible (KJV)', 'Bible (WEB)', 'Heavenly Visions kid summary of Coptic Orthodox teaching', 'Heavenly Visions kid summary, Synaxarium style', 'Heavenly Visions app content', 'St-Takla.org (our own words)'];
 
 let bad = 0, total = 0;
 const seen = new Set();
@@ -41,6 +41,8 @@ files.forEach(f => {
     if (!Array.isArray(c.kw) || c.kw.length < 3) say(f, id, 'needs at least 3 kw words');
     if (!['little', 'older', 'all'].includes(c.level)) say(f, id, 'bad level');
     if (!SOURCES.includes(c.source)) say(f, id, 'source must be one of the allowed labels');
+    if (c.url !== undefined && !/^https:\/\/(www\.)?st-takla\.org\//.test(c.url)) say(f, id, 'url must be a st-takla.org page');
+    if (c.source === 'St-Takla.org (our own words)' && !c.url) say(f, id, 'St-Takla source needs a url');
     if (typeof c.ref !== 'string') say(f, id, 'ref must be a string');
     if (!Array.isArray(c.links)) say(f, id, 'links must be an array'); else c.links.forEach(r => { if (!okRoute(r)) say(f, id, 'unknown link route ' + r) });
     if (c.verse && (!c.verse.text || !c.verse.ref)) say(f, id, 'verse needs text and ref');

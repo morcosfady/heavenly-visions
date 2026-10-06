@@ -166,12 +166,12 @@ function lmFix(c) {
     source: clip(c.source, 100), ref: clip(c.ref, 100),
     links: (Array.isArray(c.links) ? c.links : []).map(function (t) { return clip(t, 40); }).filter(function (t) { return /^[A-Za-z0-9 .-]+$/.test(t); }).slice(0, 4),
     verse: c.verse && c.verse.text && c.verse.ref ? { text: clip(c.verse.text, 300), ref: clip(c.verse.ref, 50) } : null,
-    verify: !!c.verify
+    verify: !!c.verify, url: /^https:\/\/(www\.)?st-takla\.org\//.test(String(c.url || '')) ? clip(c.url, 300) : ''
   };
   return o;
 }
 function lmPublic(c) {
-  return { id: c.id, title: c.title, text: c.text, tags: c.tags, kw: c.kw, level: c.level, source: c.source, ref: c.ref, links: c.links || [], verse: c.verse || null, verify: !!c.verify, status: c.status, edited: !!c.edited, isnew: !!c.isnew };
+  return { id: c.id, title: c.title, text: c.text, tags: c.tags, kw: c.kw, level: c.level, source: c.source, ref: c.ref, links: c.links || [], verse: c.verse || null, verify: !!c.verify, url: c.url || '', status: c.status, edited: !!c.edited, isnew: !!c.isnew };
 }
 
 /* every card with its status: base cards, then what a servant changed, then the cards a servant added */

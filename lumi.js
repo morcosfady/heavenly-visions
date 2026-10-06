@@ -8,7 +8,7 @@ const isStaff=()=>{const a=A();return !!(a&&a.user.role!=="student"&&!a.user.req
 const URL_=()=>window.hvAiUrl?hvAiUrl():"";
 async function call(body){const a=A();const r=await fetch(URL_(),{method:"POST",body:JSON.stringify(Object.assign({id:a.user.id,token:a.token},body))});return r.json()}
 const TOPICS=["saint","feast","fast","sacrament","prayer","bible","church","history","virtue","trinity","mary","jesus","liturgy","calendar","martyr","angel","prophet","icon"];
-const SOURCES=["Bible (KJV)","Bible (WEB)","Heavenly Visions kid summary of Coptic Orthodox teaching","Heavenly Visions kid summary, Synaxarium style","Heavenly Visions app content"];
+const SOURCES=["Bible (KJV)","Bible (WEB)","Heavenly Visions kid summary of Coptic Orthodox teaching","Heavenly Visions kid summary, Synaxarium style","Heavenly Visions app content","St-Takla.org (our own words)"];
 const S={cards:[],counts:null,status:"pending",topic:"",verify:false,q:"",shown:15,found:null};
 
 window.hvLumiTool=function(){return isStaff()?`<button class="svt" style="--tc:var(--c-bed)" data-go="lumi-cards"><span>🐑</span><b>Lumi cards</b><small>Check what Lumi knows</small></button>`:""};
@@ -23,7 +23,7 @@ function card(c){
    <div class="lmm">${c.verify?`<span class="lmv" title="A reviewer should double check this card">⚠️ Please check</span>`:""}${c.isnew?`<span class="lmn">New</span>`:c.edited?`<span class="lmn">Edited</span>`:""}<span class="lml">${{little:"Little kids",older:"Older kids",all:"All ages"}[c.level]}</span>${c.tags.slice(0,4).map(t=>`<span class="lmt">${E(t)}</span>`).join("")}</div>
    <p class="lmx">${E(c.text)}</p>
    ${c.verse?`<div class="lmverse">“${E(c.verse.text)}” <b>${E(c.verse.ref)}</b></div>`:""}
-   <div class="tag">📚 ${E(c.source)}${c.ref?" · "+E(c.ref):""}</div>
+   <div class="tag">📚 ${E(c.source)}${c.ref?" · "+E(c.ref):""}${c.url?` · <a class="lmu" href="${E(c.url)}" target="_blank" rel="noopener">Open the page ↗</a>`:""}</div>
    <div class="lmact"><button class="btn gold" data-ap="${E(c.id)}" ${c.status==="approved"?"disabled":""}>✅ Approve</button><button class="btn alt" data-rj="${E(c.id)}" ${c.status==="rejected"?"disabled":""}>❌ Reject</button><button class="btn alt" data-ed="${E(c.id)}">✏️ Edit</button>${c.status!=="pending"?`<button class="btn alt" data-pd="${E(c.id)}">↩ Back to waiting</button>`:""}</div></article>`}
 
 function draw(){
@@ -57,7 +57,7 @@ function editSheet(c){
   document.getElementById("lmef").onsubmit=async e=>{e.preventDefault();const m=document.getElementById("lmem");m.textContent="Saving...";
     const split=v=>v.split(",").map(x=>x.trim()).filter(Boolean);
     const card={id:c.id,title:document.getElementById("lmet").value,text:document.getElementById("lmex").value,tags:split(document.getElementById("lmeg").value),kw:split(document.getElementById("lmek").value),
-      level:document.getElementById("lmel").value,source:document.getElementById("lmes").value,ref:document.getElementById("lmer").value,verify:document.getElementById("lmev").checked,links:c.links||[],verse:c.verse||null};
+      level:document.getElementById("lmel").value,source:document.getElementById("lmes").value,ref:document.getElementById("lmer").value,verify:document.getElementById("lmev").checked,links:c.links||[],verse:c.verse||null,url:c.url||""};
     try{const r=await call({action:"lumi_save",card});if(!r.ok){m.textContent=r.error==="missing"?"Add a title and some text.":"Could not save.";return}closeSheet();toast("Saved. Approve it when you are ready.");await load(true)}catch{m.textContent="No internet connection."}}}
 
 function wire(){
@@ -98,6 +98,7 @@ st.textContent=`.lmstat{margin-top:4px}.lmtools{display:flex;flex-direction:colu
 .lmv{font-size:.82rem;font-weight:900;padding:3px 10px;border-radius:999px;background:#ffe9a8;color:#5a3d00}
 .lmx{margin:0;line-height:1.55;white-space:pre-wrap}.lmverse{border-left:4px solid var(--gold);padding:6px 12px;font-style:italic}
 .lmact{display:flex;flex-wrap:wrap;gap:8px}.lmact .btn{flex:1 1 120px}
+.lmu{display:inline-flex;align-items:center;min-height:44px;font-weight:800;color:var(--gold)}
 .lmsearch{display:flex;flex-direction:column;gap:6px}`;
 document.head.appendChild(st);
 })();

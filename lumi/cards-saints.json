@@ -17,14 +17,15 @@
    "apostle mark"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/08-bermodah/30-baramouda-mark.html",
   "ref": "",
   "links": [
    "m-saints",
    "calendar"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -44,7 +45,8 @@
    "joseph and mary"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/11-abeeb/26-epep-joseph.html",
   "ref": "Matthew 1:18-25; 2:13-23",
   "links": [
    "m-saints",
@@ -73,7 +75,8 @@
    "jordan"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/01-toot/02-tout-baptist.html",
   "ref": "Luke 1; Matthew 3; John 1:29",
   "links": [
    "m-saints"
@@ -104,13 +107,14 @@
    "acts"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/05-topah/01-toba-stephen.html",
   "ref": "Acts 6 and 7",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -132,7 +136,8 @@
    "rock"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/11-abeeb/05-epep-peter.html",
   "ref": "Matthew 4:18-20; John 21:15-17",
   "links": [
    "m-saints",
@@ -161,7 +166,8 @@
    "tarsus"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/11-abeeb/05-epep-peter.html",
   "ref": "Acts 9; Philippians 4:13",
   "links": [
    "m-saints",
@@ -174,7 +180,7 @@
  {
   "id": "saint-george",
   "title": "Who is St. George?",
-  "text": "St. George was a brave soldier who loved Jesus more than anything. When the emperor told him to stop believing in Jesus, he said no and stayed faithful. He was kind and he was not afraid. The Church calls him the Prince of Martyrs. Many pictures show him on a horse, and the stories about the dragon remind us that Jesus gives us strength over evil. Many churches in Egypt and around the world are named for him. When we feel afraid to do what is right, we can remember St. George and ask for his prayers.",
+  "text": "St. George was born in Cappadocia, and when he grew up he went to the emperor's court to take his father's place. There he saw that the emperor had turned against Jesus and ordered everyone to worship idols. George felt sad. He gave his money to the poor and set his servants free. He said no to the emperor and stayed faithful to Jesus, and the Lord gave him strength. He was kind and he was not afraid. The Church calls him the Prince of Martyrs. Many pictures show him on a horse, and many churches in Egypt and around the world are named for him. When we feel afraid to do what is right, we can remember St. George and ask for his prayers.",
   "tags": [
    "saint",
    "martyr"
@@ -189,8 +195,9 @@
    "knight"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
-  "ref": "",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/08-bermodah/23-baramouda-george.html",
+  "ref": "Synaxarium, 23 Baramouda",
   "links": [
    "m-saints",
    "quiz-stgeorge"
@@ -202,7 +209,7 @@
  {
   "id": "saint-mina",
   "title": "Who is St. Mina the Wonder Worker?",
-  "text": "St. Mina was a soldier in Egypt who loved to pray. He left the army and went to live in the desert as a monk, and then he told people about Jesus without fear. He is called the Wonder Worker because many people were healed and helped through his prayers. A famous monastery of St. Mina is near Alexandria, in the desert at Maryut, and people visit it from all over the world. Many Coptic children are named Mina. When we are sick or worried, we can ask St. Mina to pray for us.",
+  "text": "St. Mina was born in Egypt, and his mother had prayed to God for a child. When he grew up he was given an important job in his city. When the emperor ordered everyone to worship idols, Mina left his job and went to the desert to pray for many days. Then he came back to the city and bravely said that he believed in Jesus. The Church calls him the Wonder Worker, because many people were helped and healed through his prayers. His body was laid to rest in the Mariout area near Alexandria, and a big monastery of St. Mina stands there today. Many Coptic children are named Mina. When we are sick or worried, we can ask St. Mina to pray for us.",
   "tags": [
    "saint",
    "martyr"
@@ -217,13 +224,14 @@
    "menas"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
-  "ref": "",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/03-hatoor/15-hator-mina.html",
+  "ref": "Synaxarium, 15 Hatour",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -244,19 +252,20 @@
    "red sea"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/05-topah/22-toba-anthony.html",
   "ref": "",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "saint-pachomius",
   "title": "Who is St. Pachomius?",
-  "text": "St. Pachomius was a monk in Upper Egypt. As a young man he was made to serve as a soldier, and he was touched by the kindness of Christians who helped strangers. He later became a Christian and then a monk. Many early monks lived alone, but Pachomius started monasteries where monks lived together. They shared the work, prayed together and ate together. This is called community life, and so he is called the Father of Community Life. His rules helped many monasteries around the world. He teaches us that we are stronger when we love, share and help each other.",
+  "text": "St. Pachomius was born in Thebes in Upper Egypt, to parents who did not know Jesus. They wanted him to worship idols, but he refused. When he grew up he became a monk and learned the monk's life from St. Balamon. Later an angel told him to start a life where monks live together. Many monks gathered around him, and he built monasteries for them. He gave them a plan for working, praying and eating together. This is called community life, so he is called the Father of Community Life. He led the monks for forty years. He teaches us that we are stronger when we love, share and help each other.",
   "tags": [
    "saint",
    "history"
@@ -270,13 +279,14 @@
    "father of community life"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
-  "ref": "",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/09-bashans/14-pashans-pachomius.html",
+  "ref": "Synaxarium, 14 Bashans",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -297,13 +307,14 @@
    "anba makarios"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/07-baramhat/27-paramhat-macarius.html",
   "ref": "",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -325,19 +336,20 @@
    "ethiopian"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/10-bawoonah/24-paona-moses.html",
   "ref": "",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "saint-bishoy",
   "title": "Who is St. Bishoy?",
-  "text": "St. Bishoy was a monk in the desert of Egypt who loved Jesus and loved to serve. He is often called the Perfect Man, because of his love. A well known story tells that he washed the feet of a visitor, and the Church teaches that it was Jesus who came to him. Whether or not we remember the details, the lesson is clear: when we are kind to others, we are kind to Jesus. His monastery in Wadi El Natrun is still busy with monks and visitors today.",
+  "text": "St. Bishoy was born in a town called Shansa in Egypt. The story says his mother saw an angel in a dream, who asked her to give one of her children to serve God. The angel chose Bishoy, even though he was thin and small. When he grew up he went to the desert of Shiheet and became a monk. He prayed and worked very hard, and God made him worthy to see the Lord Jesus. He also found a simple way to teach about the Holy Trinity, using a basket with three ears. He is often called the Perfect Man because of his love. St. Bishoy teaches us to serve God with all our heart.",
   "tags": [
    "saint",
    "history"
@@ -352,8 +364,9 @@
    "washed feet"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
-  "ref": "Matthew 25:40",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/11-abeeb/08-epep-bishoy.html",
+  "ref": "Synaxarium, 8 Abib",
   "links": [
    "m-saints"
   ],
@@ -364,7 +377,7 @@
  {
   "id": "saint-shenouda",
   "title": "Who is St. Shenouda the Archimandrite?",
-  "text": "St. Shenouda the Archimandrite was a leader of monks in Upper Egypt. He was the head of a large community of monks and nuns, and he is called the Archimandrite, which means leader of the monks. He taught them to work, pray, study the Bible and help the poor. He wrote many sermons in the Coptic language. The White Monastery near Sohag is linked to him. St. Shenouda shows us that serving God and loving the poor go hand in hand.",
+  "text": "St. Shenouda the Archimandrite was born near Akhmim in Upper Egypt. He became the leader of a large monastery after Anba Bgoul. He followed the rules for community life that St. Pachomius wrote, and he added a promise that each monk had to make before joining. So many monks came to live there that the number reached 2200. The word Archimandrite means leader of the monks. He also went with St. Cyril to the Council of Ephesus. Before he died, he told his disciples to follow his steps and trusted them to God. St. Shenouda shows us that praying, working and living together in love make a strong family.",
   "tags": [
    "saint",
    "history"
@@ -379,19 +392,20 @@
    "anba shenouda"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
-  "ref": "",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/11-abeeb/07-epep-shenouda.html",
+  "ref": "Synaxarium, 7 Abib",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "saint-demiana",
   "title": "Who is St. Demiana?",
-  "text": "St. Demiana lived in Egypt and gave her life to Jesus. She was the daughter of a governor, and she gathered forty young women who prayed and served God together with her. They were brave and loved each other, and they stayed faithful to Jesus even in hard times. The Church remembers them with love. There is a famous monastery of St. Demiana in the Delta, and many girls in Egypt are named after her. Their story shows us that good friends help each other love God.",
+  "text": "St. Demiana lived in Egypt and gave her life to Jesus. She was the daughter of a governor, and she gathered forty young women who prayed and served God together with her. They were brave and loved each other, and they stayed faithful to Jesus even in hard times. The Church remembers them on the 13th of Tobi. There is a famous monastery of St. Demiana in the Delta, and many girls in Egypt are named after her. Their story shows us that good friends help each other love God.",
   "tags": [
    "saint",
    "martyr"
@@ -406,13 +420,14 @@
    "bursa"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/05-topah/13-toba-demiana.html",
   "ref": "",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -433,13 +448,14 @@
    "12th"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/06-amsheer/12-amshir-michael.html",
   "ref": "Daniel 12:1; Revelation 12:7",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -460,7 +476,8 @@
    "angel of good news"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/07-baramhat/29-paramhat-annunciation.html",
   "ref": "Luke 1:11-38",
   "links": [
    "m-saints",
@@ -489,13 +506,14 @@
    "pope of alexandria"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/09-bashans/07-pashans-athanasius.html",
   "ref": "Council of Nicea, 325",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -517,20 +535,21 @@
    "pope cyril"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/11-abeeb/03-epep-kyrillos.html",
   "ref": "Council of Ephesus, 431",
   "links": [
    "m-saints",
    "quiz-stmary"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "saint-mary-egypt",
   "title": "Who is St. Mary of Egypt?",
-  "text": "St. Mary of Egypt lived long ago. In her young life she was far from God. Then, during a visit to Jerusalem, she was moved to pray and she decided to change. She went into the desert beyond the Jordan River and lived there in prayer for many years. A priest named Zosimas met her near the end of her life. St. Mary of Egypt reminds us that no matter what has happened, God welcomes everyone who turns back to Him with all their heart.",
+  "text": "St. Mary of Egypt lived long ago. In her young life she was far from God. Then, during a visit to Jerusalem, she was moved to pray and she decided to change. She went into the desert beyond the Jordan River and lived there in prayer for many years. A priest named Zosimas met her near the end of her life. The Church remembers her on the 6th of Baramouda. St. Mary of Egypt reminds us that no matter what has happened, God welcomes everyone who turns back to Him with all their heart.",
   "tags": [
    "saint",
    "virtue",
@@ -545,19 +564,20 @@
    "holy repentant"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/08-bermodah/06-baramouda-mary.html",
   "ref": "",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "saint-abanoub",
   "title": "Who is St. Abanoub?",
-  "text": "St. Abanoub was a young boy who loved Jesus very much. He lived in Egypt and grew up in a Christian home, and his parents taught him to pray. When he was just a boy, he was brave and said that he believed in Jesus, even though it was not easy. He kept loving Jesus until the end. The Church loves him as one of the youngest saints. Many churches are named after him, and many children are named Abanoub. He shows us that children can be heroes of faith too.",
+  "text": "St. Abanoub was a young boy who loved Jesus very much. He was born in the town of Nehisa in Egypt, and his parents taught him to love God and to be kind. When he was about twelve years old, he gave his money to the poor and bravely said that he believed in Jesus, even though it was not easy. He kept loving Jesus until the end. The Church remembers him on the 24th of Abib, and his body rests in his church in Samanoud. Many children are named Abanoub. He shows us that children can be heroes of faith too.",
   "tags": [
    "saint",
    "martyr"
@@ -572,19 +592,20 @@
    "nehisa"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
-  "ref": "",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/11-abeeb/24-epep-apanoub.html",
+  "ref": "Synaxarium, 24 Abib",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "saint-kyrillos-vi",
   "title": "Who is Pope Kyrillos VI?",
-  "text": "Pope Kyrillos VI was the 116th Pope of Alexandria. Before he became Pope, he was a monk named Abouna Mina who lived a simple life of prayer. He loved the Holy Liturgy and prayed it very often. As Pope, he cared for the Church with much love and prayer. Many people say that they were helped through his prayers. He teaches us that prayer is very strong, and that a humble heart is dear to God. The Church honors him as a saint.",
+  "text": "Pope Kyrillos VI was the 116th Pope of Alexandria. Before he became Pope, he was a monk named Father Mina, who lived a simple life of prayer. He loved the Holy Liturgy and prayed it very often. He was Pope from 1959 until 1971, and he cared for the Church with much love and prayer. He also took care of the monastery of St. Mina in Mariout, where he is buried. Many people say that they were helped through his prayers. He teaches us that prayer is very strong, and that a humble heart is dear to God.",
   "tags": [
    "saint",
    "history",
@@ -601,19 +622,20 @@
    "liturgy every day"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/Saints/Coptic-Synaxarium-Orthodox-Saints-Biography-00-Coptic-Orthodox-Popes/Life-of-Coptic-Pope-116-Pope-Cyril-VI_.html",
   "ref": "",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "saint-shenouda-iii",
   "title": "Who was Pope Shenouda III?",
-  "text": "Pope Shenouda III was the 117th Pope of Alexandria. He loved the Bible and Sunday School, and he was a great teacher who helped many children and families learn about Jesus. Before he became Pope, he was a monk. He served the Church for many years and wrote many books. Many Copts remember him with love and respect. He reminds us to love the Bible and to keep learning about God.",
+  "text": "Pope Shenouda III was the 117th Pope of Alexandria. When he was sixteen he began to serve in Sunday School, and he kept teaching children for many years. Later he became a monk and lived in the desert of Wadi El Natrun. Then he became a bishop whose work was Christian education, and in 1971 he became Pope. He served the Church for about forty one years and wrote more than one hundred books. Many Copts remember him with love and respect. He reminds us to love the Bible and to keep learning about God.",
   "tags": [
    "saint",
    "history"
@@ -628,13 +650,14 @@
    "pope"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/Pope-1.html",
   "ref": "",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -666,7 +689,7 @@
  {
   "id": "saint-abraam",
   "title": "Who is Anba Abraam of Fayoum?",
-  "text": "Anba Abraam was a bishop of Fayoum in Egypt, about a hundred years ago. He loved the poor so much that he is called the Friend of the Poor. He gave away what he received and lived simply himself. People from all kinds of homes came to him, and he cared for them all. He prayed a lot. His example shows us that giving to others with a happy heart is one way to love Jesus.",
+  "text": "Anba Abraam was the bishop of Fayoum in Egypt. He lived in the 1800s and passed away in 1914, more than a hundred years ago. He loved the poor so much that he is called the Friend of the Poor. When he led a monastery, it became a safe place for thousands of poor people. As a bishop, he gave away everything he received, helped people with food and clothes, and let many poor people stay at his home. He prayed a lot. His example shows us that giving to others with a happy heart is one way to love Jesus.",
   "tags": [
    "saint",
    "virtue"
@@ -681,13 +704,14 @@
    "charity"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
-  "ref": "",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/10-bawoonah/03-paona-abraam.html",
+  "ref": "Synaxarium, 3 Baounah",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -709,7 +733,8 @@
    "evangelist"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/05-topah/04-toba.html",
   "ref": "John 19:26-27; 1 John 4:8",
   "links": [
    "m-saints"
@@ -750,7 +775,7 @@
  {
   "id": "saint-philopater",
   "title": "Who is St. Philopater Mercurius?",
-  "text": "St. Philopater Mercurius was a brave Roman soldier who followed Jesus. He is also called Abu Seifein, which means the one with two swords, because pictures show him with two swords. He loved Jesus and would not give up his faith. Many churches in Old Cairo and around Egypt are named after him. He teaches us to be loyal to Jesus, no matter what.",
+  "text": "St. Philopater Mercurius was born in Rome to Christian parents, and his name means lover of the Father. When he grew up he became a soldier in the army. The story says an angel gave him a sword and told him to remember the Lord God whenever he won against his enemies. That is why he is called Abu Seifein, which means the one with two swords: one for the army and one for the power of God. He would not honor the idols, and he stayed faithful to Jesus. He teaches us to be loyal to Jesus, no matter what.",
   "tags": [
    "saint",
    "martyr"
@@ -765,13 +790,14 @@
    "merkorios"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary, Synaxarium style",
-  "ref": "",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/03-hatoor/25-hator-mercurius.html",
+  "ref": "Synaxarium, 25 Hatour",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -793,7 +819,8 @@
    "era of the martyrs"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/Feastes-&-Special-Events/Nayrouz-Coptic-New-Year-Eid-El-Nairouz/Coptic-Year-Eid-Al-Nayroz-or-Nairoz-or-Nairuz_03-The-Feast-of-the-Nayrouz.html",
   "ref": "",
   "links": [
    "m-feasts",
@@ -801,13 +828,13 @@
    "calendar"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "feast-cross",
   "title": "What is the Feast of the Cross?",
-  "text": "The Feast of the Cross reminds us of the cross of Jesus. On the cross, Jesus gave His life out of love for us, and then He rose again. For us the cross is a sign of love and victory. We make the sign of the cross when we pray. In our calendar we celebrate the Feast of the Cross in the month of Tout, and there is another feast for the finding of the cross by St. Helena in the month of Baramhat. We love the cross because it shows how much Jesus loves us.",
+  "text": "The Feast of the Cross reminds us of the cross of Jesus. On the cross, Jesus gave His life out of love for us, and then He rose again. For us the cross is a sign of love and victory. We make the sign of the cross when we pray. Queen Helena, the mother of Emperor Constantine, found the Cross in Jerusalem and built a church for it. We celebrate the church of the Cross on the 17th of Tout, and the appearance of the Cross on the 10th of Baramhat. We love the cross because it shows how much Jesus loves us.",
   "tags": [
    "feast",
    "jesus",
@@ -823,7 +850,8 @@
    "helena"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/01-toot/17-tout-cross.html",
   "ref": "John 3:16",
   "links": [
    "m-feasts",
@@ -833,13 +861,13 @@
    "text": "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",
    "ref": "John 3:16"
   },
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "feast-annunciation",
   "title": "What is the Annunciation?",
-  "text": "The Annunciation is the day we remember when the angel Gabriel visited St. Mary. He told her that God had chosen her to be the mother of Jesus. St. Mary was humble and she said yes. She said, Let it be to me according to your word. We celebrate this feast every year, and it is a happy day. It teaches us to say yes to God, too.",
+  "text": "The Annunciation is the day we remember when the angel Gabriel visited St. Mary. He told her that God had chosen her to be the mother of Jesus. St. Mary was humble and she said yes. She said, Let it be to me according to your word. We celebrate this feast every year on the 29th of Baramhat, and it is a happy day. It teaches us to say yes to God, too.",
   "tags": [
    "feast",
    "mary",
@@ -854,7 +882,8 @@
    "mary and gabriel"
   ],
   "level": "little",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/07-baramhat/29-paramhat-annunciation.html",
   "ref": "Luke 1:26-38",
   "links": [
    "m-feasts",
@@ -884,14 +913,15 @@
    "koiahk"
   ],
   "level": "little",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/Feastes-&-Special-Events/Coptic-Nativity-of-Jesus-Christ-Milad-El-Masih/Coptic-Jesus-Incarnation-Christmas-01-7-January-or-25-December-Coptic-Calendar.html",
   "ref": "Luke 2:1-20",
   "links": [
    "m-feasts",
    "calendar"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -914,14 +944,15 @@
    "timkat"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/05-topah/11-toba-theophany.html",
   "ref": "Matthew 3:13-17",
   "links": [
    "m-feasts",
    "calendar"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -943,13 +974,14 @@
    "8 amshir"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/06-amsheer/08-amshir-temple.html",
   "ref": "Luke 2:22-38",
   "links": [
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -972,14 +1004,15 @@
    "holy family in egypt"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/09-bashans/24-pashans-egypt.html",
   "ref": "Matthew 2:13-15; Isaiah 19:25",
   "links": [
    "m-feasts",
    "calendar"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -1001,7 +1034,8 @@
    "entry into jerusalem"
   ],
   "level": "little",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/faith/en/terms/palm-sunday.html",
   "ref": "Matthew 21:1-11",
   "links": [
    "m-feasts",
@@ -1059,14 +1093,15 @@
    "jesus goes up"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/faith/en/terms/ascension-day.html",
   "ref": "Acts 1:9-11",
   "links": [
    "m-feasts",
    "calendar"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -1117,13 +1152,14 @@
    "light"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/12-mesraa/13-mesra-transfiguration.html",
   "ref": "Matthew 17:1-8",
   "links": [
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -1145,20 +1181,21 @@
    "theotokos"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/12-mesraa/16-mesra-mary.html",
   "ref": "",
   "links": [
    "m-feasts",
    "quiz-stmary"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "feast-cana",
   "title": "What is the Wedding at Cana?",
-  "text": "Jesus went with St. Mary and His disciples to a wedding in a town called Cana. During the wedding, the family ran out of wine. St. Mary told the servants, Do whatever He tells you. Jesus asked them to fill big jars with water, and the water became wine. It was His first miracle. The Church celebrates this feast in the month of Tobi. Jesus cares about our needs, and St. Mary helps us ask Him.",
+  "text": "Jesus went with St. Mary and His disciples to a wedding in a town called Cana. During the wedding, the family ran out of wine. St. Mary told the servants, Do whatever He tells you. Jesus asked them to fill big jars with water, and the water became wine. It was His first miracle. The Church celebrates this feast on the 13th of Tobi. Jesus cares about our needs, and St. Mary helps us ask Him.",
   "tags": [
    "feast",
    "jesus",
@@ -1173,13 +1210,14 @@
    "wine"
   ],
   "level": "little",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/05-topah/13-toba-cana.html",
   "ref": "John 2:1-11",
   "links": [
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -1200,19 +1238,20 @@
    "10 baramhat"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/07-baramhat/10-paramhat.html",
   "ref": "",
   "links": [
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "feast-apostles",
   "title": "What is the Feast of the Apostles?",
-  "text": "The Feast of the Apostles remembers the twelve apostles and the saints who preached the Gospel, with special love for St. Peter and St. Paul. The apostles left everything to follow Jesus, and after Pentecost they went out to the world to tell people about Him. We would not know Jesus today without them. The feast comes at the end of the Apostles Fast, on the 5th of Abib. We thank God for their courage and ask for their prayers.",
+  "text": "The Feast of the Apostles remembers St. Peter and St. Paul, who preached about Jesus in Rome and loved Him until the end of their lives. Peter was a fisherman from Bethsaida, and Paul was born in Tarsus. The twelve apostles left everything to follow Jesus, and after Pentecost they went out to tell the world about Him. We would not know Jesus today without them. The feast is on the 5th of Abib, at the end of the Apostles Fast. We thank God for their courage and ask for their prayers.",
   "tags": [
    "feast",
    "saint",
@@ -1227,13 +1266,14 @@
    "disciples"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/11-abeeb/05-epep-peter.html",
   "ref": "",
   "links": [
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -1254,13 +1294,14 @@
    "law of moses"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/05-topah/06-toba-circumcision.html",
   "ref": "Luke 2:21",
   "links": [
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -1282,20 +1323,21 @@
    "28 koiahk"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/03-hatoor/16-hator-nativity.html",
   "ref": "",
   "links": [
    "calendar",
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
   "id": "fast-apostles",
   "title": "What is the Apostles Fast?",
-  "text": "The Apostles Fast begins the day after the end of the Pentecost season and finishes on the Feast of the Apostles, the 5th of Abib. The length changes every year, because it depends on the date of Easter. The apostles fasted and prayed before they went to preach, and we follow their example. During the fast we eat plant based foods and pray more. It reminds us to be thankful for the apostles.",
+  "text": "The Apostles Fast begins on the Monday after Pentecost and finishes the day before the Feast of the Apostles, the 5th of Abib. The length changes every year, because it depends on the date of Easter. The apostles fasted and prayed before they went to preach, and we follow their example. During the fast we eat plant based foods and pray more. It reminds us to be thankful for the apostles.",
   "tags": [
    "fast",
    "saint"
@@ -1308,14 +1350,15 @@
    "fast of apostles"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/faith/en/terms/apostles-feast.html",
   "ref": "",
   "links": [
    "calendar",
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -1336,7 +1379,8 @@
    "fast of virgin"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/books/en/church/synaxarium/12-mesraa/16-mesra-mary.html",
   "ref": "",
   "links": [
    "calendar",
@@ -1344,7 +1388,7 @@
    "quiz-stmary"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  },
  {
@@ -1366,13 +1410,14 @@
    "great fish"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
+  "url": "https://st-takla.org/Feastes-&-Special-Events/Jonah-s-Fasting__Nineveh-s-Fast/Soom-Yonan__EN-03-How-many-days-People-of-Nineveh-fast.html",
   "ref": "Jonah 3",
   "links": [
    "calendar"
   ],
   "verse": null,
-  "verify": true,
+  "verify": false,
   "approved": false
  }
 ]

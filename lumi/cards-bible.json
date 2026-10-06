@@ -217,7 +217,7 @@
    "sinai"
   ],
   "level": "all",
-  "source": "Bible (KJV)",
+  "source": "St-Takla.org (our own words)",
   "ref": "Exodus 3:1-15",
   "links": [
    "l-prek-4.6",
@@ -227,8 +227,9 @@
    "text": "And God said unto Moses, I AM THAT I AM.",
    "ref": "Exodus 3:14"
   },
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/books/en/pope-shenouda-iii/comparative-theology/mary-titles.html"
  },
  {
   "id": "bible-red-sea",
@@ -670,7 +671,7 @@
  {
   "id": "bible-prodigal-son",
   "title": "The prodigal son",
-  "text": "Jesus told a story about a father with two sons. The younger son asked for his share of the money, left home and spent it all on foolish things. Soon he was hungry and had nothing. He decided to go back home and say sorry. While he was still far away, his father saw him, ran to him and hugged him. The son said he was sorry, and the father welcomed him and gave a big party. The father in the story is like God. God is always ready to welcome us back when we say sorry. The Church remembers this story during the Great Lent season.",
+  "text": "Jesus told a story about a father with two sons. The younger son asked for his share of the money, left home and spent it all on foolish things. Soon he was hungry and had nothing. He decided to go back home and say sorry. While he was still far away, his father saw him, ran to him and hugged him. The son said he was sorry, and the father welcomed him and gave a big party. The father in the story is like God. God is always ready to welcome us back when we say sorry. The Church reads this story on one of the Sundays of Great Lent, as a picture of repentance and of the joy in heaven when someone comes back to God.",
   "tags": [
    "bible",
    "jesus",
@@ -687,7 +688,7 @@
    "repentance"
   ],
   "level": "little",
-  "source": "Bible (KJV)",
+  "source": "St-Takla.org (our own words)",
   "ref": "Luke 15:11-32",
   "links": [
    "quiz-prodigal",
@@ -699,8 +700,9 @@
    "text": "But when he was yet a great way off, his father saw him, and had compassion, and ran, and fell on his neck, and kissed him.",
    "ref": "Luke 15:20"
   },
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/Feastes-&-Special-Events/Great-Lent-Baskha/Coptic-El-Soom-Al-Kabir-09-Sundays-of-Great-Lent.html"
  },
  {
   "id": "bible-lost-sheep",
@@ -873,7 +875,7 @@
  {
   "id": "word-theotokos",
   "title": "What does Theotokos mean?",
-  "text": "Theotokos is a Greek word. It means \"God-bearer,\" or Mother of God. We use it for St. Mary, the Virgin Mary. We call her this because the child she carried and gave birth to is Jesus Christ, who is truly God and truly man. It is a title that honors Jesus first. The Church uses this name for St. Mary in many prayers and hymns. When you hear \"Theotokos\" in church, you can think of St. Mary as the mother who loved Jesus and cared for Him, and who also loves us and prays for us.",
+  "text": "Theotokos is a Greek word. \"Theo\" means God and \"tokos\" means one who bears, so it means \"she who bore God,\" or the Mother of God. The Church gives this title to St. Mary, the Virgin Mary, because the Child she carried and gave birth to is Jesus Christ, who is truly God and truly man. So the title is really about Jesus first. The Bible shows this when Elizabeth greeted Mary as \"the mother of my Lord\" (Luke 1:43). When you hear Theotokos in a hymn or prayer, remember that St. Mary is the mother who loved Jesus, and she is honored by the whole Church.",
   "tags": [
    "mary",
    "church",
@@ -889,20 +891,21 @@
    "meaning"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [
    "quiz-stmary",
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/books/en/pope-shenouda-iii/comparative-theology/mary-titles.html"
  },
  {
   "id": "word-pascha",
   "title": "What does Pascha mean?",
-  "text": "Pascha is a word from the old Jewish Passover, when God saved His people from Egypt. In the Church, Pascha means the great feast of the Resurrection, when Jesus passed from death to life and saved us from sin. We also call the Holy Week before the feast \"Pascha Week,\" when we remember the last days of Jesus: the Last Supper, His crucifixion and His burial. We pray long services and fast. Then comes the joyful night and day of the Resurrection, which is the most important feast of the Church year. Pascha reminds us that Jesus has won over death.",
+  "text": "Pascha comes from a Hebrew word that means Passover. Long ago, God saved His people from Egypt on the night of the Passover lamb. In the Church, Pascha is the name of Holy Week, when we remember how Jesus gave His life on the cross to save us and to lift us up to heaven. Holy Week has special services, and the church is quiet and serious. Orthodox Christians also use the word Pascha for the joyful feast of the Resurrection instead of the word Easter. Pascha reminds us that Jesus, our true Passover, saves us and brings us from sadness to joy.",
   "tags": [
    "feast",
    "jesus",
@@ -919,20 +922,21 @@
    "paschal"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [
    "m-feasts",
    "calendar"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/pasch-holy-week.html"
  },
  {
   "id": "word-agpeya",
   "title": "What is the Agpeya?",
-  "text": "The Agpeya is the Coptic Orthodox book of prayers. The word means \"the hours.\" It has prayers for different times of the day and night. Each prayer is called an hour, and it includes psalms, readings from the Gospel and short prayers. In the book we find the prayers of the morning, the third, sixth and ninth hours, sunset, bedtime and midnight. The prayers help us to talk with God throughout the day, like a friend we visit many times. Many Coptic families keep an Agpeya at home, and kids can start with the morning and bedtime prayers.",
+  "text": "The Agpeya is the Coptic Orthodox prayer book. Its name comes from a Coptic word that means \"hour,\" so it is often called the Book of Hours. It has seven prayer times: Prime in the morning, the Third, Sixth and Ninth hours during the day, the Eleventh hour at sunset, the Twelfth hour at bedtime, and the Midnight prayer. A special Veil prayer is for priests and monks. Each hour has psalms, a reading from the Gospel and short prayers, and each one reminds us of something Jesus did for us. The Agpeya helps us talk with God through the whole day, and kids can start with the morning and bedtime prayers.",
   "tags": [
    "prayer",
    "church",
@@ -948,7 +952,7 @@
    "psalms"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "Agpeya",
   "links": [
    "l-g2-4.10",
@@ -956,8 +960,9 @@
    "bedtime"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/Agpeya.html"
  },
  {
   "id": "word-hosanna",
@@ -994,7 +999,7 @@
  {
   "id": "word-alleluia",
   "title": "What does Alleluia mean?",
-  "text": "Alleluia is a word from Hebrew that means \"praise the Lord.\" It is also written Hallelujah. It is a joyful word, and we use it to thank and praise God. In the Church we say or sing Alleluia many times during the Holy Liturgy and in the hymns. In the Psalms people call out Alleluia to praise God for His great love. When you sing Alleluia, you are joining the angels and saints in praising God, and you can sing it any time you feel happy and thankful.",
+  "text": "Alleluia, also written Hallelujah, is a Hebrew word that means \"praise the Lord.\" It is a joyful word that we use to thank and praise God. In the Church we sing Alleluia in prayers, hymns and spiritual songs. The Bible shows that the angels and saints in heaven praise God with this same word (Revelation 19:1). So when we sing Alleluia in church, we join the heavenly creatures in their praise. In the Psalms, people also call out Alleluia to praise God for His great love. You can sing Alleluia any time you feel happy and thankful.",
   "tags": [
    "church",
    "prayer",
@@ -1010,7 +1015,7 @@
    "sing"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "Psalm 146:1",
   "links": [
    "verse"
@@ -1020,12 +1025,13 @@
    "ref": "Psalm 146:1"
   },
   "verify": false,
-  "approved": false
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/hallelujah.html"
  },
  {
   "id": "word-kyrie-eleison",
   "title": "What does Kyrie eleison mean?",
-  "text": "Kyrie eleison is Greek. It means \"Lord, have mercy.\" In Coptic Orthodox services we say it often, as a short prayer that asks God for His kindness and help. We ask for mercy for ourselves, for our family, for the world and for the people who are sick or sad. We say it many times in a row in the Agpeya and in the Holy Liturgy. It is short and simple, and kids can pray it any time, quietly, when they need God's help or when they are worried.",
+  "text": "Kyrie eleison is Greek. It means \"Lord, have mercy.\" It is a very old short prayer that the Church says or sings in worship. We say it again and again in the Agpeya, where each hour has it many times, and also in the Holy Liturgy. When we say it, we ask God for His kindness and help, for ourselves, for our family, for the sick and sad, and for the whole world. It is short and simple, so kids can pray it quietly any time, for example when they feel worried, when they have done something wrong, or when they know someone who needs help.",
   "tags": [
    "prayer",
    "church",
@@ -1040,19 +1046,20 @@
    "short prayer"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [
    "l-g4-1.5"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/kyrie-eleison.html"
  },
  {
   "id": "word-amen",
   "title": "What does Amen mean?",
-  "text": "Amen is a Hebrew word that means \"so be it\" or \"truly.\" When we say Amen at the end of a prayer, we are agreeing with it and making it our own. In the Holy Liturgy, when the priest prays, the people answer \"Amen\" to say, \"Yes, we believe this and we pray it too.\" In the Coptic Church the people also say it in Coptic as \"Amin.\" Saying Amen helps all the people pray together as one body. Next time you say Amen, say it clearly and think about what you just prayed.",
+  "text": "Amen is a word we say at the end of a prayer. It means \"so be it\" or \"let it be so.\" When we say Amen, we are agreeing with what was prayed and making the prayer our own. That is why people in church say it after prayers and blessings. Even though it is a tiny word, it is important, because it shows that we mean what we prayed and that we trust God to hear us. Next time you say Amen at the end of a prayer, say it clearly and slowly, and think about the words you just prayed. Amen helps all of us pray together.",
   "tags": [
    "prayer",
    "church",
@@ -1067,19 +1074,20 @@
    "meaning"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [
    "verse"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/amen.html"
  },
  {
   "id": "word-iconostasis",
   "title": "What does the word iconostasis mean?",
-  "text": "The iconostasis is a wall or screen of icons in front of the altar area in many Orthodox churches. In a Coptic church it is often called the iconostasis or the haykal screen, and it stands between the nave, where the people stand, and the haykal, where the altar is. The icons on it show Jesus, St. Mary, the saints and angels. The icons are like windows that remind us that heaven and earth are joined in worship. They are not just pictures: we honor and kiss the icons to show our love for those they show. In many churches the screen has a door in the middle that is opened during the Liturgy.",
+  "text": "The iconostasis is a wooden or marble stand that holds holy icons in a Coptic church. It stands in front of the altar area. It has three doors, and the middle one, called the Royal Door, leads to the main altar. On one side of the Royal Door we see the icon of our Lord Jesus, and on the other side the icon of St. Mary. More icons of saints and angels are placed around them. The icons remind us that the saints and the angels are with us when we praise God. They are not a wall that keeps people away. They help us remember Jesus and His friends while we pray.",
   "tags": [
    "church",
    "icon",
@@ -1095,19 +1103,20 @@
    "curtain"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [
    "m-saints"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/iconostasis-iconstand.html"
  },
  {
   "id": "word-korban",
   "title": "What is the Korban?",
-  "text": "Korban means \"offering.\" In the Coptic Church it is the special bread that is prepared for the Holy Liturgy. It is a small round loaf of bread with a cross on it, made with great care by people of the church, who say prayers while they work. During the Liturgy the priest offers the Korban on the altar together with the wine. Through the prayers and the work of the Holy Spirit they become the Body and Blood of Jesus Christ in Holy Communion. This is why the bread is treated with so much respect. It is a way that we give to God what He has first given to us.",
+  "text": "Korban means \"offering.\" It is the special bread that the church uses for the Holy Liturgy, also called the Eucharistic bread. It is a small round loaf made from fine wheat flour, water and yeast, with no salt. Before it is baked, it is stamped with a design. In the middle is a part called the Despatikon, which means \"lordly,\" with twelve crosses around it for the twelve apostles. It also has five small holes that remind us of the nails and the spear, and the word \"holy\" three times. In the Liturgy, this bread becomes the Body of Christ. That is why we treat it with great respect.",
   "tags": [
    "liturgy",
    "church",
@@ -1124,19 +1133,20 @@
    "altar"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "",
   "links": [
    "m-feasts"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/eucharistic-bread.html"
  },
  {
   "id": "pray-lords-prayer",
   "title": "The Lord's Prayer",
-  "text": "The Lord's Prayer is the prayer Jesus Himself taught His disciples. We pray it in the Agpeya, in the Holy Liturgy and every day. Here it is: \"Our Father which art in heaven, Hallowed be thy name. Thy kingdom come, Thy will be done in earth, as it is in heaven. Give us this day our daily bread. And forgive us our debts, as we forgive our debtors. And lead us not into temptation, but deliver us from evil: For thine is the kingdom, and the power, and the glory, for ever. Amen.\" In this prayer we praise God, ask for what we need and ask Him to forgive us.",
+  "text": "The Lord's Prayer is the prayer Jesus Himself taught His disciples. We pray it in the Agpeya, in the Holy Liturgy and every day. In the Coptic Church we say it like this: \"Our Father who art in heaven, hallowed be Thy name. Thy kingdom come. Thy will be done on earth as it is in heaven. Give us this day our daily bread. And forgive us our trespasses, as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil, in Christ Jesus our Lord. For Thine is the kingdom, the power and the glory, forever. Amen.\" In this prayer we praise God, ask for what we need and ask Him to forgive us.",
   "tags": [
    "prayer",
    "jesus",
@@ -1151,7 +1161,7 @@
    "matthew 6"
   ],
   "level": "little",
-  "source": "Bible (KJV)",
+  "source": "St-Takla.org (our own words)",
   "ref": "Matthew 6:9-13",
   "links": [
    "l-prek-6.7",
@@ -1160,12 +1170,13 @@
   ],
   "verse": null,
   "verify": false,
-  "approved": false
+  "approved": false,
+  "url": "https://st-takla.org/Prayers-Slawat/Pray-Archive-01-10/Coptic-Prayer-01-The-Lords-Prayer.html"
  },
  {
   "id": "pray-trisagion",
   "title": "The Trisagion prayer",
-  "text": "The Trisagion means \"Thrice Holy,\" because we say \"holy\" three times. It is a short prayer that we pray many times in the Agpeya and the Holy Liturgy. It says: \"Holy God, Holy Mighty, Holy Immortal, who was crucified for us, have mercy on us.\" The three holies remind us of the Holy Trinity: the Father, the Son and the Holy Spirit. We also pray it with the angels, who praise God as holy day and night. When you are praying, you can say the Trisagion slowly to remember how great and kind God is.",
+  "text": "The Trisagion is a Greek word that means \"Thrice Holy,\" because we say \"holy\" three times. It is a short hymn that the Church sings and prays in its services, and it is chanted in all our liturgies. We say: \"Holy God, Holy Mighty, Holy Immortal, who was crucified for us, have mercy on us.\" In the Coptic Church, the whole hymn is a prayer to Jesus Christ. The three holies also remind us of the Holy Trinity, the Father, the Son and the Holy Spirit, and we join the angels in praising God as holy. When you pray, you can say the Trisagion slowly to remember how great and kind God is.",
   "tags": [
    "prayer",
    "trinity",
@@ -1180,14 +1191,15 @@
    "have mercy on us"
   ],
   "level": "all",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "Isaiah 6:3",
   "links": [
    "l-g4-1.5"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/faith/en/terms/trisagion.html"
  },
  {
   "id": "pray-psalm-23",
@@ -1329,7 +1341,7 @@
  {
   "id": "pray-agpeya-how",
   "title": "How do we pray the Agpeya?",
-  "text": "When we pray the Agpeya, we stand, facing east, and make the sign of the cross. We start with the Thanksgiving Prayer. Then we pray the psalms that belong to that hour, and a short reading from the Gospel. After that we say \"Kyrie eleison\" (Lord, have mercy) many times and the Trisagion, and we pray the Lord's Prayer. Each hour ends with other short prayers and a blessing. We do not need to hurry. We can pray a little at a time, and if the book is long, a parent or a servant can help us. The Agpeya teaches us to talk to God throughout the day.",
+  "text": "Each hour of the Agpeya follows a pattern, so it becomes easy to learn. We begin with an introduction that includes the Lord's Prayer, then the Prayer of Thanksgiving and Psalm 50, which asks God for mercy. After that we pray the psalms for that hour and a short reading from the Gospel. Then come short prayers for the needs of the world, and we say \"Lord, have mercy\" forty-one times. The hour ends with more short prayers. We do not need to hurry. We can pray a little at a time, and a parent or a servant can help us find the place in the book. The Agpeya teaches us to talk to God all through the day.",
   "tags": [
    "prayer",
    "church",
@@ -1345,20 +1357,21 @@
    "how to pray"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "Agpeya",
   "links": [
    "l-g2-4.10",
    "l-g4-1.5"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/Agpeya.html"
  },
  {
   "id": "pray-agpeya-hours",
   "title": "When do we pray the Agpeya hours?",
-  "text": "The Agpeya has prayers for different times of the day. The first hour is Prime, in the morning, when we thank God for the new day. The third hour is Terce, in the middle of the morning, and we remember the Holy Spirit coming at Pentecost. The sixth hour is Sext, at noon, and we remember Jesus on the cross. The ninth hour is None, in the afternoon, and we remember Jesus giving His spirit. The eleventh hour is Vespers, at sunset, and we thank God for the day. The twelfth hour is Compline, at bedtime, and the Midnight prayers are for waiting for Jesus. You do not need to pray all of them at once. You can start with one or two.",
+  "text": "The Agpeya has prayers for seven times in the day and night. Prime, the first hour, is at about 6 in the morning, and it celebrates the Resurrection and the new light. The Third hour, about 9 in the morning, remembers the Holy Spirit coming down on the apostles. The Sixth hour, at noon, remembers Jesus on the cross. The Ninth hour, about 3 in the afternoon, remembers Jesus dying for us and the thief who repented. The Eleventh hour, at sunset, remembers Jesus' body being taken down from the cross. The Twelfth hour, at bedtime, remembers His burial. The Midnight prayer reminds us that Jesus will come again. You can start with one or two hours.",
   "tags": [
    "prayer",
    "church",
@@ -1377,15 +1390,16 @@
    "times of prayer"
   ],
   "level": "older",
-  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "source": "St-Takla.org (our own words)",
   "ref": "Agpeya",
   "links": [
    "l-g2-4.10",
    "l-g4-1.5"
   ],
   "verse": null,
-  "verify": true,
-  "approved": false
+  "verify": false,
+  "approved": false,
+  "url": "https://st-takla.org/Agpeya.html"
  },
  {
   "id": "virtue-love",
