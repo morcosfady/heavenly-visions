@@ -119,5 +119,5 @@ document.addEventListener("click",e=>{
   if(e.target.closest("[data-soon]"))toast("The daily verse challenge is coming in Phase 3 ✨")});
 document.documentElement.lang=lang();
 
-window.hvHomeInit=function(){setTimeout(welcome,900)};
+window.hvHomeInit=function(){setTimeout(welcome,900);if(window.hvLoadAnn)hvLoadAnn();if(window.hvThisSunday)hvThisSunday()};
 })();

@@ -217,3 +217,49 @@ ok('avatar is saved on the account', A('starkid', { action: 'me' }).user.av.hat 
 ok('streak bonus after 4 Sundays in a row', A('ak1', { action: 'me' }).user.score === 10 && A('ak1', { action: 'me' }).user.badges.includes('streak_4'));
 ok('shop list matches the app', (() => { const k = fs.readFileSync(require('path').join(__dirname, '..', 'kids.js'), 'utf8'); const ids = [...src.matchAll(/(\w+_\w+): \[(\d+), '(\w+)'\]/g)]; return ids.length > 20 && ids.every(m => k.includes('"' + m[1] + '"') && new RegExp('"' + m[1] + '"[^\\n]{0,60}?' + m[2] + '\\b').test(k)) })());
 ok('prayer gives 1 star and has a daily cap', A('starkid', { action: 'award', kind: 'prayer', ref: 'p1' }).added === 1);
+
+/* ---------- servants tools: planner, announcements, follow up ---------- */
+SIMDAY = '2026-10-11';
+const LES = { date: '2026-10-18', title: 'Noah and the Ark', status: 'ready', verse: 'God saw it was good', notes: 'private note', materials: ['paper', 'glue'] };
+ok('servant saves a lesson for own class', A('as1', { action: 'lp_save', lesson: LES }).ok);
+ok('draft lesson saved too', A('as1', { action: 'lp_save', lesson: { date: '2026-10-25', title: 'Draft one', status: 'draft' } }).ok);
+ok('lesson without a title refused', A('as1', { action: 'lp_save', lesson: { date: '2026-11-01', title: '' } }).error === 'missing');
+ok('servant lists own class lessons', A('as1', { action: 'lp_list', from: '2026-10-01', to: '2026-12-31' }).lessons.length === 2);
+ok('coordinator of the grade sees them', A('c1x', { action: 'lp_list', from: '2026-10-01', to: '2026-12-31' }).lessons.length === 2);
+ok('servant of another grade sees none', A('as4', { action: 'lp_list', from: '2026-10-01', to: '2026-12-31' }).lessons.length === 0);
+ok('priest needs a grade', A('p1x', { action: 'lp_list' }).error === 'denied');
+ok('priest reads a chosen grade', A('p1x', { action: 'lp_list', grade: 'Grade 3', from: '2026-10-01', to: '2026-12-31' }).lessons.length === 2);
+ok('student cannot list lessons', A('ak1', { action: 'lp_list' }).error === 'denied');
+ok('student cannot save a lesson', A('ak1', { action: 'lp_save', lesson: LES }).error === 'denied');
+const tw = A('ak1', { action: 'lp_this' }).lesson;
+ok('kid sees the ready lesson of own class', tw && tw.title === 'Noah and the Ark' && tw.date === '2026-10-18');
+ok('kid never gets private notes or materials', tw && !('notes' in tw) && !('materials' in tw) && !('status' in tw));
+ok('kid of another grade sees nothing', A('ak4', { action: 'lp_this' }).lesson === null);
+ok('kid of another church sees nothing', A('ako', { action: 'lp_this' }).lesson === null);
+ok('servant cannot copy to another grade', A('as1', { action: 'lp_dup', date: '2026-10-18', toDate: '2026-11-08', toGrade: 'Grade 4' }).error === 'denied');
+ok('servant copies to a new date', A('as1', { action: 'lp_dup', date: '2026-10-18', toDate: '2026-11-08' }).ok && A('as1', { action: 'lp_list', from: '2026-11-01', to: '2026-11-30' }).lessons[0].status === 'draft');
+ok('priest copies to another grade', A('p1x', { action: 'lp_dup', grade: 'Grade 3', date: '2026-10-18', toDate: '2026-11-15', toGrade: 'Grade 4' }).ok && A('as4', { action: 'lp_list', from: '2026-11-01', to: '2026-11-30' }).lessons.length >= 1);
+ok('servant deletes a lesson', A('as1', { action: 'lp_delete', date: '2026-10-25' }).ok && !A('as1', { action: 'lp_list', from: '2026-10-01', to: '2026-12-31' }).lessons.some(x => x.date === '2026-10-25'));
+
+ok('servant posts to own class only', (() => { const r = A('as1', { action: 'an_save', a: { title: 'Bring a Bible', msg: 'Next Sunday', cat: 'bring', grades: ['all'] } }); return r.ok && r.item.grades.join() === 'Grade 3' })());
+ok('kid of that class sees it', A('ak1', { action: 'an_list' }).items.some(x => x.title === 'Bring a Bible'));
+ok('kid of another grade does not', !A('ak4', { action: 'an_list' }).items.some(x => x.title === 'Bring a Bible'));
+ok('kid of another church does not', A('ako', { action: 'an_list' }).items.length === 0);
+ok('student cannot post', A('ak1', { action: 'an_save', a: { title: 'x', msg: 'y' } }).error === 'denied');
+const allAn = A('c1x', { action: 'an_save', a: { title: 'Church picnic', msg: 'Saturday at 10', cat: 'event', date: '2026-10-24', grades: ['all'], pin: true } });
+ok('coordinator can post to everyone', allAn.ok && allAn.item.grades[0] === 'all');
+ok('everyone in the church sees it first (pinned)', A('ak4', { action: 'an_list' }).items[0].title === 'Church picnic');
+ok('servant cannot delete a church wide one', A('as1', { action: 'an_delete', aid: allAn.item.id }).error === 'denied');
+ok('expired announcements are hidden', A('c1x', { action: 'an_save', a: { title: 'Old', msg: 'gone', exp: '2026-01-01' } }).ok && !A('c1x', { action: 'an_list' }).items.some(x => x.title === 'Old'));
+ok('coordinator deletes own one', A('c1x', { action: 'an_delete', aid: allAn.item.id }).ok && !A('ak4', { action: 'an_list' }).items.some(x => x.title === 'Church picnic'));
+
+const fup = A('as1', { action: 'fu_list' });
+ok('servant gets own class follow up list', fup.ok && fup.rows.length >= 2 && fup.rows.every(r => r.grade === 'Grade 3'));
+ok('student cannot see follow up', A('ak1', { action: 'fu_list' }).error === 'denied');
+const kidId = fup.rows[0].id;
+ok('servant marks contacted', A('as1', { action: 'fu_set', target: kidId, kind: 'contacted' }).ok && A('as1', { action: 'fu_list' }).rows.find(r => r.id === kidId).c > 0);
+ok('servant adds a note', A('as1', { action: 'fu_set', target: kidId, kind: 'note', note: 'Called, sick this week' }).ok && A('as1', { action: 'fu_list' }).rows.find(r => r.id === kidId).n[0].x === 'Called, sick this week');
+ok('progress counts this month', A('as1', { action: 'fu_list' }).done === 1);
+ok('servant of another grade cannot touch the kid', A('as4', { action: 'fu_set', target: kidId, kind: 'visited' }).error === 'denied');
+ok('priest can with a grade', A('p1x', { action: 'fu_set', grade: 'Grade 3', target: kidId, kind: 'visited' }).ok);
+ok('bad kind refused', A('as1', { action: 'fu_set', target: kidId, kind: 'hack' }).error === 'missing');
