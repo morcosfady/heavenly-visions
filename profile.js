@@ -75,7 +75,7 @@ window.acctChip=function(){const head=document.querySelector(".hubhead");if(!hea
 /* give points (called from the app) */
 window.hvAward=async function(kind,ref,label){const a=acct();if(!a||!GU())return;
   try{const j=await api({action:"award",id:a.user.id,token:a.token,kind,ref,label});
-    if(j.ok){a.user=j.user;setAcct(a);if(j.added){toast("+"+j.added+" points ⭐");if(window.confetti)confetti()}}
+    if(j.ok){a.user=j.user;setAcct(a);if(j.added){toast("+"+j.added+" stars ⭐");if(window.confetti)confetti();if(window.hvStarsRefresh)hvStarsRefresh(j.added)}}
     else if(j.error==="auth")setAcct(null)}catch{}};
 
 /* ---------- login / create profile ---------- */
