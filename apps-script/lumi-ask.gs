@@ -120,7 +120,10 @@ function lmGold(p, q) {
 }
 
 /* ---------- the answer: the best card, shortened for the child's age ---------- */
-function lmSentences(t) { return String(t).trim().match(/[^.!?]+[.!?]+(\s|$)/g) || [String(t)]; }
+function lmSentences(t) {
+  var s = String(t).trim().replace(/\b(St|Dr|Fr|Mr|Mrs)\./g, '$1\u0001'), m = s.match(/[^.!?]+[.!?]+(\s|$)/g) || [s];
+  return m.map(function (x) { return x.replace(/\u0001/g, '.'); });
+}
 function lmCompose(card, level, sensitive) {
   var sn = lmSentences(card.text), n = sensitive ? 2 : level === 'little' ? 3 : 7;
   var text = lmCap(lmDash(sn.slice(0, n).join('').trim()), level);

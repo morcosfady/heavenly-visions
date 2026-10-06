@@ -200,6 +200,7 @@ function lumiPost(b, u) {
   var p = PropertiesService.getScriptProperties(), act = b.action;
   var staff = u.role !== 'student' && !u.req;
   if (act === 'lumi_ask') return lmAsk(b, u);
+  if (act === 'lumi_learn') return lmLearn(b, u);
   if (act === 'lumi_hist') return lmHist(b, u, staff);
   if (act === 'lumi_fb') return lmFeedback(b, u);
   if (!staff) return { ok: false, error: 'denied' };

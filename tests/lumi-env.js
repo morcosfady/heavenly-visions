@@ -5,7 +5,7 @@ const fs = require('fs'), path = require('path');
 const root = path.join(__dirname, '..');
 exports.make = function (opts) {
   opts = opts || {};
-  const src = ['ai-helper.gs', 'lumi.gs', 'lumi-ask.gs'].map(f => fs.readFileSync(path.join(root, 'apps-script', f), 'utf8')).join('\n').replace("var MAIN_URL = 'CHANGE_ME';", "var MAIN_URL = 'https://main.test/exec';");
+  const src = ['ai-helper.gs', 'lumi.gs', 'lumi-ask.gs', 'lumi-learn.gs'].map(f => fs.readFileSync(path.join(root, 'apps-script', f), 'utf8')).join('\n').replace("var MAIN_URL = 'CHANGE_ME';", "var MAIN_URL = 'https://main.test/exec';");
   const props = opts.props || { ANTHROPIC_KEY: 'sk-fake' }, cacheMap = {};
   const env = { day: '2026-10-11', fetches: 0, aiCalls: [], cardsFetches: 0 };
   const PropertiesService = { getScriptProperties: () => ({

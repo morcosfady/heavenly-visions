@@ -87,21 +87,24 @@ function page(){
   if(!URL_()){S.mood="sleepy";app.innerHTML=`${top}<div class="lm-wrap">${hero()}<div class="card sec" style="text-align:center"><b>Lumi is still sleeping 💤</b><p class="tag" style="margin:4px 0 0">She will wake up soon. Ask your servant or Abouna in the meantime!</p></div></div>`;return}
   S.msgs=[];S.mood="happy";
   app.innerHTML=`${top}<div class="lm-wrap">${hero()}
-   <div class="ds-seg" id="lmtabs" role="tablist">${[["chat","💬 Chat"],["mine","🕘 My questions"],["saved","⭐ Saved"]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${S.tab===t[0]}" role="tab">${t[1]}</button>`).join("")}</div>
+   <div class="ds-seg" id="lmtabs" role="tablist">${[["chat","💬 Chat"],["learn","🎓 Learn"],["mine","🕘 History"],["saved","⭐ Saved"]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${S.tab===t[0]}" role="tab">${t[1]}</button>`).join("")}</div>
    <div id="lmbody"></div></div>`;
   document.getElementById("lmtabs").onclick=e=>{const b=e.target.closest("[data-tab]");if(!b)return;S.tab=b.dataset.tab;document.querySelectorAll("#lmtabs button").forEach(x=>x.setAttribute("aria-pressed",x===b));draw()};
   draw();
   try{const lq=new URLSearchParams(location.search).get("lq");if(lq&&location.hostname==="localhost")setTimeout(()=>ask(lq),500)}catch{}}
 
+function goTab(t,start){S.tab=t;S.learnStart=start||null;document.querySelectorAll("#lmtabs button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.tab===t));draw()}
+window.lumiGoAsk=q=>{goTab("chat");setTimeout(()=>ask(q),80)};
 function setMood(m){S.mood=m;const b=document.getElementById("lmbig");if(b)b.innerHTML=hvLumiSvg(m,128)}
 function draw(){
   const body=document.getElementById("lmbody");if(!body)return;
   if(S.tab==="chat"){
     body.innerHTML=`${todayCard()}<div id="lmlog" class="lm-log" aria-live="polite">${S.msgs.length?"":`<div class="lm-msg lm-l"><div class="lm-face">${hvLumiSvg("happy",38)}</div><div class="lm-bub"><p class="lm-t">Hi ${E(((A().user.first||A().user.name||"friend")+"").split(" ")[0])}! I'm Lumi, a little lamb who loves talking about God and the Church. What would you like to know? 🐑</p></div></div>`}</div>
-     <div id="lmsug" class="lm-sugs">${S.msgs.length?"":`<div class="lm-sugh">Try asking</div>${suggestions(4).map(q=>`<button class="lm-sug" data-q="${E(q)}">${E(q)}</button>`).join("")}`}</div>
+     <div id="lmsug" class="lm-sugs">${S.msgs.length?"":`<div class="lm-sugh">Try asking</div>${suggestions(4).map(q=>`<button class="lm-sug" data-q="${E(q)}">${E(q)}</button>`).join("")}<div class="lm-sugh">Or learn something</div><div class="lm-modes">${(window.lumiLearnModes||[]).map(m=>`<button data-lmode="${m[0]}">${m[1]} ${m[2]}</button>`).join("")}</div>`}</div>
      <form id="lmform" class="lm-form" autocomplete="off"><div id="lmemo" class="lm-emo" hidden>${EMOJIS.map(x=>`<button type="button" class="lm-ic" data-em="${x}" aria-label="Add ${x}">${x}</button>`).join("")}</div>
       <div class="lm-row"><button type="button" class="lm-ic" id="lmem" aria-label="Pick an emoji" aria-expanded="false">😊</button><input id="lmin" maxlength="200" placeholder="Ask Lumi a question… 🐑" aria-label="Your question"><button class="lm-send" type="submit" aria-label="Send">➤</button></div><div class="lm-cnt" id="lmcnt" hidden></div></form>`;
     wireChat();S.msgs.forEach(m=>appendEntry(m));scrollEnd();return}
+  if(S.tab==="learn"){body.innerHTML=`<div id="lmlearn"></div>`;body.onclick=null;const m=S.learnStart;S.learnStart=null;if(window.lumiLearnMount)lumiLearnMount(document.getElementById("lmlearn"),m);return}
   const h=hist(),list=S.tab==="saved"?h.filter(x=>x.saved):h;
   body.innerHTML=list.length?`<div class="lm-hl">${list.map(x=>`<button class="lm-hi" data-open="${x.id}"><span class="lm-hq">${E(x.q)}</span><span class="lm-ha">${E(x.a.answer.slice(0,90))}${x.a.answer.length>90?"…":""}</span><small>${new Date(x.ts).toLocaleDateString("en-US",{month:"short",day:"numeric"})}${x.saved?" · ⭐":""}</small></button>`).join("")}</div>`
     :`<div class="ds-empty"><div class="em">${S.tab==="saved"?"⭐":"🕘"}</div><b>${S.tab==="saved"?"No saved answers yet":"No questions yet"}</b>${S.tab==="saved"?"Tap the star under an answer to keep it here.":"Ask Lumi something and it will show up here."}</div>`;
@@ -137,6 +140,7 @@ function wireChat(){
   form.addEventListener("click",e=>{const b=e.target.closest("[data-em]");if(b){inp.value=(inp.value+b.dataset.em).slice(0,200);inp.focus()}});
   body.onclick=e=>{
     const q=e.target.closest("[data-q]");if(q)return ask(q.dataset.q);
+    const lm=e.target.closest("[data-lmode]");if(lm)return goTab("learn",lm.dataset.lmode);
     const bub=e.target.closest(".lm-bub[data-e]");if(!bub)return;const id=bub.dataset.e,h=hist(),en=h.find(x=>x.id===id);if(!en)return;
     const fb=e.target.closest("[data-fb]"),sv=e.target.closest("[data-sv]");
     if(fb){en.fb=en.fb===fb.dataset.fb?"":fb.dataset.fb;saveHist(h);if(en.fb)sendFeedback(en.ts,en.fb);bub.querySelectorAll("[data-fb]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.fb===en.fb));toast(en.fb==="down"?"Thanks. A servant will take a look 🙏":en.fb==="up"?"Thank you! 🐑":"OK")}
