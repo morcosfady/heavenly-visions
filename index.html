@@ -211,13 +211,14 @@ const app=$("#app");
 
 /* ================= DATA ================= */
 const SECTIONS=[
+ {id:"songs",name:"Songs",ic:"🎶",c:"#e86f8a"},
  {id:"prek",name:"Pre K",ic:"🧸",c:"#f2a65a"},{id:"kg",name:"KG",ic:"🎈",c:"#e86f8a"},
  {id:"g1",name:"Grade 1",ic:"⭐",c:"#2f8fc0"},{id:"g2",name:"Grade 2",ic:"🦁",c:"#6aa84f"},
  {id:"g3",name:"Grade 3",ic:"📖",c:"#8e6bd1"},{id:"g4",name:"Grade 4",ic:"🕊️",c:"#3fb6a8"},
  {id:"g5",name:"Grade 5",ic:"⛪",c:"#d98a2b"},{id:"g6",name:"Grade 6",ic:"✝️",c:"#b9852b"},
  {id:"g7",name:"Grade 7",ic:"🌍",c:"#4a7bd0"},{id:"g8",name:"Grade 8",ic:"🔥",c:"#d4553b"},
  {id:"g9",name:"Grade 9",ic:"🛡️",c:"#5b6b8c"},{id:"g10",name:"Grade 10",ic:"👑",c:"#a0782f"},{id:"g11",name:"Grade 11",ic:"🕯️",c:"#7a5ab8"},{id:"g12",name:"Grade 12",ic:"🎓",c:"#2e8b8b"},
- {id:"feasts",name:"Feasts & Seasons",ic:"🗓️",c:"#2f8fc0"},{id:"saints",name:"Saints",ic:"😇",c:"#b9852b"},{id:"songs",name:"Songs",ic:"🎶",c:"#e86f8a"},
+ {id:"feasts",name:"Feasts & Seasons",ic:"🗓️",c:"#2f8fc0"},{id:"saints",name:"Saints",ic:"😇",c:"#b9852b"},
 ];
 const V=[
  ["ArIC3kr3um0","The 7 Days of Creation","2:23","prek"],["apX8Aj9cmkI","Adam and Eve's Fall and God's Love","4:12","prek"],
@@ -355,7 +356,7 @@ function media(){
   <label class="search"><span aria-hidden="true">🔍</span><input id="q" type="search" placeholder="Search lessons (e.g. St. Mary, Pentecost)" autocomplete="off"></label>
   <div id="results" class="list" hidden></div>
   <section class="sec" id="grades"><h2>Choose your class</h2><div class="grid">${SECTIONS.map(s=>{const n=CUR[s.id]?CUR[s.id].reduce((a,b)=>a+b[1].length,0):inSec(s.id).length;
-    return `<button class="tile ${n?"":"soon"}" style="--c:${s.c}" data-go="m-${s.id}"><span class="ic">${s.ic}</span><span class="nm">${s.name}</span><span class="ct">${n?n+" lesson"+(n>1?"s":""):"Coming soon"}</span></button>`}).join("")}</div></section>
+    return `<button class="tile ${n?"":"soon"}" style="--c:${s.c}" data-go="m-${s.id}"><span class="ic">${s.ic}</span><span class="nm">${s.name}</span><span class="ct">${n?n+(CUR[s.id]?" lesson":" video")+(n>1?"s":""):"Coming soon"}</span></button>`}).join("")}</div></section>
   <section class="sec"><h2>Newest lessons</h2><div class="list">${["BHKgrAQCs3A","gMAFxDCTzr8","ZDRMmShq1jg"].map(id=>rowHTML(V.find(v=>v[0]===id),true)).join("")}</div></section>`;
   const q=$("#q"),res=$("#results"),gr=$("#grades");
   q.addEventListener("input",()=>{const t=q.value.trim().toLowerCase();if(!t){res.hidden=true;gr.hidden=false;return}
