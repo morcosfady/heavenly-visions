@@ -59,7 +59,7 @@ function suggestions(n){const pool=levelOf()==="little"?LITTLE:OLDER,day=Math.fl
 
 /* ================= state ================= */
 const isStaffNow=()=>{const a=A();return !!(a&&a.user.role!=="student"&&!a.user.req)};
-const S={tab:"chat",msgs:[],busy:false,mood:"happy",emoji:false,deep:(()=>{try{return sessionStorage.getItem("hv_lumi_deep")==="1"}catch{return false}})()};
+const S={tab:"chat",msgs:[],busy:false,mood:"happy",emoji:false,deep:false};
 const hist=()=>jget("hv_lumi",[]);
 const saveHist=h=>jset("hv_lumi",h.slice(0,60));
 /* ---- the channel videos: a real thumbnail the child can tap. Only videos that exist (the V list in index.html) are shown, never a "coming soon" one. ---- */
@@ -82,7 +82,7 @@ function ansHtml(en,saved){const a=en.a;
    ${a.sources&&a.sources.length?`<div class="lm-src">${a.sources.map(s=>`<span class="lm-chip">${E(s.label)}</span>`).join("")}</div>`:""}
    ${a.links&&a.links.length?`<div class="lm-links">${a.links.map(r=>{const t=LINKTXT(r);return t?`<button class="lm-lb" data-go="${E(r)}">${t[0]} ${t[1]}</button>`:""}).join("")}</div>`:""}
    ${a.deep&&(a.refs&&a.refs.length||a.urls&&a.urls.length)?`<div class="lm-refs">${(a.refs||[]).map(r=>`<div>📖 ${E(r.title)}: ${E(r.ref)}</div>`).join("")}${(a.urls||[]).map(u=>`<a class="lm-ext" href="${E(u.url)}" target="_blank" rel="noopener">📚 Read more on St-Takla.org: ${E(u.title)} ↗</a>`).join("")}</div>`:""}
-   ${a.safety==="worry"||a.safety==="bad"||a.safety==="adult"?"":`<div class="lm-fb"><button class="lm-ic" data-fb="up" aria-label="Good answer" aria-pressed="${en.fb==="up"}">👍</button><button class="lm-ic" data-fb="down" aria-label="Not a good answer" aria-pressed="${en.fb==="down"}">👎</button><button class="lm-ic" data-sv="1" aria-label="Save this answer" aria-pressed="${!!en.saved}">${en.saved?"⭐":"☆"}</button></div>`}
+   ${a.safety==="worry"||a.safety==="bad"||a.safety==="adult"?"":`<div class="lm-fb"><button class="lm-ic" data-sv="1" aria-label="Save this answer" aria-pressed="${!!en.saved}">${en.saved?"⭐":"☆"}</button></div>`}
    ${a.followups&&a.followups.length?`<div class="lm-fu">${a.followups.map(f=>`<button class="lm-sug" data-q="${E(f)}">${E(f)}</button>`).join("")}</div>`:""}</div></div>`}
 function kidHtml(q){return `<div class="lm-msg lm-k"><div class="lm-bub lm-kb"><p class="lm-t">${E(q)}</p></div><div class="lm-av">${avatar()}</div></div>`}
 const typing=()=>`<div class="lm-msg lm-l" id="lmtyping"><div class="lm-face">${hvLumiSvg("thinking",38)}</div><div class="lm-bub"><span class="lm-dot"></span><span class="lm-dot"></span><span class="lm-dot"></span></div></div>`;
@@ -110,7 +110,7 @@ function setMood(m){S.mood=m;const b=document.getElementById("lmbig");if(b)b.inn
 function draw(){
   const body=document.getElementById("lmbody");if(!body)return;
   if(S.tab==="chat"){
-    body.innerHTML=`${isStaffNow()?`<label class="plm lm-servant"><input type="checkbox" id="lmdeep" ${S.deep?"checked":""}> 🧑‍🏫 <span><b>Servant mode</b><small>Longer answers with references, for lesson preparation</small></span></label>`:""}${todayCard()}<div id="lmlog" class="lm-log" aria-live="polite">${S.msgs.length?"":`<div class="lm-msg lm-l"><div class="lm-face">${hvLumiSvg("happy",38)}</div><div class="lm-bub"><p class="lm-t">Hi ${E(((A().user.first||A().user.name||"friend")+"").split(" ")[0])}! I'm Lumi, a little lamb who loves talking about God and the Church. What would you like to know? 🐑</p></div></div>`}</div>
+    body.innerHTML=`${todayCard()}<div id="lmlog" class="lm-log" aria-live="polite">${S.msgs.length?"":`<div class="lm-msg lm-l"><div class="lm-face">${hvLumiSvg("happy",38)}</div><div class="lm-bub"><p class="lm-t">Hi ${E(((A().user.first||A().user.name||"friend")+"").split(" ")[0])}! I'm Lumi, a little lamb who loves talking about God and the Church. What would you like to know? 🐑</p></div></div>`}</div>
      <div id="lmsug" class="lm-sugs">${S.msgs.length?"":`<div class="lm-sugh">Try asking</div>${suggestions(4).map(q=>`<button class="lm-sug" data-q="${E(q)}">${E(q)}</button>`).join("")}<div class="lm-sugh">Or learn something</div><div class="lm-modes">${(window.lumiLearnModes||[]).map(m=>`<button data-lmode="${m[0]}">${m[1]} ${m[2]}</button>`).join("")}</div>`}</div>
      <form id="lmform" class="lm-form" autocomplete="off"><div id="lmemo" class="lm-emo" hidden>${EMOJIS.map(x=>`<button type="button" class="lm-ic" data-em="${x}" aria-label="Add ${x}">${x}</button>`).join("")}</div>
       <div class="lm-row"><button type="button" class="lm-ic" id="lmem" aria-label="Pick an emoji" aria-expanded="false">😊</button><input id="lmin" maxlength="200" placeholder="Ask Lumi a question… 🐑" aria-label="Your question"><button class="lm-send" type="submit" aria-label="Send">➤</button></div><div class="lm-cnt" id="lmcnt" hidden></div></form>`;
@@ -146,7 +146,6 @@ async function ask(q){
 function wireChat(){
   const form=document.getElementById("lmform"),inp=document.getElementById("lmin"),cnt=document.getElementById("lmcnt"),body=document.getElementById("lmbody");
   form.onsubmit=e=>{e.preventDefault();ask(inp.value)};
-  const dp=document.getElementById("lmdeep");if(dp)dp.onchange=()=>{S.deep=dp.checked;try{sessionStorage.setItem("hv_lumi_deep",S.deep?"1":"0")}catch{}toast(S.deep?"Servant mode is on 🧑‍🏫":"Servant mode is off")};
   inp.oninput=()=>{const n=inp.value.length;cnt.hidden=n<150;cnt.textContent=(200-n)+" letters left"};
   document.getElementById("lmem").onclick=e=>{const p=document.getElementById("lmemo");p.hidden=!p.hidden;e.currentTarget.setAttribute("aria-expanded",!p.hidden)};
   form.addEventListener("click",e=>{const b=e.target.closest("[data-em]");if(b){inp.value=(inp.value+b.dataset.em).slice(0,200);inp.focus()}});
