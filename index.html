@@ -59,6 +59,7 @@ h2{font-size:1.2rem;color:var(--gold);letter-spacing:.02em}
 .door b{font-family:var(--display);font-size:1.35rem;letter-spacing:.02em;text-shadow:0 2px 6px rgba(0,0,0,.25)}
 .door small{font-weight:800;opacity:.92}
 .door.wide{grid-column:1/-1;min-height:120px}
+.contbtn{min-height:52px;text-align:left}
 .privlink{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 16px;margin-top:4px}
 .d-media{background:linear-gradient(140deg,#2f8fc0,#1d5f8f)}
 .d-att{background:linear-gradient(140deg,#3fae6a,#1f7a48)}
@@ -202,7 +203,7 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;font-weight:700}
 <script src="faith.js?v=4"></script>
 <script src="bedtime.js?v=2"></script>
 <script src="coloring.js?v=2"></script>
-<script src="servants.js?v=4"></script>
+<script src="servants.js?v=5"></script>
 <script src="church.js?v=1"></script>
 <script src="arena.js?v=3"></script>
 <script src="offline.js?v=1"></script>
@@ -352,6 +353,7 @@ function hub(){
     <button class="door d-quiz" data-go="quizzes"><span class="big">🏆</span><b>Quizzes</b><small>Test what you know</small></button>
     <button class="door d-bible" data-go="bible"><span class="big">📖</span><b>The Bible</b><small>Read God's Word</small></button>
   </nav>
+  ${(()=>{const L=store.get("lastLesson",null),l=L&&lessonOf(L.g,L.n);return l?`<button class="btn alt contbtn" data-go="l-${L.g}-${L.n}">▶ Continue: ${esc(l[0]+" - "+l[1])}</button>`:""})()}
   <div id="annbox"></div>
   ${window.hvToday?hvToday(v):`<div class="verse">“${esc(v[0])}”<cite>${v[1]}</cite></div>`}
   ${window.hvMoreDoors?hvMoreDoors():""}
@@ -503,7 +505,7 @@ function gradeLessons(s){const bl=CUR[s.id],n=bl.reduce((a,b)=>a+b[1].length,0),
 const verseOf=(g,n)=>LVERSE[g+"|"+n];
 const isDone=(g,n)=>store.get("done",[]).includes(g+"|"+n);
 function bibleLink(ref){const m=(ref||"").match(/^((?:[1-3]\s?)?[A-Za-z]+(?:\s(?:of\s)?[A-Za-z]+)*?)\s*(\d+)/);if(!m)return "";let nm=m[1].replace(/\s+/g," ").trim().replace(/^(\d)(?=[A-Za-z])/,"$1 ");if(nm==="Psalm")nm="Psalms";const b=BOOKS.find(x=>x[0]===nm);return b?"b-"+b[0]+"-"+m[2]:""}
-function lessonPage(g,n){const s=sec(g),l=lessonOf(g,n);if(!s||!l)return media();const c=lessonVids(g,n).length,staff=isStaffNow(),dn=isDone(g,n),at=`data-g="${g}" data-n="${n}"`;
+function lessonPage(g,n){const s=sec(g),l=lessonOf(g,n);if(!s||!l)return media();store.set("lastLesson",{g,n});const c=lessonVids(g,n).length,staff=isStaffNow(),dn=isDone(g,n),at=`data-g="${g}" data-n="${n}"`;
   app.innerHTML=`${topbar(l[0]+" - "+l[1],s.ic,s.name,"m-"+g)}
   <div class="list">
    ${(()=>{const vs=lessonVids(g,n),v=vs[0];if(!v)return `<div class="vcard soon"><span class="vsoon">🎬</span><div class="vlab"><b>Video coming soon</b><small>Check back soon!</small></div></div>`;
