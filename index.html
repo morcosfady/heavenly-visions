@@ -183,6 +183,7 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;font-weight:700}
 <body>
 <link rel="stylesheet" href="theme.css?v=2">
 <link rel="stylesheet" href="ds.css?v=8">
+<link rel="stylesheet" href="layout2.css?v=3">
 
 <div id="intro" aria-label="Intro">
   <div class="intro-logo" id="introEnd"><img id="introLogo" alt="Heavenly Visions"><p>Learn · Play · Grow in Faith</p></div>
@@ -201,11 +202,12 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;font-weight:700}
 <script src="intro.js?v=3"></script>
 <script src="design.js?v=16"></script>
 <script src="clay2.js?v=2"></script>
+<script src="layout.js?v=2"></script>
 <script src="ds.js?v=1"></script>
 <script src="shell.js?v=7"></script>
 <script src="kids.js?v=6"></script>
 <script src="dailyverses.js?v=1"></script>
-<script src="faith.js?v=9"></script>
+<script src="faith.js?v=10"></script>
 <script src="bedtime.js?v=3"></script>
 <script src="coloring.js?v=2"></script>
 <script src="servants.js?v=12"></script>
@@ -356,7 +358,7 @@ function hub(){
   app.innerHTML=`${window.hvTopBar?hvTopBar():""}
   <header class="hubhead"><img src="${LOGO}" alt="Heavenly Visions"></header>
   ${window.hvGreeting?hvGreeting():""}
-  ${(()=>{const L=store.get("lastLesson",null),l=L&&lessonOf(L.g,L.n);if(!l)return "";const vs=lessonVids(L.g,L.n),th=vs[0]?`<img src="https://i.ytimg.com/vi/${vs[0][0]}/hqdefault.jpg" alt="" loading="lazy" width="96" height="64">`:"";return `<button class="cont2" data-go="l-${L.g}-${L.n}"><span class="th">${th}<span class="pl">${hvIcon("play2",14)}</span></span><span><small>Continue</small><b>${esc(l[0]+" "+l[1])}</b></span></button>`})()}
+  ${(()=>{const L=store.get("lastLesson",null),l=L&&lessonOf(L.g,L.n);if(!l)return "";const vs=lessonVids(L.g,L.n),th=vs[0]?`<img src="https://i.ytimg.com/vi/${vs[0][0]}/hqdefault.jpg" alt="" loading="lazy" width="96" height="64">`:"";const tot=(CUR[L.g]||[]).reduce((a,b)=>a+b[1].length,0),dn=(CUR[L.g]||[]).reduce((a,b)=>a+b[1].filter(x=>isDone(L.g,x[0])).length,0),pct=tot?Math.max(4,Math.round(dn/tot*100)):0;return `<button class="cont2" data-go="l-${L.g}-${L.n}"><span class="th">${th}<span class="pl">${hvIcon("play2",14)}</span></span><span class="cn"><small>Continue where you left off</small><b>${esc(l[0]+" "+l[1])}</b><span class="cbar" aria-label="${dn} of ${tot} lessons done"><i style="width:${pct}%"></i></span></span></button>`})()}
   <nav class="doors" aria-label="Main">
     <button class="door d-media wide" data-go="media"><span class="big">${hvIcon("clap",96)}</span><b>Sunday School</b><small>Lesson videos by grade</small></button>
     <button class="door d-att" data-go="attendance"><span class="big">${hvIcon("notes",96)}</span><b>Attendance</b><small>I'm here today!</small></button>
@@ -369,10 +371,11 @@ function hub(){
   ${window.hvToday?hvToday(v):`<div class="verse">“${esc(v[0])}”<cite>${v[1]}</cite></div>`}
   ${window.hvMoreDoors?hvMoreDoors():""}
   ${window.hvLumiTip?hvLumiTip():""}
-  <footer><button class="workshop" data-go="servants">${window.hvIcon?hvIcon("tools",18):""}Servants Workshop</button><div id="offchip"></div><a class="tag privlink" href="privacy.html">Privacy policy</a></footer>`;
+  <footer><button class="workshop" data-go="servants">🔒 Servants Workshop <small>for servants</small></button><div id="offchip"></div><a class="tag privlink" href="privacy.html">Privacy policy</a></footer>`;
   if(window.hvHomeInit)hvHomeInit();
 }
-function topbar(title,ic,sub,back="home"){
+function topbar(title,ic,sub,back="home",chips){
+  if(window.hvHero)return hvHero(title,ic,sub,back,chips);
   return `<div class="topbar"><button class="back" data-go="${back}">← Back</button></div>
   <div class="title-row"><span style="font-size:2rem">${ic}</span><div><h1>${title}</h1>${sub?`<div class="tag">${sub}</div>`:""}</div></div>`;
 }
@@ -591,10 +594,7 @@ function closeSheet(keep){document.querySelector(".scrim")?.remove();document.bo
 const todayKey=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
 function attendance(){
   const acc=window.hvAcct&&hvAcct();
-  if(!acc){app.innerHTML=`${topbar("Attendance","✋","Login first")}
-    <div class="card sec" style="text-align:center"><div style="font-size:3rem">👤</div><b>Create a profile to check in</b>
-     <p class="tag" style="margin:0">Your profile keeps your Sundays safe, so you can see how many you came to.</p>
-     <button class="btn gold" data-go="login">👤 Login or create profile</button></div>`;return}
+  if(!acc){app.innerHTML=`${topbar("Attendance","✋","Check in every Sunday")}${hvGate({scene:"notes",title:"Check in every Sunday",lead:"Make a profile and your Sundays are saved.",benefits:[["star","Earn stars every Sunday"],["flame","See your streak grow"],["notes","Your teacher sees you came"]],preview:"streak",primary:["Create my profile","signup"],secondary:["I already have one, log in","login"]})}`;return}
   const me={name:acc.user.name,grade:acc.user.grade};
   const hist=store.get("attended",[]);const already=hist.includes(todayKey());
   const day=new Date().toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
@@ -673,16 +673,22 @@ async function loadAtt(day){const out=$("#codeOut");
 
 /* ================= QUIZZES ================= */
 function quizzes(){const best=store.get("best",{});
-  app.innerHTML=`${topbar("Quizzes","🏆","Pick a quiz, earn stars")}
-  <div class="grid qlist">${QUIZZES.map(q=>`<button class="tile" style="--c:${q.c}" data-go="quiz-${q.id}"><span class="ic">${q.ic}</span><span class="nm">${q.name}</span><span class="ct">${best[q.id]!=null?"⭐".repeat(starsFor(best[q.id],q.q.length))+" "+best[q.id]+"/"+q.q.length:q.q.length+" questions"}</span></button>`).join("")}</div>
+  const diff=n=>n<=5?"Easy":n<=8?"Medium":"Hard",star=(q)=>{const n=best[q.id]!=null?starsFor(best[q.id],q.q.length):0;return `<span class="qstars" aria-label="${n} of 3 stars">${"★".repeat(n)}${"☆".repeat(3-n)}</span>`};
+  const rec=QUIZZES.find(q=>best[q.id]==null),done=QUIZZES.filter(q=>best[q.id]!=null).length;
+  const card=q=>`<button class="qcov" style="--c:${q.c}" data-go="quiz-${q.id}"><span class="ic" aria-hidden="true">${q.ic}</span><span class="qc-t"><b>${q.name}</b><small>${best[q.id]!=null?"Best: "+best[q.id]+" of "+q.q.length:q.q.length+" questions"}</small></span><span class="qc-m"><i>${diff(q.q.length)}</i>${star(q)}</span></button>`;
+  app.innerHTML=`${topbar("Quizzes","🏆","Pick a quiz, earn stars","home",[QUIZZES.length+" quizzes",done+" done"])}
+  ${rec?`<section class="sec"><h2 class="sech"><span>Recommended for you</span></h2><div class="grid qlist qrec">${card(rec)}</div></section>`:""}
+  <section class="sec"><h2 class="sech"><span>All quizzes</span></h2><div class="grid qlist">${QUIZZES.map(card).join("")}</div></section>
   <div class="note">🆕 More quizzes come with new lessons.</div>`}
 const starsFor=(s,n)=>s===n?3:s>=n-1?2:s>=Math.ceil(n/2)?1:0;
 function quiz(id){const Q=QUIZZES.find(q=>q.id===id);if(!Q)return quizzes();let i=0,score=0;
   const order=Q.q.map(x=>({t:x[0],o:x[1].map((s,k)=>({s,k})).sort(()=>Math.random()-.5),a:x[2]}));
   function draw(){const x=order[i];
     app.innerHTML=`${topbar(Q.name,Q.ic,`Question ${i+1} of ${order.length}`,"quizzes")}
-    <div class="qcard"><div class="qprog"><i style="width:${i/order.length*100}%"></i></div><div class="q">${esc(x.t)}</div>
-    <div class="opts">${x.o.map(o=>`<button class="opt" data-k="${o.k}">${esc(o.s)}</button>`).join("")}</div><div id="fb" role="status"></div></div>`;
+    <div class="qcard"><div class="qprog"><i style="width:${i/order.length*100}%"></i></div><div class="qdots" aria-hidden="true">${order.map((_,j)=>`<i class="${j<i?"dn":j===i?"now":""}"></i>`).join("")}</div><div class="q">${esc(x.t)}</div>
+    <div class="opts">${x.o.map((o,j)=>`<button class="opt" data-k="${o.k}"><i class="ab">${"ABCD"[j]}</i><span>${esc(o.s)}</span></button>`).join("")}</div><div id="fb" role="status"></div></div>
+    <div class="qhint"><span class="qh-l" aria-hidden="true">${window.hvLumiSvg?hvLumiSvg("thinking",44):""}</span><p>Take your time. Read every answer first.</p></div>
+    ${Q.v?`<button class="qlesson" data-v="${Q.v}"><span class="qth"><img src="https://i.ytimg.com/vi/${Q.v}/mqdefault.jpg" alt="" loading="lazy"><i>${hvIcon("play2",14)}</i></span><span><small>Need a hint?</small><b>Watch the lesson</b></span></button>`:""}`;
     app.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>{
       const k=+b.dataset.k;app.querySelectorAll(".opt").forEach(o=>{o.disabled=true;if(+o.dataset.k===x.a)o.classList.add("right")});
       if(k===x.a){score++;$("#fb").innerHTML=`<p class="ok">Correct! 🎉</p>`}else{b.classList.add("wrong");$("#fb").innerHTML=`<p class="err">Not quite. The right answer is in green.</p>`}
@@ -696,12 +702,20 @@ function quiz(id){const Q=QUIZZES.find(q=>q.id===id);if(!Q)return quizzes();let 
   draw()}
 
 /* ================= GAMES ================= */
-function games(){app.innerHTML=`${topbar("Games","🎮","Play & learn")}
-  <button class="btn gold" data-go="join" style="min-height:64px;font-size:1.15rem">🎯 Enter a game code</button>
+function games(){
+  const last=store.get("lastGame",""),LG={"g-memory":["Bible Match","cards"],"g-scramble":["Name Scramble","abc"]}[last];
+  app.innerHTML=`${topbar("Games","🎮","Play & learn","home",["2 games","more soon"])}
+  <button class="ticket" data-go="join"><span class="tk-l"><b>Enter a game code</b><small>Join your servant's live game</small></span><span class="tk-r" aria-hidden="true">${hvIcon("target",52)}</span></button>
+  ${LG?`<button class="lastrow" data-go="${last}"><span aria-hidden="true">${hvIcon(LG[1],38)}</span><span><small>Last played</small><b>${LG[0]}</b></span><span class="lr-go">Play again</span></button>`:""}
+  <section class="sec"><h2 class="sech"><span>Play now</span></h2>
   <div class="grid ggrid">
-   <button class="tile" style="--c:#2f8fc0" data-go="g-memory"><span class="ic">🃏</span><span class="nm">Bible Match</span><span class="ct">Find the pairs</span></button>
-   <button class="tile" style="--c:#d98a2b" data-go="g-scramble"><span class="ic">🔤</span><span class="nm">Name Scramble</span><span class="ct">Fix the Bible names</span></button>
-  </div><div id="kidGames"></div><div class="note">🎮 More games coming soon!</div>`;if(window.kidGames)kidGames($("#kidGames"))}
+   <button class="gcard" style="--c:#2f8fc0" data-go="g-memory"><span class="gc-art" aria-hidden="true">${hvIcon("cards",92)}</span><span class="gc-t"><b>Bible Match</b><small>Find the pairs</small></span><span class="gc-m"><i>2 min</i><i>Easy</i></span></button>
+   <button class="gcard" style="--c:#d98a2b" data-go="g-scramble"><span class="gc-art" aria-hidden="true">${hvIcon("abc",92)}</span><span class="gc-t"><b>Name Scramble</b><small>Fix the Bible names</small></span><span class="gc-m"><i>3 min</i><i>Medium</i></span></button>
+  </div></section>
+  <div id="kidGames"></div>
+  <section class="sec"><h2 class="sech"><span>Coming soon</span></h2>
+  <div class="grid ggrid">${[["Bible Trivia","target","#8e6bd1"],["Word Search","frame","#3fae6a"],["Story Order","scroll","#e86f8a"],["Verse Quest","verse","#d4553b"]].map(c=>`<div class="gcard soon" style="--c:${c[2]}" aria-label="${c[0]}, coming soon"><span class="gc-art" aria-hidden="true">${hvIcon(c[1],80)}</span><span class="gc-t"><b>${c[0]}</b><small>Coming soon</small></span><span class="gc-lock" aria-hidden="true">${hvIcon("lock",30)}</span></div>`).join("")}</div></section>`;
+  if(window.kidGames)kidGames($("#kidGames"))}
 const MEM=[["🚢","Noah's Ark"],["🦁","Daniel"],["🕊️","Holy Spirit"],["⭐","Star of Bethlehem"],["🐟","5 Loaves & 2 Fish"],["🌈","God's Promise"],["🐑","Good Shepherd"],["👑","King David"]];
 function memory(){const cards=[...MEM,...MEM].map((m,i)=>({m,i,id:MEM.indexOf(m)})).sort(()=>Math.random()-.5);let open=[],got=0,moves=0,lock=false;
   app.innerHTML=`${topbar("Bible Match","🃏","Find all 8 pairs","games")}<div class="stat"><span id="mv">Moves: 0</span><span id="pr">Pairs: 0/8</span></div>
@@ -766,7 +780,7 @@ function route(){closeSheet();const h=decodeURIComponent(location.hash.slice(1)|
   else if(h.startsWith("vp-")){const p=h.slice(3).split("-");versePuzzle(p[0],p[1])}else if(h.startsWith("lv-")){const p=h.slice(3).split("-");lessonVideos(p[0],p[1])}else if(h.startsWith("l-")){const p=h.slice(2).split("-");lessonPage(p[0],p[1])}
   else if(h==="attendance")attendance();else if(h==="attsheet")attSheet();else if(h==="servants")servants();
   else if(h==="quizzes")quizzes();else if(h.startsWith("quiz-"))quiz(h.slice(5));
-  else if(h==="games")games();else if(h==="g-memory")memory();else if(h==="g-scramble")scramble();
+  else if(h==="games")games();else if(h==="g-memory"){store.set("lastGame","g-memory");memory()}else if(h==="g-scramble"){store.set("lastGame","g-scramble");scramble()}
   else if(h==="bible")bible();
   else if(h.startsWith("b-")){const m=h.slice(2).match(/^(.*?)(?:-(\d+))?$/);m[2]?bibleRead(m[1],+m[2]):bibleBook(m[1])}
   else if(!(window.builderRoute&&builderRoute(h))&&!(window.profileRoute&&profileRoute(h))&&!(window.liveRoute&&liveRoute(h))&&!(window.lgRoute&&lgRoute(h))&&!(window.kidsRoute&&kidsRoute(h))&&!(window.faithRoute&&faithRoute(h))&&!(window.bedtimeRoute&&bedtimeRoute(h))&&!(window.coloringRoute&&coloringRoute(h))&&!(window.servantsRoute&&servantsRoute(h))&&!(window.churchRoute&&churchRoute(h))&&!(window.arenaRoute&&arenaRoute(h))&&!(window.aiRoute&&aiRoute(h))&&!(window.lumiRoute&&lumiRoute(h))&&!(window.lumiChatRoute&&lumiChatRoute(h))&&!(window.shellRoute&&shellRoute(h))){hub();if(h!=="home"){try{history.replaceState(null,"","#home")}catch{}toast("That page moved")}}window.scrollTo(0,0)}

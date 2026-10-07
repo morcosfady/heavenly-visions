@@ -25,7 +25,8 @@ window.hvTopBar=function(){
     :`<button class="sb-login" data-go="login">${window.hvIcon?hvIcon("login",20):""}Login</button>`;
   const stars=a?`<button class="sb-stars" id="sbStars" data-go="profile" aria-label="${balOf(a)} stars"><i>${window.hvIcon?hvIcon("starline",20):"⭐"}</i><span id="sbN">${balOf(a)}</span></button>`:"";
   const bell=a?`<button class="sb-bell" id="sbBell" aria-label="Notifications">${window.hvIcon?hvIcon("bell",22):"🔔"}<i class="sb-badge" hidden></i></button>`:"";
-  return `<div class="shellbar">${me}<div class="sb-right">${window.hvThemeButton?hvThemeButton():""}${bell}${stars}</div></div>`};
+  const off=navigator.serviceWorker&&navigator.serviceWorker.controller?`<span class="offdot" role="img" aria-label="Works without internet" title="Works without internet"></span>`:"";
+  return `<div class="shellbar">${me}<div class="sb-right">${off}${window.hvThemeButton?hvThemeButton():""}${bell}${stars}</div></div>`};
 
 /* the counter pops and stars fly in when points are added (called by hvAward) */
 window.hvRefreshBarAvatar=function(){const a=A(),el=document.querySelector(".sb-av");if(a&&el)el.innerHTML=avOf(a)};
@@ -56,7 +57,10 @@ const MORE=[
   ["calendar","📅","Calendar","Feasts and events","--c-cal"]];
 function calIcon(){const d=new Date();return `<span class="calicon"><i>${d.toLocaleDateString("en-US",{month:"short"}).toUpperCase()}</i><b>${d.getDate()}</b></span>`}
 window.hvMoreDoors=function(){
-  return `<section class="sec" aria-label="More to explore"><h2 class="sech"><span>More to explore</span></h2><nav class="doors2">${MORE.map((m,i)=>`<button class="mdoor" style="--dc:var(${m[4]})" data-go="${m[0]}"><span class="big" aria-hidden="true">${m[0]==="calendar"?calIcon():(window.hvIcon?hvIcon(m[1],54):m[1])}</span><b>${m[2]}</b><small>${m[3]}</small></button>`).join("")}</nav></section>`};
+  const two=MORE.filter(m=>m[0]!=="calendar"),cal=new Date(),cd=copticDate(cal),up=window.hvUpcoming?hvUpcoming(2):[];
+  return `<section class="sec" aria-label="More to explore"><h2 class="sech"><span>More to explore</span></h2><nav class="doors2 two">${two.map((m,i)=>`<button class="mdoor" style="--dc:var(${m[4]})" data-go="${m[0]}"><span class="big" aria-hidden="true">${window.hvIcon?hvIcon(m[1],54):m[1]}</span><b>${m[2]}</b><small>${m[3]}</small></button>`).join("")}</nav>
+   <button class="calwide" data-go="calendar"><span class="cw-l"><span class="cw-date">${calIcon()}<span><small>Today</small><b>${cd.day} ${cd.name}, ${cd.year}</b></span></span><span class="cw-go">Open the calendar</span></span>
+   ${up.length?`<span class="cw-up">${up.map(x=>`<span class="cw-row">${window.hvCalIcon?hvCalIcon(x.id,x.ic,34):""}<span><b>${E(x.t)}</b><small>${x.d.toLocaleDateString("en-US",{month:"short",day:"numeric"})}</small></span><i>${x.n===1?"Tomorrow":"in "+x.n+" days"}</i></span>`).join("")}</span>`:""}</button></section>`};
 
 /* ---------- coming soon pages ---------- */
 const SOON={};

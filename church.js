@@ -103,7 +103,7 @@ function evForm(e){
       if(r.ok){closeSheet();toast("Saved ✅");await hvLoadEvents(true);events()}else m.innerHTML=`<span class="err">Could not save. Fill the title and date.</span>`}catch{m.innerHTML=`<span class="err">No internet connection.</span>`}}}
 async function events(){
   const a=A();app.innerHTML=`${topbar("Events and Trips","🎉","What is coming up","home")}<div id="evb" class="sec"><div class="ds-skel" style="height:160px"></div></div>`;
-  if(!a){document.getElementById("evb").innerHTML=`<div class="card sec" style="text-align:center"><b>Login to see events</b><button class="btn gold" data-go="login">👤 Login or create profile</button></div>`;return}
+  if(!a){document.getElementById("evb").innerHTML=hvGate({scene:"party",title:"Trips and events",lead:"See what is coming up at your church.",benefits:[["calendar","Dates and places"],["party","Trips, retreats and feasts"]],primary:["Create my profile","signup"],secondary:["I already have one, log in","login"]});return}
   const list=await hvLoadEvents(true),up=upcoming(list),past=list.filter(e=>!up.includes(e)).reverse();
   const b=document.getElementById("evb");
   b.innerHTML=`${canEvents()?`<button class="btn gold" id="evadd">➕ Add an event</button>`:""}

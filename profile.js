@@ -183,11 +183,7 @@ async function accessPage(){
 window.hvLock=function(){
   if(!GU())return false;const a=acct();
   if(a&&isStaff(a.user.role))return false;
-  app.innerHTML=`${topbar("Servants Workshop","🛠️","Servants only")}<div class="card sec" style="text-align:center">
-   <div style="font-size:3rem">🔒</div>
-   ${!a?`<b>Login to continue</b><p class="tag">Servants, coordinators and priests need an approved profile.</p><button class="btn gold" data-go="login">👤 Login or create profile</button>`
-   :a.user.req?`<b>Waiting for approval ⏳</b><p class="tag">Your request to be a ${TIER[a.user.req][1]} has not been approved yet.</p>`
-   :`<b>This is for servants</b><p class="tag">Ask your coordinator or priest for access.</p>`}</div>`;
+  app.innerHTML=`${topbar("Servants Workshop","🛠️","For servants, coordinators and priests")}${!a?hvGate({calm:1,scene:"toolbox",title:"Servants Workshop",lead:"For servants, coordinators and priests.",benefits:[["pencilpad","Plan every Sunday lesson"],["notes","Take attendance for your class"],["megaphone","Post news to your class"]],preview:"work",primary:["Log in","login"],secondary:["Create a profile","signup"],note:"Servants need an approved profile."}):a.user.req?hvGate({calm:1,scene:"toolbox",title:"Waiting for approval",lead:"Your request to be a "+TIER[a.user.req][1]+" has not been approved yet."}):hvGate({calm:1,scene:"toolbox",title:"This is for servants",lead:"Ask your coordinator or priest for access."})}`;
   return true};
 window.hvAcct=acct;
 
@@ -196,6 +192,6 @@ window.profileRoute=function(h){
   if(h==="login"){authPage(acct()?"login":"login");return true}
   if(h==="signup"){authPage("signup");return true}
   if(h==="master"){authPage("signup","master");return true}
-  if(h==="profile"||h==="me"){if(!acct()){authPage("login");return true}return false}/* logged in: kids.js shows the Me page */
+  if(h==="profile"||h==="me")return false/* logged in: kids.js shows the Me page */
   return false};
 })();

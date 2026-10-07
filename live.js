@@ -195,7 +195,7 @@ async function closeRoom(back){if(!H)return;const pin=H.pin;
 /* ================= PLAYER (phone) ================= */
 function joinPage(pin){
   stopAll();const a=acct();
-  if(!a){app.innerHTML=`${topbar("Join a live game","🎯","You need a profile","games")}<div class="card sec" style="text-align:center"><div style="font-size:3rem">👤</div><b>Login first</b><p class="tag">Create a profile or login, so your points are saved.</p><button class="btn gold" data-go="login">Login or create profile</button></div>`;return}
+  if(!a){app.innerHTML=`${topbar("Join a live game","🎯","You need a profile","games")}${hvGate({scene:"target",title:"Join the class game",lead:"Make a profile so your points are saved.",benefits:[["trophy","Win stars with your class"],["star","Your score is saved"]],primary:["Create my profile","signup"],secondary:["I already have one, log in","login"]})}`;return}
   app.innerHTML=`${topbar("Join a game","🎯","Type the code from your servant or the big screen","games")}
    <form class="card sec" id="jf"><label class="field">Game code<input id="jp" class="lv-pinput" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" required autocomplete="off" value="${esc(pin||"")}"></label>
    <button class="btn gold" type="submit">Join</button><div id="jm" class="tag" role="status"></div></form>`;

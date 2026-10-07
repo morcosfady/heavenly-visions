@@ -53,7 +53,7 @@ function picker(){
 
 function gallery(){
   const g=jget("hv_gallery",[]);
-  app.innerHTML=`${topbar("My Gallery","🖼️","Saved on this phone","coloring")}${g.length?`<div class="grid cgal">${g.map((x,i)=>`<div class="card cgi"><img src="${x.img}" alt="${E(x.t)}" loading="lazy"><b>${E(x.t)}</b><div class="two"><a class="btn alt" href="${x.img}" download="${E(x.t)}.png">⬇️ Download</a><button class="btn" data-del="${i}">🗑️ Delete</button></div></div>`).join("")}</div>`:`<div class="ds-empty"><div class="em">🖼️</div><b>No pictures yet</b>Color a page and press Save to keep it here.</div>`}`;
+  app.innerHTML=`${topbar("My Gallery","🖼️","Saved on this phone","coloring")}${g.length?`<div class="grid cgal">${g.map((x,i)=>`<div class="card cgi"><img src="${x.img}" alt="${E(x.t)}" loading="lazy"><b>${E(x.t)}</b><div class="two"><a class="btn alt" href="${x.img}" download="${E(x.t)}.png">⬇️ Download</a><button class="btn" data-del="${i}">🗑️ Delete</button></div></div>`).join("")}</div>`:hvEmpty("palette","Color your first picture","Color a page and press Save to keep it here.",["Pick a picture","coloring"])}`;
   app.onclick=ev=>{const d=ev.target.closest("[data-del]");if(!d)return;if(!confirm("Delete this picture?"))return;const g2=jget("hv_gallery",[]);g2.splice(+d.dataset.del,1);jset("hv_gallery",g2);gallery()}}
 
 /* ---------- editor ---------- */

@@ -13,8 +13,9 @@ const EMO = /\p{Extended_Pictographic}/u;
   const seed = await (await fetch('http://localhost:8788/')).json();
   const day = new Date().toDateString();
   const ctxFor = async (w, reduce, extra) => {
+    if (U === 'none') extra = Object.assign({ noacct: 1, hv_welcomed: '1' }, extra || {});
     const c = await browser.newContext({ viewport: { width: w, height: w < 600 ? 844 : 800 }, reducedMotion: reduce ? 'reduce' : 'no-preference', serviceWorkers: 'block' });
-    await c.addInitScript(([acct, day, extra]) => { try { if (!(extra && extra.noacct)) localStorage.setItem('hv_acct', JSON.stringify(acct)); localStorage.setItem('hv_welcomed', '1'); localStorage.setItem('hv_intro_seen', '1'); localStorage.setItem('hv_intro_day', day); localStorage.setItem('hv_notifs', '[]'); Object.entries(extra || {}).filter(([k]) => k !== 'noacct').forEach(([k, v]) => v === null ? localStorage.removeItem(k) : localStorage.setItem(k, v)) } catch (e) {} }, [{ user: seed[U].user, token: seed[U].token }, day, extra]);
+    await c.addInitScript(([acct, day, extra]) => { try { if (!(extra && extra.noacct)) localStorage.setItem('hv_acct', JSON.stringify(acct)); localStorage.setItem('hv_welcomed', '1'); localStorage.setItem('hv_intro_seen', '1'); localStorage.setItem('hv_intro_day', day); localStorage.setItem('hv_notifs', '[]'); Object.entries(extra || {}).filter(([k]) => k !== 'noacct').forEach(([k, v]) => v === null ? localStorage.removeItem(k) : localStorage.setItem(k, v)) } catch (e) {} }, [{ user: (seed[U] || seed.k3_1).user, token: (seed[U] || seed.k3_1).token }, day, extra]);
     return c;
   };
   let bad = 0; const say = (...a) => { bad++; console.log(...a) };

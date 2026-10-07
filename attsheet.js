@@ -257,7 +257,7 @@ function download(name,text){const a=document.createElement("a");a.href=URL.crea
 
 window.attSheet=async function(){
   const a=A();
-  if(!a){app.innerHTML=`${topbar("Attendance Sheet","📊","Your Sundays","attendance")}<div class="card sec" style="text-align:center"><div style="font-size:3rem">🔒</div><b>Login to see your Sundays</b><p class="tag">Every student and servant needs a profile.</p><button class="btn gold" data-go="login">👤 Login or create profile</button></div>`;return}
+  if(!a){app.innerHTML=`${topbar("Attendance Sheet","📊","Your Sundays","attendance")}${hvGate({scene:"chart",title:"See all your Sundays",lead:"Every student and servant needs a profile.",benefits:[["notes","Every Sunday you came"],["flame","Your streak and badges"],["chart","How your class is doing"]],preview:"streak",primary:["Create my profile","signup"],secondary:["I already have one, log in","login"]})}`;return}
   const role=a.user.role,top=role==="coordinator"||role==="priest"||role==="master";
   const adult=role!=="student";
   app.innerHTML=`${topbar("Attendance Sheet","📊",top?"Your classes":adult?"You and your class":"My Sundays","attendance")}<div id="as-root">${skeleton()}</div>`;

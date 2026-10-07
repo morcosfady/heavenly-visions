@@ -94,7 +94,7 @@ function todayCard(){let t=null;try{const c=window.hvCalToday?hvCalToday():null;
 function page(){
   const a=A();
   const top=`<div class="topbar"><button class="back" data-go="home">← Back</button></div>`;
-  if(!a){app.innerHTML=`${top}<div class="lm-wrap">${hero()}<div class="card sec" style="text-align:center"><b>Login to chat with Lumi</b><p class="tag" style="margin:4px 0 8px">Lumi knows you by your profile, so only you see your questions.</p><button class="btn gold" data-go="login">👤 Login</button></div></div>`;return}
+  if(!a){app.innerHTML=`${top}<div class="lm-wrap">${hero()}${window.hvGate?hvGate({scene:"sparkles",title:"Chat with Lumi",lead:"Ask about God and the Church.",benefits:[["bulb","Easy answers for kids"],["book","With Bible verses"],["lock","Only you see your questions"]],preview:"chat",primary:["Create my profile","signup"],secondary:["I already have one, log in","login"]}):""}</div>`;return}
   if(!URL_()){S.mood="sleepy";app.innerHTML=`${top}<div class="lm-wrap">${hero()}<div class="card sec" style="text-align:center"><b>Lumi is still sleeping 💤</b><p class="tag" style="margin:4px 0 0">She will wake up soon. Ask your servant or Abouna in the meantime!</p></div></div>`;return}
   S.msgs=[];S.mood="happy";
   app.innerHTML=`${top}<div class="lm-wrap">${hero()}

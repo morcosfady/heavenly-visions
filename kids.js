@@ -139,7 +139,7 @@ window.hvLevelUp=function(lv){
 window.hvBadgeToast=function(keys){(keys||[]).forEach((k,i)=>{const b=BADGES.find(x=>x[0]===k);if(b)setTimeout(()=>toast("🏅 New badge: "+b[2]),900+i*2300)})};
 
 /* ---------- pages ---------- */
-function loginNeeded(){app.innerHTML=`${topbar("Me","🌟","Your stars, avatar and account")}<div class="card sec" style="text-align:center"><div style="font-size:3rem">🌟</div><b>Login to earn stars</b><p class="tag" style="margin:0">Make a profile to collect stars, build your avatar and win badges.</p><button class="btn gold" data-go="login">👤 Login or create profile</button></div>`}
+function loginNeeded(){app.innerHTML=`${topbar("Me","🌟","Your stars, avatar and account")}${hvGate({scene:"star",title:"Your treasures are waiting",lead:"Make a profile to collect stars, build your avatar and win badges.",benefits:[["star","Collect stars as you learn"],["user","Build your own avatar"],["trophy","Win badges and level up"]],preview:"stars",primary:["Create my profile","signup"],secondary:["I already have one, log in","login"]})}`}
 
 function hero(u){
   const lv=levelOf(u.score||0);

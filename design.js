@@ -184,9 +184,9 @@ body.hasTabs #app{padding-bottom:calc(150px + env(safe-area-inset-bottom))!impor
 .sb-stars i svg{color:#d79a24;fill:#f6c453}
 .sb-stars i{display:inline-grid;place-items:center}
 /* Home: greeting, continue card, doors, Lumi tip */
-.hubhead img{width:min(130px,36vw)}
+.hubhead img{width:min(190px,50vw);filter:drop-shadow(0 0 22px rgba(255,205,110,.65)) brightness(1.06)}
 .hubhead .tag{display:none}
-.greet{margin:6px 0 14px}.greet h1{font-size:var(--fs-xl);line-height:1.15}.greet p{margin:2px 0 0;font-weight:700;color:var(--muted,#6f6a73)}
+.greet{margin:2px 0 16px;text-align:center}.greet h1{font-size:var(--fs-xl);line-height:1.15}.greet p{margin:2px 0 0;font-weight:700;color:var(--muted,#6f6a73)}
 .cont2{display:flex;gap:12px;align-items:center;width:100%;padding:12px;border-radius:24px;border:1px solid var(--glass-b);background:linear-gradient(135deg,rgba(124,196,234,.30),var(--glass));-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:var(--ink);text-align:left;font:inherit;margin-bottom:14px;min-height:76px;box-shadow:var(--sh)}
 .cont2 .th{width:96px;height:64px;border-radius:14px;overflow:hidden;flex:none;background:linear-gradient(135deg,#2f6fb8,#7cc4ea);display:grid;place-items:center;position:relative}
 .cont2 .th img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
@@ -245,7 +245,7 @@ const ST2=document.createElement("style");
 ST2.textContent=`.hve{display:inline-block;width:1.18em;height:1.18em;vertical-align:-.22em;line-height:1;flex:none;font-style:normal}
 .hve svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .hve.col svg{fill:currentColor;fill-opacity:.2}
-.hve-clay{width:1.4em;height:1.4em;vertical-align:-.3em}.title-row .hve-clay{width:52px;height:52px}.note .hve-clay,.tile .nm .hve-clay,.kc-stars .hve-clay{width:28px;height:28px;vertical-align:-.45em}.here .hve-clay{width:56px;height:56px}.title-row span{font-size:2.4rem!important}.upi .hve-clay,.upi svg{width:40px;height:40px}.saintic .hve-clay{width:64px;height:64px}.hve-clay svg{width:100%;height:100%;fill:initial;stroke:none}
+.hve-clay{width:1.4em;height:1.4em;vertical-align:-.3em}.title-row .hve-clay{width:52px;height:52px}.note .hve-clay,.tile .nm .hve-clay,.kc-stars .hve-clay{width:28px;height:28px;vertical-align:-.45em}.here .hve-clay{width:56px;height:56px}.title-row>span{font-size:2.4rem!important}.upi .hve-clay,.upi svg{width:40px;height:40px}.saintic .hve-clay{width:64px;height:64px}.hve-clay svg{width:100%;height:100%;fill:initial;stroke:none}
 .tile .ic{font-size:2.3rem}
 :root[data-theme="dark"] .hve.col{filter:brightness(1.5) saturate(1.1)}
 .hve-dot{width:.8em;height:.8em;border-radius:50%;background:var(--c);vertical-align:-.05em;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
@@ -265,5 +265,5 @@ const TIPS=["Tap a lesson and press play. Then try its quiz!","Learn the verse o
 window.hvLumiTip=function(){
   if(!window.hvLumiSvg)return "";
   const tip=TIPS[new Date().getDate()%TIPS.length];
-  return `<button class="tipbub" data-go="${hasLumi()?"lumi":"home"}"><span style="width:48px;height:48px;flex:none">${hvLumiSvg("happy",48)}</span><p>${tip}</p></button>`};
+  return `<button class="tipbub" data-go="${hasLumi()?"lumi":"home"}"><span class="tb-face" aria-hidden="true">${hvLumiSvg("happy",56)}</span><span class="tb-bub"><small>Lumi says</small><p>${tip}</p>${hasLumi()?`<span class="tb-ask">Ask now</span>`:""}</span></button>`};
 })();

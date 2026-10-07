@@ -29,12 +29,14 @@ function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor
 const V={step:0,ok:false};
 function versePage(){
   const v=verseFor(today()),done=!!vstate().days[dkey(today())];V.v=v;V.step=done?4:0;
-  app.innerHTML=`${topbar("Daily Verse","📜","One verse a day","home")}<div id="vbox" class="sec"></div>`;
+  app.innerHTML=`${topbar("Daily Verse","📜","One verse a day","home",[vstreak()+" day streak"])}<div id="vbox" class="sec"></div><div id="vjar"></div>`;
   drawVerse()}
 function dots(){const st=vstate().days,t=today(),start=addDays(t,-t.getDay());
   return `<div class="vweek" role="img" aria-label="This week">${(window.hvWeekdayInitials?hvWeekdayInitials():["S","M","T","W","T","F","S"]).map((n,i)=>{const d=addDays(start,i),on=!!st[dkey(d)],now=diffDays(t,d)===0;return `<span class="${on?"on":""} ${now?"now":""}">${on?"✓":n}</span>`}).join("")}</div>`}
 function flame(){const n=vstreak();return `<div class="vflame"><span style="font-size:${(2+Math.min(n,10)*.18).toFixed(2)}rem" class="fl" aria-hidden="true">🔥</span><b>${n}</b><small>${n===1?"day":"days"} in a row</small></div>`}
-function drawVerse(){
+function drawJar(){const el=document.getElementById("vjar");if(!el)return;if(V.step>=3){el.innerHTML="";return}const jar=Object.keys(vstate().days).sort().reverse();
+  el.innerHTML=`<section class="card sec"><h2>🫙 My verse jar (${jar.length})</h2>${jar.length?`<div class="jar">${jar.slice(0,30).map(k=>{const x=vstate().days[k];return `<div class="jv"><b>${E(x.ref)}</b><span>${E(x.text)}</span><small>${k}</small></div>`}).join("")}</div>`:hvEmpty("jar","Your jar is empty","Learn today's verse and it goes in your jar.")}</section>`}
+function drawVerse(){setTimeout(drawJar,0);
   const box=document.getElementById("vbox"),v=V.v,s=V.step;
   const head=`<div class="vtop">${flame()}${dots()}</div>`;
   if(s===0){const w=words(v.text);
@@ -109,6 +111,8 @@ function allEv(from,to){const o=[];for(let y=from.getFullYear();y<=to.getFullYea
 function activeFast(d){const k=d.getFullYear();for(const y of [k-1,k,k+1])for(const f of fastsOf(y)){const s=new Date(f.s.getFullYear(),f.s.getMonth(),f.s.getDate()),e=new Date(f.e.getFullYear(),f.e.getMonth(),f.e.getDate());if(d>=s&&d<=e)return f}return null}
 function copticOf(d){const n=window.hvCopticDate(d);return n}
 window.hvCalToday=function(){const t=today(),ev=evOf(t.getFullYear()).filter(x=>diffDays(t,x.d)===0),f=activeFast(t);return {ev,fast:f,coptic:copticOf(t)}};
+window.hvUpcoming=function(n){const t=today(),out=[];const fb=[];[t.getFullYear(),t.getFullYear()+1].forEach(y=>fastsOf(y).forEach(f=>{if(f.s>t&&diffDays(t,f.s)<=400&&!fb.some(z=>z.id==="fast-"+f.id&&diffDays(z.d,f.s)===0))fb.push({d:f.s,type:"feast",ic:"🌙",t:f.t+" begins",id:"fast-"+f.id})}));
+  allEv(addDays(t,1),addDays(t,400)).filter(x=>x.type==="feast").concat(fb).sort((x,y)=>x.d-y.d).slice(0,n).forEach(x=>out.push({id:x.id,t:x.t,ic:x.ic,d:x.d,n:diffDays(t,x.d)}));return out};
 const CNT=n=>n===0?"Today":n===1?"Tomorrow":"in "+n+" days";
 const LINK={nayrouz:"quiz-nayrouz",pentecost:"quiz-pentecost",george:"quiz-stgeorge",mary:"quiz-stmary",nativity:"m-feasts",annunciation:"quiz-stmary",dormition:"quiz-stmary",demiana:"m-saints",mark:"m-g2"};
 let CALM=null,CALSEL="";
