@@ -157,6 +157,8 @@ body.hasTabs #app{padding-bottom:calc(104px + env(safe-area-inset-bottom))!impor
 .lm-fab-i{display:block;width:64px;height:64px;transition:transform .15s}.lm-fab-i .lumi-svg{filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}.lm-fab:active .lm-fab-i{transform:scale(.92)}
 .lm-fab b{font-size:.8rem;font-weight:900;color:#fff;text-shadow:0 0 3px #1b3f73,0 0 3px #1b3f73,0 1px 4px rgba(0,0,0,.6);white-space:nowrap;margin-top:-4px}
 @media (min-width:900px){.lm-fab{bottom:24px;right:24px}}
+.shellbar{position:relative;z-index:6}
+.hubhead,.hubhead::before{pointer-events:none}
 .sb-theme{width:44px;height:44px;min-height:44px;border-radius:50%;border:1px solid var(--glass-b);background:var(--glass);color:var(--ink);display:grid;place-items:center;padding:0}
 .sb-bell svg,.sb-login svg{display:inline-block;vertical-align:-4px}
 .sb-login{display:inline-flex;align-items:center;gap:8px}
