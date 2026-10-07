@@ -117,7 +117,7 @@ function draw(){
     wireChat();S.msgs.forEach(m=>appendEntry(m));scrollEnd();return}
   if(S.tab==="learn"){body.innerHTML=`<div id="lmlearn"></div>`;body.onclick=null;const m=S.learnStart;S.learnStart=null;if(window.lumiLearnMount)lumiLearnMount(document.getElementById("lmlearn"),m);return}
   const h=hist(),list=S.tab==="saved"?h.filter(x=>x.saved):h;
-  body.innerHTML=list.length?`<div class="lm-hl">${list.map(x=>`<button class="lm-hi" data-open="${x.id}"><span class="lm-hq">${E(x.q)}</span><span class="lm-ha">${E(x.a.answer.slice(0,90))}${x.a.answer.length>90?"…":""}</span><small>${new Date(x.ts).toLocaleDateString("en-US",{month:"short",day:"numeric"})}${x.saved?" · ⭐":""}</small></button>`).join("")}</div>`
+  body.innerHTML=list.length?`<div class="lm-hl">${list.map(x=>`<button class="lm-hi" data-open="${x.id}"><span class="lm-hq">${E(x.q)}</span><span class="lm-ha">${E(Array.from(x.a.answer).slice(0,90).join(""))}${Array.from(x.a.answer).length>90?"…":""}</span><small>${new Date(x.ts).toLocaleDateString("en-US",{month:"short",day:"numeric"})}${x.saved?" · ⭐":""}</small></button>`).join("")}</div>`
     :`<div class="ds-empty"><div class="em">${S.tab==="saved"?"⭐":"🕘"}</div><b>${S.tab==="saved"?"No saved answers yet":"No questions yet"}</b>${S.tab==="saved"?"Tap the star under an answer to keep it here.":"Ask Lumi something and it will show up here."}</div>`;
   body.onclick=e=>{const b=e.target.closest("[data-open]");if(!b)return;const x=hist().find(y=>y.id===b.dataset.open);if(!x)return;
     sheet(`<h3>${E(x.q)}</h3><div class="lm-sheet">${ansHtml(x)}</div>`,"Answer")}}
@@ -126,7 +126,7 @@ function appendEntry(en){const log=document.getElementById("lmlog");if(!log)retu
 function scrollEnd(){const f=document.getElementById("lmform");if(f)f.scrollIntoView({block:"end",behavior:reduce()?"auto":"smooth"})}
 
 async function ask(q){
-  q=q.trim().slice(0,200);if(!q||S.busy)return;S.busy=true;
+  q=Array.from(q.trim()).slice(0,200).join("");if(!q||S.busy)return;S.busy=true;
   const log=document.getElementById("lmlog"),sug=document.getElementById("lmsug"),inp=document.getElementById("lmin");if(!log)return S.busy=false;
   if(inp)inp.value="";if(sug)sug.innerHTML="";
   log.insertAdjacentHTML("beforeend",kidHtml(q)+typing());setMood("thinking");scrollEnd();
@@ -148,7 +148,7 @@ function wireChat(){
   form.onsubmit=e=>{e.preventDefault();ask(inp.value)};
   inp.oninput=()=>{const n=inp.value.length;cnt.hidden=n<150;cnt.textContent=(200-n)+" letters left"};
   document.getElementById("lmem").onclick=e=>{const p=document.getElementById("lmemo");p.hidden=!p.hidden;e.currentTarget.setAttribute("aria-expanded",!p.hidden)};
-  form.addEventListener("click",e=>{const b=e.target.closest("[data-em]");if(b){inp.value=(inp.value+b.dataset.em).slice(0,200);inp.focus()}});
+  form.addEventListener("click",e=>{const b=e.target.closest("[data-em]");if(b){inp.value=Array.from(inp.value+b.dataset.em).slice(0,200).join("");inp.focus()}});
   body.onclick=e=>{
     const q=e.target.closest("[data-q]");if(q)return ask(q.dataset.q);
     const lm=e.target.closest("[data-lmode]");if(lm)return goTab("learn",lm.dataset.lmode);
