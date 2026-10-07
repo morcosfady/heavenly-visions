@@ -146,6 +146,44 @@ body.hasTabs #app{padding-bottom:calc(104px + env(safe-area-inset-bottom))!impor
 `;
 document.head.appendChild(st);
 
+/* ---------- emoji swapper: shows the line icons (design-icons.js) instead of phone emojis in the app screens ----------
+   Keeps emojis inside text people typed (data-keep, inputs, kid chat bubbles, the avatar picker). Unknown emojis are left alone. */
+const EMO=/(?:\p{Extended_Pictographic}\uFE0F?(?:\u200D\p{Extended_Pictographic}\uFE0F?)*)/gu;
+const SKIP="textarea,input,select,option,script,style,svg,canvas,[contenteditable],[data-keep],.avs,.lm-kb,.sb-av,.pf-av,.hve";
+function emoSvg(e){
+  const k=e.replace(/\uFE0F/g,"");
+  if(k==="🐑"&&window.hvLumiSvg)return `<i class="hve hve-lumi" role="img" aria-label="Lumi">${hvLumiSvg("happy",26)}</i>`;
+  const dot=window.HV_DOTS&&HV_DOTS[k];if(dot)return `<i class="hve hve-dot" aria-hidden="true" style="--c:${dot}"></i>`;
+  const m=window.HV_EMOJI&&HV_EMOJI[k],inner=m&&window.HV_LUCIDE&&HV_LUCIDE[m[0]];if(!inner)return null;
+  return `<i class="hve${m[1]?" col":""}" aria-hidden="true"${m[1]?` style="color:${m[1]}"`:""}><svg viewBox="0 0 24 24">${inner}</svg></i>`;
+}
+function swap(root){
+  if(!window.HV_EMOJI||!root||root.nodeType!==1&&root.nodeType!==11)return;
+  const base=root.nodeType===1?root:root.firstElementChild&&root;
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>{
+    if(!n.nodeValue||!/\p{Extended_Pictographic}/u.test(n.nodeValue))return NodeFilter.FILTER_REJECT;
+    const p=n.parentElement;return p&&!p.closest(SKIP)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}});
+  const list=[];while(w.nextNode())list.push(w.currentNode);
+  list.forEach(n=>{
+    const t=n.nodeValue;let last=0,html="",changed=false;
+    t.replace(EMO,(e,i)=>{const s=emoSvg(e);if(s){html+=escT(t.slice(last,i))+s;last=i+e.length;changed=true}return e});
+    if(!changed)return;html+=escT(t.slice(last));
+    const sp=document.createElement("span");sp.className="hvs";sp.innerHTML=html;n.replaceWith(...sp.childNodes)});
+}
+const escT=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+window.hvSwapEmoji=swap;
+let pend=new Set(),tick=0;
+function queue(n){pend.add(n);if(!tick)tick=requestAnimationFrame(()=>{tick=0;const l=[...pend];pend.clear();l.forEach(x=>{if(x.isConnected)swap(x)})})}
+function startSwap(){swap(document.body);new MutationObserver(ms=>{for(const m of ms){m.addedNodes.forEach(n=>{if(n.nodeType===1&&!n.classList.contains("hve"))queue(n);else if(n.nodeType===3&&n.parentElement)queue(n.parentElement)})}}).observe(document.body,{childList:true,subtree:true})}
+const ST2=document.createElement("style");
+ST2.textContent=`.hve{display:inline-block;width:1.18em;height:1.18em;vertical-align:-.22em;line-height:1;flex:none;font-style:normal}
+.hve svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.hve.col svg{fill:currentColor;fill-opacity:.2}
+.hve-dot{width:.8em;height:.8em;border-radius:50%;background:var(--c);vertical-align:-.05em;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.hve-lumi{width:1.5em;height:1.5em;vertical-align:-.45em}.hve-lumi svg{stroke:none;fill:initial;width:100%;height:100%}.hve-lumi svg *{stroke-width:revert}`;
+document.head.appendChild(ST2);
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",startSwap);else startSwap();
+
 /* ---------- Home pieces used by index.html ---------- */
 window.hvGreeting=function(){
   const a=window.hvAcct&&hvAcct(),h=new Date().getHours(),d=new Date().getDay();
