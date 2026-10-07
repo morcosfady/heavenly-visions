@@ -6,10 +6,15 @@
 const root=document.documentElement;
 
 /* ---------- theme: light by default, the sun/moon button in the top bar switches ---------- */
-const getTheme=()=>{try{return localStorage.getItem("hv_theme")||""}catch{return ""}};
-const setTheme=t=>{try{localStorage.setItem("hv_theme",t)}catch{}root.dataset.theme=t};
-const isDark=()=>root.dataset.theme?root.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
-if(getTheme())root.dataset.theme=getTheme();/* no saved choice: follow the phone */
+const MODES=["dusk","light","dark"],MODE_NAME={dusk:"Twilight",light:"Sunrise",dark:"Night"};
+const getTheme=()=>{try{const t=localStorage.getItem("hv_theme");return MODES.includes(t)?t:"dusk"}catch{return "dusk"}};
+function applyMode(m){root.dataset.theme=m==="light"?"light":"dark";if(m==="dusk")root.dataset.tone="dusk";else delete root.dataset.tone;
+  try{window.dispatchEvent(new Event("resize"))}catch{}/* the sky redraws its stars */
+  try{const mt=document.querySelector('meta[name="theme-color"]');if(mt)mt.content=m==="light"?"#a9d8f2":m==="dusk"?"#2a2f6b":"#0b1030"}catch{}}
+const setTheme=m=>{try{localStorage.setItem("hv_theme",m)}catch{}applyMode(m)};
+applyMode(getTheme());
+window.hvGetLook=getTheme;window.hvSetLook=m=>{if(MODES.includes(m)){setTheme(m);const b=document.getElementById("sbTheme");if(b)b.innerHTML=hvIcon(MODE_ICON[m],22)}};
+const MODE_ICON={dusk:"sunset",light:"sun",dark:"moon"};
 
 /* ---------- shared gradients (defined once, used by every clay icon) ---------- */
 const defs=document.createElement("div");
@@ -76,6 +81,7 @@ const LINE={
   bell:'<path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15zM10 21h4"/>',
   sun:'<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/>',
   moon:'<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>',
+  sunset:'<path d="M12 10V2"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m16 6-4 4-4-4"/><path d="M16 18a4 4 0 0 0-8 0"/>',
   book:'<path d="M4 5c3-1 6-1 8 1 2-2 5-2 8-1v13c-3-1-6-1-8 1-2-2-5-2-8-1z"/><path d="M12 6v13"/>',
   calendar:'<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/>',
   flag:'<path d="M6 21V4M6 5h11l-2 4 2 4H6"/>',
@@ -90,7 +96,7 @@ window.hvIcon=function(name,size,alt){
   if(LINE[name])return `<svg class="hvi line" viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ${alt?`role="img" aria-label="${alt}"`:'aria-hidden="true"'}>${LINE[name]}</svg>`;
   return "";
 };
-window.hvThemeButton=function(){const dark=isDark();return `<button class="sb-theme" id="sbTheme" aria-label="${dark?"Switch to light":"Switch to dark"}">${hvIcon(dark?"sun":"moon",22)}</button>`};
+window.hvThemeButton=function(){const m=getTheme();return `<button class="sb-theme" id="sbTheme" aria-label="Change the look. Now: ${MODE_NAME[m]}">${hvIcon(MODE_ICON[m],22)}</button>`};
 
 /* ---------- bottom tab bar ---------- */
 const TABS=[["home","home","Home"],["learn","media","Learn"],["play","games","Play"],["me","profile","Me"]];
@@ -127,7 +133,7 @@ function updateBar(){
   if(!tabs.some(t=>t.classList.contains("on")))ind.style.opacity=0;
 }
 function init(){buildBar();updateBar();addEventListener("hashchange",updateBar);
-  document.addEventListener("click",e=>{if(e.target.closest("#sbTheme")){setTheme(isDark()?"light":"dark");const b=document.getElementById("sbTheme");if(b){const dark=isDark();b.innerHTML=hvIcon(dark?"sun":"moon",22);b.setAttribute("aria-label",dark?"Switch to light":"Switch to dark")}}});
+  document.addEventListener("click",e=>{if(e.target.closest("#sbTheme")){const m=MODES[(MODES.indexOf(getTheme())+1)%MODES.length];setTheme(m);const bt=document.getElementById("sbTheme");if(bt){bt.innerHTML=hvIcon(MODE_ICON[m],22);bt.setAttribute("aria-label","Change the look. Now: "+MODE_NAME[m])}if(window.toast)toast("Look: "+MODE_NAME[m])}});
   /* the Lumi tab appears once the helper link is known (aihelper.js loads after this file) */
   setTimeout(updateBar,0)}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
@@ -136,6 +142,15 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 const st=document.createElement("style");
 st.textContent=`
 .hvi{display:block;flex:none}
+:root[data-theme][data-tone="dusk"]{
+  --bg:#2c3270;--surface:#3b4284;--ink:#fff7ea;--muted:#d2d3f0;--gold:#f3c56a;--gold-soft:#4d4673;--sky-soft:#3a5a96;--line:#5a609e;--shadow:0 8px 22px rgba(18,20,70,.42);
+  --bg-base:#2a2f6b;--sky-top:#1f2b66;--sky-mid:#5a56a3;--sky-bot:#d98aa8;
+  --aur1:rgba(255,200,110,.55);--aur2:rgba(120,170,255,.42);--aur3:rgba(235,140,205,.36);
+  --rays:rgba(255,222,150,.26);--halo:rgba(255,205,120,.66);--cloud:rgba(255,236,226,.2);--stars-op:1;--grain-op:.05;
+  --glass:rgba(58,64,128,.6);--glass-b:rgba(255,255,255,.2);--glass-hi:rgba(255,255,255,.14);--sh:0 12px 30px -14px rgba(14,16,60,.65)}
+:root[data-theme][data-tone="dusk"] .sk-px .au1{opacity:1}
+:root[data-theme][data-tone="dusk"] .rays{opacity:.6}
+.lookrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}.lookrow button{min-height:44px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font:inherit;font-weight:800}.lookrow button[aria-pressed="true"]{background:var(--gold-soft);border-color:var(--gold)}
 #tabbar{position:fixed;left:0;right:0;bottom:0;z-index:900;display:grid;grid-template-columns:repeat(var(--n,5),1fr);padding:8px 8px calc(10px + env(safe-area-inset-bottom));background:var(--glass);-webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%);border-top:1px solid var(--glass-b);box-shadow:0 -10px 30px -18px rgba(0,0,0,.4)}
 #tabbar[hidden]{display:none}
 #tabbar .tb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:52px;color:var(--muted,#6f6a73);text-decoration:none;font-weight:800;font-size:.74rem;position:relative;-webkit-tap-highlight-color:transparent;transition:color .2s}
@@ -226,6 +241,7 @@ ST2.textContent=`.hve{display:inline-block;width:1.18em;height:1.18em;vertical-a
 .hve.col svg{fill:currentColor;fill-opacity:.2}
 .hve-clay{width:1.4em;height:1.4em;vertical-align:-.3em}.hve-clay svg{width:100%;height:100%;fill:initial;stroke:none}
 .tile .ic{font-size:2.3rem}
+:root[data-theme="dark"] .hve.col{filter:brightness(1.5) saturate(1.1)}
 .hve-dot{width:.8em;height:.8em;border-radius:50%;background:var(--c);vertical-align:-.05em;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
 .hve-lumi{width:1.5em;height:1.5em;vertical-align:-.45em}.hve-lumi svg{stroke:none;fill:initial;width:100%;height:100%}.hve-lumi svg *{stroke-width:revert}`;
 document.head.appendChild(ST2);

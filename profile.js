@@ -144,9 +144,11 @@ window.hvAccountTab=function(box){
     <div class="pf-sub" style="text-align:left">${TIER[u.role][0]} ${TIER[u.role][1]}${u.grade?" · "+esc(u.grade):""}<br>${esc(u.church)}</div>
     ${u.role==="coordinator"||isTop(u.role)?`<button class="btn gold" data-go="access" style="margin-top:10px">🔑 Manage access <span id="pendN"></span></button>`:""}
     <b style="display:block;margin-top:14px">Recent points</b><div id="lg">${u.log&&u.log.length?u.log.map(l=>`<div class="lgrow"><span>${KIND[l.k]||l.k}${l.n?" · "+esc(l.n):""}</span><span>+${l.p}</span></div>`).join(""):`<div class="tag">No points yet. Check in at class to start! ✋</div>`}</div>
+    <b style="display:block;margin-top:14px">Look</b><div class="lookrow" id="lookRow">${[["dusk","Twilight"],["light","Sunrise"],["dark","Night"]].map(m=>`<button type="button" data-look="${m[0]}" aria-pressed="${window.hvGetLook&&hvGetLook()===m[0]}">${m[1]}</button>`).join("")}</div>
     <label class="sndrow"><input type="checkbox" id="sndTog" ${(()=>{try{return localStorage.getItem("hv_sound")!=="off"}catch{return true}})()?"checked":""}> <span>Welcome sound when the app opens</span></label>
     <button class="btn alt" id="out" style="margin-top:14px">Log out</button>
     <button class="btn alt" id="delacct" style="opacity:.8">🗑 Delete my account</button><a class="tag privlink" href="privacy.html">Privacy policy</a>`;
+  box.querySelector("#lookRow").onclick=e=>{const b=e.target.closest("[data-look]");if(!b||!window.hvSetLook)return;hvSetLook(b.dataset.look);box.querySelectorAll("[data-look]").forEach(x=>x.setAttribute("aria-pressed",x===b))};
   box.querySelector("#sndTog").onchange=e=>{try{localStorage.setItem("hv_sound",e.target.checked?"on":"off")}catch{}toast(e.target.checked?"Welcome sound is on":"Welcome sound is off");if(e.target.checked&&window.hvChime)hvChime()};
   box.querySelector("#out").onclick=()=>{if(confirm("Log out?")){setAcct(null);go("home")}};
   box.querySelector("#delacct").onclick=async()=>{if(u.role==="master"){toast("The master account cannot be deleted here");return}
