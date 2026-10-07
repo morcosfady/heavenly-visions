@@ -62,7 +62,7 @@ window.hvIcon=function(name,size,alt){
 window.hvThemeButton=function(){const dark=root.dataset.theme==="dark";return `<button class="sb-theme" id="sbTheme" aria-label="${dark?"Switch to light":"Switch to dark"}">${hvIcon(dark?"sun":"moon",22)}</button>`};
 
 /* ---------- bottom tab bar ---------- */
-const TABS=[["home","home","Home"],["learn","media","Learn"],["play","games","Play"],["lumi","lumi","Lumi"],["me","profile","Me"]];
+const TABS=[["home","home","Home"],["learn","media","Learn"],["play","games","Play"],["me","profile","Me"]];
 const GROUP={ // route prefix -> tab
   home:"home",media:"learn",m:"learn",bible:"learn",b:"learn",verse:"learn",vp:"learn",calendar:"learn",
   games:"play",quizzes:"play",coloring:"play",arena:"play",bedtime:"play",
@@ -73,17 +73,23 @@ let bar=null,ind=null;
 function hasLumi(){return !!(window.hvAiUrl&&hvAiUrl())}
 function buildBar(){
   bar=document.createElement("nav");bar.id="tabbar";bar.setAttribute("aria-label","Main");
-  const tabs=TABS.filter(t=>t[0]!=="lumi"||hasLumi());
+  const tabs=TABS;
   bar.style.setProperty("--n",tabs.length);
   bar.innerHTML=`<i class="tb-ind" aria-hidden="true"></i>`+tabs.map(t=>`<a class="tb" href="#${t[1]}" data-tab="${t[0]}">${hvIcon(t[0],26)}<span>${t[2]}</span></a>`).join("");
   document.body.appendChild(bar);ind=bar.querySelector(".tb-ind");
   bar.addEventListener("click",()=>{try{navigator.vibrate&&navigator.vibrate(10)}catch{}});
 }
+function fab(show){
+  let b=document.getElementById("lmfab");
+  if(!hasLumi()||!window.hvLumiSvg){if(b)b.hidden=true;return}
+  if(!b){b=document.createElement("button");b.id="lmfab";b.className="lm-fab";b.setAttribute("aria-label","Ask Lumi, questions about God and the Church");
+    b.innerHTML=`<span class="lm-fab-i" aria-hidden="true">${hvLumiSvg("happy",64)}</span><b>Ask Lumi</b>`;b.onclick=()=>{location.hash="lumi"};document.body.appendChild(b)}
+  b.hidden=!show}
 function updateBar(){
   if(!bar)return;
   const {h,k}=route();
   const show=SHOW.has(k)&&!(k==="b"&&/^b-.+-\d+$/.test(h));
-  bar.hidden=!show;document.body.classList.toggle("hasTabs",show);
+  bar.hidden=!show;fab(show);document.body.classList.toggle("hasTabs",show);
   const cur=GROUP[k]||"";
   const tabs=[...bar.querySelectorAll(".tb")];
   tabs.forEach((t,i)=>{const on=t.dataset.tab===cur;t.classList.toggle("on",on);if(on){t.setAttribute("aria-current","page");ind.style.transform=`translateX(${i*100}%)`;ind.style.opacity=1}else t.removeAttribute("aria-current")});
@@ -92,7 +98,7 @@ function updateBar(){
 function init(){buildBar();updateBar();addEventListener("hashchange",updateBar);
   document.addEventListener("click",e=>{if(e.target.closest("#sbTheme")){setTheme(root.dataset.theme==="dark"?"light":"dark");const b=document.getElementById("sbTheme");if(b){const dark=root.dataset.theme==="dark";b.innerHTML=hvIcon(dark?"sun":"moon",22);b.setAttribute("aria-label",dark?"Switch to light":"Switch to dark")}}});
   /* the Lumi tab appears once the helper link is known (aihelper.js loads after this file) */
-  setTimeout(()=>{if(bar&&hasLumi()&&!bar.querySelector('[data-tab="lumi"]')){bar.remove();buildBar();updateBar()}},0)}
+  setTimeout(updateBar,0)}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
 
 /* ---------- styles ---------- */
@@ -116,6 +122,10 @@ body.hasTabs #app{padding-bottom:calc(104px + env(safe-area-inset-bottom))!impor
   #tabbar .tb.on{background:rgba(227,180,92,.2);border-radius:18px}
   body.hasTabs #app{padding-bottom:40px!important;margin-left:max(92px,calc((100vw - 1100px)/2 + 92px))}
 }
+.lm-fab{position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:950;display:flex;flex-direction:column;align-items:center;gap:0;background:none;border:0;padding:0;cursor:pointer;min-width:64px;min-height:64px;font-family:inherit;-webkit-tap-highlight-color:transparent}.lm-fab[hidden]{display:none}
+.lm-fab-i{display:block;width:64px;height:64px;transition:transform .15s}.lm-fab-i .lumi-svg{filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}.lm-fab:active .lm-fab-i{transform:scale(.92)}
+.lm-fab b{font-size:.8rem;font-weight:900;color:#fff;text-shadow:0 0 3px #1b3f73,0 0 3px #1b3f73,0 1px 4px rgba(0,0,0,.6);white-space:nowrap;margin-top:-4px}
+@media (min-width:900px){.lm-fab{bottom:24px;right:24px}}
 .sb-theme{width:44px;height:44px;min-height:44px;border-radius:50%;border:1px solid var(--glass-b);background:var(--glass);color:var(--ink);display:grid;place-items:center;padding:0}
 .sb-bell svg,.sb-login svg{display:inline-block;vertical-align:-4px}
 .sb-login{display:inline-flex;align-items:center;gap:8px}
