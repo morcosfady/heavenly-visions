@@ -135,33 +135,22 @@ function authPage(mode,startRole){
 /* ---------- welcome email (loads welcome.js only when a profile is created) ---------- */
 function sendWelcome(first,church,email,role){const go2=()=>window.hvWelcome&&hvWelcome(first,church,email,role);if(window.hvWelcome)return go2();const sc=document.createElement("script");sc.src="welcome.js?v=1";sc.onload=go2;document.head.appendChild(sc)}
 /* ---------- profile ---------- */
-async function profile(){
-  let a=acct();if(!a){authPage("login");return}
-  const draw=()=>{const u=a.user,lv=level(u.score);
-    app.innerHTML=`${topbar("My Profile","👤",TIER[u.role][1])}
-    ${u.req?`<div class="note">⏳ Your request to be a <b>${TIER[u.req][1]}</b> is waiting for approval. For now you can view the app as a guest. 🙏</div>`:""}
-    ${u.role==="coordinator"||isTop(u.role)?`<button class="btn gold" data-go="access">🔑 Manage access <span id="pendN"></span></button>`:""}
-    <div class="pf-hero"><div class="pf-av" id="avBig" style="overflow:hidden;display:flex;align-items:center;justify-content:center">${avHTML(a.avatar||AVATARS[0],80)}</div>
-      <div class="pf-name">${esc(u.name)}</div>
-      <div class="pf-sub">${TIER[u.role][0]} ${TIER[u.role][1]}${u.grade?" · "+esc(u.grade):""}<br>${esc(u.church)}</div>
-      <div class="pf-score">⭐ ${u.score-(u.spent||0)}<small>STARS TO SPEND</small></div><button class="btn gold" data-go="kids" style="margin-top:10px">🌟 Kids Corner: avatar, shop, badges</button>
-      <div class="pf-bar"><i style="width:${lv.pct}%"></i></div>
-      <div class="pf-lv">${lv.ic} ${lv.name}${lv.next?` · ${lv.next} more to ${lv.nxName}`:" · top level!"}</div></div>
-    <section class="card sec"><b>Pick your picture</b><div class="avs">${(u.role==="master"?[MASTER_AV]:[]).concat(AVATARS).map(x=>`<button data-av="${x}" aria-pressed="${(a.avatar||AVATARS[0])===x}" ${x===MASTER_AV?'aria-label="Master logo" style="padding:4px;overflow:hidden"':""}>${avHTML(x,34)}</button>`).join("")}</div></section>
-    <section class="card sec"><b>How to get points</b><div class="tag">${isStaff(u.role)?"✅ Check in at class +5<br>🛠️ Publish a game +20":"✅ Check in at class +10<br>🎮 Finish a game +10<br>🏆 Win a live class game +50"}</div></section>
-    <section class="card sec"><b>Recent points</b><div id="lg">${u.log&&u.log.length?u.log.map(l=>`<div class="lgrow"><span>${KIND[l.k]||l.k}${l.n?" · "+esc(l.n):""}</span><span>+${l.p}</span></div>`).join(""):`<div class="tag">No points yet. Check in at class to start! ✋</div>`}</div></section>
-    <button class="btn alt" id="out">Log out</button>
+/* The Account tab of the Me page (kids.js shows it). Name, role, church, recent points, log out, delete account. */
+window.hvAccountTab=function(box){
+  const a=acct();if(!a||!box)return;const u=a.user;
+  box.innerHTML=`${u.req?`<div class="note">⏳ Your request to be a <b>${TIER[u.req][1]}</b> is waiting for approval. For now you can view the app as a guest. 🙏</div>`:""}
+    <div class="pf-name" style="text-align:left">${esc(u.name)}</div>
+    <div class="pf-sub" style="text-align:left">${TIER[u.role][0]} ${TIER[u.role][1]}${u.grade?" · "+esc(u.grade):""}<br>${esc(u.church)}</div>
+    ${u.role==="coordinator"||isTop(u.role)?`<button class="btn gold" data-go="access" style="margin-top:10px">🔑 Manage access <span id="pendN"></span></button>`:""}
+    <b style="display:block;margin-top:14px">Recent points</b><div id="lg">${u.log&&u.log.length?u.log.map(l=>`<div class="lgrow"><span>${KIND[l.k]||l.k}${l.n?" · "+esc(l.n):""}</span><span>+${l.p}</span></div>`).join(""):`<div class="tag">No points yet. Check in at class to start! ✋</div>`}</div>
+    <button class="btn alt" id="out" style="margin-top:14px">Log out</button>
     <button class="btn alt" id="delacct" style="opacity:.8">🗑 Delete my account</button><a class="tag privlink" href="privacy.html">Privacy policy</a>`;
-    app.querySelectorAll("[data-av]").forEach(b=>b.onclick=()=>{a.avatar=b.dataset.av;saveAv(u.id,a.avatar);setAcct(a);if(window.hvSyncSoon)hvSyncSoon();draw()});
-    $("#out").onclick=()=>{if(confirm("Log out?")){setAcct(null);go("home")}};
-    $("#delacct").onclick=async()=>{if(u.role==="master"){toast("The master account cannot be deleted here");return}
-      if(!confirm("Delete your account and all your stars, avatar and attendance? This cannot be undone."))return;const pw=prompt("Type your password to confirm:");if(!pw)return;
-      try{const j=await api({action:"acct_delete",id:u.id,token:a.token,password:pw});if(j.ok){setAcct(null);try{["hv_avmap","hv_notifs","hv_queue","hv_verse","hv_prayed","hv_gallery"].forEach(k=>localStorage.removeItem(k))}catch{}toast("Your account was deleted");go("home")}else toast(j.error==="login"?"Wrong password":"Could not delete. Try again.")}catch{toast("No internet connection")}};
-    if(u.role==="coordinator"||isTop(u.role))api({action:"access_list",id:u.id,token:a.token}).then(j=>{const e=$("#pendN");if(e&&j.ok&&j.pending.length)e.textContent="("+j.pending.length+" waiting)"}).catch(()=>{});
-  };
-  draw();
-  try{const j=await api({action:"me",id:a.user.id,token:a.token});
-    if(j.ok){a.user=j.user;setAcct(a);if(location.hash==="#profile")draw()}else if(j.error==="auth"){setAcct(null);toast("Please login again");authPage("login")}}catch{}}
+  box.querySelector("#out").onclick=()=>{if(confirm("Log out?")){setAcct(null);go("home")}};
+  box.querySelector("#delacct").onclick=async()=>{if(u.role==="master"){toast("The master account cannot be deleted here");return}
+    if(!confirm("Delete your account and all your stars, avatar and attendance? This cannot be undone."))return;const pw=prompt("Type your password to confirm:");if(!pw)return;
+    try{const j=await api({action:"acct_delete",id:u.id,token:a.token,password:pw});if(j.ok){setAcct(null);try{["hv_avmap","hv_notifs","hv_queue","hv_verse","hv_prayed","hv_gallery"].forEach(k=>localStorage.removeItem(k))}catch{}toast("Your account was deleted");go("home")}else toast(j.error==="login"?"Wrong password":"Could not delete. Try again.")}catch{toast("No internet connection")}};
+  if(u.role==="coordinator"||isTop(u.role))api({action:"access_list",id:u.id,token:a.token}).then(j=>{const e=box.querySelector("#pendN");if(e&&j.ok&&j.pending.length)e.textContent="("+j.pending.length+" waiting)"}).catch(()=>{});
+};
 
 /* ---------- manage access ---------- */
 const GRADE_NAMES=()=>SECTIONS.filter(s=>/^(prek|kg|g\d+)$/.test(s.id)).map(s=>s.name);
@@ -207,6 +196,6 @@ window.profileRoute=function(h){
   if(h==="login"){authPage(acct()?"login":"login");return true}
   if(h==="signup"){authPage("signup");return true}
   if(h==="master"){authPage("signup","master");return true}
-  if(h==="profile"){profile();return true}
+  if(h==="profile"){if(!acct()){authPage("login");return true}return false}/* logged in: kids.js shows the Me page */
   return false};
 })();

@@ -51,7 +51,6 @@ window.hvToday=function(v){
   </div><div class="tdots" id="tdots" aria-hidden="true"></div></section>`};
 
 const MORE=[
-  ["kids","star","My Treasures","Stars, avatar, shop","--c-kids"],
   ["bedtime","moon","Bedtime","Stories and prayer","--c-bed"],
   ["coloring","palette","Coloring","Color and keep","--c-color"],
   ["calendar","📅","Calendar","Feasts and events","--c-cal"]];

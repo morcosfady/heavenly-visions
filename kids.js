@@ -139,7 +139,7 @@ window.hvLevelUp=function(lv){
 window.hvBadgeToast=function(keys){(keys||[]).forEach((k,i)=>{const b=BADGES.find(x=>x[0]===k);if(b)setTimeout(()=>toast("🏅 New badge: "+b[2]),900+i*2300)})};
 
 /* ---------- pages ---------- */
-function loginNeeded(){app.innerHTML=`${topbar("My Treasures","🌟","Your stars and avatar")}<div class="card sec" style="text-align:center"><div style="font-size:3rem">🌟</div><b>Login to earn stars</b><p class="tag" style="margin:0">Make a profile to collect stars, build your avatar and win badges.</p><button class="btn gold" data-go="login">👤 Login or create profile</button></div>`}
+function loginNeeded(){app.innerHTML=`${topbar("Me","🌟","Your stars, avatar and account")}<div class="card sec" style="text-align:center"><div style="font-size:3rem">🌟</div><b>Login to earn stars</b><p class="tag" style="margin:0">Make a profile to collect stars, build your avatar and win badges.</p><button class="btn gold" data-go="login">👤 Login or create profile</button></div>`}
 
 function hero(u){
   const lv=levelOf(u.score||0);
@@ -174,17 +174,19 @@ function badgesTab(u){
 
 function earnTab(){return `<div class="kc-earn">${EARN.map(e=>`<div class="kc-erow"><span>${e[0]}</span><b>${E(e[1])}</b><span class="kc-ev">${e[2]}</span></div>`).join("")}</div><div class="tag">Some things can only be done a few times a day, so come back tomorrow for more!</div>`}
 
+const bodyOf=u=>S.tab==="avatar"?avatarTab(u):S.tab==="shop"?shopTab(u):S.tab==="badges"?badgesTab(u):S.tab==="account"?`<div id="kcAcct"></div>`:earnTab();
+const drawAcct=()=>{if(S.tab==="account"&&window.hvAccountTab)hvAccountTab(document.getElementById("kcAcct"))};
 function kidsPage(){
   const a=A();if(!a){loginNeeded();return}
   const u=a.user;if(!S.cur)S.cur=Object.assign({},DEF,u.av||{});
-  app.innerHTML=`${topbar("My Treasures","🌟","Your stars and avatar")}<div class="kc-wrap">${hero(u)}<div class="kc-main">
-  <div class="ds-seg" id="kcTabs" role="tablist">${[["avatar","🧒 Avatar"],["shop","🛍️ Shop"],["badges","🏅 Badges"],["earn","⭐ Earn"]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${S.tab===t[0]}" role="tab">${t[1]}</button>`).join("")}</div>
-  <section class="card sec" id="kcBody">${S.tab==="avatar"?avatarTab(u):S.tab==="shop"?shopTab(u):S.tab==="badges"?badgesTab(u):earnTab()}</section></div></div>`;
+  app.innerHTML=`${topbar("Me","🌟","Your stars, avatar and account")}<div class="kc-wrap">${hero(u)}<div class="kc-main">
+  <div class="ds-seg" id="kcTabs" role="tablist">${[["avatar","🧒 Avatar"],["shop","🛍️ Shop"],["badges","🏅 Badges"],["earn","⭐ Earn"],["account","⚙️ Account"]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${S.tab===t[0]}" role="tab">${t[1]}</button>`).join("")}</div>
+  <section class="card sec" id="kcBody">${bodyOf(u)}</section></div></div>`;
   requestAnimationFrame(()=>requestAnimationFrame(()=>document.getElementById("kcBar")?.classList.add("go")));
-  wire(u)}
+  wire(u);drawAcct()}
 
 function refresh(){const a=A();if(!a)return;const u=a.user;document.getElementById("kcAv").innerHTML=hvAvatar(S.cur,150,{label:"My avatar"});
-  const body=document.getElementById("kcBody");body.innerHTML=S.tab==="avatar"?avatarTab(u):S.tab==="shop"?shopTab(u):S.tab==="badges"?badgesTab(u):earnTab();wireBody(u)}
+  const body=document.getElementById("kcBody");body.innerHTML=bodyOf(u);wireBody(u);drawAcct()}
 
 function wire(u){
   document.getElementById("kcTabs").addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if(!b)return;S.tab=b.dataset.tab;document.querySelectorAll("#kcTabs button").forEach(x=>x.setAttribute("aria-pressed",x===b));refresh()});
@@ -220,7 +222,7 @@ function buySheet(id,card){
     else{sh.querySelector("#kcBm").innerHTML=`<span class="err">${j.error==="poor"?"Not enough stars yet.":j.error==="owned"?"You already own it.":"Could not buy. Try again."}</span>`;bb.disabled=false}}
     catch{sh.querySelector("#kcBm").innerHTML=`<span class="err">No internet connection.</span>`;bb.disabled=false}}}
 
-window.kidsRoute=function(h){if(h==="kids"){S.cur=null;kidsPage();return true}return false};
+window.kidsRoute=function(h){if(h==="kids"||h==="profile"){S.cur=null;kidsPage();return true}return false};
 
 /* ---------- styles ---------- */
 const st=document.createElement("style");

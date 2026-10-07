@@ -166,7 +166,7 @@ async function announce(){
    <div class="field"><span>Quick start</span><div class="ds-chips" id="ant2">${TEMPLATES.map((t,k)=>`<button type="button" class="ds-chip" data-t="${k}">${t[2]} ${t[0]}</button>`).join("")}</div></div>
    <label class="field">Title<input id="ant" maxlength="50" required></label>
    <label class="field">Message<textarea id="anm" maxlength="300" rows="3" required class="as-search"></textarea></label>
-   <div class="field"><span>Picture</span><div class="ds-chips" id="ani">${ICONS.map((x,k)=>`<button type="button" class="ds-chip" data-i="${x}" aria-pressed="${k===0}">${x}</button>`).join("")}</div></div>
+   <div class="field"><span>Picture</span><div class="ds-chips" id="ani">${ICONS.map((x,k)=>`<button type="button" class="ds-chip" data-i="${x}" aria-label="Picture ${k+1}" aria-pressed="${k===0}">${x}</button>`).join("")}</div></div>
    <div class="field"><span>Kind</span><div class="ds-chips" id="anc">${Object.keys(CATS).map((k,n)=>`<button type="button" class="ds-chip" data-c="${k}" aria-pressed="${n===1}">${CATS[k][0]} ${CATS[k][1]}</button>`).join("")}</div></div>
    <label class="field">Event date (optional)<input type="date" id="and"></label><label class="field">Hide after (optional)<input type="date" id="ane"></label>
    <label class="plm"><input type="checkbox" id="anp"> 📌 Pin to the top</label>
