@@ -70,7 +70,8 @@ Object.assign(CLAY,{
   cards:`<rect x="12" y="22" width="48" height="62" rx="9" fill="url(#hvB)" transform="rotate(-12 36 53)"/><rect x="40" y="16" width="48" height="62" rx="9" fill="#fff" transform="rotate(10 64 47)"/><path d="M64 30l5 10 11 1.5-8 8 2 11-10-5.5-10 5.5 2-11-8-8 11-1.5z" fill="url(#hvY)" transform="rotate(10 64 47)"/>`,
   abc:`<rect x="10" y="16" width="80" height="68" rx="14" fill="url(#hvB)"/><rect x="10" y="16" width="80" height="68" rx="14" fill="url(#hvH)"/><text x="50" y="62" font-family="Nunito,Arial,sans-serif" font-weight="900" font-size="34" text-anchor="middle" fill="#fff">abc</text>`
 });
-const CLAYMAP={"🎶":"note","🎵":"note","🧸":"teddy","🎈":"balloon","🦁":"lion","🕊":"dove","⛪":"church","✝":"cross","🌍":"globe","🔥":"flame","🛡":"shield","👑":"crown","🕯":"candle","🎓":"cap","🗓":"calendar","😇":"halo","💙":"heart","🐖":"pig","🌴":"palm","🃏":"cards","🔤":"abc","⭐":"star","📖":"book","🏆":"trophy","🎮":"game","🌙":"moon","🎨":"palette"};
+const CLAYMAP=Object.assign({'📅':'calendar'},{"🎶":"note","🎵":"note","🧸":"teddy","🎈":"balloon","🦁":"lion","🕊":"dove","⛪":"church","✝":"cross","🌍":"globe","🔥":"flame","🛡":"shield","👑":"crown","🕯":"candle","🎓":"cap","🗓":"calendar","😇":"halo","💙":"heart","🐖":"pig","🌴":"palm","🃏":"cards","🔤":"abc","⭐":"star","📖":"book","🏆":"trophy","🎮":"game","🌙":"moon","🎨":"palette"});
+window.HV_CLAY=CLAY;window.HV_CLAYMAP=CLAYMAP;
 /* ---------- line icons (viewBox 0 0 24 24, stroke 1.8) ---------- */
 const LINE={
   home:'<path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"/>',
@@ -211,6 +212,8 @@ document.head.appendChild(st);
    Keeps emojis inside text people typed (data-keep, inputs, kid chat bubbles, the avatar picker). Unknown emojis are left alone. */
 const EMO=/(?:\p{Extended_Pictographic}\uFE0F?(?:\u200D\p{Extended_Pictographic}\uFE0F?)*)/gu;
 const SKIP="textarea,input,select,option,script,style,svg,canvas,[contenteditable],[data-keep],.avs,.lm-kb,.sb-av,.pf-av,.hve";
+const BIGCTX=".title-row,.tile .ic,.upi,.saintic,.em,.evi,.evbig,.ani,.mdoor .big,.ds-badge i,.kc-badges i,.soonbox .em,.ds-empty .em,.empty,.fe,.tcard .em,.tile .nm,.ic,.here,.kc-stars,.note";
+function bigSpot(el){if(!el)return false;if(el.closest(BIGCTX))return true;try{return parseFloat(getComputedStyle(el).fontSize)>=28}catch{return false}}
 function emoSvg(e,big){
   const k=e.replace(/\uFE0F/g,"");
   if(k==="🐑"&&window.hvLumiSvg)return `<i class="hve hve-lumi" role="img" aria-label="Lumi">${hvLumiSvg("happy",26)}</i>`;
@@ -227,7 +230,7 @@ function swap(root){
     const p=n.parentElement;return p&&!p.closest(SKIP)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}});
   const list=[];while(w.nextNode())list.push(w.currentNode);
   list.forEach(n=>{
-    const big=!!n.parentElement.closest(".tile .ic");
+    const big=bigSpot(n.parentElement);
     const t=n.nodeValue;let last=0,html="",changed=false;
     t.replace(EMO,(e,i)=>{const s=emoSvg(e,big);if(s){html+=escT(t.slice(last,i))+s;last=i+e.length;changed=true}return e});
     if(!changed)return;html+=escT(t.slice(last));
@@ -242,7 +245,7 @@ const ST2=document.createElement("style");
 ST2.textContent=`.hve{display:inline-block;width:1.18em;height:1.18em;vertical-align:-.22em;line-height:1;flex:none;font-style:normal}
 .hve svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .hve.col svg{fill:currentColor;fill-opacity:.2}
-.hve-clay{width:1.4em;height:1.4em;vertical-align:-.3em}.hve-clay svg{width:100%;height:100%;fill:initial;stroke:none}
+.hve-clay{width:1.4em;height:1.4em;vertical-align:-.3em}.title-row .hve-clay{width:52px;height:52px}.note .hve-clay,.tile .nm .hve-clay,.kc-stars .hve-clay{width:28px;height:28px;vertical-align:-.45em}.here .hve-clay{width:56px;height:56px}.title-row span{font-size:2.4rem!important}.upi .hve-clay,.upi svg{width:40px;height:40px}.saintic .hve-clay{width:64px;height:64px}.hve-clay svg{width:100%;height:100%;fill:initial;stroke:none}
 .tile .ic{font-size:2.3rem}
 :root[data-theme="dark"] .hve.col{filter:brightness(1.5) saturate(1.1)}
 .hve-dot{width:.8em;height:.8em;border-radius:50%;background:var(--c);vertical-align:-.05em;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}

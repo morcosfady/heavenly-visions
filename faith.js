@@ -122,15 +122,15 @@ function calendarPage(){
   app.innerHTML=`${topbar("Calendar","📅","Coptic and regular dates","home")}
   <section class="card tcal"><div class="tag">${t.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"})}</div><div class="cbig">${c.day} ${c.name}, ${c.year}</div><div class="tag">Coptic calendar</div>
    ${f?`<div class="fastban">🌙 ${E(f.t)} is on now. Fasting reminds us to pray and love God more.</div>`:""}
-   ${fe?`<div class="fe">${fe.ic} <b>${E(fe.t)}</b> today. ${E(fe.note||"")}</div>`:""}</section>
+   ${fe?`<div class="fe">${window.hvCalIcon?hvCalIcon(fe.id,fe.ic,32):fe.ic} <b>${E(fe.t)}</b> today. ${E(fe.note||"")}</div>`:""}</section>
   ${sa?saintCard(sa,true):nextSaint?`<div class="tag">Next saint: ${E(nextSaint.t)} ${CNT(diffDays(t,nextSaint.d))}</div>`:""}
-  <section class="card sec"><h2>Coming up</h2><div class="list">${up.map(x=>`<div class="upr"><span class="upi">${x.ic}</span><span class="upn"><b>${E(x.t)}</b><small>${x.d.toLocaleDateString("en-US",{month:"short",day:"numeric"})}</small></span><span class="upc">${CNT(diffDays(t,x.d))}</span>${LINK[x.id]?`<button class="watchbtn" data-go="${LINK[x.id]}" aria-label="Watch the video about ${E(x.t)}">▶ Watch</button>`:""}</div>`).join("")}</div></section>
+  <section class="card sec"><h2>Coming up</h2><div class="list">${up.map(x=>`<div class="upr"><span class="upi">${window.hvCalIcon?hvCalIcon(x.id,x.ic,40):x.ic}</span><span class="upn"><b>${E(x.t)}</b><small>${x.d.toLocaleDateString("en-US",{month:"short",day:"numeric"})}</small></span><span class="upc">${CNT(diffDays(t,x.d))}</span>${LINK[x.id]?`<button class="watchbtn" data-go="${LINK[x.id]}" aria-label="Watch the video about ${E(x.t)}">▶ Watch</button>`:""}</div>`).join("")}</div></section>
   <section class="card sec"><div class="calnav"><button class="btn alt" id="cprev" aria-label="Previous month">◀</button><h2 style="margin:0" id="cmt"></h2><button class="btn alt" id="cnext" aria-label="Next month">▶</button></div><div id="cgrid"></div>
    <div class="as-leg" style="display:flex;gap:12px;flex-wrap:wrap;font-size:.78rem;font-weight:800;color:var(--muted)"><span>🟡 Feast</span><span>🟣 Fast</span><span>🔵 Saint</span><span>🟢 Event</span></div><div id="cday" class="tag" role="status">Tap a day to see what it is.</div></section>`;
   drawMonth();if(window.hvLoadEvents)hvLoadEvents().then(()=>{if(document.getElementById("cgrid"))drawMonth()});
   document.getElementById("cprev").onclick=()=>{CALM.m--;if(CALM.m<0){CALM.m=11;CALM.y--}drawMonth()};
   document.getElementById("cnext").onclick=()=>{CALM.m++;if(CALM.m>11){CALM.m=0;CALM.y++}drawMonth()}}
-function saintCard(x,big){return `<section class="card saint${big?" big":""}" style="--tc:var(--c-cal)"><div class="saintic" aria-hidden="true">${x.ic}</div><div class="k">Saint of the day</div><h2 style="margin:0">${E(x.t)}</h2><p>${E(x.note)}</p><div class="learn">💡 ${E(x.learn||"")}</div>${LINK[x.id]?`<button class="btn alt" data-go="${LINK[x.id]}">📺 Learn more</button>`:""}</section>`}
+function saintCard(x,big){return `<section class="card saint${big?" big":""}" style="--tc:var(--c-cal)"><div class="saintic" aria-hidden="true">${window.hvCalIcon?hvCalIcon(x.id,x.ic,64):x.ic}</div><div class="k">Saint of the day</div><h2 style="margin:0">${E(x.t)}</h2><p>${E(x.note)}</p><div class="learn">💡 ${E(x.learn||"")}</div>${LINK[x.id]?`<button class="btn alt" data-go="${LINK[x.id]}">📺 Learn more</button>`:""}</section>`}
 function drawMonth(){
   const y=CALM.y,m=CALM.m,first=new Date(y,m,1),days=new Date(y,m+1,0).getDate(),lead=first.getDay();
   document.getElementById("cmt").textContent=first.toLocaleDateString("en-US",{month:"long",year:"numeric"});

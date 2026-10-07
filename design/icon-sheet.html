@@ -1,0 +1,4 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Clay icon sheet</title>
+<style>body{font-family:Nunito,Arial,sans-serif;background:#4a4f9a;margin:0;padding:16px;color:#fff}h1{font-size:18px}.g{display:grid;grid-template-columns:repeat(8,1fr);gap:10px}.c{background:rgba(255,255,255,.12);border-radius:14px;padding:8px;text-align:center;font-size:11px}.c svg{display:block;margin:0 auto 4px}</style></head><body><h1>Clay icons</h1><div class="g" id="g"></div>
+<script src="../design.js"></script><script src="../clay2.js"></script>
+<script>document.getElementById("g").innerHTML=Object.keys(HV_CLAY).map(k=>`<div class="c">${hvIcon(k,64)}${k}</div>`).join("")</script></body></html>
