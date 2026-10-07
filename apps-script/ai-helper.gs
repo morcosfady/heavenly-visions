@@ -33,11 +33,17 @@ function out(o) { return ContentService.createTextOutput(JSON.stringify(o)).setM
 function today() { return Utilities.formatDate(new Date(), 'America/Chicago', 'yyyy-MM-dd'); }
 
 function who(b, allowStudent) {
-  var r = UrlFetchApp.fetch(MAIN_URL, { method: 'post', contentType: 'text/plain', payload: JSON.stringify({ action: 'me', id: b.id, token: b.token }), muteHttpExceptions: true });
-  var j;
-  try { j = JSON.parse(r.getContentText()); } catch (e) { return null; }
-  if (!j || !j.ok || !j.user) return null;
-  var u = j.user;
+  /* the games backend can take 30 seconds or more, so a person who was just checked is remembered for 5 minutes */
+  var cache = CacheService.getScriptCache(), key = null, u = null;
+  try { key = 'who_' + Utilities.base64EncodeWebSafe(Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, String(b.id) + '|' + String(b.token))); var hit = cache.get(key); if (hit) u = JSON.parse(hit); } catch (e) { key = null; }
+  if (!u) {
+    var r = UrlFetchApp.fetch(MAIN_URL, { method: 'post', contentType: 'text/plain', payload: JSON.stringify({ action: 'me', id: b.id, token: b.token }), muteHttpExceptions: true });
+    var j;
+    try { j = JSON.parse(r.getContentText()); } catch (e) { return null; }
+    if (!j || !j.ok || !j.user) return null;
+    u = j.user;
+    if (key) { try { cache.put(key, JSON.stringify(u), 300); } catch (e) {} }
+  }
   if (!allowStudent && (u.role === 'student' || u.req)) return null;
   return u;
 }
