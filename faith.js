@@ -112,7 +112,7 @@ function copticOf(d){const n=window.hvCopticDate(d);return n}
 window.hvCalToday=function(){const t=today(),ev=evOf(t.getFullYear()).filter(x=>diffDays(t,x.d)===0),f=activeFast(t);return {ev,fast:f,coptic:copticOf(t)}};
 const CNT=n=>n===0?"Today":n===1?"Tomorrow":"in "+n+" days";
 const LINK={nayrouz:"quiz-nayrouz",pentecost:"quiz-pentecost",george:"quiz-stgeorge",mary:"quiz-stmary",nativity:"m-feasts",annunciation:"quiz-stmary",dormition:"quiz-stmary",demiana:"m-saints",mark:"m-g2"};
-let CALM=null;
+let CALM=null,CALSEL="";
 function calendarPage(){
   const t=today(),c=copticOf(t),f=activeFast(t),evs=evOf(t.getFullYear()).filter(x=>diffDays(t,x.d)===0);
   const sa=evs.find(x=>x.type==="saint"),fe=evs.find(x=>x.type==="feast");
@@ -139,10 +139,10 @@ function drawMonth(){
   for(let i=0;i<lead;i++)cells+=`<span></span>`;
   for(let d=1;d<=days;d++){const dt=new Date(y,m,d),e=evs.filter(x=>diffDays(dt,x.d)===0),fast=activeFast(dt),cd=copticOf(dt);
     const my=(window.hvEvCache||[]).filter(x=>x.date<=dkey(dt)&&(x.end||x.date)>=dkey(dt));
-    cells+=`<button class="cd ${diffDays(t,dt)===0?"now":""}" data-d="${dkey(dt)}" aria-label="${dt.toLocaleDateString("en-US",{month:"long",day:"numeric"})}${e.length?", "+e.map(x=>x.t).join(", "):""}${fast?", "+fast.t:""}${my.length?", "+my.map(x=>x.title).join(", "):""}"><b>${d}</b><small>${cd.day}</small><span class="dots">${e.some(x=>x.type==="feast")?`<i style="background:#e3b45c"></i>`:""}${fast?`<i style="background:#8e6bd1"></i>`:""}${e.some(x=>x.type==="saint")?`<i style="background:#4a8fd8"></i>`:""}${my.length?`<i style="background:#3fae6a"></i>`:""}</span></button>`}
+    cells+=`<button class="cd ${diffDays(t,dt)===0?"now":""}${dkey(dt)===CALSEL?" sel":""}" data-d="${dkey(dt)}" aria-label="${dt.toLocaleDateString("en-US",{month:"long",day:"numeric"})}${e.length?", "+e.map(x=>x.t).join(", "):""}${fast?", "+fast.t:""}${my.length?", "+my.map(x=>x.title).join(", "):""}"><b>${d}</b><small>${cd.day}</small><span class="dots">${e.some(x=>x.type==="feast")?`<i style="background:#e3b45c"></i>`:""}${fast?`<i style="background:#8e6bd1"></i>`:""}${e.some(x=>x.type==="saint")?`<i style="background:#4a8fd8"></i>`:""}${my.length?`<i style="background:#3fae6a"></i>`:""}</span></button>`}
   document.getElementById("cgrid").innerHTML=`<div class="cgrid">${(window.hvWeekdayInitials?hvWeekdayInitials():["S","M","T","W","T","F","S"]).map(x=>`<span class="ch">${x}</span>`).join("")}${cells}</div>`;
-  document.getElementById("cgrid").onclick=e=>{const b=e.target.closest("[data-d]");if(!b)return;const p=b.dataset.d.split("-"),dt=new Date(+p[0],+p[1]-1,+p[2]),ev=allEv(dt,dt),f=activeFast(dt),c=copticOf(dt);
-    document.getElementById("cday").innerHTML=`<b>${dt.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"})}</b> (${c.day} ${c.name})${ev.map(x=>`<br>${x.ic} ${E(x.t)}${x.note?": "+E(x.note):""}`).join("")}${f?`<br>🌙 ${E(f.t)}`:""}${(window.hvEvCache||[]).filter(x=>x.date<=b.dataset.d&&(x.end||x.date)>=b.dataset.d).map(x=>`<br>${E(x.ic||"🎉")} ${E(x.title)}${x.place?" at "+E(x.place):""}`).join("")}${!ev.length&&!f&&!(window.hvEvCache||[]).some(x=>x.date<=b.dataset.d&&(x.end||x.date)>=b.dataset.d)?"<br>A normal day.":""}`}}
+  document.getElementById("cgrid").onclick=e=>{const b=e.target.closest("[data-d]");if(!b)return;document.querySelectorAll("#cgrid .cd.sel").forEach(x=>{x.classList.remove("sel");x.removeAttribute("aria-pressed")});b.classList.add("sel");b.setAttribute("aria-pressed","true");CALSEL=b.dataset.d;const p=b.dataset.d.split("-"),dt=new Date(+p[0],+p[1]-1,+p[2]),ev=allEv(dt,dt),f=activeFast(dt),c=copticOf(dt);
+    document.getElementById("cday").innerHTML=`<b>${dt.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"})}</b> (${c.day} ${c.name})${ev.map(x=>`<br>${x.ic} ${E(x.t)}${x.note?": "+E(x.note):""}`).join("")}${f?`<br>🌙 ${E(f.t)}`:""}${(window.hvEvCache||[]).filter(x=>x.date<=b.dataset.d&&(x.end||x.date)>=b.dataset.d).map(x=>`<br>${E(x.ic||"🎉")} ${E(x.title)}${x.place?" at "+E(x.place):""}`).join("")}${!ev.length&&!f&&!(window.hvEvCache||[]).some(x=>x.date<=b.dataset.d&&(x.end||x.date)>=b.dataset.d)?"<br>A normal day.":""}`;try{document.getElementById("cday").scrollIntoView({block:"nearest",behavior:"smooth"})}catch{}}}
 window.hvSaintToday=function(){const t=today();return evOf(t.getFullYear()).find(x=>x.type==="saint"&&diffDays(t,x.d)===0)||null};
 
 /* ---------- routes ---------- */
@@ -150,7 +150,7 @@ window.faithRoute=function(h){
   if(h==="verse"){versePage();return true}
   if(h==="prayers"){prayersPage();return true}
   if(h.startsWith("pr-")){prayerPage(h.slice(3));return true}
-  if(h==="calendar"){CALM=null;calendarPage();return true}
+  if(h==="calendar"){CALM=null;CALSEL="";calendarPage();return true}
   return false};
 
 /* ---------- styles ---------- */
@@ -183,7 +183,11 @@ st.textContent=`
 .calnav{display:flex;justify-content:space-between;align-items:center;gap:8px}.calnav .btn{padding:8px 14px;min-height:44px}
 .cgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}.cgrid .ch{text-align:center;font-weight:900;font-size:.75rem;color:var(--muted)}
 .cd{aspect-ratio:1;border-radius:12px;border:1.5px solid var(--line);background:transparent;color:var(--ink);padding:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;font:inherit;line-height:1.1;min-height:44px}.cd b{font-size:.9rem}.cd small{font-size:.6rem;color:var(--muted);font-weight:700}
-.cd.now{border-color:var(--gold);background:var(--gold-soft)}.dots{display:flex;gap:2px;height:6px}.dots i{width:6px;height:6px;border-radius:50%;display:block}
+.cd.now{border-color:var(--gold);background:var(--gold-soft)}
+.cd{transition:transform .12s,background .15s,box-shadow .15s}.cd:active{transform:scale(.92)}
+.cd.sel{border-color:#6a47c2;background:rgba(142,107,209,.2);box-shadow:0 0 0 3px rgba(142,107,209,.35);transform:scale(1.06);position:relative;z-index:1}.cd.sel b{color:var(--ink);font-weight:900}
+.cd.sel.now{background:linear-gradient(135deg,var(--gold-soft),rgba(142,107,209,.25))}
+#cday{margin-top:10px;padding:12px 14px;border-radius:16px;background:rgba(142,107,209,.12);border:1px solid rgba(142,107,209,.35);font-size:var(--fs-m);line-height:1.5}#cday b{color:inherit}.dots{display:flex;gap:2px;height:6px}.dots i{width:6px;height:6px;border-radius:50%;display:block}
 @media (prefers-reduced-motion:reduce){.ptxt span,.pref{opacity:1;animation:none}.candle i,.vflame .fl,.saintic{animation:none}}
 `;
 document.head.appendChild(st);

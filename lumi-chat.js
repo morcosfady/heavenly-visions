@@ -72,7 +72,7 @@ window.lumiVideoHtml=videoHtml;
 const LINKTXT=r=>/^quiz-/.test(r)?["🏆","Take the quiz"]:/^l-/.test(r)?null:r==="calendar"?["📅","See in calendar"]:r==="m-saints"?["👼","More saints"]:r==="m-feasts"?["🎉","More feasts"]:r==="verse"?["📜","Daily verse"]:r==="games"?["🎮","Play a game"]:/^b-|^bible$/.test(r)?["📖","Read it in the Bible"]:r==="bedtime"?["🌙","Bedtime stories"]:r==="coloring"?["🎨","Coloring"]:null;
 const EMOJIS=["😊","🙏","✝️","⭐","📖","🕊️","🐑","❤️","🎉","😮","🤔","👍"];
 
-function avatar(){const a=A();return a?(window.hvAvatarOf&&a.user.av?hvAvatarOf(a,34):`<span>${E(a.avatar||"😇")}</span>`):"<span>🙂</span>"}
+function avatar(){const a=A();if(!a)return "<span>🙂</span>";if(window.hvAvatarOf&&a.user.av)return hvAvatarOf(a,34);const v=a.avatar||"😇";return v==="logo"?`<img src="logo.png" alt="" width="34" height="34" style="width:34px;height:34px;object-fit:contain;border-radius:50%;display:block">`:`<span>${E(v)}</span>`}
 function ansHtml(en,saved){const a=en.a;
   return `<div class="lm-msg lm-l"><div class="lm-face">${hvLumiSvg(a.mood,38)}</div><div class="lm-bub" data-e="${en.id}">
    <p class="lm-t">${E(a.answer)}</p>

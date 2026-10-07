@@ -6,9 +6,10 @@
 const root=document.documentElement;
 
 /* ---------- theme: light by default, the sun/moon button in the top bar switches ---------- */
-const getTheme=()=>{try{return localStorage.getItem("hv_theme")||"light"}catch{return "light"}};
+const getTheme=()=>{try{return localStorage.getItem("hv_theme")||""}catch{return ""}};
 const setTheme=t=>{try{localStorage.setItem("hv_theme",t)}catch{}root.dataset.theme=t};
-root.dataset.theme=getTheme();
+const isDark=()=>root.dataset.theme?root.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
+if(getTheme())root.dataset.theme=getTheme();/* no saved choice: follow the phone */
 
 /* ---------- shared gradients (defined once, used by every clay icon) ---------- */
 const defs=document.createElement("div");
@@ -19,6 +20,10 @@ defs.innerHTML=`<svg width="0" height="0"><defs>
 <linearGradient id="hvY" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe29a"/><stop offset="1" stop-color="#d79a24"/></linearGradient>
 <linearGradient id="hvS" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe3c2"/><stop offset="1" stop-color="#f0a86a"/></linearGradient>
 <linearGradient id="hvN" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b94e8"/><stop offset="1" stop-color="#3c3f9e"/></linearGradient>
+<linearGradient id="hvT" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0a56a"/><stop offset="1" stop-color="#a8683a"/></linearGradient>
+<linearGradient id="hvR" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff8aa6"/><stop offset="1" stop-color="#e0405f"/></linearGradient>
+<linearGradient id="hvG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6fd69a"/><stop offset="1" stop-color="#2c9c5a"/></linearGradient>
+<linearGradient id="hvO" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb27a"/><stop offset="1" stop-color="#e0622f"/></linearGradient>
 <radialGradient id="hvH" cx=".3" cy=".25" r=".7"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
 <filter id="hvD" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#10163a" flood-opacity=".34"/></filter>
 </defs></svg>`;
@@ -35,6 +40,32 @@ const CLAY={
   moon:`<path d="M62 10a40 40 0 1 0 28 62A34 34 0 0 1 62 10z" fill="url(#hvN)"/><path d="M62 10a40 40 0 1 0 28 62A34 34 0 0 1 62 10z" fill="url(#hvH)"/><path d="M72 18l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#ffe29a"/>`,
   palette:`<path d="M50 10C26 10 8 28 8 50s18 40 40 40c8 0 10-6 6-11-4-6 0-12 8-12h14c10 0 16-6 16-16C92 28 74 10 50 10z" fill="#f3ead8"/><path d="M50 10C26 10 8 28 8 50s18 40 40 40c8 0 10-6 6-11-4-6 0-12 8-12h14c10 0 16-6 16-16C92 28 74 10 50 10z" fill="url(#hvH)"/><circle cx="30" cy="42" r="8" fill="#e8584f"/><circle cx="48" cy="28" r="8" fill="#ffd36b"/><circle cx="68" cy="34" r="8" fill="#3fae6a"/><circle cx="76" cy="54" r="8" fill="#4a8fd8"/>`
 };
+/* more clay icons (tiles, headers) */
+Object.assign(CLAY,{
+  notes:`<rect x="18" y="14" width="64" height="76" rx="11" fill="url(#hvB)"/><rect x="18" y="14" width="64" height="76" rx="11" fill="url(#hvH)"/><rect x="29" y="28" width="42" height="54" rx="6" fill="#fff"/><rect x="36" y="6" width="28" height="16" rx="7" fill="url(#hvY)"/><g stroke="#b7c3de" stroke-width="4" stroke-linecap="round"><path d="M36 42h14M36 54h14M36 66h14"/></g><circle cx="62" cy="62" r="13" fill="url(#hvG)"/><path d="M56 62l4 4 8-9" stroke="#fff" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  megaphone:`<path d="M14 40h20l34-20v60L34 60H14z" fill="url(#hvO)"/><path d="M14 40h20l34-20v60L34 60H14z" fill="url(#hvH)"/><rect x="26" y="58" width="14" height="26" rx="6" fill="#c9501f"/><rect x="70" y="30" width="8" height="40" rx="4" fill="url(#hvY)"/><path d="M84 36c6 8 6 20 0 28M92 28c10 12 10 32 0 44" stroke="#ffd36b" stroke-width="5" fill="none" stroke-linecap="round"/>`,
+  note:`<ellipse cx="30" cy="72" rx="15" ry="11" fill="url(#hvP)"/><ellipse cx="72" cy="62" rx="15" ry="11" fill="url(#hvP)"/><rect x="40" y="24" width="9" height="48" rx="3" fill="url(#hvP)"/><rect x="82" y="14" width="9" height="48" rx="3" fill="url(#hvP)"/><path d="M40 24L91 12v16L40 40z" fill="url(#hvP)"/><ellipse cx="30" cy="72" rx="15" ry="11" fill="url(#hvH)"/>`,
+  teddy:`<circle cx="24" cy="28" r="13" fill="url(#hvT)"/><circle cx="76" cy="28" r="13" fill="url(#hvT)"/><circle cx="24" cy="28" r="6" fill="#f3c9a0"/><circle cx="76" cy="28" r="6" fill="#f3c9a0"/><circle cx="50" cy="54" r="34" fill="url(#hvT)"/><circle cx="50" cy="54" r="34" fill="url(#hvH)"/><ellipse cx="50" cy="66" rx="16" ry="12" fill="#f6dcbc"/><circle cx="38" cy="48" r="4.5" fill="#3a2a1a"/><circle cx="62" cy="48" r="4.5" fill="#3a2a1a"/><ellipse cx="50" cy="61" rx="5.5" ry="4" fill="#3a2a1a"/><path d="M50 65v5M44 71q6 5 12 0" stroke="#3a2a1a" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
+  balloon:`<path d="M50 90q-6-8 2-16" stroke="#9aa3b2" stroke-width="3" fill="none"/><path d="M44 78l6-8 6 8z" fill="#e0405f"/><ellipse cx="50" cy="40" rx="28" ry="34" fill="url(#hvR)"/><ellipse cx="50" cy="40" rx="28" ry="34" fill="url(#hvH)"/><ellipse cx="38" cy="26" rx="6" ry="10" fill="#fff" opacity=".45" transform="rotate(20 38 26)"/>`,
+  lion:`<circle cx="50" cy="50" r="42" fill="url(#hvO)"/><circle cx="50" cy="52" r="29" fill="url(#hvY)"/><circle cx="50" cy="52" r="29" fill="url(#hvH)"/><circle cx="28" cy="30" r="9" fill="url(#hvY)"/><circle cx="72" cy="30" r="9" fill="url(#hvY)"/><circle cx="40" cy="46" r="4" fill="#3a2a1a"/><circle cx="60" cy="46" r="4" fill="#3a2a1a"/><ellipse cx="50" cy="60" rx="9" ry="7" fill="#fbe7c4"/><path d="M46 57h8l-4 5z" fill="#3a2a1a"/><path d="M50 62v4M44 67q6 4 12 0" stroke="#3a2a1a" stroke-width="2.4" fill="none" stroke-linecap="round"/>`,
+  dove:`<path d="M10 54c20-2 28-18 40-32 4 14 20 18 38 14-8 12-18 14-26 16 8 8 4 20-8 24-18 6-34-4-44-22z" fill="#fff"/><path d="M10 54c20-2 28-18 40-32 4 14 20 18 38 14-8 12-18 14-26 16 8 8 4 20-8 24-18 6-34-4-44-22z" fill="url(#hvH)"/><path d="M50 22c-4 10-12 16-22 20" stroke="#b7c3de" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="76" cy="38" r="3" fill="#3a2a1a"/><path d="M88 36l8 3-8 3z" fill="#f0a030"/>`,
+  church:`<rect x="20" y="52" width="60" height="38" rx="4" fill="#f6ead2"/><path d="M14 54L50 28l36 26z" fill="url(#hvY)"/><path d="M50 14v14M44 20h12" stroke="#d79a24" stroke-width="5" stroke-linecap="round"/><path d="M42 90V70a8 8 0 0 1 16 0v20z" fill="url(#hvN)"/><rect x="26" y="60" width="10" height="14" rx="5" fill="#9db4d8"/><rect x="64" y="60" width="10" height="14" rx="5" fill="#9db4d8"/>`,
+  cross:`<rect x="41" y="8" width="18" height="84" rx="7" fill="url(#hvY)"/><rect x="10" y="36" width="80" height="18" rx="7" fill="url(#hvY)"/><rect x="41" y="8" width="18" height="84" rx="7" fill="url(#hvH)"/><circle cx="50" cy="45" r="7" fill="#fff" opacity=".55"/>`,
+  globe:`<circle cx="50" cy="50" r="40" fill="url(#hvB)"/><path d="M28 34c8-8 18-6 20 2s-8 10-6 18-14 4-16-6-4-8 2-14zM60 54c8-4 16 2 14 12s-12 16-18 8 0-16 4-20z" fill="#6fd69a"/><circle cx="50" cy="50" r="40" fill="url(#hvH)"/>`,
+  flame:`<path d="M50 8c4 18 26 28 26 54a26 26 0 0 1-52 0c0-14 8-20 14-30 2 8 6 12 10 12 4-12-2-22 2-36z" fill="url(#hvO)"/><path d="M50 50c2 10 14 14 14 28a14 14 0 0 1-28 0c0-8 6-12 8-20 2 4 4 6 6 4z" fill="url(#hvY)"/>`,
+  shield:`<path d="M50 8l34 12v28c0 24-18 38-34 44C34 86 16 72 16 48V20z" fill="url(#hvB)"/><path d="M50 8l34 12v28c0 24-18 38-34 44C34 86 16 72 16 48V20z" fill="url(#hvH)"/><rect x="45" y="26" width="10" height="44" rx="4" fill="#fff"/><rect x="30" y="38" width="40" height="10" rx="4" fill="#fff"/>`,
+  crown:`<path d="M12 74L18 28l24 24 8-30 8 30 24-24 6 46z" fill="url(#hvY)"/><path d="M12 74L18 28l24 24 8-30 8 30 24-24 6 46z" fill="url(#hvH)"/><rect x="12" y="74" width="76" height="12" rx="5" fill="#d79a24"/><circle cx="50" cy="60" r="5" fill="#e0405f"/><circle cx="30" cy="64" r="4" fill="#4a8fd8"/><circle cx="70" cy="64" r="4" fill="#4a8fd8"/>`,
+  candle:`<rect x="36" y="40" width="28" height="50" rx="7" fill="#fff6dc"/><rect x="36" y="40" width="28" height="50" rx="7" fill="url(#hvH)"/><path d="M50 8c2 8 12 12 12 22a12 12 0 0 1-24 0c0-6 4-8 6-14 2 4 4 4 6 2z" fill="url(#hvO)"/><path d="M50 22c1 5 6 6 6 12a6 6 0 0 1-12 0c0-3 2-4 3-7 2 2 3 2 3 1z" fill="url(#hvY)"/><path d="M50 40v-6" stroke="#6b4a2a" stroke-width="3"/>`,
+  cap:`<path d="M50 20L94 40 50 60 6 40z" fill="url(#hvN)"/><path d="M26 52v18c0 6 48 6 48 0V52L50 64z" fill="#3c3f9e"/><path d="M88 43v26" stroke="#ffd36b" stroke-width="4" stroke-linecap="round"/><circle cx="88" cy="72" r="5" fill="url(#hvY)"/>`,
+  calendar:`<rect x="12" y="18" width="76" height="70" rx="12" fill="#fff"/><path d="M12 30a12 12 0 0 1 12-12h52a12 12 0 0 1 12 12v10H12z" fill="url(#hvR)"/><rect x="28" y="8" width="9" height="20" rx="4" fill="#9aa3b2"/><rect x="63" y="8" width="9" height="20" rx="4" fill="#9aa3b2"/><g fill="#b7c3de"><rect x="24" y="50" width="12" height="10" rx="3"/><rect x="44" y="50" width="12" height="10" rx="3"/><rect x="64" y="50" width="12" height="10" rx="3"/><rect x="24" y="68" width="12" height="10" rx="3"/><rect x="44" y="68" width="12" height="10" rx="3" fill="#e3b45c"/></g>`,
+  halo:`<ellipse cx="50" cy="16" rx="22" ry="7" fill="none" stroke="url(#hvY)" stroke-width="6"/><circle cx="50" cy="56" r="30" fill="url(#hvS)"/><circle cx="50" cy="56" r="30" fill="url(#hvH)"/><circle cx="39" cy="54" r="3.6" fill="#3a2a1a"/><circle cx="61" cy="54" r="3.6" fill="#3a2a1a"/><path d="M40 66q10 9 20 0" stroke="#3a2a1a" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="32" cy="63" r="5" fill="#ff9aa6" opacity=".6"/><circle cx="68" cy="63" r="5" fill="#ff9aa6" opacity=".6"/>`,
+  heart:`<path d="M50 88C16 62 8 42 12 28c4-14 24-18 38-4 14-14 34-10 38 4 4 14-4 34-38 60z" fill="url(#hvR)"/><path d="M50 88C16 62 8 42 12 28c4-14 24-18 38-4 14-14 34-10 38 4 4 14-4 34-38 60z" fill="url(#hvH)"/>`,
+  pig:`<circle cx="24" cy="26" r="11" fill="#f4a3b4"/><circle cx="76" cy="26" r="11" fill="#f4a3b4"/><circle cx="50" cy="52" r="36" fill="#f9bccb"/><circle cx="50" cy="52" r="36" fill="url(#hvH)"/><ellipse cx="50" cy="62" rx="16" ry="12" fill="#f08aa0"/><circle cx="44" cy="62" r="3" fill="#a03a55"/><circle cx="56" cy="62" r="3" fill="#a03a55"/><circle cx="36" cy="44" r="4" fill="#3a2a1a"/><circle cx="64" cy="44" r="4" fill="#3a2a1a"/>`,
+  palm:`<path d="M52 92c-4-20-2-40 6-58" stroke="#a8683a" stroke-width="9" fill="none" stroke-linecap="round"/><g fill="url(#hvG)"><ellipse cx="30" cy="34" rx="24" ry="9" transform="rotate(-28 30 34)"/><ellipse cx="78" cy="30" rx="24" ry="9" transform="rotate(26 78 30)"/><ellipse cx="38" cy="18" rx="22" ry="8" transform="rotate(-62 38 18)"/><ellipse cx="68" cy="16" rx="22" ry="8" transform="rotate(60 68 16)"/><ellipse cx="54" cy="28" rx="20" ry="8" transform="rotate(-8 54 28)"/></g>`,
+  cards:`<rect x="12" y="22" width="48" height="62" rx="9" fill="url(#hvB)" transform="rotate(-12 36 53)"/><rect x="40" y="16" width="48" height="62" rx="9" fill="#fff" transform="rotate(10 64 47)"/><path d="M64 30l5 10 11 1.5-8 8 2 11-10-5.5-10 5.5 2-11-8-8 11-1.5z" fill="url(#hvY)" transform="rotate(10 64 47)"/>`,
+  abc:`<rect x="10" y="16" width="80" height="68" rx="14" fill="url(#hvB)"/><rect x="10" y="16" width="80" height="68" rx="14" fill="url(#hvH)"/><text x="50" y="62" font-family="Nunito,Arial,sans-serif" font-weight="900" font-size="34" text-anchor="middle" fill="#fff">abc</text>`
+});
+const CLAYMAP={"🎶":"note","🎵":"note","🧸":"teddy","🎈":"balloon","🦁":"lion","🕊":"dove","⛪":"church","✝":"cross","🌍":"globe","🔥":"flame","🛡":"shield","👑":"crown","🕯":"candle","🎓":"cap","🗓":"calendar","😇":"halo","💙":"heart","🐖":"pig","🌴":"palm","🃏":"cards","🔤":"abc","⭐":"star","📖":"book","🏆":"trophy","🎮":"game","🌙":"moon","🎨":"palette"};
 /* ---------- line icons (viewBox 0 0 24 24, stroke 1.8) ---------- */
 const LINE={
   home:'<path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"/>',
@@ -59,7 +90,7 @@ window.hvIcon=function(name,size,alt){
   if(LINE[name])return `<svg class="hvi line" viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ${alt?`role="img" aria-label="${alt}"`:'aria-hidden="true"'}>${LINE[name]}</svg>`;
   return "";
 };
-window.hvThemeButton=function(){const dark=root.dataset.theme==="dark";return `<button class="sb-theme" id="sbTheme" aria-label="${dark?"Switch to light":"Switch to dark"}">${hvIcon(dark?"sun":"moon",22)}</button>`};
+window.hvThemeButton=function(){const dark=isDark();return `<button class="sb-theme" id="sbTheme" aria-label="${dark?"Switch to light":"Switch to dark"}">${hvIcon(dark?"sun":"moon",22)}</button>`};
 
 /* ---------- bottom tab bar ---------- */
 const TABS=[["home","home","Home"],["learn","media","Learn"],["play","games","Play"],["me","profile","Me"]];
@@ -96,7 +127,7 @@ function updateBar(){
   if(!tabs.some(t=>t.classList.contains("on")))ind.style.opacity=0;
 }
 function init(){buildBar();updateBar();addEventListener("hashchange",updateBar);
-  document.addEventListener("click",e=>{if(e.target.closest("#sbTheme")){setTheme(root.dataset.theme==="dark"?"light":"dark");const b=document.getElementById("sbTheme");if(b){const dark=root.dataset.theme==="dark";b.innerHTML=hvIcon(dark?"sun":"moon",22);b.setAttribute("aria-label",dark?"Switch to light":"Switch to dark")}}});
+  document.addEventListener("click",e=>{if(e.target.closest("#sbTheme")){setTheme(isDark()?"light":"dark");const b=document.getElementById("sbTheme");if(b){const dark=isDark();b.innerHTML=hvIcon(dark?"sun":"moon",22);b.setAttribute("aria-label",dark?"Switch to light":"Switch to dark")}}});
   /* the Lumi tab appears once the helper link is known (aihelper.js loads after this file) */
   setTimeout(updateBar,0)}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
@@ -160,9 +191,10 @@ document.head.appendChild(st);
    Keeps emojis inside text people typed (data-keep, inputs, kid chat bubbles, the avatar picker). Unknown emojis are left alone. */
 const EMO=/(?:\p{Extended_Pictographic}\uFE0F?(?:\u200D\p{Extended_Pictographic}\uFE0F?)*)/gu;
 const SKIP="textarea,input,select,option,script,style,svg,canvas,[contenteditable],[data-keep],.avs,.lm-kb,.sb-av,.pf-av,.hve";
-function emoSvg(e){
+function emoSvg(e,big){
   const k=e.replace(/\uFE0F/g,"");
   if(k==="🐑"&&window.hvLumiSvg)return `<i class="hve hve-lumi" role="img" aria-label="Lumi">${hvLumiSvg("happy",26)}</i>`;
+  const cl=CLAYMAP[k];if(cl&&CLAY[cl]&&big)return `<i class="hve hve-clay" aria-hidden="true">${hvIcon(cl,64)}</i>`;
   const dot=window.HV_DOTS&&HV_DOTS[k];if(dot)return `<i class="hve hve-dot" aria-hidden="true" style="--c:${dot}"></i>`;
   const m=window.HV_EMOJI&&HV_EMOJI[k],inner=m&&window.HV_LUCIDE&&HV_LUCIDE[m[0]];if(!inner)return null;
   return `<i class="hve${m[1]?" col":""}" aria-hidden="true"${m[1]?` style="color:${m[1]}"`:""}><svg viewBox="0 0 24 24">${inner}</svg></i>`;
@@ -175,8 +207,9 @@ function swap(root){
     const p=n.parentElement;return p&&!p.closest(SKIP)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}});
   const list=[];while(w.nextNode())list.push(w.currentNode);
   list.forEach(n=>{
+    const big=!!n.parentElement.closest(".tile .ic");
     const t=n.nodeValue;let last=0,html="",changed=false;
-    t.replace(EMO,(e,i)=>{const s=emoSvg(e);if(s){html+=escT(t.slice(last,i))+s;last=i+e.length;changed=true}return e});
+    t.replace(EMO,(e,i)=>{const s=emoSvg(e,big);if(s){html+=escT(t.slice(last,i))+s;last=i+e.length;changed=true}return e});
     if(!changed)return;html+=escT(t.slice(last));
     const sp=document.createElement("span");sp.className="hvs";sp.innerHTML=html;n.replaceWith(...sp.childNodes)});
 }
@@ -189,6 +222,8 @@ const ST2=document.createElement("style");
 ST2.textContent=`.hve{display:inline-block;width:1.18em;height:1.18em;vertical-align:-.22em;line-height:1;flex:none;font-style:normal}
 .hve svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .hve.col svg{fill:currentColor;fill-opacity:.2}
+.hve-clay{width:1.4em;height:1.4em;vertical-align:-.3em}.hve-clay svg{width:100%;height:100%;fill:initial;stroke:none}
+.tile .ic{font-size:2.3rem}
 .hve-dot{width:.8em;height:.8em;border-radius:50%;background:var(--c);vertical-align:-.05em;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
 .hve-lumi{width:1.5em;height:1.5em;vertical-align:-.45em}.hve-lumi svg{stroke:none;fill:initial;width:100%;height:100%}.hve-lumi svg *{stroke-width:revert}`;
 document.head.appendChild(ST2);

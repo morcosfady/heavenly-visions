@@ -24,7 +24,7 @@ const chip=s=>`<span class="spl" style="--sc:${STATUS[s][1]}">${STATUS[s][0]}</s
 
 /* ---------- tool cards on the Servants Workshop page ---------- */
 const TEMPLATES=[["Bring a Bible","Please bring your Bible next Sunday.","📖","bring"],["No class","There is no Sunday School this week. See you next Sunday!","🚫","church"],["Trip reminder","Please remember the trip. Bring a lunch and a water bottle.","🚌","church"],["Great job","Great job everyone today! Keep it up.","🌟","church"]];
-window.hvPostBtn=function(){return isStaff()?`<button class="btn gold postbtn" data-go="announce">📢 Post news</button>`:""};
+window.hvPostBtn=function(){return isStaff()?`<button class="postcard" data-go="announce"><span class="pci">${window.hvIcon?hvIcon("megaphone",48):""}</span><span class="pct"><b>Post news</b><small>Tell your class what is happening</small></span><span class="pcg" aria-hidden="true">${window.hvIcon?hvIcon("play2",16):""}</span></button>`:""};
 window.hvQuickNews=function(){
   if(!isStaff())return "";
   return `<form class="card sec" id="qnf"><h2>📢 Quick news</h2><label class="field">Title<input id="qnt" maxlength="50" required></label><label class="field">Message<textarea id="qnm" maxlength="300" rows="2" required class="as-search"></textarea></label>
@@ -251,6 +251,12 @@ st.textContent=`
 .spl{border-radius:999px;padding:3px 12px;background:color-mix(in srgb,var(--sc) 24%,transparent);color:var(--ink);font-weight:900;font-size:.74rem;border:1px solid var(--sc)}
 .plyear{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:8px}.pyd{display:flex;flex-direction:column;align-items:center;padding:6px 2px;border-radius:12px;border:2px solid var(--sc);background:color-mix(in srgb,var(--sc) 20%,transparent);color:var(--ink);font:inherit;min-height:52px}.pyd b{font-size:1rem}.pyd small{font-size:.62rem;color:var(--muted);font-weight:700}
 .plmat{display:flex;flex-direction:column;gap:4px}.postbtn{min-height:52px}
+.postcard{display:flex;align-items:center;gap:12px;width:100%;min-height:72px;padding:10px 14px;border-radius:22px;border:1px solid rgba(255,255,255,.35);background:linear-gradient(135deg,#f0c866,#c98f2a);color:#2b1d05;text-align:left;font:inherit;box-shadow:0 14px 26px -14px rgba(150,100,20,.7),inset 0 1px 0 rgba(255,255,255,.5);margin:10px 0;position:relative;overflow:hidden}
+.postcard::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.35),transparent 50%);pointer-events:none}
+.postcard .pci{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.4)}
+.postcard .pct{flex:1;display:flex;flex-direction:column}.postcard b{font-family:var(--display);font-size:1.15rem}.postcard small{font-weight:800;opacity:.8}
+.postcard .pcg{width:32px;height:32px;border-radius:50%;background:rgba(43,29,5,.14);display:grid;place-items:center}
+.postcard:active{transform:scale(.98)}
 .sharebtn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:inherit}
 .plm{display:flex;align-items:center;gap:8px;min-height:44px;font-weight:700}.plm input{width:22px;height:22px}
 textarea.as-search{resize:vertical}

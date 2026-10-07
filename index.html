@@ -197,21 +197,21 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;font-weight:700}
 <script src="live.js?v=2"></script>
 <script src="theme.js?v=1"></script>
 <script src="design-icons.js?v=2"></script>
-<script src="design.js?v=4"></script>
+<script src="design.js?v=5"></script>
 <script src="ds.js?v=1"></script>
 <script src="shell.js?v=5"></script>
 <script src="kids.js?v=4"></script>
 <script src="dailyverses.js?v=1"></script>
-<script src="faith.js?v=5"></script>
+<script src="faith.js?v=7"></script>
 <script src="bedtime.js?v=3"></script>
 <script src="coloring.js?v=2"></script>
-<script src="servants.js?v=7"></script>
+<script src="servants.js?v=8"></script>
 <script src="church.js?v=1"></script>
 <script src="arena.js?v=4"></script>
 <script src="offline.js?v=2"></script>
 <script src="notify.js?v=1"></script>
 <script src="aihelper.js?v=3"></script>
-<script src="lumi-chat.js?v=11"></script>
+<script src="lumi-chat.js?v=12"></script>
 <script src="lumi-learn.js?v=3"></script>
 <script src="lumi.js?v=4"></script>
 <script src="curriculum.js?v=1"></script>
@@ -355,7 +355,7 @@ function hub(){
   ${(()=>{const L=store.get("lastLesson",null),l=L&&lessonOf(L.g,L.n);if(!l)return "";const vs=lessonVids(L.g,L.n),th=vs[0]?`<img src="https://i.ytimg.com/vi/${vs[0][0]}/hqdefault.jpg" alt="" loading="lazy" width="96" height="64">`:"";return `<button class="cont2" data-go="l-${L.g}-${L.n}"><span class="th">${th}<span class="pl">${hvIcon("play2",14)}</span></span><span><small>Continue</small><b>${esc(l[0]+" "+l[1])}</b></span></button>`})()}
   <nav class="doors" aria-label="Main">
     <button class="door d-media wide" data-go="media"><span class="big">${hvIcon("clap",96)}</span><b>Sunday School</b><small>Lesson videos by grade</small></button>
-    <button class="door d-att" data-go="attendance"><span class="big">${hvIcon("hand",96)}</span><b>Attendance</b><small>I'm here today!</small></button>
+    <button class="door d-att" data-go="attendance"><span class="big">${hvIcon("notes",96)}</span><b>Attendance</b><small>I'm here today!</small></button>
     <button class="door d-games" data-go="games"><span class="big">${hvIcon("game",96)}</span><b>Games</b><small>Play &amp; learn</small></button>
     <button class="door d-quiz" data-go="quizzes"><span class="big">${hvIcon("trophy",96)}</span><b>Quizzes</b><small>Test what you know</small></button>
     <button class="door d-bible" data-go="bible"><span class="big">${hvIcon("book",96)}</span><b>The Bible</b><small>Read God's Word</small></button>
