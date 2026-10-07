@@ -1,35 +1,7 @@
-/* Heavenly Visions: the opening moment. A short heavenly chime (made live with the Web Audio API, no sound file, no cost),
-   rotating light rays, rising gold dust, a ring of light, the logo blooming in, a shine across it and the tagline appearing letter by letter.
-   Tap anywhere to skip. The chime can be switched off in Me, Account (localStorage hv_sound = "off").
-   Browsers may block sound until the first tap; then the intro is simply silent. */
+/* Heavenly Visions: the opening moment. Light rays, rings of light, rising gold dust, the logo blooming in with a shine and the tagline appearing letter by letter.
+   No sound anywhere in the app. Full intro (max 2.5 s) on the first open of the day, a quick 0.6 s logo fade after that, none with reduced motion. Tap anywhere to skip. */
 (function(){
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-const soundOn=()=>{try{return localStorage.getItem("hv_sound")!=="off"}catch{return true}};
-
-/* ---------- the chime: soft bells climbing in G major, a little shimmer, a warm pad underneath (about 1.8 s) ---------- */
-function chime(){
-  if(!soundOn())return;
-  const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
-  let ctx;try{ctx=new AC()}catch{return}
-  const go=()=>{
-    const t0=ctx.currentTime+.05,master=ctx.createGain();master.gain.value=.16;
-    const lp=ctx.createBiquadFilter();lp.type="lowpass";lp.frequency.value=5200;master.connect(lp);lp.connect(ctx.destination);
-    const bell=(f,t,dur,vol)=>{
-      [[1,1],[2.01,.35],[3.97,.12]].forEach(([m,v])=>{
-        const o=ctx.createOscillator(),g=ctx.createGain();o.type="sine";o.frequency.value=f*m;
-        g.gain.setValueAtTime(0,t0+t);g.gain.linearRampToValueAtTime(vol*v,t0+t+.012);g.gain.exponentialRampToValueAtTime(.0001,t0+t+dur);
-        o.connect(g);g.connect(master);o.start(t0+t);o.stop(t0+t+dur+.05)})};
-    [[784,0],[988,.09],[1175,.18],[1568,.3]].forEach(([f,t],i)=>bell(f,t,1.15-i*.08,.9));
-    bell(2349,.46,.7,.35);bell(3136,.54,.6,.22);bell(3951,.62,.5,.14);
-    [392,587].forEach((f,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.type="triangle";o.frequency.value=f*(i?1.003:.997);
-      g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(.22,t0+.5);g.gain.linearRampToValueAtTime(0,t0+1.9);o.connect(g);g.connect(master);o.start(t0);o.stop(t0+2)});
-    setTimeout(()=>{try{ctx.close()}catch{}},2600)};
-  if(ctx.state==="running")go();
-  else{ctx.resume().then(()=>{if(ctx.state==="running")go()}).catch(()=>{});
-    /* blocked: wait for the first tap, but only while the intro is still on screen */
-    const once=()=>{removeEventListener("pointerdown",once,true);if(document.getElementById("intro"))ctx.resume().then(go).catch(()=>{})};
-    addEventListener("pointerdown",once,true)}}
-window.hvChime=chime;
 
 /* ---------- styles ---------- */
 const st=document.createElement("style");
@@ -46,10 +18,12 @@ st.textContent=`
 #intro.go .intro-logo img{animation:inshine 1.3s .75s ease-in-out both,inhalo 3s .2s ease-in-out infinite alternate}
 @keyframes inshine{0%,100%{filter:drop-shadow(0 0 28px rgba(255,220,140,.85)) brightness(1)}45%{filter:drop-shadow(0 0 46px rgba(255,240,190,1)) brightness(1.55)}}
 @keyframes inhalo{from{transform:scale(1)}to{transform:scale(1.025)}}
-.intro-logo p span{display:inline-block;opacity:0;transform:translateY(8px);animation:inlet .5s calc(1s + var(--i)*32ms) ease-out forwards;white-space:pre}
+.intro-logo p span{display:inline-block;opacity:0;transform:translateY(8px);animation:inlet .5s calc(.8s + var(--i)*20ms) ease-out forwards;white-space:pre}
 @keyframes inlet{to{opacity:1;transform:none}}
-#intro.out{animation:inout .7s ease-in forwards}
+#intro.out{animation:inout .5s ease-in forwards}
 @keyframes inout{0%{opacity:1;transform:scale(1);filter:brightness(1)}35%{filter:brightness(1.6)}100%{opacity:0;transform:scale(1.12);filter:brightness(1.2)}}
+#intro.short .in-rays,#intro.short .in-ring,#intro.short .in-ring2,#intro.short .in-dust{display:none}#intro.short.go .intro-logo{animation:inshort .3s ease-out both}#intro.short .intro-logo p span{animation:none;opacity:1;transform:none}#intro.short.go .intro-logo img{animation:none}#intro.short.out{animation:inout2 .3s forwards}
+@keyframes inshort{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.in-rays,.in-ring,.in-ring2,.in-dust{display:none}#intro.go .intro-logo,#intro.go .intro-logo img{animation:none!important;opacity:1}.intro-logo p span{animation:none;opacity:1;transform:none}#intro.out{animation:inout2 .4s forwards}@keyframes inout2{to{opacity:0}}}
 `;
 document.head.appendChild(st);
@@ -66,8 +40,10 @@ function dust(cv,until){
 
 /* ---------- the intro ---------- */
 window.hvIntro=function(intro,end){
+  if(reduce){intro.remove();return}
+  const day=new Date().toDateString();let first=true;try{first=localStorage.getItem("hv_intro_day")!==day;localStorage.setItem("hv_intro_day",day)}catch{}
   let done=false;
-  const finish=()=>{if(done)return;done=true;intro.classList.add("out");setTimeout(()=>intro.remove(),reduce?420:720)};
+  const finish=()=>{if(done)return;done=true;intro.classList.add("out");setTimeout(()=>intro.remove(),520)};
   /* layers */
   const rays=document.createElement("div");rays.className="in-rays";
   const r1=document.createElement("div");r1.className="in-ring";const r2=document.createElement("div");r2.className="in-ring2";
@@ -75,8 +51,8 @@ window.hvIntro=function(intro,end){
   intro.prepend(cv);intro.prepend(r2);intro.prepend(r1);intro.prepend(rays);
   /* tagline letter by letter */
   const p=end.querySelector("p");if(p){const t=p.textContent;p.innerHTML=[...t].map((c,i)=>`<span style="--i:${i}">${c===" "?" ":c.replace(/&/g,"&amp;").replace(/</g,"&lt;")}</span>`).join("");p.setAttribute("aria-label",t)}
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{intro.classList.add("go");end.classList.add("show");if(!reduce)dust(cv,performance.now()+2600)}));
-  chime();
+  if(!first)intro.classList.add("short");
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{intro.classList.add("go");end.classList.add("show");if(first)dust(cv,performance.now()+2600)}));
   intro.addEventListener("pointerdown",finish,{once:true});
-  setTimeout(finish,reduce?1200:2500)};
+  setTimeout(finish,first?1950:600)};
 })();

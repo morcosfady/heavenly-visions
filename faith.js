@@ -55,7 +55,6 @@ function drawVerse(){
     box.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{if(b.dataset.r===v.ref)finishVerse();else{b.animate([{transform:"translateX(-6px)"},{transform:"translateX(6px)"},{transform:"none"}],{duration:260});toast("Almost! Try another one 🙂")}});return}
   if(s===4||s===3){const jar=Object.keys(vstate().days).sort().reverse();
     box.innerHTML=`${head}<div class="parch glow"><div class="pk">${s===3?"Well done! You learned it!":"Today's verse is done ✅"}</div><p class="ptxt">“${E(v.text)}”</p><div class="pref on">${E(v.ref)}</div></div>
-    <div class="two"><button class="btn gold" data-go="prayers">🙏 Say a prayer</button></div>
     <section class="card sec"><h2>🫙 My verse jar (${jar.length})</h2><div class="jar">${jar.slice(0,30).map(k=>{const x=vstate().days[k];return `<div class="jv"><b>${E(x.ref)}</b><span>${E(x.text)}</span><small>${k}</small></div>`}).join("")}</div></section>`;}}
 function blanks(w){const idx=w.map((x,i)=>({x,i,l:clean(x).length})).filter(o=>o.l>=4).sort((a,b)=>b.l-a.l).slice(0,Math.min(3,Math.max(1,Math.floor(w.length/4)))).map(o=>o.i);
   const parts=w.map((x,i)=>({x,b:idx.includes(i),done:false}));const real=parts.filter(p=>p.b).map(p=>p.x.replace(/[^A-Za-z']/g,""));
@@ -148,8 +147,6 @@ window.hvSaintToday=function(){const t=today();return evOf(t.getFullYear()).find
 /* ---------- routes ---------- */
 window.faithRoute=function(h){
   if(h==="verse"){versePage();return true}
-  if(h==="prayers"){prayersPage();return true}
-  if(h.startsWith("pr-")){prayerPage(h.slice(3));return true}
   if(h==="calendar"){CALM=null;CALSEL="";calendarPage();return true}
   return false};
 
@@ -168,11 +165,6 @@ st.textContent=`
 .vchips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.vchips.col{flex-direction:column}
 .vblank{display:inline-block;min-width:3.4em;border-bottom:3px dashed var(--gold);color:transparent}.vblank.ok{color:var(--good);border-bottom-style:solid;color:inherit}
 .jar{display:flex;flex-direction:column;gap:8px}.jv{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:14px;background:var(--gold-soft);color:var(--ink)}.jv b{color:var(--gold)}.jv span{font-size:var(--fs-s)}.jv small{color:var(--muted)}
-.prgrid .prtile.done{opacity:.8}
-.prayer{position:relative;border-radius:var(--r-l);padding:26px 18px 22px;text-align:center;background:radial-gradient(circle at 50% 0,rgba(255,200,110,.28),transparent 60%),var(--glass);border:1px solid var(--glass-b)}
-.candle{position:relative;width:26px;height:70px;margin:0 auto 14px}.candle b{position:absolute;left:0;bottom:0;width:26px;height:46px;border-radius:5px;background:linear-gradient(90deg,#f1e6c8,#fff8e6,#e8d9b0)}
-.candle i{position:absolute;left:50%;top:0;width:14px;height:26px;margin-left:-7px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:radial-gradient(ellipse at 50% 70%,#fff3a8,#ffb23c 60%,#ff7a1f);filter:drop-shadow(0 0 12px rgba(255,170,60,.9));transform-origin:50% 90%;animation:flick 1.6s ease-in-out infinite}
-@keyframes flick{0%,100%{transform:scale(1,1) rotate(-2deg)}30%{transform:scale(.94,1.06) rotate(2deg)}60%{transform:scale(1.04,.96) rotate(-1deg)}}
 .ptext p{font-size:clamp(1.15rem,1vw + 1rem,1.5rem);line-height:1.6;font-weight:700;margin:0 0 .6em}
 .tcal{display:flex;flex-direction:column;gap:6px}.cbig{font-family:var(--display);font-size:var(--fs-xl);font-weight:800;color:var(--gold)}
 .fastban{margin-top:6px;padding:10px 12px;border-radius:14px;background:color-mix(in srgb,#8e6bd1 24%,transparent);font-weight:800}.fe{margin-top:6px;padding:10px 12px;border-radius:14px;background:var(--gold-soft);color:var(--ink);font-weight:700}

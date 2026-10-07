@@ -90,7 +90,7 @@ h2.sech::before,h2.sech::after{content:"";position:static;flex:1;width:auto;heig
 .soonbox .chipsoon{border-radius:999px;padding:6px 14px;background:var(--sc,var(--gold));color:#fff;font-weight:900;font-size:var(--fs-s)}
 
 /* page transition helper + bell + toast star burst */
-.burst{position:fixed;pointer-events:none;z-index:70;font-size:1.4rem;will-change:transform,opacity}
+.burst{position:fixed;pointer-events:none;z-index:2800;font-size:1.4rem;will-change:transform,opacity}
 
 /* welcome sheet */
 .wl-who{display:grid;gap:10px}

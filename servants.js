@@ -263,7 +263,7 @@ st.textContent=`
 .sharebtn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:inherit}
 .plm{display:flex;align-items:center;gap:8px;min-height:44px;font-weight:700}.plm input{width:22px;height:22px}
 textarea.as-search{resize:vertical}
-.sunday{position:fixed;inset:0;z-index:90;display:flex;flex-direction:column;gap:12px;padding:18px max(18px,env(safe-area-inset-left)) calc(18px + env(safe-area-inset-bottom,0px));background:radial-gradient(circle at 50% 0,#27306a,#0a0f2e 70%);color:#fff}
+.sunday{position:fixed;inset:0;z-index:2700;display:flex;flex-direction:column;gap:12px;padding:18px max(18px,env(safe-area-inset-left)) calc(18px + env(safe-area-inset-bottom,0px));background:radial-gradient(circle at 50% 0,#27306a,#0a0f2e 70%);color:#fff}
 .smtop{display:flex;align-items:center;justify-content:space-between;gap:12px}.smdots{display:flex;gap:8px}.smdots i{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.25);display:block}.smdots i.on{background:#f6d27a;box-shadow:0 0 12px #f6d27a;transform:scale(1.3)}.smdots i.done{background:#f6d27a}
 .smstage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;overflow:auto}.smic{font-size:clamp(3rem,10vw,6rem)}
 .smh{font-family:var(--display);font-size:clamp(1.6rem,4vw,3rem);color:#f6d27a}.smtext{font-size:clamp(1.2rem,3vw,2.2rem);line-height:1.5;font-weight:700;max-width:34ch}.smtext.big{font-family:var(--display);font-size:clamp(1.6rem,4.4vw,3.2rem)}.smsub{font-size:clamp(1rem,2.4vw,1.6rem);color:#f6d27a;font-weight:800}

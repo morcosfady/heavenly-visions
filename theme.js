@@ -15,7 +15,7 @@ const [pxA,pxB]=sky.querySelectorAll(".sk-px"),cv=sky.querySelector("#stars"),cx
 
 /* ---------- section tint ---------- */
 const ACC={media:"#2f8fc0",m:"#2f8fc0",attendance:"#3fae6a",attsheet:"#3fae6a",games:"#e8794a",g:"#e8794a",gplay:"#e8794a",builder:"#e8794a",bnew:"#e8794a",bedit:"#e8794a",bplay:"#e8794a",
-  quizzes:"#8e6bd1",kids:"#e86f8a",bedtime:"#4a4fb5",prayers:"#a86fd0",coloring:"#e8584f",calendar:"#2eb5a6",quiz:"#8e6bd1",bible:"#c99a3c",b:"#c99a3c"};
+  quizzes:"#8e6bd1",kids:"#e86f8a",bedtime:"#4a4fb5",coloring:"#e8584f",calendar:"#2eb5a6",quiz:"#8e6bd1",bible:"#c99a3c",b:"#c99a3c"};
 function tint(){const h=location.hash.slice(1)||"home";const k=h.split("-")[0];
   root.dataset.route=k==="home"?"home":"page";root.style.setProperty("--accent",ACC[k]||"#e3b45c")}
 addEventListener("hashchange",tint);tint();

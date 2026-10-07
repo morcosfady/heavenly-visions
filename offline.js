@@ -37,7 +37,7 @@ window.hvOfflineChip=function(){
 
 const st=document.createElement("style");
 st.textContent=`
-#offbar{position:fixed;left:50%;top:max(8px,env(safe-area-inset-top,0px));transform:translateX(-50%);z-index:75;padding:8px 16px;border-radius:999px;background:#3a2f12;color:#ffe9a8;border:1px solid #e3b45c;font-weight:800;font-size:.85rem;box-shadow:0 8px 24px rgba(0,0,0,.4);white-space:nowrap}
+#offbar{position:fixed;left:50%;top:max(8px,env(safe-area-inset-top,0px));transform:translateX(-50%);z-index:2650;padding:8px 16px;border-radius:999px;background:#3a2f12;color:#ffe9a8;border:1px solid #e3b45c;font-weight:800;font-size:.85rem;box-shadow:0 8px 24px rgba(0,0,0,.4);white-space:nowrap}
 #offbar[hidden]{display:none}
 .offchip{display:inline-block;margin-top:8px;padding:4px 12px;border-radius:999px;background:color-mix(in srgb,var(--good) 20%,transparent);border:1px solid var(--good);font-weight:800;font-size:.78rem;color:var(--ink)}
 `;

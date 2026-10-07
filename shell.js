@@ -109,7 +109,7 @@ function welcome(){
 /* ---------- clicks ---------- */
 document.addEventListener("click",e=>{
   if(e.target.closest("[data-soon]"))toast("Coming soon ✨")});
-try{localStorage.removeItem("hv_lang")}catch{}
+try{localStorage.removeItem("hv_lang");localStorage.removeItem("hv_sound")}catch{}
 document.documentElement.lang="en";
 
 /* dots under the Today strip follow the swipe */

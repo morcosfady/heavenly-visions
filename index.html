@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}body.sheet-open{overflow:hidden}body.sheet-open #tabbar,body.sheet-open #lmfab{opacity:0;pointer-events:none;visibility:hidden}.sheet:focus{outline:none}
+</style>
 <title>Heavenly Visions</title>
 <meta name="theme-color" content="#0f1630">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -109,14 +110,14 @@ h2{font-size:1.2rem;color:var(--gold);letter-spacing:.02em}
 .row .g{font-size:.8rem;color:var(--muted);font-weight:700;margin-top:3px}
 
 /* sheet / modal */
-.scrim{position:fixed;inset:0;background:rgba(20,16,10,.55);display:flex;align-items:flex-end;justify-content:center;z-index:20}
-.sheet{width:min(720px,100%);max-height:92%;overflow:auto;background:var(--bg);border-radius:24px 24px 0 0;padding:18px 16px calc(22px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px;animation:up .22s ease-out}
+.scrim{position:fixed;inset:0;background:rgba(20,16,10,.55);display:flex;align-items:flex-end;justify-content:center;z-index:2500;overscroll-behavior:contain}
+.sheet{width:min(720px,100%);max-height:92dvh;overscroll-behavior:contain;overflow:auto;background:var(--bg);border-radius:24px 24px 0 0;padding:18px 16px calc(22px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px;animation:up .22s ease-out}
 @keyframes up{from{transform:translateY(30px);opacity:.6}}
 .player{position:relative;aspect-ratio:16/9;max-width:100%;border-radius:16px;overflow:hidden;background:#000}
 .player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .close{align-self:flex-end;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:800}
 .btns{display:grid;gap:10px}
-.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:800;z-index:60}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:800;z-index:2600}
 
 /* attendance */
 .here{width:100%;min-height:150px;border-radius:28px;border:0;background:linear-gradient(140deg,#3fae6a,#1f7a48);color:#fff;font-family:var(--display);font-size:1.6rem;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
@@ -168,7 +169,7 @@ h2{font-size:1.2rem;color:var(--gold);letter-spacing:.02em}
 .navrow{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap}
 .navrow .btn{flex:1;min-width:120px}
 
-#confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:2800}
 footer{text-align:center;color:var(--muted);font-size:.85rem;font-weight:700}
 .workshop{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;padding:12px 24px;border-radius:999px;font-family:var(--display);font-weight:800;font-size:.95rem;letter-spacing:.06em;color:#2b1d05;background:linear-gradient(135deg,#f6d27a,#e3b45c 50%,#b9852b);box-shadow:0 6px 18px rgba(227,180,92,.45),inset 0 1px 0 rgba(255,255,255,.55);transition:transform .15s,box-shadow .15s}
 .workshop:active{transform:scale(.96)}
@@ -181,7 +182,7 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;font-weight:700}
 </head>
 <body>
 <link rel="stylesheet" href="theme.css?v=2">
-<link rel="stylesheet" href="ds.css?v=7">
+<link rel="stylesheet" href="ds.css?v=8">
 
 <div id="intro" aria-label="Intro">
   <div class="intro-logo" id="introEnd"><img id="introLogo" alt="Heavenly Visions"><p>Learn · Play · Grow in Faith</p></div>
@@ -191,25 +192,25 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;font-weight:700}
 <div class="toast" id="toast" hidden></div>
 
 <script src="builder.js?v=7"></script>
-<script src="profile.js?v=17"></script>
+<script src="profile.js?v=18"></script>
 <script src="sync.js?v=1"></script>
 <script src="qr.js?v=1"></script>
 <script src="live.js?v=2"></script>
-<script src="theme.js?v=1"></script>
+<script src="theme.js?v=2"></script>
 <script src="design-icons.js?v=2"></script>
-<script src="intro.js?v=1"></script>
-<script src="design.js?v=13"></script>
+<script src="intro.js?v=3"></script>
+<script src="design.js?v=14"></script>
 <script src="ds.js?v=1"></script>
-<script src="shell.js?v=6"></script>
-<script src="kids.js?v=5"></script>
+<script src="shell.js?v=7"></script>
+<script src="kids.js?v=6"></script>
 <script src="dailyverses.js?v=1"></script>
-<script src="faith.js?v=7"></script>
+<script src="faith.js?v=8"></script>
 <script src="bedtime.js?v=3"></script>
 <script src="coloring.js?v=2"></script>
-<script src="servants.js?v=11"></script>
+<script src="servants.js?v=12"></script>
 <script src="church.js?v=1"></script>
 <script src="arena.js?v=4"></script>
-<script src="offline.js?v=2"></script>
+<script src="offline.js?v=3"></script>
 <script src="notify.js?v=1"></script>
 <script src="aihelper.js?v=3"></script>
 <script src="lumi-chat.js?v=12"></script>
@@ -570,10 +571,20 @@ function openLesson(id){const v=V.find(x=>x[0]===id);if(!v)return;const s=sec(v[
    <div class="btns"><a class="btn yt" href="${yt}" target="_blank" rel="noopener">▶ Watch on YouTube</a>
    ${quiz?`<button class="btn gold" data-go="quiz-${quiz.id}" data-close>🏆 Take the quiz</button>`:""}
    <button class="btn alt" data-copy="${yt}">🔗 Copy link</button></div>`,v[1])}
-function sheet(html,label){closeSheet();const scrim=document.createElement("div");scrim.className="scrim";
-  scrim.innerHTML=`<div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(label||"")}"><button class="close" data-close>✕ Close</button>${html}</div>`;
-  document.body.appendChild(scrim);scrim.addEventListener("click",e=>{if(e.target===scrim)closeSheet()});return scrim}
-function closeSheet(){document.querySelector(".scrim")?.remove()}
+let _sheetFrom=null;
+function sheet(html,label){closeSheet(true);_sheetFrom=document.activeElement;const scrim=document.createElement("div");scrim.className="scrim";
+  scrim.innerHTML=`<div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(label||"")}" tabindex="-1"><button class="close" data-close>✕ Close</button>${html}</div>`;
+  document.body.appendChild(scrim);document.body.classList.add("sheet-open");scrim.addEventListener("click",e=>{if(e.target===scrim)closeSheet()});
+  const sh=scrim.querySelector(".sheet");
+  /* focus trap: Tab stays inside the sheet */
+  scrim.addEventListener("keydown",e=>{if(e.key!=="Tab")return;const f=[...sh.querySelectorAll("a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex=\"-1\"])")].filter(x=>x.offsetParent!==null);if(!f.length){e.preventDefault();return}const a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}});
+  /* swipe down to close (only when the sheet is scrolled to the top) */
+  let y0=null;sh.addEventListener("touchstart",e=>{y0=sh.scrollTop<=0?e.touches[0].clientY:null},{passive:true});
+  sh.addEventListener("touchmove",e=>{if(y0===null)return;const dy=e.touches[0].clientY-y0;if(dy>0)sh.style.transform=`translateY(${Math.min(dy,200)}px)`},{passive:true});
+  sh.addEventListener("touchend",e=>{if(y0===null)return;const dy=(e.changedTouches[0].clientY)-y0;y0=null;if(dy>90)closeSheet();else sh.style.transform=""});
+  setTimeout(()=>{const c=sh.querySelector("[autofocus],input,textarea,select");(c||sh).focus({preventScroll:true})},30);
+  return scrim}
+function closeSheet(keep){document.querySelector(".scrim")?.remove();document.body.classList.remove("sheet-open");if(!keep&&_sheetFrom&&_sheetFrom.isConnected&&_sheetFrom!==document.body){try{_sheetFrom.focus({preventScroll:true})}catch{}}if(!keep)_sheetFrom=null}
 
 /* ================= ATTENDANCE ================= */
 const todayKey=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
@@ -757,7 +768,7 @@ function route(){closeSheet();const h=decodeURIComponent(location.hash.slice(1)|
   else if(h==="games")games();else if(h==="g-memory")memory();else if(h==="g-scramble")scramble();
   else if(h==="bible")bible();
   else if(h.startsWith("b-")){const m=h.slice(2).match(/^(.*?)(?:-(\d+))?$/);m[2]?bibleRead(m[1],+m[2]):bibleBook(m[1])}
-  else if(!(window.builderRoute&&builderRoute(h))&&!(window.profileRoute&&profileRoute(h))&&!(window.liveRoute&&liveRoute(h))&&!(window.lgRoute&&lgRoute(h))&&!(window.kidsRoute&&kidsRoute(h))&&!(window.faithRoute&&faithRoute(h))&&!(window.bedtimeRoute&&bedtimeRoute(h))&&!(window.coloringRoute&&coloringRoute(h))&&!(window.servantsRoute&&servantsRoute(h))&&!(window.churchRoute&&churchRoute(h))&&!(window.arenaRoute&&arenaRoute(h))&&!(window.aiRoute&&aiRoute(h))&&!(window.lumiRoute&&lumiRoute(h))&&!(window.lumiChatRoute&&lumiChatRoute(h))&&!(window.shellRoute&&shellRoute(h)))hub();window.scrollTo(0,0)}
+  else if(!(window.builderRoute&&builderRoute(h))&&!(window.profileRoute&&profileRoute(h))&&!(window.liveRoute&&liveRoute(h))&&!(window.lgRoute&&lgRoute(h))&&!(window.kidsRoute&&kidsRoute(h))&&!(window.faithRoute&&faithRoute(h))&&!(window.bedtimeRoute&&bedtimeRoute(h))&&!(window.coloringRoute&&coloringRoute(h))&&!(window.servantsRoute&&servantsRoute(h))&&!(window.churchRoute&&churchRoute(h))&&!(window.arenaRoute&&arenaRoute(h))&&!(window.aiRoute&&aiRoute(h))&&!(window.lumiRoute&&lumiRoute(h))&&!(window.lumiChatRoute&&lumiChatRoute(h))&&!(window.shellRoute&&shellRoute(h))){hub();if(h!=="home"){try{history.replaceState(null,"","#home")}catch{}toast("That page moved")}}window.scrollTo(0,0)}
 function go(h){const t="#"+h;if(location.hash===t)route();else location.hash=h}
 document.addEventListener("click",async e=>{
   const g=e.target.closest("[data-go]");if(g){if(g.hasAttribute("data-close"))closeSheet();go(g.dataset.go);return}

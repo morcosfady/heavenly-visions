@@ -222,7 +222,7 @@ function buySheet(id,card){
     else{sh.querySelector("#kcBm").innerHTML=`<span class="err">${j.error==="poor"?"Not enough stars yet.":j.error==="owned"?"You already own it.":"Could not buy. Try again."}</span>`;bb.disabled=false}}
     catch{sh.querySelector("#kcBm").innerHTML=`<span class="err">No internet connection.</span>`;bb.disabled=false}}}
 
-window.kidsRoute=function(h){if(h==="kids"||h==="profile"){S.cur=null;kidsPage();return true}return false};
+window.kidsRoute=function(h){if(h==="kids"||h==="profile"||h==="me"){S.cur=null;kidsPage();return true}return false};
 
 /* ---------- styles ---------- */
 const st=document.createElement("style");
@@ -254,7 +254,7 @@ st.textContent=`
 .kc-earn{display:flex;flex-direction:column}
 .hvav .av-blink{transform-box:fill-box;transform-origin:center;animation:avblink 5s infinite}
 @keyframes avblink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
-.lvup{position:fixed;inset:0;z-index:80;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,rgba(255,215,120,.45),rgba(8,12,34,.92));animation:lvfade .4s ease both}
+.lvup{position:fixed;inset:0;z-index:2700;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,rgba(255,215,120,.45),rgba(8,12,34,.92));animation:lvfade .4s ease both}
 .lvbox{position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:30px;color:#fff}
 .lvglow{position:absolute;left:50%;top:30%;width:300px;height:300px;margin:-150px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,225,140,.9),transparent);animation:halo 3s ease-in-out infinite}
 .lvic{position:relative;font-size:7rem;line-height:1.15;margin-bottom:14px;animation:lvpop .9s cubic-bezier(.34,1.56,.64,1) both;filter:drop-shadow(0 0 24px rgba(255,220,120,.9))}
