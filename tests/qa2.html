@@ -1,0 +1,42 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>QA2</title></head><body>
+<pre id="out">running</pre>
+<script>
+/* TEST ONLY. Second QA harness (design v2). For every route it checks: errors, sideways scroll, controls covered by the tab bar,
+   the floating Lumi button or any other layer (at the top and after scrolling to the bottom), emojis that were not swapped,
+   and the theme (light or dark). Run: chrome --headless=new --dump-dom --virtual-time-budget=150000 "http://localhost:8001/tests/qa2.html?w=390&u=k3_1&t=light" */
+(async function(){
+  const q=new URLSearchParams(location.search),w=+(q.get("w")||390),u=q.get("u")||"k3_1",theme=q.get("t")||"light";
+  const out=document.getElementById("out"),res={w,u,theme,routes:[]};
+  try{const c=await (await fetch("http://localhost:8788/")).json();
+    localStorage.setItem("hv_acct",JSON.stringify({user:c[u].user,token:c[u].token}));
+    localStorage.setItem("hv_welcomed","1");localStorage.setItem("hv_intro_seen","1");localStorage.setItem("hv_notifs","[]");localStorage.setItem("hv_theme",theme)}catch(e){res.seed=String(e)}
+  const f=document.createElement("iframe");f.style.cssText="width:"+w+"px;height:800px;border:0";
+  f.src="../index.html?api=http://localhost:8788&nointro=1&ai=http://localhost:8789#home";document.body.appendChild(f);
+  await new Promise(r=>f.onload=r);
+  const win=f.contentWindow,errs=[];win.addEventListener("error",e=>errs.push(String(e.message)));win.addEventListener("unhandledrejection",e=>errs.push("rej "+(e.reason&&e.reason.message||e.reason)));
+  const oe=win.console.error;win.console.error=function(){errs.push("console "+[].slice.call(arguments).join(" ").slice(0,120));oe.apply(this,arguments)};
+  const routes=(q.get("r")||"home,media,m-kg,m-g3,m-feasts,m-saints,attendance,attsheet,servants,quizzes,quiz-nayrouz,bible,b-Genesis,b-Genesis-1,games,g-memory,g-scramble,verse,calendar,bedtime,coloring,color-gallery,kids,report,planner,announce,news,followup,library,events,login,profile,lumi,lumi-cards,lumi-gold,lumi-report,lumi-alerts,lumi-settings").split(",");
+  const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+  const EMO=/\p{Extended_Pictographic}/u;
+  await sleep(2500);
+  const name=el=>(el.id?"#"+el.id:"")+(el.className&&el.className.baseVal===undefined?"."+String(el.className).split(" ")[0]:"")+" "+(el.textContent||el.getAttribute("aria-label")||"").trim().slice(0,24);
+  const covered=(d,w,last)=>{const bad=[];const docH=d.documentElement.scrollHeight;d.querySelectorAll("button,a[href],input,select,textarea,[role=button]").forEach(el=>{
+    const b=el.getBoundingClientRect();if(b.width<8||b.height<8||b.bottom<0||b.top>w.innerHeight||getComputedStyle(el).visibility==="hidden"||el.closest("[hidden]")||el.closest("#tabbar"))return;
+    if(last&&b.bottom+w.scrollY<docH-140)return;const cx=b.left+b.width/2,cy=Math.min(Math.max(b.top+b.height/2,1),w.innerHeight-1);if(cx<0||cx>w.innerWidth)return;
+    const p=d.elementFromPoint(cx,cy);if(p&&!el.contains(p)&&!p.contains(el)){const lab=p.closest("label");if(lab&&lab.contains(el))return;bad.push(name(el)+" <- "+name(p.closest("#tabbar,#lmfab,.shellbar,header,section,div")||p))}});return bad};
+  for(const r of routes){
+    errs.length=0;win.location.hash="#"+r;await sleep(1600);
+    const d=win.document,de=d.documentElement;
+    await sleep(700);const top=[];
+    win.scrollTo(0,1e6);await sleep(300);const bot=covered(d,win,true);
+    win.scrollTo(0,0);
+    const app=d.getElementById("app");let emo=[];
+    const tw=d.createTreeWalker(app,NodeFilter.SHOW_TEXT);while(tw.nextNode()){const n=tw.currentNode;if(EMO.test(n.nodeValue)&&!n.parentElement.closest("[data-keep],textarea,input,select,option,.avs,.lm-kb,.sb-av,.pf-av"))emo.push(n.nodeValue.trim().slice(0,30))}
+    const noname=[];d.querySelectorAll("#app button,#app a[href],#app [role=button],#tabbar a,#lmfab").forEach(el=>{if(el.closest("[hidden]"))return;const b=el.getBoundingClientRect();if(!b.width)return;const n=(el.getAttribute("aria-label")||el.getAttribute("title")||el.innerText||"").trim()||[...el.querySelectorAll("img[alt],svg[aria-label]")].map(x=>x.getAttribute("alt")||x.getAttribute("aria-label")).join("");if(!n)noname.push((el.className||el.tagName).toString().slice(0,30))});
+    const tab=d.getElementById("tabbar"),fab=d.getElementById("lmfab");
+    res.routes.push({r,hscroll:de.scrollWidth>de.clientWidth+1?de.scrollWidth+">"+de.clientWidth:0,errs:errs.slice(0,3),covered:[...new Set(top.concat(bot))].slice(0,4),emoji:[...new Set(emo)].slice(0,4),noname:[...new Set(noname)].slice(0,5),tab:tab&&!tab.hidden?1:0,fab:fab&&!fab.hidden?1:0,theme:d.documentElement.dataset.theme||"",text:app.innerText.replace(/\s+/g," ").slice(0,50)});
+  }
+  out.textContent=JSON.stringify(res,null,1);document.title="DONE";
+})();
+</script></body></html>

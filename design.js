@@ -97,8 +97,8 @@ const TABS=[["home","home","Home"],["learn","media","Learn"],["play","games","Pl
 const GROUP={ // route prefix -> tab
   home:"home",media:"learn",m:"learn",bible:"learn",b:"learn",verse:"learn",vp:"learn",calendar:"learn",
   games:"play",quizzes:"play",coloring:"play",arena:"play",bedtime:"play",
-  lumi:"lumi",profile:"me",kids:"me",attendance:"me",attsheet:"me",login:"me",servants:"me",events:"me"};
-const SHOW=new Set(["home","media","m","games","quizzes","bible","verse","calendar","events","kids","profile","attendance","bedtime","coloring","servants","login","arena"]);
+  lumi:"lumi",profile:"me",kids:"me",attendance:"me",attsheet:"me",login:"me",servants:"me",events:"home",news:"home"};
+const SHOW=new Set(["home","media","m","b","news","games","quizzes","bible","verse","calendar","events","kids","profile","attendance","bedtime","coloring","servants","login","arena"]);
 const route=()=>{const h=decodeURIComponent(location.hash.slice(1)||"home");return {h,k:h.split("-")[0]}};
 let bar=null,ind=null;
 function hasLumi(){return !!(window.hvAiUrl&&hvAiUrl())}
@@ -114,7 +114,7 @@ function fab(show){
   let b=document.getElementById("lmfab");
   if(!hasLumi()||!window.hvLumiSvg){if(b)b.hidden=true;return}
   if(!b){b=document.createElement("button");b.id="lmfab";b.className="lm-fab";b.setAttribute("aria-label","Ask Lumi, questions about God and the Church");
-    b.innerHTML=`<span class="lm-fab-i" aria-hidden="true">${hvLumiSvg("happy",64)}</span><b>Ask Lumi</b>`;b.onclick=()=>{location.hash="lumi"};document.body.appendChild(b)}
+    b.innerHTML=`<span class="lm-fab-i" aria-hidden="true">${hvLumiSvg("happy",56)}</span><b>Ask Lumi</b>`;b.onclick=()=>{location.hash="lumi"};document.body.appendChild(b)}
   b.hidden=!show}
 function updateBar(){
   if(!bar)return;
@@ -138,7 +138,7 @@ st.textContent=`
 .hvi{display:block;flex:none}
 #tabbar{position:fixed;left:0;right:0;bottom:0;z-index:900;display:grid;grid-template-columns:repeat(var(--n,5),1fr);padding:8px 8px calc(10px + env(safe-area-inset-bottom));background:var(--glass);-webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%);border-top:1px solid var(--glass-b);box-shadow:0 -10px 30px -18px rgba(0,0,0,.4)}
 #tabbar[hidden]{display:none}
-#tabbar .tb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:52px;color:var(--mute,#7a7494);text-decoration:none;font-weight:800;font-size:.74rem;position:relative;-webkit-tap-highlight-color:transparent;transition:color .2s}
+#tabbar .tb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:52px;color:var(--muted,#6f6a73);text-decoration:none;font-weight:800;font-size:.74rem;position:relative;-webkit-tap-highlight-color:transparent;transition:color .2s}
 #tabbar .tb svg{transition:transform .2s cubic-bezier(.34,1.56,.64,1),fill .2s}
 #tabbar .tb.on{color:var(--gold-d,#b9822a)}
 :root[data-theme="dark"] #tabbar .tb.on{color:#e3b45c}
@@ -153,8 +153,8 @@ body.hasTabs #app{padding-bottom:calc(104px + env(safe-area-inset-bottom))!impor
   #tabbar .tb.on{background:rgba(227,180,92,.2);border-radius:18px}
   body.hasTabs #app{padding-bottom:40px!important;margin-left:max(92px,calc((100vw - 1100px)/2 + 92px))}
 }
-.lm-fab{position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:950;display:flex;flex-direction:column;align-items:center;gap:0;background:none;border:0;padding:0;cursor:pointer;min-width:64px;min-height:64px;font-family:inherit;-webkit-tap-highlight-color:transparent}.lm-fab[hidden]{display:none}
-.lm-fab-i{display:block;width:64px;height:64px;transition:transform .15s}.lm-fab-i .lumi-svg{filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}.lm-fab:active .lm-fab-i{transform:scale(.92)}
+.lm-fab{position:fixed;right:6px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:950;display:flex;flex-direction:column;align-items:center;gap:0;background:none;border:0;padding:0;cursor:pointer;min-width:56px;min-height:64px;font-family:inherit;-webkit-tap-highlight-color:transparent}.lm-fab[hidden]{display:none}
+.lm-fab-i{display:block;width:56px;height:56px;transition:transform .15s}.lm-fab-i .lumi-svg{filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}.lm-fab:active .lm-fab-i{transform:scale(.92)}
 .lm-fab b{font-size:.8rem;font-weight:900;color:#fff;text-shadow:0 0 3px #1b3f73,0 0 3px #1b3f73,0 1px 4px rgba(0,0,0,.6);white-space:nowrap;margin-top:-4px}
 @media (min-width:900px){.lm-fab{bottom:24px;right:24px}}
 .shellbar{position:relative;z-index:6}
@@ -167,12 +167,12 @@ body.hasTabs #app{padding-bottom:calc(104px + env(safe-area-inset-bottom))!impor
 /* Home: greeting, continue card, doors, Lumi tip */
 .hubhead img{width:min(130px,36vw)}
 .hubhead .tag{display:none}
-.greet{margin:6px 0 14px}.greet h1{font-size:var(--fs-xl);line-height:1.15}.greet p{margin:2px 0 0;font-weight:700;color:var(--mute,#6a6486)}
+.greet{margin:6px 0 14px}.greet h1{font-size:var(--fs-xl);line-height:1.15}.greet p{margin:2px 0 0;font-weight:700;color:var(--muted,#6f6a73)}
 .cont2{display:flex;gap:12px;align-items:center;width:100%;padding:12px;border-radius:24px;border:1px solid var(--glass-b);background:linear-gradient(135deg,rgba(124,196,234,.30),var(--glass));-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:var(--ink);text-align:left;font:inherit;margin-bottom:14px;min-height:76px;box-shadow:var(--sh)}
 .cont2 .th{width:96px;height:64px;border-radius:14px;overflow:hidden;flex:none;background:linear-gradient(135deg,#2f6fb8,#7cc4ea);display:grid;place-items:center;position:relative}
 .cont2 .th img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
 .cont2 .th .pl{position:relative;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.92);color:#2f6fb8;display:grid;place-items:center}
-.cont2 small{display:block;font-weight:800;color:var(--mute,#6a6486);font-size:.8rem}.cont2 b{display:block;font-size:var(--fs-m);line-height:1.2}
+.cont2 small{display:block;font-weight:800;color:var(--muted,#6f6a73);font-size:.8rem}.cont2 b{display:block;font-size:var(--fs-m);line-height:1.2}
 .doors .door{box-shadow:0 14px 28px -14px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.28)}
 .doors .door::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.30),transparent 46%);pointer-events:none}
 .doors .door .big{font-size:0;opacity:1;filter:none;right:8px;top:6px}
