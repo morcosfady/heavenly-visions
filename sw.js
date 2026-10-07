@@ -2,9 +2,9 @@
    App shell: pre-cached, network first so updates arrive, cache when offline.
    Bible chapters and YouTube thumbnails: saved after the first view. Lesson lists from the backend: last good copy.
    Bump V when files change. */
-const V='hv-v75',SHELL=V+'-shell',BIBLE='hv-bible',IMG='hv-img',API='hv-api';
+const V='hv-v76',SHELL=V+'-shell',BIBLE='hv-bible',IMG='hv-img',API='hv-api';
 const KEEP=[SHELL,BIBLE,IMG,API];
-const F=['./','index.html','builder.js','profile.js','sync.js','theme.css','theme.js','ds.css','ds.js','design.js','design-icons.js','shell.js','kids.js','dailyverses.js','faith.js','bedtime.js','coloring.js','servants.js','church.js','arena.js','aihelper.js','lumi.js','lumi-chat.js','lumi-learn.js','privacy.html','offline.js','notify.js','welcome.js','qr.js','live.js','curriculum.js','verses.js','lessongames.js','attsheet.js','manifest.json','icon-180.png','icon-192.png','icon-512.png','logo.png','intro-poster.jpg'];
+const F=['./','index.html','builder.js','profile.js','sync.js','theme.css','theme.js','ds.css','ds.js','design.js','design-icons.js','intro.js','shell.js','kids.js','dailyverses.js','faith.js','bedtime.js','coloring.js','servants.js','church.js','arena.js','aihelper.js','lumi.js','lumi-chat.js','lumi-learn.js','privacy.html','offline.js','notify.js','welcome.js','qr.js','live.js','curriculum.js','verses.js','lessongames.js','attsheet.js','manifest.json','icon-180.png','icon-192.png','icon-512.png','logo.png','intro-poster.jpg'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(SHELL).then(c=>Promise.allSettled(F.map(f=>c.add(f)))));self.skipWaiting()});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>!KEEP.includes(x)).map(x=>caches.delete(x)))));self.clients.claim()});
 const trim=async(name,max)=>{const c=await caches.open(name),k=await c.keys();if(k.length>max)await Promise.all(k.slice(0,k.length-max).map(x=>c.delete(x)))};

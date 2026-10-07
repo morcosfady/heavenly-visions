@@ -136,6 +136,7 @@ function authPage(mode,startRole){
 function sendWelcome(first,church,email,role){const go2=()=>window.hvWelcome&&hvWelcome(first,church,email,role);if(window.hvWelcome)return go2();const sc=document.createElement("script");sc.src="welcome.js?v=1";sc.onload=go2;document.head.appendChild(sc)}
 /* ---------- profile ---------- */
 /* The Account tab of the Me page (kids.js shows it). Name, role, church, recent points, log out, delete account. */
+const SNDCSS=document.createElement("style");SNDCSS.textContent=".sndrow{display:flex;align-items:center;gap:10px;margin-top:14px;min-height:44px;font-weight:700}.sndrow input{width:22px;height:22px;accent-color:#c99a3c}";document.head.appendChild(SNDCSS);
 window.hvAccountTab=function(box){
   const a=acct();if(!a||!box)return;const u=a.user;
   box.innerHTML=`${u.req?`<div class="note">⏳ Your request to be a <b>${TIER[u.req][1]}</b> is waiting for approval. For now you can view the app as a guest. 🙏</div>`:""}
@@ -143,8 +144,10 @@ window.hvAccountTab=function(box){
     <div class="pf-sub" style="text-align:left">${TIER[u.role][0]} ${TIER[u.role][1]}${u.grade?" · "+esc(u.grade):""}<br>${esc(u.church)}</div>
     ${u.role==="coordinator"||isTop(u.role)?`<button class="btn gold" data-go="access" style="margin-top:10px">🔑 Manage access <span id="pendN"></span></button>`:""}
     <b style="display:block;margin-top:14px">Recent points</b><div id="lg">${u.log&&u.log.length?u.log.map(l=>`<div class="lgrow"><span>${KIND[l.k]||l.k}${l.n?" · "+esc(l.n):""}</span><span>+${l.p}</span></div>`).join(""):`<div class="tag">No points yet. Check in at class to start! ✋</div>`}</div>
+    <label class="sndrow"><input type="checkbox" id="sndTog" ${(()=>{try{return localStorage.getItem("hv_sound")!=="off"}catch{return true}})()?"checked":""}> <span>Welcome sound when the app opens</span></label>
     <button class="btn alt" id="out" style="margin-top:14px">Log out</button>
     <button class="btn alt" id="delacct" style="opacity:.8">🗑 Delete my account</button><a class="tag privlink" href="privacy.html">Privacy policy</a>`;
+  box.querySelector("#sndTog").onchange=e=>{try{localStorage.setItem("hv_sound",e.target.checked?"on":"off")}catch{}toast(e.target.checked?"Welcome sound is on":"Welcome sound is off");if(e.target.checked&&window.hvChime)hvChime()};
   box.querySelector("#out").onclick=()=>{if(confirm("Log out?")){setAcct(null);go("home")}};
   box.querySelector("#delacct").onclick=async()=>{if(u.role==="master"){toast("The master account cannot be deleted here");return}
     if(!confirm("Delete your account and all your stars, avatar and attendance? This cannot be undone."))return;const pw=prompt("Type your password to confirm:");if(!pw)return;
