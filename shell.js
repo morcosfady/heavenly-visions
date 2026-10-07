@@ -22,10 +22,10 @@ window.hvCopticDate=copticDate;
 window.hvTopBar=function(){
   const a=A();
   const me=a?`<button class="sb-me" data-go="profile" aria-label="My profile"><span class="sb-av">${avOf(a)}</span><span class="nm">${E((a.user.first||a.user.name||"").split(" ")[0])}</span></button>`
-    :`<button class="sb-login" data-go="login">👤 Login</button>`;
-  const stars=a?`<button class="sb-stars" id="sbStars" data-go="profile" aria-label="${balOf(a)} stars"><i>⭐</i><span id="sbN">${balOf(a)}</span></button>`:"";
-  const bell=a?`<button class="sb-bell" id="sbBell" aria-label="Notifications">🔔<i class="sb-badge" hidden></i></button>`:"";
-  return `<div class="shellbar">${me}<div class="sb-right">${bell}${stars}</div></div>`};
+    :`<button class="sb-login" data-go="login">${window.hvIcon?hvIcon("login",20):""}Login</button>`;
+  const stars=a?`<button class="sb-stars" id="sbStars" data-go="profile" aria-label="${balOf(a)} stars"><i>${window.hvIcon?hvIcon("starline",20):"⭐"}</i><span id="sbN">${balOf(a)}</span></button>`:"";
+  const bell=a?`<button class="sb-bell" id="sbBell" aria-label="Notifications">${window.hvIcon?hvIcon("bell",22):"🔔"}<i class="sb-badge" hidden></i></button>`:"";
+  return `<div class="shellbar">${me}<div class="sb-right">${window.hvThemeButton?hvThemeButton():""}${bell}${stars}</div></div>`};
 
 /* the counter pops and stars fly in when points are added (called by hvAward) */
 window.hvRefreshBarAvatar=function(){const a=A(),el=document.querySelector(".sb-av");if(a&&el)el.innerHTML=avOf(a)};
@@ -45,19 +45,19 @@ window.hvToday=function(v){
   const lead=fe?fe.ic+" "+fe.t:sa?sa.ic+" "+sa.t:cal.fast?"🌙 "+cal.fast.t:"Feasts, fasts and saints";
   return `<section aria-label="Today" class="sec"><h2 class="sech"><span>Today</span></h2>
   <div class="today" id="todayStrip">
-   <button class="tcard verse2" style="--tc:var(--gold)" data-go="verse"><span class="k">📖 Verse of the day${done?" ✅":""}</span><span class="t">“${E(tv[0])}”</span><span class="s">${E(tv[1])} · ${done?"Done today! Open your verse jar":"Tap to learn it"}</span></button>
-   <button class="tcard" style="--tc:var(--c-cal)" data-go="calendar"><span class="k">📅 ${E(g)}</span><span class="t">${c.day} ${c.name}, ${c.year}</span><span class="s">${E(lead)}</span><span class="em" aria-hidden="true">🗓️</span></button>
-   <button class="tcard" id="nextEvent" style="--tc:var(--c-church)" data-go="events"><span class="k">🎉 Next event</span><span class="t">No events yet</span><span class="s">Trips, retreats and feasts will show here.</span><span class="em" aria-hidden="true">⛪</span></button>
+   <button class="tcard verse2" style="--tc:var(--gold)" data-go="verse"><span class="k">${window.hvIcon?hvIcon("book",16):""}Verse of the day${done?" ✅":""}</span><span class="t">“${E(tv[0])}”</span><span class="s">${E(tv[1])} · ${done?"Done today! Open your verse jar":"Tap to learn it"}</span></button>
+   <button class="tcard" style="--tc:var(--c-cal)" data-go="calendar"><span class="k">${window.hvIcon?hvIcon("calendar",16):""}${E(g)}</span><span class="t">${c.day} ${c.name}, ${c.year}</span><span class="s">${E(lead)}</span><span class="em" aria-hidden="true">🗓️</span></button>
+   <button class="tcard" id="nextEvent" style="--tc:var(--c-church)" data-go="events"><span class="k">${window.hvIcon?hvIcon("flag",16):""}Next event</span><span class="t">No events yet</span><span class="s">Trips, retreats and feasts will show here.</span><span class="em" aria-hidden="true">⛪</span></button>
   </div><div class="tdots" id="tdots" aria-hidden="true"></div></section>`};
 
 const MORE=[
-  ["kids","🌟","My Treasures","Stars, avatar, shop","--c-kids"],
-  ["bedtime","🛏️","Bedtime","Stories and prayer","--c-bed"],
-  ["coloring","🎨","Coloring","Color and keep","--c-color"],
+  ["kids","star","My Treasures","Stars, avatar, shop","--c-kids"],
+  ["bedtime","moon","Bedtime","Stories and prayer","--c-bed"],
+  ["coloring","palette","Coloring","Color and keep","--c-color"],
   ["calendar","📅","Calendar","Feasts and events","--c-cal"]];
 function calIcon(){const d=new Date();return `<span class="calicon"><i>${d.toLocaleDateString("en-US",{month:"short"}).toUpperCase()}</i><b>${d.getDate()}</b></span>`}
 window.hvMoreDoors=function(){
-  return `<section class="sec" aria-label="More to explore"><h2 class="sech"><span>More to explore</span></h2><nav class="doors2">${MORE.map((m,i)=>`<button class="mdoor" style="--dc:var(${m[4]})" data-go="${m[0]}"><span class="big" aria-hidden="true">${m[0]==="calendar"?calIcon():m[1]}</span><b>${m[2]}</b><small>${m[3]}</small></button>`).join("")}</nav></section>`};
+  return `<section class="sec" aria-label="More to explore"><h2 class="sech"><span>More to explore</span></h2><nav class="doors2">${MORE.map((m,i)=>`<button class="mdoor" style="--dc:var(${m[4]})" data-go="${m[0]}"><span class="big" aria-hidden="true">${m[0]==="calendar"?calIcon():(window.hvIcon?hvIcon(m[1],54):m[1])}</span><b>${m[2]}</b><small>${m[3]}</small></button>`).join("")}</nav></section>`};
 
 /* ---------- coming soon pages ---------- */
 const SOON={};

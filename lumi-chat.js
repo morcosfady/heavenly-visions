@@ -158,8 +158,7 @@ function wireChat(){
     if(sv){en.saved=!en.saved;saveHist(h);sv.setAttribute("aria-pressed",en.saved);sv.textContent=en.saved?"⭐":"☆";toast(en.saved?"Saved ⭐":"Removed from saved")}}}
 
 /* ================= home door and route ================= */
-window.hvLumiDoor=function(){if(!URL_())return "";let b=document.getElementById("lmfab");if(!b){b=document.createElement("button");b.id="lmfab";b.className="lm-fab";b.setAttribute("aria-label","Ask Lumi, questions about God and the Church");b.innerHTML=`<span class="lm-fab-i" aria-hidden="true">${hvLumiSvg("happy",64)}</span><b>Ask Lumi</b>`;b.onclick=()=>{location.hash="lumi"};document.body.appendChild(b);addEventListener("hashchange",fabShow)}fabShow();return ""};
-function fabShow(){const b=document.getElementById("lmfab");if(!b)return;const h=location.hash.slice(1);b.hidden=!(h===""||h==="home")}
+window.hvLumiDoor=function(){return ""};
 window.lumiChatRoute=function(h){if(h==="lumi"){page();return true}return false};
 
 const st=document.createElement("style");
@@ -173,10 +172,6 @@ st.textContent=`
 @keyframes lmbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}@keyframes lmtilt{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(3deg)}}
 @keyframes lmjump{0%,100%{transform:translateY(0)}40%{transform:translateY(-9px)}}@keyframes lmblink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
 @keyframes lmhalo{0%,100%{opacity:.75}50%{opacity:1}}@keyframes lmpop{0%,100%{opacity:.35}50%{opacity:1}}
-.lm-fab{position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:2000;display:flex;flex-direction:column;align-items:center;gap:0;background:none;border:0;padding:0;cursor:pointer;min-width:64px;min-height:64px;font-family:inherit;-webkit-tap-highlight-color:transparent}.lm-fab[hidden]{display:none}
-.lm-fab-i{display:block;width:64px;height:64px;transition:transform .15s}.lm-fab-i .lumi-svg{filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}
-.lm-fab:active .lm-fab-i{transform:scale(.92)}
-.lm-fab b{font-size:.8rem;font-weight:900;color:#fff;text-shadow:0 0 3px #1b3f73,0 0 3px #1b3f73,0 1px 4px rgba(0,0,0,.6);white-space:nowrap;margin-top:-4px}
 .lm-wrap{display:flex;flex-direction:column;gap:12px;max-width:760px;margin-inline:auto;width:100%}
 .lm-hero{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:var(--r-l);background:linear-gradient(135deg,rgba(150,200,245,.28),rgba(255,255,255,.08));border:1px solid var(--glass-b)}
 .lm-big{flex:none;width:128px;height:128px}.lm-name h1{margin:0}.lm-prev{display:inline-block;margin-left:6px;font-size:.7rem;font-weight:900;padding:2px 8px;border-radius:999px;background:var(--gold-soft);color:var(--ink);vertical-align:middle}
