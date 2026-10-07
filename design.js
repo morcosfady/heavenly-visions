@@ -7,7 +7,7 @@ const root=document.documentElement;
 
 /* ---------- theme: light by default, the sun/moon button in the top bar switches ---------- */
 const MODES=["dusk","light","dark"],MODE_NAME={dusk:"Twilight",light:"Sunrise",dark:"Night"};
-const getTheme=()=>{try{const t=localStorage.getItem("hv_theme");return MODES.includes(t)?t:"dusk"}catch{return "dusk"}};
+const getTheme=()=>"dusk";/* one look only: Twilight */
 function applyMode(m){root.dataset.theme=m==="light"?"light":"dark";if(m==="dusk")root.dataset.tone="dusk";else delete root.dataset.tone;
   try{window.dispatchEvent(new Event("resize"))}catch{}/* the sky redraws its stars */
   try{const mt=document.querySelector('meta[name="theme-color"]');if(mt)mt.content=m==="light"?"#a9d8f2":m==="dusk"?"#2a2f6b":"#0b1030"}catch{}}
@@ -96,7 +96,7 @@ window.hvIcon=function(name,size,alt){
   if(LINE[name])return `<svg class="hvi line" viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ${alt?`role="img" aria-label="${alt}"`:'aria-hidden="true"'}>${LINE[name]}</svg>`;
   return "";
 };
-window.hvThemeButton=function(){const m=getTheme();return `<button class="sb-theme" id="sbTheme" aria-label="Change the look. Now: ${MODE_NAME[m]}">${hvIcon(MODE_ICON[m],22)}</button>`};
+window.hvThemeButton=function(){return ""};
 
 /* ---------- bottom tab bar ---------- */
 const TABS=[["home","home","Home"],["learn","media","Learn"],["play","games","Play"],["me","profile","Me"]];
