@@ -183,7 +183,11 @@ function lumiSearch(cards, q, level, n, onlyApproved, minScore) {
     if (!wordHit && hasWord) s = 0;   /* numbers alone (like 5 plus 7) never find a card */
     if (!strong && s < 9) s = 0;   /* a match only inside the card text is too weak to answer a child */
     /* "what is the difference between X and Y" needs a card that is about differences */
-    if (compare && !/differen|compar|versus|\bvs\b/.test(ix.titleN + ' ' + ix.kwN)) s = 0;
+    if (compare) {
+      if (!/differen|compar|versus|\bvs\b/.test(ix.titleN + ' ' + ix.kwN)) s = 0;
+      /* and one of the things being compared must be on the card, not just the word difference */
+      else if (!content.some(function (w) { return !/^(differ\w*|compar\w*|versus|vs|between|similar)$/.test(w) && (lmHas(ix.title, w) || lmHas(ix.kw, w) || lmHas(ix.tags, w)); })) s = 0;
+    }
     return { c: c, s: s };
   }).filter(function (x) { return x.s >= (minScore === undefined ? 4 : minScore); });
   scored.sort(function (a, b) { return b.s - a.s; });
