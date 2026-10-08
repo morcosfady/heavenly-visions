@@ -55,6 +55,7 @@ ok('master created', m.ok && m.user.role === 'master');
 ok('second master refused', su('mast2', 'master', 'KG', { setup: 'SETUP1', email: 'boss@x.com' }).error === 'master');
 const lg = call({ action: 'login', username: 'boss@x.com', password: 'secret1' }); T.mastx.token = lg.token;
 ok('login by email', lg.ok);
+ok('a second login on another device keeps the first one working', (() => { const l2 = call({ action: 'login', username: 'boss@x.com', password: 'secret1' }); return l2.ok && l2.token === lg.token && call({ action: 'me', id: T.mastx.id, token: lg.token }).ok })());
 ok('priest cannot touch master', A('p1x', { action: 'access_set', target: T.mastx.id, role: 'student' }).error === 'denied');
 ok('priest cannot see master in list', !A('p1x', { action: 'access_list' }).team.some(u => u.role === 'master'));
 ok('priest cannot make master', A('p1x', { action: 'access_set', target: T.s2x.id, role: 'master' }).error === 'denied');

@@ -1028,7 +1028,7 @@ function accountAction(p, b) {
     if (!raw) return { ok: false, error: 'login' };
     var v = JSON.parse(raw);
     if (v.hash !== sha(v.salt + String(b.password || ''))) return { ok: false, error: 'login' };
-    v.tok = randomText();
+    v.tok = v.tok || randomText();   /* one login token per person, so logging in on a second device does not log the first one out */
     saveUser(p, v);
     return { ok: true, token: v.tok, user: publicUser(v) };
   }

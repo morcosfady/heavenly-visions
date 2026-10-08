@@ -136,7 +136,7 @@ async function ask(q){
   await new Promise(r=>setTimeout(r,Math.max(0,(reduce()?150:700)-(Date.now()-t0))));
   document.getElementById("lmtyping")?.remove();
   const say=(m,msg)=>log.insertAdjacentHTML("beforeend",`<div class="lm-msg lm-l"><div class="lm-face">${hvLumiSvg(m,38)}</div><div class="lm-bub"><p class="lm-t">${E(msg)}</p></div></div>`);
-  if(!a){say("sleepy",err==="off"?"Lumi is still sleeping 💤 She is not switched on yet. Ask your servant!":err==="denied"?"Please login again to talk with Lumi.":"Lumi is sleeping 💤 I could not reach my helper. Check your internet and try again.");setMood("sleepy");S.busy=false;scrollEnd();return}
+  if(!a){say("sleepy",err==="off"?"Lumi is still sleeping 💤 She is not switched on yet. Ask your servant!":err==="denied"?"Your login has run out. Taking you to log in again 🐑":"Lumi is sleeping 💤 I could not reach my helper. Check your internet and try again.");setMood("sleepy");S.busy=false;scrollEnd();if(err==="denied")setTimeout(()=>{try{localStorage.removeItem("hv_acct")}catch{}location.hash="#login"},2200);return}
   if(a.blocked){say(a.mood||"gentle",a.answer);setMood(a.mood||"gentle");if(inp&&a.blocked==="slow")inp.value=q;S.busy=false;scrollEnd();return}
   const en={id:uid(),q,a,ts:a.ts||Date.now(),level:levelOf()};
   S.msgs.push(en);const h=hist();h.unshift(en);saveHist(h);
