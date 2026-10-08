@@ -91,3 +91,11 @@ html[data-vt="tab"]::view-transition-old(root){animation-name:vt-fade-out}html[d
 /* toasts sit at the top so they never cover the tab bar, the reading pill or a link at the bottom */
 .toast{top:calc(12px + env(safe-area-inset-top))!important;bottom:auto!important}
 body:has(.rpill) .toast{top:calc(12px + env(safe-area-inset-top))!important;bottom:auto!important}
+/* performance: animate the wrapper (a composited layer), never an SVG that has a filter, and never animate filters */
+.hubhead img{animation:none!important}
+.hv-home-first .hubhead img{animation:hvrise .6s var(--ease-out) both!important}
+.doors .door .big svg{animation:none!important}
+.doors .door .big{animation:hvfloat 5.5s ease-in-out infinite;will-change:transform}
+.doors .door:nth-child(2) .big{animation-delay:-1.2s}.doors .door:nth-child(3) .big{animation-delay:-2.4s}.doors .door:nth-child(4) .big{animation-delay:-3.6s}.doors .door:nth-child(5) .big{animation-delay:-4.8s}
+.hvh-ic,.tcal-ic,.hvg-prop{will-change:transform}
+@media (prefers-reduced-motion:reduce){.doors .door .big{animation:none!important;will-change:auto}}

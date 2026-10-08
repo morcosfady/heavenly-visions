@@ -134,3 +134,12 @@ body:has(.hvgate) #lmfab{display:none!important}
 .lm-status{display:flex;align-items:center;gap:6px;font-weight:800}.lm-dot{width:9px;height:9px;border-radius:50%;background:#5fd08f;box-shadow:0 0 0 3px rgba(95,208,143,.3)}
 @media (prefers-reduced-motion:reduce){.ds-badge.on::after{animation:none}}
 body:has(.rpill) #app{padding-bottom:130px!important}body:has(.rpill) .toast{bottom:calc(92px + env(safe-area-inset-bottom))}
+/* contrast fixes (WCAG AA) */
+.btn{color:#0b1b40}.btn.gold{color:#2b1d05}.btn.alt{color:var(--ink)}.btn.yt{color:#fff}
+.calicon i{background:#b83f2a}
+.as-cal .f{color:#bfc1e6;opacity:1}
+:root[data-theme] #tabbar .tb.on{color:#ffe29a}
+.ds-badge.lock,.as-badge.lock{opacity:1;filter:grayscale(.6) brightness(.9)}
+.ds-badge.lock,.as-badge.lock,.ds-badge.lock small,.as-badge.lock small{color:#cfd1f0}
+.as-badge small,.as-stat small{color:#cfd1f0}
+:root[data-theme] #tabbar{background:rgba(38,42,98,.86)}

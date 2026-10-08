@@ -98,7 +98,7 @@ function page(){
   if(!URL_()){S.mood="sleepy";app.innerHTML=`${top}<div class="lm-wrap">${hero()}<div class="card sec" style="text-align:center"><b>Lumi is still sleeping 💤</b><p class="tag" style="margin:4px 0 0">She will wake up soon. Ask your servant or Abouna in the meantime!</p></div></div>`;return}
   S.msgs=[];S.mood="happy";
   app.innerHTML=`${top}<div class="lm-wrap">${hero()}
-   <div class="ds-seg" id="lmtabs" role="tablist">${[["chat","💬 Chat"],["learn","🎓 Learn"],["mine","🕘 History"],["saved","⭐ Saved"]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${S.tab===t[0]}" role="tab">${t[1]}</button>`).join("")}</div>
+   <div class="ds-seg" id="lmtabs" role="group">${[["chat","💬 Chat"],["learn","🎓 Learn"],["mine","🕘 History"],["saved","⭐ Saved"]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${S.tab===t[0]}">${t[1]}</button>`).join("")}</div>
    <div id="lmbody"></div></div>`;
   document.getElementById("lmtabs").onclick=e=>{const b=e.target.closest("[data-tab]");if(!b)return;S.tab=b.dataset.tab;document.querySelectorAll("#lmtabs button").forEach(x=>x.setAttribute("aria-pressed",x===b));draw()};
   draw();

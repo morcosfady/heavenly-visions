@@ -149,7 +149,7 @@ function hero(u){
   return `<section class="kc-hero"><div class="kc-ped"><div class="kc-glow"></div><div id="kcAv" class="kc-av">${hvAvatar(S.cur||u.av,150,{label:"My avatar"})}</div><div class="kc-base"></div></div>
    <div class="kc-name">${E(u.name)}</div><div class="kc-lv"><span>${lv.ic}</span> ${E(lv.name)}</div>
    <div class="kc-stars"><b id="kcBal">${bal(u)}</b> ⭐ to spend <small>${u.score||0} earned in total</small></div>
-   <div class="ds-bar" id="kcBar" aria-label="Level progress"><i style="--w:${lv.pct}%"></i></div><div class="tag" style="text-align:center">${lv.next?`${lv.next} more stars to ${E(lv.nxName)}`:"Top level! Wonderful!"}</div></section>`}
+   <div class="ds-bar" id="kcBar" role="img" aria-label="Level progress"><i style="--w:${lv.pct}%"></i></div><div class="tag" style="text-align:center">${lv.next?`${lv.next} more stars to ${E(lv.nxName)}`:"Top level! Wonderful!"}</div></section>`}
 
 function avatarTab(u){
   const c=S.cur,own=u.own||[];
@@ -183,7 +183,7 @@ function kidsPage(){
   const a=A();if(!a){loginNeeded();return}
   const u=a.user;if(!S.cur)S.cur=Object.assign({},DEF,u.av||{});
   app.innerHTML=`${topbar("Me","🌟","Your stars, avatar and account")}<div class="kc-wrap">${hero(u)}${statCards(u)}<div class="kc-main">
-  <div class="ds-seg" id="kcTabs" role="tablist">${[["avatar","🧒 Avatar"],["shop","🛍️ Shop"],["badges","🏅 Badges"],["earn","⭐ Earn"],["account","⚙️ Account"]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${S.tab===t[0]}" role="tab">${t[1]}</button>`).join("")}</div>
+  <div class="ds-seg" id="kcTabs" role="group">${[["avatar","🧒 Avatar"],["shop","🛍️ Shop"],["badges","🏅 Badges"],["earn","⭐ Earn"],["account","⚙️ Account"]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${S.tab===t[0]}">${t[1]}</button>`).join("")}</div>
   <section class="card sec" id="kcBody">${bodyOf(u)}</section></div></div>`;
   requestAnimationFrame(()=>requestAnimationFrame(()=>document.getElementById("kcBar")?.classList.add("go")));
   wire(u);drawAcct()}

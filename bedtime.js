@@ -20,7 +20,7 @@ function bedPage(){
   night(true);
   app.innerHTML=`<div class="bedhead"><button class="back" data-go="home">← Back</button></div><div class="moon" aria-hidden="true"><i></i></div>
   <div class="title-row"><span style="font-size:2rem">🛏️</span><div><h1>Bedtime</h1><div class="tag">Sleepy stories and a night prayer</div></div></div>
-  <div class="ds-seg" id="btabs" role="tablist">${[["stories","📚 Stories"],["prayer","🙏 Night prayer"]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${S.tab===t[0]}" role="tab">${t[1]}</button>`).join("")}</div>
+  <div class="ds-seg" id="btabs" role="group">${[["stories","📚 Stories"],["prayer","🙏 Night prayer"]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${S.tab===t[0]}">${t[1]}</button>`).join("")}</div>
   <div id="bbody" class="sec"></div>`;
   document.getElementById("btabs").onclick=e=>{const b=e.target.closest("[data-tab]");if(!b)return;S.tab=b.dataset.tab;document.querySelectorAll("#btabs button").forEach(x=>x.setAttribute("aria-pressed",x===b));draw()};
   draw()}

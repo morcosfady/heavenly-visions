@@ -174,7 +174,7 @@ function page(v){
   const t=topbar("Lumi","🐑","Cards, answers and alerts","servants");
   if(!isStaff()){app.innerHTML=`${t}<div class="empty">This is for approved servants.</div>`;return}
   if(!URL_()){app.innerHTML=`${t}<div class="soonbox" style="--sc:var(--c-bed)"><div class="em" aria-hidden="true">🐑</div><span class="chipsoon">Not switched on yet</span><ul><li>Lumi needs the helper script set up first (see HANDOFF).</li></ul></div>`;return}
-  app.innerHTML=`${t}<div class="ds-seg lmviews" id="lmviews" role="tablist">${VIEWS.map(x=>`<button data-v="${x[0]}" aria-pressed="${S.view===x[0]}" role="tab">${x[1]}</button>`).join("")}</div>
+  app.innerHTML=`${t}<div class="ds-seg lmviews" id="lmviews" role="group">${VIEWS.map(x=>`<button data-v="${x[0]}" aria-pressed="${S.view===x[0]}">${x[1]}</button>`).join("")}</div>
    ${S.view==="cards"?`<div class="note">Lumi only answers from <b>approved</b> cards. Read each card. Approve it only if it is correct and kind. Cards marked ⚠️ have details that need a double check.</div>`:""}<div id="lmroot" class="sec"><div class="ds-skel" style="height:140px"></div></div>`;
   document.getElementById("lmviews").onclick=e=>{const b=e.target.closest("[data-v]");if(!b)return;S.view=b.dataset.v;view()};
   view()}
