@@ -164,7 +164,8 @@ function lmAsk(b, u) {
   var kq = 'lmq_' + u.id + '_' + day, ka = 'lmq_all_' + day, tk = 'lmt_' + u.id;
   var mine = Number(p.getProperty(kq) || 0), total = Number(p.getProperty(ka) || 0), last = Number(p.getProperty(tk) || 0);
   if (now - last < 5000) return lmBlocked('slow', LM_MSG.slow, 'thinking');
-  if (mine >= (deep ? Math.max(cfg.perKid, 100) : cfg.perKid) || (total >= cfg.perDay && !deep)) return lmBlocked('nap', LM_MSG.nap, 'gentle');
+  var staffUser = u.role !== 'student' && !u.req;   /* servants and Abouna test Lumi a lot, so they get a bigger limit */
+  if (mine >= (deep || staffUser ? Math.max(cfg.perKid, 100) : cfg.perKid) || (total >= cfg.perDay && !deep && !staffUser)) return lmBlocked('nap', LM_MSG.nap, 'gentle');
   p.setProperty(tk, String(now)); p.setProperty(kq, String(mine + 1)); p.setProperty(ka, String(total + 1));
   var seed = q.length + now % 97;
   if (lmIsBad(q)) return lmReply({ answer: LM_MSG.bad, mood: 'gentle', followups: lmPickTitles(all, 3, seed) }, { safety: 'bad' });
