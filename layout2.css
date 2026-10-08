@@ -194,3 +194,11 @@ body:has(.rpill) #app{padding-bottom:130px!important}body:has(.rpill) .toast{bot
 .lm-k .lm-bub{border-top-right-radius:6px;box-shadow:0 6px 16px -8px rgba(0,0,0,.45)}
 .lm-bub .lm-t{line-height:1.5}
 .lm-fu .lm-sug[data-sun]{border-style:dashed}
+/* Sunday School card: the logo in a gold medal ring */
+.door.d-media .big{overflow:visible;width:auto;height:auto}
+.medal{position:relative;display:block;width:104px;height:104px;border-radius:50%;padding:5px;background:conic-gradient(from 0deg,#ffe29a,#d79a24,#ffe29a,#d79a24,#ffe29a);box-shadow:0 8px 18px rgba(0,0,0,.45),0 0 26px rgba(255,205,110,.5)}
+.medal-in{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#7fb9ee,#27527f);overflow:hidden}
+.medal-in img{width:92%;height:auto}
+.door.d-media .big svg.medal-sp{position:absolute;right:-8px;top:-6px;width:16px;height:16px}
+.medal{width:88px;height:88px;padding:4px}
+.door.d-media .big svg.medal-sp{right:-4px;top:-2px}
