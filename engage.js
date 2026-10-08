@@ -98,6 +98,18 @@ window.hvHomeInit=function(){
   box.innerHTML=sundayBanner()+sunQCard()+goalCard()+installCard()+remindCard();
   nav.parentNode.insertBefore(box,nav)};
 
+/* ---------- class challenge: the class team score this month (never a kid name, never a ranking of kids) ---------- */
+async function challenge(){
+  const a=window.hvAcct&&hvAcct(),box=document.getElementById("hvengage");
+  if(!a||!box||!window.GAMES_URL||a.user.req)return;
+  try{const r=await (await fetch(window.GAMES_URL,{method:"POST",body:JSON.stringify({id:a.user.id,token:a.token,action:"cp_state"})})).json();
+    if(!r.ok||!r.active||!document.getElementById("hvengage"))return;
+    const me=(r.standings||[]).find(x=>x.grade===r.mine);if(!me)return;
+    const el=document.createElement("section");el.className="wkgoal team";el.setAttribute("aria-label","Class challenge");
+    el.innerHTML=`<div class="wk-h"><b>🏆 Class challenge</b><span class="wk-b">${E(me.grade)}</span></div><div class="wk-bar" role="img" aria-label="Class score ${me.score} of 100"><i style="width:${Math.min(100,me.score)}%"></i></div><small>Team score: <b>${me.score}</b> of 100. Come every Sunday and earn stars to help your class!${r.prize?" Prize: "+E(r.prize):""}</small>`;
+    box.appendChild(el)}catch{}}
+const oldInit2=window.hvHomeInit;
+window.hvHomeInit=function(){oldInit2.apply(this,arguments);challenge()};
 /* ---------- bedtime prayer streak ---------- */
 window.hvBedDone=function(){
   const d=get("bedn",[]);if(d.includes(today()))return false;d.push(today());set("bedn",d.slice(-120));return true};

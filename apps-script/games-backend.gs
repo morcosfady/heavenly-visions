@@ -680,12 +680,14 @@ var AN_CATS = ['event', 'church', 'bring', 'important'];
 function annAction(p, me, b) {
   var key = 'an_' + me.church, t = today();
   var all = readJson(p, key, []).filter(function (a) { return !a.exp || a.exp >= t; });
+  /* announcements from the master account go to every church (an_*) */
+  var glob = readJson(p, 'an_*', []).filter(function (a) { return !a.exp || a.exp >= t; });
   if (b.action === 'an_list') {
     var rows = all.filter(function (a) {
       if (a.date && a.date < dayStr(dayNum(t) - 1)) return false;
       if (isStaff(me.role) && !me.req) return true;
       return !a.grades.length || a.grades.indexOf('all') >= 0 || a.grades.indexOf(me.grade) >= 0;
-    });
+    }).concat(glob.filter(function (a) { return !(a.date && a.date < dayStr(dayNum(t) - 1)); }));
     rows.sort(function (x, y) { return (y.pin ? 1 : 0) - (x.pin ? 1 : 0) || y.ts - x.ts; });
     return { ok: true, items: rows, mine: isStaff(me.role) && !me.req };
   }
@@ -694,13 +696,16 @@ function annAction(p, me, b) {
     var a = b.a || {};
     var title = cleanText(a.title, 50).trim(), msg = cleanText(a.msg, 300).trim();
     if (!title || !msg) return { ok: false, error: 'missing' };
-    var grades;
-    if (me.role === 'servant') grades = [me.grade];
+    var grades, gl = !!a.global;
+    if (gl && me.role !== 'master') return { ok: false, error: 'denied' };
+    if (gl) { key = 'an_*'; all = glob; }
+    if (gl) grades = ['all'];
+    else if (me.role === 'servant') grades = [me.grade];
     else if (me.role === 'coordinator') grades = (Array.isArray(a.grades) && a.grades.indexOf('all') >= 0) ? ['all'] : [me.grade];
     else grades = Array.isArray(a.grades) ? a.grades.slice(0, 14).map(function (g) { return cleanText(g, 20); }) : ['all'];
     var item = { id: a.id && /^[a-z0-9]{6,12}$/.test(a.id) ? a.id : randomText().slice(0, 8), title: title, msg: msg, ic: cleanText(a.ic, 8) || '📢',
       cat: AN_CATS.indexOf(a.cat) >= 0 ? a.cat : 'church', date: isDate(a.date) ? a.date : '', exp: isDate(a.exp) ? a.exp : '', pin: !!a.pin,
-      grades: grades, by: me.name, byRole: me.role, byGrade: me.grade, ts: Date.now() };
+      grades: grades, by: me.name, byRole: me.role, byGrade: me.grade, ts: Date.now(), global: gl };
     var prev = all.filter(function (x) { return x.id === item.id; })[0];
     if (prev && !(me.role !== 'servant' || prev.byGrade === me.grade)) return { ok: false, error: 'denied' };
     var list = all.filter(function (x) { return x.id !== item.id; });
@@ -712,6 +717,10 @@ function annAction(p, me, b) {
   }
   if (b.action === 'an_delete') {
     var target = all.filter(function (x) { return x.id === b.aid; })[0];
+    if (!target && me.role === 'master') {
+      var gt = glob.filter(function (x) { return x.id === b.aid; })[0];
+      if (gt) { p.setProperty('an_*', JSON.stringify(glob.filter(function (x) { return x.id !== b.aid; }))); return { ok: true }; }
+    }
     if (!target) return { ok: true };
     var mayDelete = me.role === 'priest' || me.role === 'master' || (me.role === 'coordinator' && (target.byGrade === me.grade || target.grades.indexOf(me.grade) >= 0)) || (me.role === 'servant' && target.byGrade === me.grade && target.grades.length === 1 && target.grades[0] === me.grade);
     if (!mayDelete) return { ok: false, error: 'denied' };

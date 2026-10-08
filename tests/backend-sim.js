@@ -253,6 +253,15 @@ ok('servant cannot delete a church wide one', A('as1', { action: 'an_delete', ai
 ok('expired announcements are hidden', A('c1x', { action: 'an_save', a: { title: 'Old', msg: 'gone', exp: '2026-01-01' } }).ok && !A('c1x', { action: 'an_list' }).items.some(x => x.title === 'Old'));
 ok('coordinator deletes own one', A('c1x', { action: 'an_delete', aid: allAn.item.id }).ok && !A('ak4', { action: 'an_list' }).items.some(x => x.title === 'Church picnic'));
 
+/* announcements from the master go to every church */
+const gAn = A('mastx', { action: 'an_save', a: { title: 'Nayrouz blessing', msg: 'Happy new year to all churches', global: true, grades: ['Grade 3'] } });
+ok('master can post to every church', gAn.ok && gAn.item.global === true && gAn.item.grades[0] === 'all');
+ok('kid in the first church sees it', A('ak1', { action: 'an_list' }).items.some(x => x.title === 'Nayrouz blessing'));
+ok('kid in another church sees it too', A('ako', { action: 'an_list' }).items.some(x => x.title === 'Nayrouz blessing'));
+ok('priest cannot post to every church', A('p1x', { action: 'an_save', a: { title: 'Nope', msg: 'no', global: true } }).error === 'denied');
+ok('coordinator cannot delete a global one', A('c1x', { action: 'an_delete', aid: gAn.item.id }).ok && A('ak1', { action: 'an_list' }).items.some(x => x.title === 'Nayrouz blessing'));
+ok('master deletes it', A('mastx', { action: 'an_delete', aid: gAn.item.id }).ok && !A('ako', { action: 'an_list' }).items.some(x => x.title === 'Nayrouz blessing'));
+
 const fup = A('as1', { action: 'fu_list' });
 ok('servant gets own class follow up list', fup.ok && fup.rows.length >= 2 && fup.rows.every(r => r.grade === 'Grade 3'));
 ok('student cannot see follow up', A('ak1', { action: 'fu_list' }).error === 'denied');
