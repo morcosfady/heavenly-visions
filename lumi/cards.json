@@ -808,7 +808,10 @@
    "easter",
    "pascha",
    "empty tomb",
-   "risen"
+   "risen",
+   "how did jesus die",
+   "why did jesus die",
+   "why did jesus die on the cross"
   ],
   "level": "older",
   "source": "Bible (KJV)",
@@ -1660,7 +1663,10 @@
    "savior",
    "lord jesus",
    "who is jesus",
-   "god"
+   "god",
+   "why did jesus come to earth",
+   "why did jesus come",
+   "why did jesus become a man"
   ],
   "level": "little",
   "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
@@ -1720,7 +1726,10 @@
    "madonna",
    "saint mary",
    "el adra",
-   "mother of jesus"
+   "mother of jesus",
+   "who is jesus mother",
+   "who is jesus mom",
+   "whos jesus mom"
   ],
   "level": "little",
   "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
@@ -2072,7 +2081,9 @@
    "participate",
    "sing",
    "responses",
-   "respond"
+   "respond",
+   "why do we sing in church",
+   "why do we sing hymns"
   ],
   "level": "little",
   "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
@@ -2329,7 +2340,10 @@
    "bless myself",
    "forehead",
    "shoulder",
-   "right to left"
+   "right to left",
+   "cross ourselves",
+   "cross myself",
+   "make the sign of the cross"
   ],
   "level": "little",
   "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
@@ -2467,7 +2481,13 @@
    "tawadros",
    "shenouda",
    "cyril",
-   "who is the pope"
+   "who is the pope",
+   "what is a pope",
+   "who is the pope of alexandria",
+   "who is the coptic pope now",
+   "who is the pope now",
+   "current pope",
+   "what does the pope do"
   ],
   "level": "little",
   "source": "St-Takla.org (our own words)",
@@ -2783,7 +2803,10 @@
    "brave",
    "faithful",
    "persecution",
-   "heroes of faith"
+   "heroes of faith",
+   "why are coptic christians persecuted",
+   "what happened to the coptic christians",
+   "why were christians killed"
   ],
   "level": "little",
   "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
@@ -2844,7 +2867,9 @@
    "language",
    "what is coptic",
    "arabic",
-   "greek letters"
+   "greek letters",
+   "what does coptic mean",
+   "coptic means"
   ],
   "level": "all",
   "source": "St-Takla.org (our own words)",
@@ -2961,7 +2986,11 @@
    "book",
    "read the bible",
    "testament",
-   "what is the bible"
+   "what is the bible",
+   "who wrote the bible",
+   "who wrote it",
+   "authors of the bible",
+   "who made the bible"
   ],
   "level": "little",
   "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
@@ -3031,7 +3060,9 @@
    "archangel",
    "guardian angel",
    "heaven",
-   "wings"
+   "wings",
+   "what are angels",
+   "who are the angels"
   ],
   "level": "little",
   "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
@@ -3130,7 +3161,12 @@
    "empty tomb",
    "third day",
    "sunday",
-   "truly he is risen"
+   "truly he is risen",
+   "what is easter",
+   "what is pascha",
+   "what happened on easter",
+   "did jesus really rise",
+   "did jesus rise from the dead"
   ],
   "level": "little",
   "source": "Bible (KJV)",
@@ -4153,6 +4189,803 @@
   "approved": false
  },
  {
+  "id": "faith-who-is-god",
+  "title": "Who is God?",
+  "text": "God is the One who made everything: the sky, the earth, the animals, and you. God has no beginning and no end, and He is always with us. We cannot see Him, but He sees us and loves us very much. The Bible says, God is love. We believe in one God in three Persons, the Father, the Son and the Holy Spirit. We often call the first Person God the Father, because He is the loving Father of all. God is good, strong and kind. He listens when we pray, He takes care of us, and He wants us to be with Him forever. When we feel scared or alone, we can remember that God is near.",
+  "tags": [
+   "trinity",
+   "bible"
+  ],
+  "kw": [
+   "who is god",
+   "what is god",
+   "god the father",
+   "who made the world",
+   "is god real",
+   "where is god",
+   "does god love me",
+   "what does god look like",
+   "father in heaven",
+   "does god exist",
+   "who made god",
+   "how big is god",
+   "does god sleep"
+  ],
+  "level": "little",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "Genesis 1:1; 1 John 4:8",
+  "links": [],
+  "verse": {
+   "text": "God is love.",
+   "ref": "1 John 4:8"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "faith-made-by-god",
+  "title": "Did God make me? Who made me?",
+  "text": "Yes! God made you. He made every person with love, and He made you exactly the way He wanted you to be. God knew you before you were born, and He has a special plan for your life. You are not an accident. That is why we say thank you to God for our eyes, our hands, our family and our friends. Your mom and dad helped bring you into the world, and God is the one who gives life to every person. Because God made us, every person is precious to Him, even people who look or sound different from us. We should treat everyone kindly, because God made them too. You are loved.",
+  "tags": [
+   "bible",
+   "virtue"
+  ],
+  "kw": [
+   "who made me",
+   "did god make me",
+   "who created me",
+   "where did i come from",
+   "why am i here",
+   "am i special",
+   "god made me",
+   "how was i made",
+   "why did god make me",
+   "why did god make people",
+   "why was i made"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "Psalm 139:13-16; Genesis 1:27",
+  "links": [],
+  "verse": {
+   "text": "I will praise thee; for I am fearfully and wonderfully made",
+   "ref": "Psalm 139:14"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "faith-creation-old-earth",
+  "title": "How old is the earth? Did God make the dinosaurs?",
+  "text": "God made everything. The Bible begins with the words, In the beginning God created the heaven and the earth. Our Church teaches that God is the Creator of the sky, the sea, the land and every living thing. That is the most important thing for us to know and to be thankful for. How and when God made things, and how old the earth is, are questions that scientists study, and they are still learning new things. The Church does not ask children to worry about that. If you love dinosaurs, you can enjoy them and be amazed at how big and wonderful God's creation is. If you have more questions, you can ask Abouna or your teacher. It is good to be curious.",
+  "tags": [
+   "bible",
+   "church"
+  ],
+  "kw": [
+   "how old is the earth",
+   "dinosaurs",
+   "did god make dinosaurs",
+   "big bang",
+   "evolution",
+   "science and god",
+   "age of the earth",
+   "fossils",
+   "millions of years"
+  ],
+  "level": "all",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "Genesis 1:1",
+  "links": [
+   "b-Genesis-1"
+  ],
+  "verse": {
+   "text": "In the beginning God created the heaven and the earth.",
+   "ref": "Genesis 1:1"
+  },
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "church-what-is-coptic-orthodox",
+  "title": "What is the Coptic Orthodox Church?",
+  "text": "The Coptic Orthodox Church is the Christian church of Egypt. The word Coptic means Egyptian. Our church was founded by St. Mark the Apostle, who brought the good news of Jesus to Alexandria in Egypt, so it is one of the oldest churches in the world. The head of our church is the Pope of Alexandria, who follows St. Mark. We pray the Holy Liturgy, keep the seven sacraments, fast, love the saints and honor St. Mary. Today there are Coptic Orthodox churches in Egypt and all over the world, including right here. Many of our hymns and prayers are very old, and we keep them so that we can pray the way the first Christians did.",
+  "tags": [
+   "church",
+   "history"
+  ],
+  "kw": [
+   "what is the coptic church",
+   "coptic orthodox church",
+   "church of egypt",
+   "egyptian church",
+   "who started our church",
+   "oldest church",
+   "why are we coptic",
+   "church of alexandria",
+   "our church",
+   "who started the coptic church",
+   "who founded the coptic church",
+   "history of the coptic church",
+   "how did the coptic church start"
+  ],
+  "level": "all",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "",
+  "links": [],
+  "verse": null,
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "word-orthodox",
+  "title": "What does Orthodox mean?",
+  "text": "Orthodox comes from two old Greek words. One means right or straight, and the other means worship or glory. So Orthodox means right faith and right worship. It means we hold on to the true faith about Jesus that the apostles handed down to the Church, and we worship God the way the Church has worshiped for a very long time. Coptic means Egyptian, as you learned. So Coptic Orthodox means the Orthodox Church of Egypt. Our church keeps the faith that was taught by St. Mark and the great fathers like St. Athanasius and St. Cyril. There are other Orthodox churches around the world too, and we are happy to be part of this family of faith.",
+  "tags": [
+   "church",
+   "history"
+  ],
+  "kw": [
+   "what does orthodox mean",
+   "meaning of orthodox",
+   "why orthodox",
+   "coptic orthodox meaning",
+   "right faith",
+   "right worship",
+   "what is orthodox",
+   "orthodoxy"
+  ],
+  "level": "older",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "",
+  "links": [],
+  "verse": null,
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "church-other-churches",
+  "title": "Are there other churches? How are we different?",
+  "text": "Yes, there are many Christian churches in the world, such as Catholic, Protestant (sometimes called Evangelical) and other Orthodox churches. All Christians love Jesus, believe in Him, and are baptized in the name of the Father, the Son and the Holy Spirit. We should respect everyone and be kind to all, because Jesus loves them. We are Coptic Orthodox. In our church we keep the traditions we received from the early Church: the seven sacraments, the Holy Liturgy, fasting, praying the Agpeya, using icons, asking the saints to pray for us, and honoring St. Mary the Theotokos. Churches can teach some things differently, and that is a big topic. When you are older, Abouna can explain more, and you can ask him any question you have.",
+  "tags": [
+   "church",
+   "history"
+  ],
+  "kw": [
+   "other churches",
+   "catholic",
+   "protestant",
+   "evangelical",
+   "evangelism",
+   "baptist",
+   "differences",
+   "difference between",
+   "different churches",
+   "are other christians okay",
+   "why are we not catholic",
+   "how are we different"
+  ],
+  "level": "older",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "",
+  "links": [],
+  "verse": null,
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "bible-twelve-apostles",
+  "title": "Who are the twelve apostles?",
+  "text": "An apostle is someone Jesus sent out to share the good news. Jesus chose twelve men to be close to Him, to learn from Him, and to be sent out to teach the world. They are Peter, Andrew, James the son of Zebedee, John, Philip, Bartholomew, Thomas, Matthew, James the son of Alphaeus, Thaddaeus (also called Jude), Simon the Zealot, and Judas Iscariot. Judas later turned away, and the apostles chose Matthias to take his place. Later Jesus also called St. Paul to be an apostle, and the Church remembers many other apostles too. After the Holy Spirit came at Pentecost, the apostles traveled to many countries and told people about Jesus, and St. Mark brought the message to Egypt.",
+  "tags": [
+   "bible",
+   "saint",
+   "jesus"
+  ],
+  "kw": [
+   "twelve apostles",
+   "12 apostles",
+   "12 disciples",
+   "twelve disciples",
+   "names of the apostles",
+   "who are the disciples",
+   "what is an apostle",
+   "apostle meaning",
+   "jesus friends",
+   "who are the apostles",
+   "the apostles",
+   "who are the twelve apostles"
+  ],
+  "level": "all",
+  "source": "Bible (KJV)",
+  "ref": "Matthew 10:1-4; Acts 1:23-26",
+  "links": [
+   "bible"
+  ],
+  "verse": null,
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "bible-judas",
+  "title": "Who was Judas?",
+  "text": "Judas Iscariot was one of the twelve apostles. He walked with Jesus, heard Him teach, and saw His miracles. But Judas let love of money grow in his heart. He agreed to tell the leaders where to find Jesus, and they paid him thirty pieces of silver. Later he felt very sorry for what he had done. The Bible tells us this sad story so that we can learn from it. We can choose to be loyal to Jesus and to love Him more than anything else. We should never choose money or anything else over Jesus and our friends. If we do make a mistake, we can say sorry to God and ask Him to forgive us. God is always ready to forgive when we come back to Him.",
+  "tags": [
+   "bible",
+   "jesus",
+   "virtue"
+  ],
+  "kw": [
+   "who was judas",
+   "judas iscariot",
+   "who betrayed jesus",
+   "betrayed jesus",
+   "thirty pieces of silver",
+   "traitor",
+   "judas kiss",
+   "why did judas betray jesus"
+  ],
+  "level": "older",
+  "source": "Bible (KJV)",
+  "ref": "Matthew 26:14-16; Matthew 27:3-5",
+  "links": [],
+  "verse": null,
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "faith-lamb-of-god",
+  "title": "Why is Jesus called the Lamb of God?",
+  "text": "When John the Baptist saw Jesus coming, he said, Behold the Lamb of God, which taketh away the sin of the world. A lamb is gentle and quiet, and it is also what the people of the Old Testament offered to God. At the first Passover in Egypt, a lamb was given and the families were kept safe. Jesus is the true Lamb. He gave Himself on the cross out of love, so that our sins could be forgiven and we could live with God. Jesus is also called the Good Shepherd, because He knows His sheep by name and takes care of them. We are His little lambs. That is why Lumi the lamb is a friendly helper in this app: a lamb reminds us of Jesus and of gentleness.",
+  "tags": [
+   "jesus",
+   "bible",
+   "feast"
+  ],
+  "kw": [
+   "lamb of god",
+   "why a lamb",
+   "jesus the lamb",
+   "passover lamb",
+   "good shepherd",
+   "why lumi is a lamb",
+   "lumi the lamb",
+   "agnus dei",
+   "john the baptist said behold"
+  ],
+  "level": "all",
+  "source": "Bible (KJV)",
+  "ref": "John 1:29; Exodus 12; John 10:11",
+  "links": [
+   "b-John-1"
+  ],
+  "verse": {
+   "text": "Behold the Lamb of God, which taketh away the sin of the world.",
+   "ref": "John 1:29"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-what-is-prophet",
+  "title": "What is a prophet? Who are the prophets?",
+  "text": "A prophet is a person God chose to speak His word to the people. God gave the prophets messages to tell the people to love Him, to do what is right, and to be ready for the Savior. Some prophets told about Jesus long before He was born. Elijah, Isaiah, Jeremiah, Daniel, Jonah and many others were prophets in the Old Testament. John the Baptist is the last and greatest prophet, because he pointed to Jesus and said, Behold the Lamb of God. Prophets were not always popular, and sometimes they were brave in hard times. We can learn from them to listen to God and to be brave in telling the truth. We read their words in the Bible and in the church readings.",
+  "tags": [
+   "prophet",
+   "bible"
+  ],
+  "kw": [
+   "what is a prophet",
+   "who are the prophets",
+   "prophets in the bible",
+   "isaiah",
+   "daniel the prophet",
+   "old testament prophets",
+   "prophecy",
+   "major prophets",
+   "what does prophet mean"
+  ],
+  "level": "all",
+  "source": "Bible (KJV)",
+  "ref": "2 Peter 1:21; Isaiah 7:14",
+  "links": [],
+  "verse": {
+   "text": "holy men of God spake as they were moved by the Holy Ghost",
+   "ref": "2 Peter 1:21"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "faith-what-is-miracle",
+  "title": "What is a miracle?",
+  "text": "A miracle is something wonderful that only God can do. It goes beyond what people or nature can do on their own. In the Bible, Jesus did many miracles, because He is God and He loves people. He made the blind see, He healed the sick, He calmed the storm, He fed five thousand people with five loaves and two fish, and He raised Lazarus from the dead. These miracles showed His power and His kindness. Many saints also prayed, and God did miracles through them. Miracles still happen today when God answers prayers in ways we do not expect. God is never too small or too far away to help us. We can always pray to Him, and He will answer in the best way.",
+  "tags": [
+   "jesus",
+   "bible"
+  ],
+  "kw": [
+   "what is a miracle",
+   "miracles of jesus",
+   "jesus miracles",
+   "do miracles still happen",
+   "how did jesus do miracles",
+   "healing",
+   "wonders",
+   "miracle meaning"
+  ],
+  "level": "little",
+  "source": "Bible (KJV)",
+  "ref": "John 6:1-14; John 9; John 11",
+  "links": [],
+  "verse": null,
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "faith-become-saint",
+  "title": "What is a saint? How does someone become a saint?",
+  "text": "A saint is a holy person who loved God with all their heart and lived close to Him. Saints can be martyrs, monks, teachers, kings, mothers, fathers, or even children. In our church, we remember them and love them, and we ask them to pray for us. The Church does not have one big formal process to make someone a saint. Instead, the Church recognizes saints over time. People see how they lived, how they loved God, and how God worked through them, and the Church honors them. Their stories are read in the Synaxarium on their feast days. You do not need to be famous to be holy. Every one of us is called to become a saint by loving God and others, a little each day.",
+  "tags": [
+   "saint",
+   "church"
+  ],
+  "kw": [
+   "what is a saint",
+   "how to become a saint",
+   "how does someone become a saint",
+   "who decides saints",
+   "can i be a saint",
+   "how are saints chosen",
+   "canonization",
+   "holy people",
+   "saints day"
+  ],
+  "level": "all",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "",
+  "links": [
+   "m-saints"
+  ],
+  "verse": null,
+  "verify": true,
+  "approved": false
+ },
+ {
+  "id": "faith-what-is-faith",
+  "title": "What is faith?",
+  "text": "Faith means trusting God even when we cannot see Him. We cannot see the wind, but we see the leaves move and we know it is there. In the same way we cannot see God with our eyes, but we know He is with us because of what He has done. After the Resurrection, St. Thomas did not believe until he saw Jesus. Jesus said that those who believe without seeing are blessed. That means us! Faith is not just knowing about God. It is trusting Him when we are afraid, praying to Him, and doing what He asks. Our faith grows when we pray, read the Bible, go to church and take Holy Communion. Even a small faith can grow big.",
+  "tags": [
+   "bible",
+   "virtue"
+  ],
+  "kw": [
+   "what is faith",
+   "what does faith mean",
+   "believe in god",
+   "trust god",
+   "how to have faith",
+   "doubting thomas",
+   "faith meaning",
+   "believing without seeing",
+   "hebrews 11"
+  ],
+  "level": "all",
+  "source": "Bible (KJV)",
+  "ref": "Hebrews 11:1; John 20:24-29",
+  "links": [],
+  "verse": {
+   "text": "Now faith is the substance of things hoped for, the evidence of things not seen.",
+   "ref": "Hebrews 11:1"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "church-what-is-sunday-school",
+  "title": "What is Sunday School?",
+  "text": "Sunday School is a place in the church where children come together to learn about Jesus, the Bible and our Coptic Orthodox faith. We hear Bible stories, learn about the saints and the feasts, memorize verses, sing hymns, play and make friends. Our teachers are servants. A servant is a person who gives their time to God and to us with love, and they learn together with us. Sunday School helps us to grow in our faith, to know how to pray, and to know the Church better. We also learn how to be kind and honest in our daily lives. Sunday School is a place where everyone is welcome, and where you can ask questions about God and the Church.",
+  "tags": [
+   "church",
+   "bible"
+  ],
+  "kw": [
+   "what is sunday school",
+   "why do we go to sunday school",
+   "sunday school teacher",
+   "servant",
+   "what do we do in sunday school",
+   "why sunday school",
+   "class at church",
+   "khadem"
+  ],
+  "level": "little",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "Proverbs 22:6",
+  "links": [],
+  "verse": {
+   "text": "Train up a child in the way he should go: and when he is old, he will not depart from it.",
+   "ref": "Proverbs 22:6"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-four-gospels",
+  "title": "What are the four Gospels?",
+  "text": "The word Gospel means good news. The good news is that Jesus came to save us. The four Gospels are the first four books of the New Testament: Matthew, Mark, Luke and John. Each one was written by a person led by the Holy Spirit, and each tells us the story of the life, the teaching, the miracles, the death and the Resurrection of Jesus. Matthew and John were apostles who followed Jesus. Mark and Luke were helpers of the apostles. Each Gospel tells the story in a slightly different way, like four friends describing the same wonderful day. In church, the Gospel is the most honored reading, and we stand while it is read. You can read them yourself in the Bible.",
+  "tags": [
+   "bible",
+   "jesus"
+  ],
+  "kw": [
+   "what are the gospels",
+   "four gospels",
+   "4 gospels",
+   "matthew mark luke john",
+   "what does gospel mean",
+   "good news",
+   "gospel meaning",
+   "books about jesus",
+   "evangelists"
+  ],
+  "level": "all",
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "Mark 1:1; John 20:31",
+  "links": [
+   "bible"
+  ],
+  "verse": null,
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-temple-tabernacle",
+  "title": "What is the Temple and the Tabernacle?",
+  "text": "In the Old Testament, God asked Moses to build a special tent called the Tabernacle, where the people could worship Him. They carried it with them in the desert. Later King Solomon built a beautiful Temple in Jerusalem, and the people came there to pray and bring offerings to God. The Temple was a holy place, because God's presence was with His people there. Our church building is like the Temple and the Tabernacle. It is the house of God, with an altar, incense, a haykal, and holy things. We behave with reverence in church because God is truly with us. Also, we ourselves are the temple of the Holy Spirit when we love God and live in a holy way.",
+  "tags": [
+   "bible",
+   "church"
+  ],
+  "kw": [
+   "what is the temple",
+   "the tabernacle",
+   "solomon temple",
+   "solomon built the temple",
+   "temple in jerusalem",
+   "tent of meeting",
+   "is church like the temple",
+   "house of god",
+   "ark of the covenant"
+  ],
+  "level": "older",
+  "source": "Bible (KJV)",
+  "ref": "Exodus 25:8; 1 Kings 6:1-2; 1 Corinthians 3:16",
+  "links": [],
+  "verse": {
+   "text": "And let them make me a sanctuary; that I may dwell among them.",
+   "ref": "Exodus 25:8"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "hist-herod",
+  "title": "Who was King Herod?",
+  "text": "Herod was a king who ruled Judea when Jesus was born. When the wise men came and asked where the new King of the Jews was, Herod became worried and jealous, because he wanted to stay king. He wanted to harm baby Jesus. But God protected Jesus. An angel told St. Joseph in a dream to take Mary and the child and go to Egypt. So the Holy Family traveled to Egypt, and that is how Egypt was blessed by Jesus' visit. When Herod was gone, the angel told Joseph it was safe, and they went home to Nazareth. This story teaches us that God takes care of us, and that no one can stop His plans. We are thankful that Jesus came to Egypt.",
+  "tags": [
+   "history",
+   "bible",
+   "jesus"
+  ],
+  "kw": [
+   "who was herod",
+   "king herod",
+   "why did the holy family flee",
+   "herod and baby jesus",
+   "why did jesus go to egypt",
+   "wise men herod",
+   "slaughter of the innocents",
+   "evil king"
+  ],
+  "level": "all",
+  "source": "Bible (KJV)",
+  "ref": "Matthew 2:1-23",
+  "links": [
+   "b-Matthew-2"
+  ],
+  "verse": null,
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "hist-pontius-pilate",
+  "title": "Who was Pontius Pilate?",
+  "text": "Pontius Pilate was the Roman governor of Judea at the time of Jesus. The Jewish leaders brought Jesus to him, and Pilate had to decide what to do. Pilate asked Jesus questions, and he said that he found no fault in Him. But the crowd shouted loudly, and Pilate gave in because he was afraid of the people. He washed his hands in front of the crowd and then allowed Jesus to be crucified. Jesus did this willingly, out of love, to save us. This story teaches us to be brave and to do what is right, even when others around us are doing wrong. Pilate's name is also mentioned in the Creed that we pray in church.",
+  "tags": [
+   "history",
+   "bible",
+   "jesus"
+  ],
+  "kw": [
+   "who was pontius pilate",
+   "pilate",
+   "roman governor",
+   "who judged jesus",
+   "who crucified jesus",
+   "washed his hands",
+   "trial of jesus",
+   "jesus before pilate"
+  ],
+  "level": "older",
+  "source": "Bible (KJV)",
+  "ref": "Matthew 27:11-26; John 18:28-40",
+  "links": [],
+  "verse": null,
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "virtue-fruit-of-spirit",
+  "title": "What is the fruit of the Spirit?",
+  "text": "When a tree is healthy, it grows good fruit. When the Holy Spirit lives in us, He makes good things grow in our hearts too. St. Paul wrote about them in his letter to the Galatians. The fruit of the Spirit is love, joy, peace, patience, kindness, goodness, faithfulness, gentleness and self-control. Some of these are easy for us, and some take practice. We cannot grow them by ourselves. The Holy Spirit helps us when we pray, go to church, take Holy Communion and ask Him to help us. You can try one each day. For example, be patient with your brother, be kind to a new friend, or be gentle when you are upset. Over time, your heart will grow lovely fruit.",
+  "tags": [
+   "bible",
+   "virtue"
+  ],
+  "kw": [
+   "fruit of the spirit",
+   "fruits of the spirit",
+   "galatians 5",
+   "love joy peace",
+   "nine fruits",
+   "self control",
+   "gifts of the holy spirit",
+   "what are the fruits"
+  ],
+  "level": "all",
+  "source": "Bible (KJV)",
+  "ref": "Galatians 5:22-23",
+  "links": [
+   "b-Galatians-5"
+  ],
+  "verse": {
+   "text": "But the fruit of the Spirit is love, joy, peace, longsuffering, gentleness, goodness, faith, meekness, temperance",
+   "ref": "Galatians 5:22-23"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "faith-kingdom-of-god",
+  "title": "What is the Kingdom of God?",
+  "text": "The Kingdom of God is where God is King, and where His love and His will are done. Jesus talked about it often. It is not like a kingdom of the world with soldiers and castles. It begins in our hearts when we love God and follow Jesus. It is also the happy life with God in heaven that will last forever. When we pray the Lord's Prayer and say, Thy kingdom come, we are asking that God's love, peace and goodness will grow here on earth too. Jesus said to put God first. We help the Kingdom of God grow when we are kind, tell the truth, forgive, share and pray. Heaven is a part of that Kingdom, where God lives with the angels and saints.",
+  "tags": [
+   "jesus",
+   "bible"
+  ],
+  "kw": [
+   "kingdom of god",
+   "kingdom of heaven",
+   "what is the kingdom",
+   "thy kingdom come",
+   "is heaven the kingdom",
+   "where is gods kingdom",
+   "jesus kingdom",
+   "king of kings"
+  ],
+  "level": "older",
+  "source": "Bible (KJV)",
+  "ref": "Matthew 6:10, 33; Luke 17:20-21",
+  "links": [
+   "b-Matthew-6"
+  ],
+  "verse": {
+   "text": "But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you.",
+   "ref": "Matthew 6:33"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-boy-jesus-temple",
+  "title": "What was Jesus like as a boy?",
+  "text": "The Bible tells us only a little about Jesus as a boy. He grew up in Nazareth with St. Mary and St. Joseph, and He obeyed them. When Jesus was twelve, the family went to Jerusalem for the feast of Passover. On the way home, Mary and Joseph could not find Him. After three days they found Him in the Temple, sitting with the teachers, listening to them and asking questions. Everyone was amazed at how well He understood. Jesus told His mother that He must be in His Father's house. Then He went home with them and obeyed them. The Bible says that Jesus grew in wisdom and in size, and people and God were pleased with Him.",
+  "tags": [
+   "bible",
+   "jesus",
+   "virtue"
+  ],
+  "kw": [
+   "jesus as a boy",
+   "jesus when he was a boy",
+   "jesus was a child",
+   "boy jesus",
+   "jesus in the temple at twelve",
+   "jesus childhood",
+   "young jesus"
+  ],
+  "level": "all",
+  "source": "Bible (KJV)",
+  "ref": "Luke 2:41-52",
+  "links": [],
+  "verse": {
+   "text": "And Jesus increased in wisdom and stature, and in favour with God and man.",
+   "ref": "Luke 2:52"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "faith-god-loves-me",
+  "title": "Does God love me?",
+  "text": "Yes! God loves you very much, and He loves you just as you are. The Bible tells us that God is love. He loved us so much that He sent His Son, Jesus, to save us. God loves you when you are happy and when you are sad. He loves you even when you make a mistake, and He is always ready to forgive you when you say sorry. You never have to do anything special to make God love you. His love for you never ends. When we remember how much God loves us, we want to love Him back and to love other people too.",
+  "tags": [
+   "bible",
+   "virtue",
+   "jesus"
+  ],
+  "kw": [
+   "does god love me",
+   "god loves me",
+   "how much does god love me",
+   "is god proud of me",
+   "god love",
+   "does god care about me",
+   "does god like me"
+  ],
+  "level": "all",
+  "source": "Bible (KJV)",
+  "ref": "John 3:16; 1 John 4:8, 19",
+  "links": [],
+  "verse": {
+   "text": "We love him, because he first loved us.",
+   "ref": "1 John 4:19"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "id": "bible-psalms",
+  "title": "What are the Psalms?",
+  "text": "The Psalms are 150 songs and prayers in the Bible. Many of them were written by King David, who played the harp and sang to God while he took care of his sheep. Some Psalms say thank you to God, some ask for help, and some praise Him with joy. We pray the Psalms in church and in the Agpeya, the book of daily prayers, and we sing them in our hymns. When you are happy, sad or afraid, you can pray a Psalm too. Psalm 23, The Lord is my shepherd, is a favorite of many children.",
+  "tags": [
+   "bible",
+   "prayer",
+   "prophet"
+  ],
+  "kw": [
+   "what are the psalms",
+   "what is a psalm",
+   "book of psalms",
+   "psalm",
+   "psalms",
+   "songs of david",
+   "what is the book of psalms"
+  ],
+  "level": "all",
+  "source": "Bible (KJV)",
+  "ref": "Psalms 1 to 150; Psalm 23",
+  "links": [
+   "b-Psalms-23"
+  ],
+  "verse": {
+   "text": "The LORD is my shepherd; I shall not want.",
+   "ref": "Psalm 23:1"
+  },
+  "verify": false,
+  "approved": false
+ },
+ {
+  "level": "older",
+  "links": [],
+  "verify": true,
+  "approved": false,
+  "id": "church-creed",
+  "title": "What is the Creed?",
+  "text": "The Creed is a short prayer that tells what we believe. We say it together in the Holy Liturgy. It starts with the words, We believe in one God, God the Father, the Almighty, Creator of heaven and earth. It tells us that Jesus Christ is the Son of God, that He was born of the Virgin Mary, died on the cross, rose again on the third day and went up to heaven. It speaks about the Holy Spirit, the Giver of life, about one holy Church, about baptism, and about the life of the world to come. The bishops first wrote the Creed at the Council of Nicaea, where St. Athanasius of Alexandria defended the faith that Jesus is truly God.",
+  "tags": [
+   "liturgy",
+   "church",
+   "history"
+  ],
+  "kw": [
+   "what is the creed",
+   "nicene creed",
+   "apostles creed",
+   "we believe in one god",
+   "council of nicea",
+   "what we believe",
+   "statement of faith"
+  ],
+  "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
+  "ref": "Council of Nicaea, 325"
+ },
+ {
+  "level": "all",
+  "links": [],
+  "verify": false,
+  "approved": false,
+  "id": "bible-acts",
+  "title": "What is the Book of Acts?",
+  "text": "The Book of Acts tells what happened after Jesus went up to heaven. St. Luke wrote it, the same Luke who wrote the Gospel of Luke. It tells how the Holy Spirit came on the apostles at Pentecost, and how the Church began in Jerusalem and then grew in many countries. You can read about St. Peter, St. Stephen and the journeys of St. Paul, who told people everywhere about Jesus. The book shows us that the Church is a family that prays together, shares and helps each other.",
+  "tags": [
+   "bible",
+   "history",
+   "jesus"
+  ],
+  "kw": [
+   "book of acts",
+   "acts of the apostles",
+   "what is acts",
+   "how did the church start",
+   "after jesus went to heaven"
+  ],
+  "source": "Bible (KJV)",
+  "ref": "Acts 1 to 28",
+  "verse": {
+   "text": "But ye shall receive power, after that the Holy Ghost is come upon you: and ye shall be witnesses unto me both in Jerusalem, and in all Judaea, and in Samaria, and unto the uttermost part of the earth.",
+   "ref": "Acts 1:8"
+  }
+ },
+ {
+  "level": "all",
+  "links": [],
+  "verify": false,
+  "approved": false,
+  "id": "bible-sermon-mount",
+  "title": "What is the Sermon on the Mount?",
+  "text": "One day Jesus went up on a mountainside, and a big crowd came to listen. He sat down and taught them many things. We call this the Sermon on the Mount. Jesus began with the Beatitudes, which tell who God blesses: people who are gentle, who are sorry for their sins, who are merciful, who have pure hearts and who make peace. He taught us to love our enemies, to pray, to forgive, and to trust God who takes care of the birds and the flowers. He also gave us the golden rule: treat other people the way you want them to treat you. In this teaching Jesus also taught the Lord's Prayer.",
+  "tags": [
+   "bible",
+   "jesus",
+   "virtue"
+  ],
+  "kw": [
+   "sermon on the mount",
+   "beatitudes",
+   "what are the beatitudes",
+   "blessed are the",
+   "golden rule",
+   "jesus teaching on the mountain"
+  ],
+  "source": "Bible (KJV)",
+  "ref": "Matthew 5 to 7",
+  "verse": {
+   "text": "Therefore all things whatsoever ye would that men should do to you, do ye even so to them",
+   "ref": "Matthew 7:12"
+  }
+ },
+ {
+  "level": "all",
+  "links": [],
+  "verify": false,
+  "approved": false,
+  "id": "virtue-feeling-sad",
+  "title": "Is it okay to feel sad?",
+  "text": "Yes, it is okay to feel sad sometimes. Everyone feels sad, and even Jesus cried when His friend Lazarus died. God is very close to us when we are sad. You can tell Jesus how you feel in a prayer, using your own words. It also helps to talk to someone you trust, like your mom, dad, servant or Abouna. They love you and want to listen. Feeling sad does not last forever. God gives comfort and joy again, and He is always with you.",
+  "tags": [
+   "virtue",
+   "prayer",
+   "jesus"
+  ],
+  "kw": [
+   "is it ok to be sad",
+   "is it okay to be sad",
+   "feeling sad",
+   "why do i feel sad",
+   "jesus cried",
+   "when i am sad",
+   "sad and lonely"
+  ],
+  "source": "Bible (KJV)",
+  "ref": "John 11:35; Psalm 34:18",
+  "verse": {
+   "text": "The LORD is nigh unto them that are of a broken heart; and saveth such as be of a contrite spirit.",
+   "ref": "Psalm 34:18"
+  }
+ },
+ {
   "id": "bible-isaac",
   "title": "Isaac and the ram",
   "text": "God asked Abraham to show how much he trusted Him. Abraham loved his son Isaac very much, but he trusted God even more. Abraham and Isaac climbed a mountain together carrying wood. Isaac asked where the lamb was, and Abraham answered that God would provide one. Just when Abraham was ready to obey, an angel of the Lord called out and told him to stop. Isaac was safe! Abraham then saw a ram caught in a bush, and God had provided exactly what was needed. The Church also sees this story as a picture of Jesus, God's own Son, who later gave Himself for us. The lesson for us is that God can be trusted, and He always takes care of those who trust Him.",
@@ -4286,7 +5119,9 @@
    "god calls",
    "hannah",
    "listening",
-   "voice at night"
+   "voice at night",
+   "who was samuel",
+   "samuel the prophet"
   ],
   "level": "little",
   "source": "Bible (KJV)",
@@ -4614,7 +5449,10 @@
    "deir",
    "desert",
    "wadi el natrun",
-   "monastic"
+   "monastic",
+   "what is a monk",
+   "what is a nun",
+   "monks and nuns"
   ],
   "level": "older",
   "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
@@ -4957,7 +5795,9 @@
    "afterlife",
    "kingdom of heaven",
    "go to heaven",
-   "sky"
+   "sky",
+   "who goes to heaven",
+   "can i go to heaven"
   ],
   "level": "little",
   "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
@@ -5015,7 +5855,11 @@
    "talk to god",
    "how to pray",
    "does god hear",
-   "praying"
+   "praying",
+   "why do christians pray",
+   "how do i talk to god",
+   "what should i pray",
+   "can i pray in my own words"
   ],
   "level": "all",
   "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
@@ -5198,7 +6042,9 @@
    "no answer",
    "god answer",
    "pray not answered",
-   "why not answered"
+   "why not answered",
+   "does god listen",
+   "does god hear my prayers"
   ],
   "level": "all",
   "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
@@ -5227,7 +6073,9 @@
    "alone",
    "omnipresent",
    "where is god",
-   "can god see"
+   "can god see",
+   "is god here",
+   "can god see me"
   ],
   "level": "little",
   "source": "Heavenly Visions kid summary of Coptic Orthodox teaching",
@@ -5473,7 +6321,10 @@
    "road to damascus",
    "epistles",
    "letters",
-   "tarsus"
+   "tarsus",
+   "who is st paul",
+   "paul the apostle",
+   "saint paul"
   ],
   "level": "all",
   "source": "St-Takla.org (our own words)",
@@ -6061,7 +6912,10 @@
    "gospel of john",
    "revelation",
    "disciple",
-   "evangelist"
+   "evangelist",
+   "who is st john",
+   "john the beloved",
+   "john the apostle"
   ],
   "level": "all",
   "source": "St-Takla.org (our own words)",
