@@ -101,7 +101,7 @@ function authPage(mode,startRole){
       catch{m.innerHTML=`<span class="err">No internet connection.</span>`}};
     return}
   let role=startRole||"student";
-  const draw=()=>{f.innerHTML=`<div class="seg" role="group">${SIGNUP_ROLES.concat(role==="master"?["master"]:[]).map(r=>`<button type="button" data-r="${r}" aria-pressed="${role===r}">${TIER[r][0]} ${TIER[r][1]}</button>`).join("")}</div>
+  const draw=()=>{f.innerHTML=`<div class="seg segwrap" role="group">${SIGNUP_ROLES.concat(role==="master"?["master"]:[]).map(r=>`<button type="button" data-r="${r}" aria-pressed="${role===r}">${TIER[r][0]} ${TIER[r][1]}</button>`).join("")}</div>
    ${role==="master"?`<div class="note">👑 Master setup: needs the setup code and the master email.</div>`:role!=="student"?`<div class="note">⏳ ${role==="servant"?"A coordinator or priest":"A priest"} must approve you. For now you can view the app as a guest. 🙏</div>`:""}
    <div class="two"><label class="field">First name<input id="fn" required maxlength="20" autocomplete="given-name"></label>
    <label class="field">Last name<input id="ln" required maxlength="20" autocomplete="family-name"></label></div>

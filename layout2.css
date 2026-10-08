@@ -143,3 +143,4 @@ body:has(.rpill) #app{padding-bottom:130px!important}body:has(.rpill) .toast{bot
 .ds-badge.lock,.as-badge.lock,.ds-badge.lock small,.as-badge.lock small{color:#cfd1f0}
 .as-badge small,.as-stat small{color:#cfd1f0}
 :root[data-theme] #tabbar{background:rgba(38,42,98,.86)}
+.segwrap{display:grid;grid-template-columns:1fr 1fr;border-radius:22px}

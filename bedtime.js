@@ -18,8 +18,7 @@ const S={tab:"stories"};
 const NIGHT=["Thank You, Jesus, for today.","Forgive me for the times I was not kind.","Keep me safe while I sleep, and send Your angels to watch over me.","Amen."];
 function bedPage(){
   night(true);
-  app.innerHTML=`<div class="bedhead"><button class="back" data-go="home">← Back</button></div><div class="moon" aria-hidden="true"><i></i></div>
-  <div class="title-row"><span style="font-size:2rem">🛏️</span><div><h1>Bedtime</h1><div class="tag">Sleepy stories and a night prayer</div></div></div>
+  app.innerHTML=`${topbar("Bedtime","🌙","Sleepy stories and a night prayer")}<div class="moon" aria-hidden="true"><i></i></div>
   <div class="ds-seg" id="btabs" role="group">${[["stories","📚 Stories"],["prayer","🙏 Night prayer"]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${S.tab===t[0]}">${t[1]}</button>`).join("")}</div>
   <div id="bbody" class="sec"></div>`;
   document.getElementById("btabs").onclick=e=>{const b=e.target.closest("[data-tab]");if(!b)return;S.tab=b.dataset.tab;document.querySelectorAll("#btabs button").forEach(x=>x.setAttribute("aria-pressed",x===b));draw()};
@@ -40,7 +39,7 @@ st.textContent=`
 html.bed:root{--bg-base:#070a22;--sky-top:#060920;--sky-mid:#0d1235;--sky-bot:#1a1744;--aur1:rgba(120,110,230,.24);--aur2:rgba(70,120,220,.2);--aur3:rgba(150,90,200,.18);--rays:transparent;--halo:rgba(140,150,255,.25);--stars-op:1;--cloud:rgba(160,170,230,.1);
   --glass:rgba(22,28,64,.62);--glass-b:rgba(255,255,255,.08);--glass-hi:rgba(255,255,255,.07);--bg:#0b1030;--surface:#141a3d;--ink:#e9e4d6;--muted:#9a9ec4;--line:#273058;--gold:#e8c987;--gold-soft:#2a2c52;--sky-soft:#1c2750;color-scheme:dark}
 html.bed .hubhead::before{display:none}
-.bedhead{display:flex}.moon{position:relative;height:120px;display:flex;justify-content:center}
+.bedhead{display:flex}.moon{position:relative;height:84px;display:flex;justify-content:center}
 .moon i{display:block;width:96px;height:96px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fffbe8,#f3e3a8 60%,#d9c27a);box-shadow:0 0 50px 12px rgba(243,227,168,.35);animation:floaty 9s ease-in-out infinite}
 .bstory p{font-size:clamp(1.1rem,.9vw + 1rem,1.4rem);line-height:1.7;margin:0;font-weight:600}
 @media (prefers-reduced-motion:reduce){.moon i{animation:none}}

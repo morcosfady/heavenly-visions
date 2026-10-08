@@ -198,7 +198,7 @@ window.hvLoadAnn=async function(){
   catch{}};
 async function newsPage(){
   const a=A();app.innerHTML=`${topbar("News","📢","From your teachers")}<div id="nl" class="sec">${window.hvSkeleton?hvSkeleton("cards"):`<div class="ds-skel" style="height:100px"></div>`}</div>`;
-  if(!a){document.getElementById("nl").innerHTML=`<div class="empty" data-ic="📢">Login to see the news from your church.</div>`;return}
+  if(!a){document.getElementById("nl").innerHTML=hvGate({scene:"megaphone",title:"News from your church",lead:"Your teachers post news for your class here.",benefits:[["megaphone","Trips, reminders and events"],["calendar","Dates you do not want to miss"]],primary:["Create my profile","signup"],secondary:["I already have one, log in","login"]});return}
   try{const r=await call({action:"an_list"});const hide=jget("hv_an_hide",[]);const it=r.ok?r.items.filter(x=>!hide.includes(x.id)):[];
     document.getElementById("nl").innerHTML=it.length?it.map(x=>annCard(x,false)).join(""):hvEmpty("megaphone","No news yet","Check back on Sunday!");
     jset("hv_an_seen",it.map(x=>x.id).concat(jget("hv_an_seen",[])).slice(0,60))}catch{document.getElementById("nl").innerHTML=`<div class="empty">No internet connection.</div>`}}
