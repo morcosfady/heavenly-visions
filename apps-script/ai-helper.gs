@@ -37,10 +37,16 @@ function who(b, allowStudent) {
   var cache = CacheService.getScriptCache(), key = null, u = null;
   try { key = 'who_' + Utilities.base64EncodeWebSafe(Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, String(b.id) + '|' + String(b.token))); var hit = cache.get(key); if (hit) u = JSON.parse(hit); } catch (e) { key = null; }
   if (!u) {
-    var r = UrlFetchApp.fetch(MAIN_URL, { method: 'post', contentType: 'text/plain', payload: JSON.stringify({ action: 'me', id: b.id, token: b.token }), muteHttpExceptions: true });
-    var j;
-    try { j = JSON.parse(r.getContentText()); } catch (e) { return null; }
-    if (!j || !j.ok || !j.user) return null;
+    /* the games backend is sometimes slow or answers with an error page: try twice, and say "net" (not "denied") when it cannot be reached, so a child is not told to log in again for nothing */
+    var j = null;
+    for (var tries = 0; tries < 2 && !j; tries++) {
+      try {
+        var r = UrlFetchApp.fetch(MAIN_URL, { method: 'post', contentType: 'text/plain', payload: JSON.stringify({ action: 'me', id: b.id, token: b.token }), muteHttpExceptions: true });
+        j = JSON.parse(r.getContentText());
+      } catch (e) { j = null; }
+    }
+    if (!j) return { __net: true };
+    if (!j.ok || !j.user) return null;
     u = j.user;
     if (key) { try { cache.put(key, JSON.stringify(u), 300); } catch (e) {} }
   }
@@ -123,6 +129,7 @@ function doPost(e) {
   try {
     var isLumi = String(b.action || '').indexOf('lumi_') === 0;
     var u = who(b, isLumi);
+    if (u && u.__net) return out({ ok: false, error: 'net' });
     if (!u) return out({ ok: false, error: 'denied' });
     if (isLumi) return out(lumiPost(b, u));
     var topic = clip(b.topic, 120);

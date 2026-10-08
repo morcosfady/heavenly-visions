@@ -132,7 +132,7 @@ async function ask(q){
   if(inp)inp.value="";if(sug)sug.innerHTML="";
   log.insertAdjacentHTML("beforeend",kidHtml(q)+typing());setMood("thinking");scrollEnd();
   const t0=Date.now();let a=null,err="";
-  try{a=await serverAnswer(q)}catch(e){err=String(e);if(e instanceof TypeError||e instanceof SyntaxError){try{a=await serverAnswer(q);err=""}catch(e2){err=String(e2)}}}
+  try{a=await serverAnswer(q)}catch(e){err=String(e);if(e instanceof TypeError||e instanceof SyntaxError||String(e)==="net"){try{a=await serverAnswer(q);err=""}catch(e2){err=String(e2)}}}
   await new Promise(r=>setTimeout(r,Math.max(0,(reduce()?150:700)-(Date.now()-t0))));
   document.getElementById("lmtyping")?.remove();
   const say=(m,msg)=>log.insertAdjacentHTML("beforeend",`<div class="lm-msg lm-l"><div class="lm-face">${hvLumiSvg(m,38)}</div><div class="lm-bub"><p class="lm-t">${E(msg)}</p></div></div>`);
