@@ -9,6 +9,8 @@ const STORIES=[
  {id:"shepherd",ic:"🐑",t:"The Good Shepherd",ref:"Luke 15 and John 10",x:["Jesus told a story about a shepherd who had one hundred sheep. One night, one little sheep got lost.","The shepherd left the others safe and went to look for the lost one. He looked high and low until he found it.","He lifted the sheep onto his shoulders and carried it home with joy.","Jesus is our Good Shepherd. He knows your name, and He will never leave you. Good night."]},
  {id:"storm",ic:"⛵",t:"Jesus calms the storm",ref:"Mark 4",x:["One evening Jesus and His friends were in a little boat. Jesus was tired, and He fell asleep.","Suddenly the wind blew hard, and the waves splashed into the boat. The friends were afraid and woke Jesus.","Jesus stood up and said, Peace. Be still. And the wind stopped, and the sea became calm.","When you feel afraid, Jesus is with you. Take a deep breath and rest. Good night."]}];
 
+const fav=id=>window.hvFavs?hvFavs.get().includes(id):false;
+const streakText=()=>{const n=window.hvBedStreak?hvBedStreak():0;return n?`${n} ${n===1?"night":"nights"} in a row`:"Pray tonight to start your streak"};
 /* ---------- night mode ---------- */
 function night(on){document.documentElement.classList.toggle("bed",on)}
 addEventListener("hashchange",()=>{if(location.hash.slice(1)!=="bedtime")night(false)});
@@ -26,11 +28,11 @@ function bedPage(){
 function draw(){
   const body=document.getElementById("bbody");
   if(S.tab==="stories"){
-    body.innerHTML=`<div class="grid">${STORIES.map(s=>`<button class="tile" style="--c:#4a4fb5" data-st="${s.id}"><span class="ic">${s.ic}</span><span class="nm">${E(s.t)}</span><span class="ct">${E(s.ref)}</span></button>`).join("")}</div><div id="bstory"></div>`;
-    body.onclick=e=>{const t=e.target.closest("[data-st]");if(!t)return;const s=STORIES.find(x=>x.id===t.dataset.st);
-      document.getElementById("bstory").innerHTML=`<article class="card sec bstory"><h2>${s.ic} ${E(s.t)}</h2><div class="tag">${E(s.ref)}</div>${s.x.map(p=>`<p>${E(p)}</p>`).join("")}</article>`;
+    body.innerHTML=`<div class="grid">${STORIES.slice().sort((a,b)=>fav(b.id)-fav(a.id)).map(s=>`<button class="tile" style="--c:#4a4fb5" data-st="${s.id}"><span class="ic">${s.ic}</span>${fav(s.id)?'<span class="bfav" aria-label="Favorite">♥</span>':""}<span class="nm">${E(s.t)}</span><span class="ct">${E(s.ref)}</span></button>`).join("")}</div><div id="bstory"></div>`;
+    body.onclick=e=>{const fb=e.target.closest("[data-fav]");if(fb){const on=window.hvFavs?hvFavs.toggle(fb.dataset.fav):false;fb.setAttribute("aria-pressed",on);fb.textContent=on?"♥ Favorite":"♡ Make favorite";return}const t=e.target.closest("[data-st]");if(!t)return;const s=STORIES.find(x=>x.id===t.dataset.st);
+      document.getElementById("bstory").innerHTML=`<article class="card sec bstory"><button class="btn alt bfavbtn" data-fav="${s.id}" aria-pressed="${fav(s.id)}">${fav(s.id)?"♥ Favorite":"♡ Make favorite"}</button><h2>${s.ic} ${E(s.t)}</h2><div class="tag">${E(s.ref)}</div>${s.x.map(p=>`<p>${E(p)}</p>`).join("")}</article>`;
       document.getElementById("bstory").scrollIntoView({behavior:"smooth",block:"start"})};return}
-  body.innerHTML=`<article class="card sec bstory" style="text-align:center"><div style="font-size:3.4rem">🙏</div><h2>Night prayer</h2>${NIGHT.map(p=>`<p>${E(p)}</p>`).join("")}</article>`;body.onclick=null}
+  body.innerHTML=`<article class="card sec bstory" style="text-align:center"><div style="font-size:3.4rem">🙏</div><h2>Night prayer</h2>${NIGHT.map(p=>`<p>${E(p)}</p>`).join("")}<button class="btn gold" id="prayed">I prayed 🙏</button><p class="tag" id="pstreak">${streakText()}</p></article>`;body.onclick=e=>{if(!e.target.closest("#prayed"))return;const first=window.hvBedDone?hvBedDone():false;document.getElementById("pstreak").textContent=streakText();if(first){if(window.confetti)confetti();if(window.toast)toast("Good night! God bless you")}else if(window.toast)toast("Already done tonight. Sleep well!")}}
 
 window.bedtimeRoute=function(h){if(h==="bedtime"){bedPage();return true}return false};
 

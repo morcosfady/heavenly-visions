@@ -479,8 +479,8 @@ function quiz(id){const Q=QUIZZES.find(q=>q.id===id);if(!Q)return quizzes();let 
 
 /* ================= GAMES ================= */
 function games(){
-  const last=store.get("lastGame",""),LG={"g-memory":["Bible Match","cards"],"g-scramble":["Name Scramble","abc"]}[last];
-  app.innerHTML=`${topbar("Games","🎮","Play & learn","home",["2 games","more soon"])}
+  const last=store.get("lastGame",""),LG={"g-memory":["Bible Match","cards"],"g-scramble":["Name Scramble","abc"],"g-trivia":["Bible Trivia","target"],"g-wordsearch":["Word Search","frame"],"g-storyorder":["Story Order","scroll"],"g-versequest":["Verse Quest","verse"]}[last];
+  app.innerHTML=`${topbar("Games","🎮","Play & learn","home",["6 games","play every day"])}
   <button class="ticket" data-go="join"><span class="tk-l"><b>Enter a game code</b><small>Join your servant's live game</small></span><span class="tk-r" aria-hidden="true">${hvIcon("target",52)}</span></button>
   ${LG?`<button class="lastrow" data-go="${last}"><span aria-hidden="true">${hvIcon(LG[1],38)}</span><span><small>Last played</small><b>${LG[0]}</b></span><span class="lr-go">Play again</span></button>`:""}
   <section class="sec"><h2 class="sech"><span>Play now</span></h2>
@@ -489,8 +489,13 @@ function games(){
    <button class="gcard" style="--c:#d98a2b" data-go="g-scramble"><span class="gc-art" aria-hidden="true">${hvIcon("abc",92)}</span><span class="gc-t"><b>Name Scramble</b><small>Fix the Bible names</small></span><span class="gc-m"><i>3 min</i><i>Medium</i></span></button>
   </div></section>
   <div id="kidGames"></div>
-  <section class="sec"><h2 class="sech"><span>Coming soon</span></h2>
-  <div class="grid ggrid">${[["Bible Trivia","target","#8e6bd1"],["Word Search","frame","#3fae6a"],["Story Order","scroll","#e86f8a"],["Verse Quest","verse","#d4553b"]].map(c=>`<div class="gcard soon" style="--c:${c[2]}" aria-label="${c[0]}, coming soon"><span class="gc-art" aria-hidden="true">${hvIcon(c[1],80)}</span><span class="gc-t"><b>${c[0]}</b><small>Coming soon</small></span><span class="gc-lock" aria-hidden="true">${hvIcon("lock",30)}</span></div>`).join("")}</div></section>`;
+  <section class="sec"><h2 class="sech"><span>More games</span></h2>
+  <div class="grid ggrid">
+   <button class="gcard" style="--c:#8e6bd1" data-go="g-trivia"><span class="gc-art" aria-hidden="true">${hvIcon("target",92)}</span><span class="gc-t"><b>Bible Trivia</b><small>10 questions from every lesson</small></span><span class="gc-m"><i>3 min</i><i>Medium</i></span></button>
+   <button class="gcard" style="--c:#3fae6a" data-go="g-wordsearch"><span class="gc-art" aria-hidden="true">${hvIcon("frame",92)}</span><span class="gc-t"><b>Word Search</b><small>Find the hidden words</small></span><span class="gc-m"><i>4 min</i><i>Easy</i></span></button>
+   <button class="gcard" style="--c:#e86f8a" data-go="g-storyorder"><span class="gc-art" aria-hidden="true">${hvIcon("scroll",92)}</span><span class="gc-t"><b>Story Order</b><small>Put the story in order</small></span><span class="gc-m"><i>2 min</i><i>Easy</i></span></button>
+   <button class="gcard" style="--c:#d4553b" data-go="g-versequest"><span class="gc-art" aria-hidden="true">${hvIcon("verse",92)}</span><span class="gc-t"><b>Verse Quest</b><small>Find the missing word</small></span><span class="gc-m"><i>3 min</i><i>Medium</i></span></button>
+  </div></section>`;
   if(window.kidGames)kidGames($("#kidGames"))}
 const MEM=[["🚢","Noah's Ark"],["🦁","Daniel"],["🕊️","Holy Spirit"],["⭐","Star of Bethlehem"],["🐟","5 Loaves & 2 Fish"],["🌈","God's Promise"],["🐑","Good Shepherd"],["👑","King David"]];
 function memory(){const cards=[...MEM,...MEM].map((m,i)=>({m,i,id:MEM.indexOf(m)})).sort(()=>Math.random()-.5);let open=[],got=0,moves=0,lock=false;
@@ -524,6 +529,7 @@ const BGROUPS=[["Law",0,5,"#d98a2b"],["History",5,17,"#4a8fd8"],["Wisdom",17,22,
 function bible(){const last=store.get("lastRead",null),recent=store.get("recent",[]),tab=store.get("btab","ot");
   const grp=g=>`<section class="bgrp" style="--gc:${g[3]}"><h3><i></i>${g[0]}<small>${g[2]-g[1]} books</small></h3><div class="books">${BOOKS.slice(g[1],g[2]).map(b=>`<button class="bk" data-book="${b[0].toLowerCase()}" data-go="b-${encodeURIComponent(b[0])}">${b[0]}<small>${b[1]} ch</small></button>`).join("")}</div></section>`;
   app.innerHTML=`${topbar("The Bible","📖","Choose a book","home",["66 books",last?"Reading "+esc(last.b)+" "+last.c:""])}
+  ${window.hvPlanCard?hvPlanCard():""}
   ${last?`<button class="bcont" data-go="b-${encodeURIComponent(last.b)}-${last.c}"><span aria-hidden="true">${hvIcon("book",36)}</span><span><small>Continue reading</small><b>${esc(last.b)} ${last.c}</b></span><i>Open</i></button>`:""}
   ${recent.length?`<div class="brec" aria-label="Recently read"><small>Recently read</small>${recent.map(r=>`<button class="ds-chip" data-go="b-${encodeURIComponent(r.b)}-${r.c}">${esc(r.b)} ${r.c}</button>`).join("")}</div>`:""}
   <label class="search"><span aria-hidden="true">🔍</span><input id="bq" type="search" placeholder="Find a book (e.g. John, Psalms)" autocomplete="off"></label>
@@ -540,7 +546,7 @@ function bibleBook(name){const b=BOOKS.find(x=>x[0]===name);if(!b)return bible()
 async function bibleRead(name,ch){const b=BOOKS.find(x=>x[0]===name);if(!b)return bible();ch=Math.min(Math.max(1,ch),b[1]);
   const fs=store.get("fs",1.08),bt=store.get("bt","web")==="kjv"?"kjv":"web";store.set("lastRead",{b:name,c:ch});
   store.set("recent",[{b:name,c:ch}].concat(store.get("recent",[]).filter(r=>r.b!==name)).slice(0,5));
-  if(window.hvAward)hvAward("bible",name+"-"+ch,name+" "+ch);
+  if(window.hvAward)hvAward("bible",name+"-"+ch,name+" "+ch);if(window.hvPlanRead)hvPlanRead(name,ch);
   const bi=BOOKS.indexOf(b),prev=ch>1?[name,ch-1]:bi>0?[BOOKS[bi-1][0],BOOKS[bi-1][1]]:null,next=ch<b[1]?[name,ch+1]:bi<BOOKS.length-1?[BOOKS[bi+1][0],1]:null;
   const gt=x=>x?`b-${encodeURIComponent(x[0])}-${x[1]}`:"";
   const link=(x,l)=>x?`<button class="btn alt" data-go="${gt(x)}">${l}</button>`:"";
@@ -579,7 +585,7 @@ function route(){closeSheet();const h=decodeURIComponent(location.hash.slice(1)|
   else if(h==="games")games();else if(h==="g-memory"){store.set("lastGame","g-memory");memory()}else if(h==="g-scramble"){store.set("lastGame","g-scramble");scramble()}
   else if(h==="bible")bible();
   else if(h.startsWith("b-")){const m=h.slice(2).match(/^(.*?)(?:-(\d+))?$/);m[2]?bibleRead(m[1],+m[2]):bibleBook(m[1])}
-  else if(!(window.builderRoute&&builderRoute(h))&&!(window.profileRoute&&profileRoute(h))&&!(window.liveRoute&&liveRoute(h))&&!(window.lgRoute&&lgRoute(h))&&!(window.kidsRoute&&kidsRoute(h))&&!(window.faithRoute&&faithRoute(h))&&!(window.bedtimeRoute&&bedtimeRoute(h))&&!(window.coloringRoute&&coloringRoute(h))&&!(window.servantsRoute&&servantsRoute(h))&&!(window.churchRoute&&churchRoute(h))&&!(window.arenaRoute&&arenaRoute(h))&&!(window.aiRoute&&aiRoute(h))&&!(window.lumiRoute&&lumiRoute(h))&&!(window.lumiChatRoute&&lumiChatRoute(h))&&!(window.shellRoute&&shellRoute(h))){hub();if(h!=="home"){try{history.replaceState(null,"","#home")}catch{}toast("That page moved")}}window.scrollTo(0,0)}
+  else if(!(window.builderRoute&&builderRoute(h))&&!(window.profileRoute&&profileRoute(h))&&!(window.liveRoute&&liveRoute(h))&&!(window.lgRoute&&lgRoute(h))&&!(window.kidsRoute&&kidsRoute(h))&&!(window.faithRoute&&faithRoute(h))&&!(window.bedtimeRoute&&bedtimeRoute(h))&&!(window.coloringRoute&&coloringRoute(h))&&!(window.servantsRoute&&servantsRoute(h))&&!(window.churchRoute&&churchRoute(h))&&!(window.arenaRoute&&arenaRoute(h))&&!(window.aiRoute&&aiRoute(h))&&!(window.lumiRoute&&lumiRoute(h))&&!(window.lumiChatRoute&&lumiChatRoute(h))&&!(window.games2Route&&games2Route(h))&&!(window.shellRoute&&shellRoute(h))){hub();if(h!=="home"){try{history.replaceState(null,"","#home")}catch{}toast("That page moved")}}window.scrollTo(0,0)}
 function go(h){const t="#"+h;if(location.hash===t)route();else location.hash=h}
 document.addEventListener("click",async e=>{
   const g=e.target.closest("[data-go]");if(g){if(g.hasAttribute("data-close"))closeSheet();go(g.dataset.go);return}

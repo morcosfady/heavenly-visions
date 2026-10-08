@@ -144,3 +144,42 @@ body:has(.rpill) #app{padding-bottom:130px!important}body:has(.rpill) .toast{bot
 .as-badge small,.as-stat small{color:#cfd1f0}
 :root[data-theme] #tabbar{background:rgba(38,42,98,.86)}
 .segwrap{display:grid;grid-template-columns:1fr 1fr;border-radius:22px}
+
+/* ---------- Engagement: weekly goal, reading plan, tips ---------- */
+#hvengage{display:grid;gap:10px;margin:6px 0 12px}
+.wkgoal{background:var(--glass);border:1px solid var(--glass-b);border-radius:20px;padding:12px 14px;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.wkgoal.ok{border-color:rgba(243,197,106,.8);box-shadow:0 0 18px rgba(243,197,106,.35)}
+.wk-h{display:flex;justify-content:space-between;align-items:center;font-size:1.02rem}
+.wk-b{font-weight:900;color:var(--gold);background:rgba(255,255,255,.12);padding:2px 10px;border-radius:999px}
+.wk-bar{height:10px;border-radius:99px;background:rgba(255,255,255,.16);margin:8px 0 10px;overflow:hidden}
+.wk-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#f3c56a,#ffdf9a);transition:width .6s var(--ease-out,ease)}
+.wk-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.wk-s{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;padding:8px 4px;border-radius:14px;border:1px solid var(--glass-b);background:rgba(255,255,255,.07);color:inherit;font:inherit;cursor:pointer;min-height:76px}
+.wk-s.d{background:rgba(95,208,143,.18);border-color:rgba(95,208,143,.6)}
+.wk-i{font-size:1.4rem;line-height:1}.wk-s b{font-size:.78rem}.wk-s small{opacity:.85;font-weight:800}
+.plancard,.tipcard{display:flex;align-items:center;gap:12px;background:var(--glass);border:1px solid var(--glass-b);border-radius:18px;padding:10px 14px;color:inherit;font:inherit;text-align:left;width:100%;position:relative}
+.plancard{margin:10px 0}.plancard.dn{border-color:rgba(95,208,143,.6)}
+.pl-i,.tp-i{font-size:1.9rem;line-height:1;flex:none}
+.pl-t,.tp-t{display:flex;flex-direction:column;flex:1;min-width:0}.pl-t small,.tp-t small{opacity:.85}
+.pl-go{flex:none;min-height:44px}
+.tipcard .btn{flex:none;min-height:44px}
+.tipcard.sun{cursor:pointer;border-color:rgba(243,197,106,.8)}
+.tp-x{flex:none;width:44px;height:44px;border:0;background:transparent;color:inherit;font-size:1.5rem;cursor:pointer;margin:-8px -8px -8px -4px}
+.steps{padding-left:22px;line-height:1.7}
+.bfav{position:absolute;top:6px;right:8px;color:#ff8aa6;font-size:1.1rem}
+.bfavbtn{margin-bottom:8px;min-height:44px}
+/* ---------- More games ---------- */
+.wsgrid{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:3px;max-width:420px;margin:0 auto}
+.wsc{aspect-ratio:1;border:1px solid var(--glass-b);background:var(--glass);color:inherit;font:900 clamp(.85rem,4.2vw,1.15rem) inherit;border-radius:8px;padding:0;cursor:pointer;min-width:0}
+.wsc.s{background:var(--gold);color:#2a1b00}
+.wsc.f{background:rgba(95,208,143,.45);border-color:rgba(95,208,143,.9)}
+.wswords{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}
+.wswords span{padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.12);font-weight:800;font-size:.85rem}
+.wswords span.d{text-decoration:line-through;opacity:.6;background:rgba(95,208,143,.25)}
+.sorder{display:grid;gap:8px}
+.so{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px;min-height:56px;border-radius:16px;border:1px solid var(--glass-b);background:var(--glass);color:inherit;font:inherit;font-weight:800;cursor:pointer}
+.so i{flex:none;width:32px;height:32px;border-radius:50%;border:2px dashed var(--glass-b);display:grid;place-items:center;font-style:normal;font-weight:900}
+.so.on{border-color:var(--gold);background:rgba(243,197,106,.16)}.so.on i{background:var(--gold);color:#2a1b00;border:0}
+.vq .blank{display:inline-block;min-width:4.5em;border-bottom:3px solid var(--gold);text-decoration:none}
+.wk-s>span:last-child{display:flex;flex-direction:column;gap:1px}
+.wk-s b{line-height:1.15}
