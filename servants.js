@@ -197,7 +197,7 @@ window.hvLoadAnn=async function(){
     box.innerHTML=`<section class="sec" aria-label="Announcements"><h2 class="sech"><span>📢 News${unread?` <i class="andot"></i>`:""}${off?` <small class="spl" style="--sc:#9a9ec4">Offline</small>`:""}</span></h2><div class="today">${items.slice(0,4).map(x=>annCard(x,false)).join("")}</div>${items.length>4?`<button class="btn alt" data-go="news">See all (${items.length})</button>`:""}</section>`}
   catch{}};
 async function newsPage(){
-  const a=A();app.innerHTML=`${topbar("News","📢","From your teachers")}<div id="nl" class="sec"><div class="ds-skel" style="height:100px"></div></div>`;
+  const a=A();app.innerHTML=`${topbar("News","📢","From your teachers")}<div id="nl" class="sec">${window.hvSkeleton?hvSkeleton("cards"):`<div class="ds-skel" style="height:100px"></div>`}</div>`;
   if(!a){document.getElementById("nl").innerHTML=`<div class="empty" data-ic="📢">Login to see the news from your church.</div>`;return}
   try{const r=await call({action:"an_list"});const hide=jget("hv_an_hide",[]);const it=r.ok?r.items.filter(x=>!hide.includes(x.id)):[];
     document.getElementById("nl").innerHTML=it.length?it.map(x=>annCard(x,false)).join(""):hvEmpty("megaphone","No news yet","Check back on Sunday!");

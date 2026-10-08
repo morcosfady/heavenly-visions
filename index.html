@@ -184,6 +184,7 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;font-weight:700}
 <link rel="stylesheet" href="theme.css?v=2">
 <link rel="stylesheet" href="ds.css?v=8">
 <link rel="stylesheet" href="layout2.css?v=104">
+<link rel="stylesheet" href="motion.css?v=2">
 
 <div id="intro" aria-label="Intro">
   <div class="intro-logo" id="introEnd"><img id="introLogo" alt="Heavenly Visions"><p>Learn · Play · Grow in Faith</p></div>
@@ -202,6 +203,7 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;font-weight:700}
 <script src="intro.js?v=3"></script>
 <script src="design.js?v=16"></script>
 <script src="clay2.js?v=3"></script>
+<script src="motion.js?v=1"></script>
 <script src="layout.js?v=2"></script>
 <script src="ds.js?v=1"></script>
 <script src="shell.js?v=7"></script>
@@ -697,8 +699,8 @@ function quiz(id){const Q=QUIZZES.find(q=>q.id===id);if(!Q)return quizzes();let 
   function end(){const st=starsFor(score,order.length);if(window.hvAward){hvAward("quiz",id+"-"+todayKey(),Q.name,score);if(st===3)hvAward("quizbonus",id+"-"+todayKey(),Q.name)}const best=store.get("best",{});if(best[id]==null||score>best[id]){best[id]=score;store.set("best",best)}
     if(st===3)confetti();
     app.innerHTML=`${topbar(Q.name,Q.ic,"Quiz complete","quizzes")}
-    <div class="qcard" style="text-align:center"><div class="stars">${"⭐".repeat(st)}${"☆".repeat(3-st)}</div>
-    <h2 style="font-size:1.6rem">${score} / ${order.length}</h2><p class="tag" style="margin:0">${st===3?"Perfect! God bless you!":st===2?"Great job!":st===1?"Good try! Watch the lesson and try again.":"Watch the lesson and try again!"}</p>
+    <div class="qcard" style="text-align:center"><div class="stars stq-row" aria-label="${st} of 3 stars">${[1,2,3].map(n=>`<span class="stq${n<=st?"":" off"}" style="--i:${n}">${hvIcon("star",56)}</span>`).join("")}</div>
+    <h2 id="qsc" data-count="${score}" data-of="${order.length}" style="font-size:1.6rem">0 / ${order.length}</h2><p class="tag" style="margin:0">${st===3?"Perfect! God bless you!":st===2?"Great job!":st===1?"Good try! Watch the lesson and try again.":"Watch the lesson and try again!"}</p>
     <div class="btns"><button class="btn gold" data-go="quiz-${id}" data-again>🔁 Try again</button>${Q.v?`<button class="btn" data-v="${Q.v}">▶ Watch the lesson</button>`:""}<button class="btn alt" data-go="quizzes">All quizzes</button></div></div>`}
   draw()}
 
@@ -772,7 +774,7 @@ async function bibleRead(name,ch){const b=BOOKS.find(x=>x[0]===name);if(!b)retur
   app.innerHTML=`<div class="rprog" aria-hidden="true"><i id="rpi"></i></div>
   <div class="topbar hvbar"><button class="back" data-go="b-${encodeURIComponent(name)}">← Back</button><span class="hvmini" aria-hidden="true"><b>${name} ${ch}</b></span></div>
   <header class="chead"><small>${bt==="kjv"?"King James Version":"World English Bible"}</small><h1>${name} ${ch}</h1><i class="orn" aria-hidden="true"></i></header>
-  <article class="reader" id="rd" style="--fs:${fs}rem"><p class="tag">Loading…</p></article>
+  <article class="reader" id="rd" style="--fs:${fs}rem">${window.hvSkeleton?hvSkeleton("text"):"<p class=\"tag\">Loading…</p>"}</article>
   <div class="navrow">${link(prev,"‹ Previous")}${link(next,"Next ›")}</div>
   <a class="btn alt" href="https://www.biblegateway.com/passage/?search=${encodeURIComponent(name+" "+ch)}&version=NKJV" target="_blank" rel="noopener">Read in NKJV ↗</a>
   <div class="rpill" role="toolbar" aria-label="Reading options"><div class="seg" role="group" aria-label="Translation"><button data-bt="web" aria-pressed="${bt==="web"}">WEB</button><button data-bt="kjv" aria-pressed="${bt==="kjv"}">KJV</button></div><span class="rsep"></span><div class="seg" role="group" aria-label="Text size"><button data-fs="-1" aria-label="Smaller text">A−</button><button data-fs="1" aria-label="Bigger text">A+</button></div></div>`;
@@ -816,7 +818,7 @@ document.addEventListener("click",async e=>{
   const c=e.target.closest("[data-copy]");if(c){try{await navigator.clipboard.writeText(c.dataset.copy);toast("Link copied ✅")}catch{toast(c.dataset.copy)}}
 });
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSheet()});
-addEventListener("hashchange",route);
+addEventListener("hashchange",()=>window.hvTransition?hvTransition(route):route());
 runIntro();route();
 if(IS_LIVE){const l=document.createElement("link");l.rel="manifest";l.href="manifest.json";document.head.appendChild(l);
   const a=document.createElement("link");a.rel="apple-touch-icon";a.href="icon-180.png";document.head.appendChild(a);

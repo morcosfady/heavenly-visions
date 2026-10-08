@@ -1,0 +1,93 @@
+/* Heavenly Visions: motion system (premium upgrade, Phase 5).
+   Tokens first, then transitions, presses, entrances, quiz and game feedback, skeletons.
+   Rules: animate transform and opacity only, everything off with prefers-reduced-motion, ambient loops pause when the tab is hidden. */
+:root{
+  --m-press:120ms;--m-fast:200ms;--m-mid:300ms;--m-slow:400ms;--m-cele:700ms;
+  --ease-out:cubic-bezier(.2,.8,.2,1);--ease-in:cubic-bezier(.4,0,1,1);--spring:cubic-bezier(.34,1.56,.64,1)}
+@property --p{syntax:"<number>";inherits:false;initial-value:0}
+
+/* ---------- page and shared element transitions (View Transitions API) ---------- */
+#tabbar{view-transition-name:hvtab}#lmfab{view-transition-name:hvfab}
+::view-transition-old(root),::view-transition-new(root){animation-duration:var(--m-mid);animation-timing-function:var(--ease-out);animation-fill-mode:both}
+html[data-vt="fwd"]::view-transition-old(root){animation-name:vt-out-l}html[data-vt="fwd"]::view-transition-new(root){animation-name:vt-in-r}
+html[data-vt="back"]::view-transition-old(root){animation-name:vt-out-r}html[data-vt="back"]::view-transition-new(root){animation-name:vt-in-l}
+html[data-vt="tab"]::view-transition-old(root){animation-name:vt-fade-out}html[data-vt="tab"]::view-transition-new(root){animation-name:vt-fade-in}
+@keyframes vt-out-l{to{opacity:0;transform:translateX(-14px)}}@keyframes vt-in-r{from{opacity:0;transform:translateX(14px)}}
+@keyframes vt-out-r{to{opacity:0;transform:translateX(14px)}}@keyframes vt-in-l{from{opacity:0;transform:translateX(-14px)}}
+@keyframes vt-fade-out{to{opacity:0}}@keyframes vt-fade-in{from{opacity:0}}
+::view-transition-group(hvshared){animation-duration:var(--m-slow);animation-timing-function:var(--ease-out)}
+::view-transition-old(hvshared),::view-transition-new(hvshared){height:100%;object-fit:cover}
+/* fallback when the API is missing: a short fade on every page */
+@supports not (view-transition-name:none){#app{animation:hvfade var(--m-fast) var(--ease-out)}}
+@keyframes hvfade{from{opacity:0;transform:translateY(8px)}}
+
+/* ---------- press feedback ---------- */
+[data-go],[data-v],[data-la],.btn,.door,.tile,.qcov,.gcard,.acard,.row,.mdoor,.calwide,.bk,.cd,.ticket,.lastrow,.bcont,.cont2,.tipbub,.postcard,.curcard,.opt,.ch{transition:transform var(--m-press) var(--ease-out),box-shadow var(--m-fast) var(--ease-out),filter var(--m-fast)}
+[data-go]:active,[data-v]:active,[data-la]:active,.btn:active,.door:active,.tile:active,.qcov:active,.gcard:active,.acard:active,.row:active,.mdoor:active,.calwide:active,.bk:active,.cd:active,.ticket:active,.opt:active:not(:disabled){transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){
+  .door,.gcard,.qcov,.tile,.acard,.mdoor{transform:perspective(800px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));will-change:transform}
+  .door:hover,.gcard:hover,.qcov:hover,.tile:hover,.acard:hover,.mdoor:hover{transform:perspective(800px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(-3px);box-shadow:0 22px 36px -16px rgba(0,0,0,.6);filter:brightness(1.04)}
+}
+
+/* ---------- entrances ---------- */
+@keyframes hvrise{from{opacity:0;transform:translateY(14px) scale(.97)}}
+.hv-home-first .doors .door{animation:hvrise var(--m-slow) var(--ease-out) both;animation-delay:calc(var(--i,0)*70ms)}
+.doors .door:nth-child(1){--i:0}.doors .door:nth-child(2){--i:1}.doors .door:nth-child(3){--i:2}.doors .door:nth-child(4){--i:3}.doors .door:nth-child(5){--i:4}
+.hv-home-first .hubhead img{animation:hvrise .6s var(--ease-out) both}
+.hubhead img{animation:hvhalo 6s ease-in-out infinite alternate}
+@keyframes hvhalo{from{filter:drop-shadow(0 0 18px rgba(255,205,110,.5)) brightness(1.04)}to{filter:drop-shadow(0 0 30px rgba(255,205,110,.85)) brightness(1.1)}}
+.hv-in{animation:hvrise var(--m-mid) var(--ease-out) both}
+.list.cols>*,.grid>*{animation:hvfade var(--m-mid) var(--ease-out) both}
+.grid>*:nth-child(n+9),.list.cols>*:nth-child(n+9){animation-delay:0ms}
+.grid>*:nth-child(1){animation-delay:0ms}.grid>*:nth-child(2){animation-delay:40ms}.grid>*:nth-child(3){animation-delay:80ms}.grid>*:nth-child(4){animation-delay:120ms}.grid>*:nth-child(5){animation-delay:160ms}.grid>*:nth-child(6){animation-delay:200ms}.grid>*:nth-child(7){animation-delay:240ms}.grid>*:nth-child(8){animation-delay:280ms}
+
+/* ---------- progress ---------- */
+.pring{animation:hvring .9s var(--ease-out) both}@keyframes hvring{from{--p:0}}
+.cbar i,.qprog i,.rprog i{animation:hvbar .8s var(--ease-out) both;transform-origin:left}@keyframes hvbar{from{transform:scaleX(0)}}
+.kc-st b{animation:hvpop .6s var(--spring) both}@keyframes hvpop{from{opacity:0;transform:scale(.6)}}
+
+/* ---------- quiz feedback ---------- */
+.opt.right{animation:hvbounce .55s var(--spring) both;border-color:var(--good)!important;box-shadow:0 0 0 3px rgba(95,208,143,.35),0 0 22px rgba(95,208,143,.45)}
+.opt.right .ab{background:var(--good);border-color:var(--good);color:#fff}
+.opt.wrong{animation:hvshake .42s ease-in-out both;border-color:var(--bad,#ff8a70)!important}
+@keyframes hvbounce{0%{transform:scale(1)}40%{transform:scale(1.04)}100%{transform:scale(1)}}
+@keyframes hvshake{0%,100%{transform:none}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+.stars.stq-row{display:flex;justify-content:center;gap:6px;margin:6px 0}
+.stq{display:inline-block;opacity:0;transform:translateY(-46px) scale(.5) rotate(-20deg);animation:hvdrop .6s var(--spring) forwards;animation-delay:calc(var(--i)*.3s + .2s)}
+.stq.off{filter:grayscale(1) opacity(.5)}
+@keyframes hvdrop{to{opacity:1;transform:none}}
+
+/* ---------- match game ---------- */
+.mc{perspective:600px}
+.mc.open .f{display:block;animation:hvflip .45s var(--ease-out) both}
+@keyframes hvflip{from{transform:rotateY(90deg) scale(.9);opacity:.2}to{transform:none;opacity:1}}
+.mc.got{animation:hvmatch .6s var(--spring) both;box-shadow:0 0 18px rgba(243,197,106,.75)}
+@keyframes hvmatch{0%{transform:scale(1)}40%{transform:scale(1.12) rotate(-2deg)}100%{transform:scale(1)}}
+
+/* ---------- level up ---------- */
+.lvlumi{animation:hvfloat 2.4s ease-in-out infinite;margin-bottom:-8px}
+
+/* ---------- gestures ---------- */
+.ptr{position:fixed;left:50%;top:10px;z-index:2400;transform:translate(-50%,-70px);display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;background:var(--glass);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--glass-b);font-weight:800;box-shadow:var(--sh);transition:transform var(--m-fast) var(--ease-out);pointer-events:none}
+.ptr.on{transform:translate(-50%,0)}
+.toast{transition:transform var(--m-fast) var(--ease-out),opacity var(--m-fast)}
+.lp{position:relative}.lp::after{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(255,255,255,.14);animation:hvfade .2s both;pointer-events:none}
+
+/* ---------- skeletons that match the layout ---------- */
+.sk{position:relative;overflow:hidden;border-radius:18px;background:rgba(255,255,255,.1)}
+.sk::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.22) 50%,transparent 70%);background-size:250% 100%;animation:hvshimmer 1.4s linear infinite}
+@keyframes hvshimmer{from{background-position:150% 0}to{background-position:-50% 0}}
+.sk-card{height:132px}.sk-line{height:14px;margin:10px 0;border-radius:8px}.sk-line.s{width:60%}.sk-row{display:grid;grid-template-columns:112px 1fr;gap:12px;align-items:center;height:80px;padding:8px}.sk-row i{display:block;height:100%;border-radius:12px;background:rgba(255,255,255,.12)}
+
+/* ---------- paused when the tab is hidden, and reduced motion ---------- */
+.hv-paused *,.hv-paused *::before,.hv-paused *::after{animation-play-state:paused!important}
+@media (prefers-reduced-motion:reduce){
+  .hv-home-first .doors .door,.hv-home-first .hubhead img,.hubhead img,.hv-in,.list.cols>*,.grid>*,.pring,.cbar i,.qprog i,.rprog i,.kc-st b,.opt.right,.opt.wrong,.stq,.mc.open .f,.mc.got,.lvlumi,.sk::after{animation:none!important}
+  .stq{opacity:1;transform:none}
+  [data-go],[data-v],.btn,.door,.tile,.qcov,.gcard,.acard,.row,.mdoor{transition:none}
+  [data-go]:active,[data-v]:active,.btn:active,.door:active,.tile:active,.qcov:active,.gcard:active,.acard:active,.row:active,.mdoor:active{transform:none}
+  .door,.gcard,.qcov,.tile,.acard,.mdoor{transform:none!important}
+}
+/* toasts sit at the top so they never cover the tab bar, the reading pill or a link at the bottom */
+.toast{top:calc(12px + env(safe-area-inset-top))!important;bottom:auto!important}
+body:has(.rpill) .toast{top:calc(12px + env(safe-area-inset-top))!important;bottom:auto!important}

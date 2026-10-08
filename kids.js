@@ -133,7 +133,7 @@ const S={tab:"avatar",slot:"all",cur:null};
 /* ---------- level up, badges ---------- */
 window.hvLevelUp=function(lv){
   const o=document.createElement("div");o.className="lvup";o.setAttribute("role","dialog");o.setAttribute("aria-label","Level up");
-  o.innerHTML=`<div class="lvbox"><div class="lvglow"></div><div class="lvic">${lv.ic}</div><div class="lvk">LEVEL UP!</div><div class="lvn">${E(lv.name)}</div><button class="btn gold" id="lvok">Wonderful!</button></div>`;
+  o.innerHTML=`<div class="lvbox"><div class="lvglow"></div>${window.hvLumiSvg?`<div class="lvlumi" aria-hidden="true">${hvLumiSvg("excited",110)}</div>`:""}<div class="lvic">${lv.ic}</div><div class="lvk">LEVEL UP!</div><div class="lvn">${E(lv.name)}</div><button class="btn gold" id="lvok">Wonderful!</button></div>`;
   document.body.appendChild(o);if(window.confetti)confetti();
   const close=()=>o.remove();o.querySelector("#lvok").onclick=close;o.addEventListener("click",e=>{if(e.target===o)close()});o.querySelector("#lvok").focus()};
 window.hvBadgeToast=function(keys){(keys||[]).forEach((k,i)=>{const b=BADGES.find(x=>x[0]===k);if(b)setTimeout(()=>toast("🏅 New badge: "+b[2]),900+i*2300)})};
