@@ -428,7 +428,7 @@ function servants(){
   <div class="card"><b>📌 Install the app</b><p class="tag" style="margin:4px 0 0">Android: Chrome menu, then "Add to Home screen". iPhone: Safari Share button, then "Add to Home Screen".</p></div>
   <a class="btn yt" href="${PLAYLIST}" target="_blank" rel="noopener">▶ All lessons playlist on YouTube</a>`;
   $("#pinForm").addEventListener("submit",e=>{e.preventDefault();servantPin=$("#pin").value;loadAtt()});
-  if(window.hvLumiBadge)hvLumiBadge();
+  hvLoad("lumi").then(()=>{lazyDone.lumi=1;if(window.hvLumiBadge&&document.getElementById("pinForm"))hvLumiBadge()}).catch(()=>{});
 }
 let servantPin="";
 async function loadAtt(day){const out=$("#codeOut");
@@ -496,7 +496,7 @@ function games(){
    <button class="gcard" style="--c:#e86f8a" data-go="g-storyorder"><span class="gc-art" aria-hidden="true">${hvIcon("scroll",92)}</span><span class="gc-t"><b>Story Order</b><small>Put the story in order</small></span><span class="gc-m"><i>2 min</i><i>Easy</i></span></button>
    <button class="gcard" style="--c:#d4553b" data-go="g-versequest"><span class="gc-art" aria-hidden="true">${hvIcon("verse",92)}</span><span class="gc-t"><b>Verse Quest</b><small>Find the missing word</small></span><span class="gc-m"><i>3 min</i><i>Medium</i></span></button>
   </div></section>`;
-  if(window.kidGames)kidGames($("#kidGames"))}
+  hvLoad("play").then(()=>{lazyDone.play=1;const b=document.getElementById("kidGames");if(b&&window.kidGames)kidGames(b)}).catch(()=>{})}
 const MEM=[["🚢","Noah's Ark"],["🦁","Daniel"],["🕊️","Holy Spirit"],["⭐","Star of Bethlehem"],["🐟","5 Loaves & 2 Fish"],["🌈","God's Promise"],["🐑","Good Shepherd"],["👑","King David"]];
 function memory(){const cards=[...MEM,...MEM].map((m,i)=>({m,i,id:MEM.indexOf(m)})).sort(()=>Math.random()-.5);let open=[],got=0,moves=0,lock=false;
   app.innerHTML=`${topbar("Bible Match","🃏","Find all 8 pairs","games")}<div class="stat"><span id="mv">Moves: 0</span><span id="pr">Pairs: 0/8</span></div>
@@ -577,7 +577,14 @@ function confetti(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)re
     t-t0<2600?requestAnimationFrame(f):(c.hidden=true)})(t0)}
 
 /* ================= ROUTER ================= */
+/* big tools that only servants or a few screens need are loaded the first time they are used (faster first open) */
+const LZ={play:["builder.js?v=7","live.js?v=2"],att:["attsheet.js?v=2"],arena:["arena.js?v=4"],lumi:["lumi.js?v=4"]},LZP={};
+function hvLoad(k){return LZP[k]||(LZP[k]=LZ[k].reduce((p,src)=>p.then(()=>new Promise((ok,no)=>{const e=document.createElement("script");e.src=src;e.async=false;e.onload=ok;e.onerror=no;document.head.appendChild(e)})),Promise.resolve()).catch(e=>{delete LZP[k];throw e}))}
+window.hvLoad=hvLoad;
+const lazyKey=h=>h==="builder"||h==="join"||/^(bnew|bedit|bplay|gplay|j|cls|live)-/.test(h)?"play":h==="attsheet"?"att":h==="report"?"arena":h==="servants"||/^lumi-(cards|gold|report|alerts|settings)$/.test(h)?"lumi":"";
+const lazyDone={};
 function route(){closeSheet();const h=decodeURIComponent(location.hash.slice(1)||"home");
+  const lk=lazyKey(h);if(lk&&!lazyDone[lk]){app.innerHTML=`<div class="ds-skel" style="height:160px;margin:24px 0"></div>`;hvLoad(lk).then(()=>{lazyDone[lk]=1;if(decodeURIComponent(location.hash.slice(1)||"home")===h)route()}).catch(()=>{app.innerHTML=`<div class="card sec" style="text-align:center"><b>Could not load this page</b><p class="tag">Check your internet and try again.</p><button class="btn gold" data-go="home">Home</button></div>`});return}
   if(h==="home")hub();else if(h==="media")media();else if(h.startsWith("m-"))mediaSection(h.slice(2));
   else if(h.startsWith("vp-")){const p=h.slice(3).split("-");versePuzzle(p[0],p[1])}else if(h.startsWith("lv-")){const p=h.slice(3).split("-");lessonVideos(p[0],p[1])}else if(h.startsWith("l-")){const p=h.slice(2).split("-");lessonPage(p[0],p[1])}
   else if(h==="attendance")attendance();else if(h==="attsheet")attSheet();else if(h==="servants")servants();

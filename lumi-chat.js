@@ -83,6 +83,7 @@ function ansHtml(en,saved){const a=en.a;
    ${a.links&&a.links.length?`<div class="lm-links">${a.links.map(r=>{const t=LINKTXT(r);return t?`<button class="lm-lb" data-go="${E(r)}">${t[0]} ${t[1]}</button>`:""}).join("")}</div>`:""}
    ${a.deep&&(a.refs&&a.refs.length||a.urls&&a.urls.length)?`<div class="lm-refs">${(a.refs||[]).map(r=>`<div>📖 ${E(r.title)}: ${E(r.ref)}</div>`).join("")}${(a.urls||[]).map(u=>`<a class="lm-ext" href="${E(u.url)}" target="_blank" rel="noopener">📚 Read more on St-Takla.org: ${E(u.title)} ↗</a>`).join("")}</div>`:""}
    ${a.safety==="worry"||a.safety==="bad"||a.safety==="adult"?"":`<div class="lm-fb"><button class="lm-ic" data-sv="1" aria-label="Save this answer" aria-pressed="${!!en.saved}">${en.saved?"⭐":"☆"}</button></div>`}
+   ${a.unknown?`<div class="lm-fu"><button class="lm-sug" data-sun="${E(en.id)}">📝 Save for Sunday</button></div>`:""}
    ${a.followups&&a.followups.length?`<div class="lm-fu">${a.followups.map(f=>`<button class="lm-sug" data-q="${E(f)}">${E(f)}</button>`).join("")}</div>`:""}</div></div>`}
 function kidHtml(q){return `<div class="lm-msg lm-k"><div class="lm-bub lm-kb"><p class="lm-t">${E(q)}</p></div><div class="lm-av">${avatar()}</div></div>`}
 const typing=()=>`<div class="lm-msg lm-l" id="lmtyping"><div class="lm-face">${hvLumiSvg("thinking",38)}</div><div class="lm-bub"><span class="lm-dot"></span><span class="lm-dot"></span><span class="lm-dot"></span></div></div>`;
@@ -150,6 +151,7 @@ function wireChat(){
   document.getElementById("lmem").onclick=e=>{const p=document.getElementById("lmemo");p.hidden=!p.hidden;e.currentTarget.setAttribute("aria-expanded",!p.hidden)};
   form.addEventListener("click",e=>{const b=e.target.closest("[data-em]");if(b){inp.value=Array.from(inp.value+b.dataset.em).slice(0,200).join("");inp.focus()}});
   body.onclick=e=>{
+    const sun=e.target.closest("[data-sun]");if(sun){const en0=hist().find(x=>x.id===sun.dataset.sun);if(en0&&window.hvSunQ&&hvSunQ.add(en0.q)){sun.textContent="Saved for Sunday ✅";sun.disabled=true;toast("Saved. Ask Abouna or your servant on Sunday 🙏")}return}
     const q=e.target.closest("[data-q]");if(q)return ask(q.dataset.q);
     const lm=e.target.closest("[data-lmode]");if(lm)return goTab("learn",lm.dataset.lmode);
     const bub=e.target.closest(".lm-bub[data-e]");if(!bub)return;const id=bub.dataset.e,h=hist(),en=h.find(x=>x.id===id);if(!en)return;

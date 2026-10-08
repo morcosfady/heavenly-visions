@@ -57,6 +57,9 @@ function gallery(){
   app.innerHTML=`${topbar("My Gallery","🖼️","Saved on this phone","coloring")}${g.length?`<div class="grid cgal">${g.map((x,i)=>`<div class="card cgi"><img src="${x.img}" alt="${E(x.t)}" loading="lazy"><b>${E(x.t)}</b><div class="two"><a class="btn alt" href="${x.img}" download="${E(x.t)}.png">⬇️ Download</a><button class="btn" data-del="${i}">🗑️ Delete</button></div></div>`).join("")}</div>`:hvEmpty("palette","Color your first picture","Color a page and press Save to keep it here.",["Pick a picture","coloring"])}`;
   app.onclick=ev=>{const d=ev.target.closest("[data-del]");if(!d)return;if(!confirm("Delete this picture?"))return;const g2=jget("hv_gallery",[]);g2.splice(+d.dataset.del,1);jset("hv_gallery",g2);gallery()}}
 
+/* a colouring page that matches a lesson links to its quiz and video */
+const LEARN={creation:"creation",daniel:"daniel",mary:"stmary",george:"stgeorge",church:"church"};
+const learnRow=id=>{const Q=typeof QUIZZES!=="undefined"&&QUIZZES.find(q=>q.id===LEARN[id]);return Q?`<div class="clearn"><div class="tag">Learn about it</div><div class="two">${Q.v?`<button class="btn alt" data-v="${Q.v}">Watch the lesson</button>`:""}<button class="btn alt" data-go="quiz-${Q.id}">Take the quiz</button></div></div>`:""};
 /* ---------- editor ---------- */
 let cv,cx,stage,wrap,svgEl;
 function editor(id){
@@ -70,7 +73,7 @@ function editor(id){
   <div class="cpal crayons" id="cpal" role="group" aria-label="Colors">${COLORS.map(k=>`<button class="cc" data-col="${k}" style="background:${k}" aria-label="Color ${k}" aria-pressed="${k===S.col}"></button>`).join("")}<button class="cc rainbow" data-col="rainbow" aria-label="Rainbow" aria-pressed="false">🌈</button></div>
   <div class="csz" id="csz"><span class="tag">Brush size</span>${[[5,"S"],[10,"M"],[18,"L"],[30,"XL"]].map(s=>`<button class="ds-chip" data-size="${s[0]}" aria-pressed="${s[0]===S.size}">${s[1]}</button>`).join("")}</div>
   <div class="cstk" id="cstk" hidden>${STICKERS.map(s=>`<button class="ds-chip" data-stk="${s}" aria-pressed="${s===S.sticker}">${s}</button>`).join("")}</div>
-  <div class="two"><button class="btn gold" id="csave">💾 Save to my gallery</button><button class="btn alt" id="cdl">⬇️ Download</button></div><div id="cmsg" role="status" class="tag"></div>`;
+  <div class="two"><button class="btn gold" id="csave">💾 Save to my gallery</button><button class="btn alt" id="cdl">⬇️ Download</button></div><div id="cmsg" role="status" class="tag"></div>${learnRow(pg.id)}`;
   stage=document.getElementById("cstage");wrap=document.getElementById("cwrap");cv=document.getElementById("ccv");cx=cv.getContext("2d");svgEl=document.getElementById("cart");
   svgEl.querySelectorAll(".r").forEach((r,i)=>{r.dataset.i=i;r.style.fill="#fff"});
   wireEditor()}

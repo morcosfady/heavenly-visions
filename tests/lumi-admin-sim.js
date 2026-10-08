@@ -41,7 +41,7 @@ const words = t => String(t).split(/\s+/).filter(Boolean).length;
 
   /* ---------- the questions report ---------- */
   const R = make({ props: {} });
-  await R.post({ id: 'serv3', action: 'lumi_review', ids: real.map(c => c.id).filter(id => id !== 'church-incense'), to: 'approved' });
+  await R.post({ id: 'serv3', action: 'lumi_review', ids: real.map(c => c.id).filter(id => !/incense|cymbals/.test(id)), to: 'approved' });
   const rask = async (id, q) => { T += 6000; return R.post({ id, action: 'lumi_ask', q }) };
   for (let i = 0; i < 3; i++) await rask('kid' + (3 + i) + 'a', 'What is baptism?');
   await rask('kid3b', 'Why do we use incense?'); await rask('kid4b', 'why do we use incense');

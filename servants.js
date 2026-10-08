@@ -52,6 +52,12 @@ function gradePick(){if(!wide())return `<div class="tag">Class: <b>${E(A().user.
   return `<label class="field" style="max-width:260px">Class<select id="svgrade"><option value="">Choose a class</option>${GRADES.map(g=>`<option ${g===S.grade?"selected":""}>${g}</option>`).join("")}</select></label>`}
 function wireGrade(re){const s=document.getElementById("svgrade");if(s)s.onchange=()=>{S.grade=s.value;re()}}
 
+/* ========== prep checklist (saved on this phone) and the recap for parents ========== */
+const PREP=["Read the lesson and the Bible reading","Print the worksheet or craft","Gather the materials","Test the video","Pray for your class"];
+const prepKey=(d,g)=>"hv_prep_"+d+"_"+g;
+const prepList=(d,g)=>{const on=jget(prepKey(d,g),[]);return `<details class="prep"><summary>Prep checklist (${on.length} of ${PREP.length})</summary>${PREP.map((p,i)=>`<label class="plm"><input type="checkbox" data-prep="${i}" data-pd="${d}" data-pg="${E(g)}" ${on.includes(i)?"checked":""}> ${p}</label>`).join("")}</details>`};
+document.addEventListener("change",e=>{const c=e.target.closest&&e.target.closest("[data-prep]");if(!c)return;const k=prepKey(c.dataset.pd,c.dataset.pg),on=jget(k,[]).filter(x=>x!==+c.dataset.prep);if(c.checked)on.push(+c.dataset.prep);jset(k,on);const s=c.closest(".prep").querySelector("summary");if(s)s.textContent="Prep checklist ("+on.length+" of "+PREP.length+")"});
+const recap=(l,g,d)=>"Hello parents! "+String.fromCodePoint(127775)+"\nThis Sunday in "+g+" ("+nice(d)+") we learned: "+l.title+"."+(l.reading?"\nBible reading: "+l.reading+".":"")+(l.verse?"\nMemory verse: "+l.verse+(l.verseRef?" ("+l.verseRef+")":"")+".":"")+"\nPlease practice the verse with your child this week. See you next Sunday! God bless you.";
 /* ========== LESSON PLANNER ========== */
 async function planner(){
   if(gate("Lesson Planner","📝"))return;
@@ -71,7 +77,7 @@ async function planner(){
   const by={};lessons.forEach(l=>by[l.date]=l);
   const card=d=>{const l=by[d],isNext=d>=t;return `<div class="plcard ${d===sundays(t,1)[0]?"now":""}"><div class="pld"><b>${nice(d)}</b>${l?chip(l.status):`<span class="spl" style="--sc:#9a9ec4">Not planned</span>`}</div>
     <div class="plt">${l?E(l.title):"Nothing planned yet"}</div>${l&&l.reading?`<div class="tag">📖 ${E(l.reading)}</div>`:""}
-    <div class="two"><button class="btn ${l?"alt":"gold"}" data-go="plan-${d}">${l?"✏️ Edit":"➕ Plan it"}</button>${l?`<button class="btn" data-go="sunday-${d}">▶ Sunday Mode</button>`:""}</div>${l?`<a class="btn alt" href="${wa("This Sunday, "+nice(d)+": "+l.title+(l.reading?"\nReading: "+l.reading:"")+(l.verse?"\nVerse: "+l.verse:""))}" target="_blank" rel="noopener">📲 Share on WhatsApp</a>`:""}</div>`};
+    <div class="two"><button class="btn ${l?"alt":"gold"}" data-go="plan-${d}">${l?"✏️ Edit":"➕ Plan it"}</button>${l?`<button class="btn" data-go="sunday-${d}">▶ Sunday Mode</button>`:""}</div>${l?`<a class="btn alt" href="${wa("This Sunday, "+nice(d)+": "+l.title+(l.reading?"\nReading: "+l.reading:"")+(l.verse?"\nVerse: "+l.verse:""))}" target="_blank" rel="noopener">📲 Share on WhatsApp</a>`:""}${l?`${prepList(d,g)}<a class="btn alt" href="${wa(recap(l,g,d))}" target="_blank" rel="noopener">💌 Recap for parents</a>`:""}</div>`};
   if(S.view==="week")body.innerHTML=sundays(t,5).map(card).join("");
   else if(S.view==="month"){const label=S.month.toLocaleDateString("en-US",{month:"long",year:"numeric"});
     body.innerHTML=`<div class="calnav"><button class="btn alt" id="pm" aria-label="Previous month">◀</button><h2 style="margin:0">${label}</h2><button class="btn alt" id="nm" aria-label="Next month">▶</button></div>${sundays(dkey(from),6).filter(d=>parse(d).getMonth()===S.month.getMonth()).map(card).join("")}`;

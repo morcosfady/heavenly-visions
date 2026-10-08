@@ -18,9 +18,10 @@ const UrlFetchApp = { fetch: (url, o) => {
   const text = aiMode === 'junk' ? 'sorry' : 'Here you go: ' + JSON.stringify(GOOD);
   return { getResponseCode: () => 200, getContentText: () => JSON.stringify({ content: [{ text }] }) } } };
 const Utilities = { formatDate: () => '2026-10-11' };
+const CacheService = { getScriptCache: () => ({ get: () => null, put() {}, remove() {} }) };
 const LockService = { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) };
 const ContentService = { MimeType: { JSON: 1 }, createTextOutput: s => ({ s, setMimeType() { return this } }) };
-const { doPost } = new Function('PropertiesService', 'UrlFetchApp', 'Utilities', 'LockService', 'ContentService', src + '; return {doPost}')(PropertiesService, UrlFetchApp, Utilities, LockService, ContentService);
+const { doPost } = new Function('PropertiesService', 'CacheService', 'UrlFetchApp', 'Utilities', 'LockService', 'ContentService', src + '; return {doPost}')(PropertiesService, CacheService, UrlFetchApp, Utilities, LockService, ContentService);
 const call = b => JSON.parse(doPost({ postData: { contents: JSON.stringify(b) } }).s);
 const ok = (n, c) => console.log(c ? 'PASS' : 'FAIL', n);
 const req = (id, extra) => Object.assign({ id, token: USERS[id] && USERS[id].token, topic: 'Noah', grade: 'Grade 3', kinds: [{ kind: 'kahoot', n: 3 }, { kind: 'verse', n: 1 }, { kind: 'wordsearch', n: 4 }, { kind: 'whoami', n: 1 }] }, extra);

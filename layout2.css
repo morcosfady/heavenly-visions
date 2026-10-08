@@ -183,3 +183,14 @@ body:has(.rpill) #app{padding-bottom:130px!important}body:has(.rpill) .toast{bot
 .vq .blank{display:inline-block;min-width:4.5em;border-bottom:3px solid var(--gold);text-decoration:none}
 .wk-s>span:last-child{display:flex;flex-direction:column;gap:1px}
 .wk-s b{line-height:1.15}
+.prep{border:1px solid var(--glass-b);border-radius:14px;padding:6px 12px;background:rgba(255,255,255,.06)}.prep summary{min-height:44px;display:flex;align-items:center;font-weight:800;cursor:pointer}.prep .plm{display:flex;gap:8px;align-items:center;min-height:40px}
+.clearn{margin-top:12px;display:grid;gap:6px}
+/* shop price tags */
+.kc-price{display:inline-flex;align-items:center;justify-content:center;gap:4px;margin-top:4px;padding:4px 12px;border-radius:999px;font-weight:900;font-size:.95rem;background:linear-gradient(180deg,#ffdf9a,#f3c56a);color:#3a2600;box-shadow:0 2px 0 rgba(0,0,0,.25)}
+.kc-price.low{background:rgba(255,255,255,.16);color:inherit;box-shadow:none;border:1px dashed var(--glass-b)}
+.kc-price.own{background:rgba(95,208,143,.25);color:inherit;box-shadow:none;border:1px solid rgba(95,208,143,.7)}
+/* Lumi chat: speech-bubble tails and a soft lift */
+.lm-l .lm-bub{border-top-left-radius:6px;box-shadow:0 6px 16px -8px rgba(0,0,0,.5)}
+.lm-k .lm-bub{border-top-right-radius:6px;box-shadow:0 6px 16px -8px rgba(0,0,0,.45)}
+.lm-bub .lm-t{line-height:1.5}
+.lm-fu .lm-sug[data-sun]{border-style:dashed}

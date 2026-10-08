@@ -54,5 +54,5 @@ window.hvIntro=function(intro,end){
   if(!first)intro.classList.add("short");
   requestAnimationFrame(()=>requestAnimationFrame(()=>{intro.classList.add("go");end.classList.add("show");if(first)dust(cv,performance.now()+2600)}));
   intro.addEventListener("pointerdown",finish,{once:true});
-  setTimeout(finish,first?1950:600)};
+  setTimeout(finish,first?1650:600)};
 })();

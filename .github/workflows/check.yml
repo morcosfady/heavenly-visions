@@ -1,0 +1,36 @@
+name: Checks
+# Runs on every push and pull request. No browser needed: syntax, service worker, backend and Lumi simulations, Lumi cards.
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Every script parses
+        run: |
+          for f in *.js tests/*.js lumi/*.js; do node --check "$f" || exit 1; done
+      - name: Service worker precaches every file and bumps its cache
+        run: node tests/sw-sim.js
+      - name: Games and AI backend simulations
+        run: |
+          node tests/backend-sim.js
+          node tests/ai-sim.js
+      - name: Lumi simulations
+        run: |
+          node tests/lumi-sim.js
+          node tests/lumi-chat-sim.js
+          node tests/lumi-learn-sim.js
+          node tests/lumi-admin-sim.js
+      - name: Lumi cards are valid
+        run: node lumi/check-cards.js lumi/cards.json
+      - name: No FAIL lines in any simulation
+        run: |
+          for t in tests/sw-sim.js tests/backend-sim.js tests/ai-sim.js tests/lumi-sim.js tests/lumi-chat-sim.js tests/lumi-learn-sim.js tests/lumi-admin-sim.js; do
+            if node "$t" | grep -q '^FAIL'; then echo "FAIL found in $t"; exit 1; fi
+          done

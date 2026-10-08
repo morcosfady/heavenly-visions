@@ -4,7 +4,7 @@ const fs = require('fs'), path = require('path');
 const root = path.join(__dirname, '..');
 const files = process.argv.slice(2).length ? process.argv.slice(2) : [path.join(__dirname, 'cards.json')];
 
-const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8') + ' ' + fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const quizIds = new Set([...html.matchAll(/id:\s*"([a-z0-9-]+)"\s*,\s*(?:t|title|name)/g)].map(m => m[1]));
 const knownVideos = new Set((() => { try { return eval('[' + html.match(/const V=\[([\s\S]*?)\n\];/)[1] + ']').map(v => v[0]) } catch (e) { return [] } })());
 const quizBlock = (html.match(/const QUIZZES=\[[\s\S]*?\n\];/) || [''])[0];

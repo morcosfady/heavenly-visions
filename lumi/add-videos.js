@@ -4,7 +4,7 @@
    add it below, run this file, then node lumi/build-cards.js. */
 const fs = require('fs'), path = require('path');
 const root = path.join(__dirname, '..');
-const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8') + ' ' + fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const V = eval('[' + html.match(/const V=\[([\s\S]*?)\n\];/)[1] + ']');
 const known = new Set(V.map(v => v[0]));
 

@@ -95,7 +95,7 @@ window.hvHomeInit=function(){
   if(oldInit)oldInit.apply(this,arguments);
   const nav=document.querySelector(".doors");if(!nav||document.getElementById("hvengage"))return;
   const box=document.createElement("div");box.id="hvengage";
-  box.innerHTML=sundayBanner()+goalCard()+installCard()+remindCard();
+  box.innerHTML=sundayBanner()+sunQCard()+goalCard()+installCard()+remindCard();
   nav.parentNode.insertBefore(box,nav)};
 
 /* ---------- bedtime prayer streak ---------- */
@@ -104,5 +104,13 @@ window.hvBedDone=function(){
 window.hvBedStreak=function(){
   const d=get("bedn",[]);let s=0;const x=new Date();if(!d.includes(dkey(x)))x.setDate(x.getDate()-1);while(d.includes(dkey(x))){s++;x.setDate(x.getDate()-1)}return s};
 window.hvFavs={get:()=>get("favstory",[]),toggle:id=>{const f=get("favstory",[]),i=f.indexOf(id);if(i>=0)f.splice(i,1);else f.push(id);set("favstory",f);return i<0}};
+/* ---------- questions saved for Sunday (from Ask Lumi) ---------- */
+window.hvSunQ={list:()=>get("sunq",[]),add:q=>{const l=get("sunq",[]);q=String(q).slice(0,200);if(l.includes(q))return false;l.unshift(q);set("sunq",l.slice(0,12));return true},del:q=>set("sunq",get("sunq",[]).filter(x=>x!==q))};
+function sunQCard(){
+  const l=get("sunq",[]);if(!l.length)return "";
+  return `<section class="tipcard sq" id="sunq"><span class="tp-i" aria-hidden="true">📝</span><span class="tp-t"><b>Ask on Sunday</b><small>${l.length} ${l.length===1?"question":"questions"} saved. Tap to see them.</small></span></section>`}
+document.addEventListener("click",e=>{
+  if(e.target.closest("#sunq")&&window.sheet){const l=get("sunq",[]);sheet(`<h3>Questions for Sunday</h3><p class="tag">Ask Abouna or your servant. Tap done when you have your answer.</p><div class="list">${l.map((q,i)=>`<div class="card" style="padding:10px 14px;display:flex;gap:10px;align-items:center;justify-content:space-between"><span style="font-weight:800">${E(q)}</span><button class="btn alt" data-sqdone="${i}">Done</button></div>`).join("")}</div>`,"Questions for Sunday");return}
+  const d=e.target.closest("[data-sqdone]");if(d){const l=get("sunq",[]);hvSunQ.del(l[+d.dataset.sqdone]);d.closest(".card").remove();document.getElementById("sunq")?.remove();if(window.toast)toast("Nice! Done ✅")}});
 window.hvWeekly={goalCard,wk,done};
 })();
