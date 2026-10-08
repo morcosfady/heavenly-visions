@@ -91,8 +91,12 @@ const LINE={
   play2:'<path d="M8 5l11 7-11 7z"/>',
   starline:'<path d="M12 3.5l2.6 5.5 6 .8-4.4 4.1 1.1 6L12 17l-5.3 2.9 1.1-6L3.4 9.8l6-.8z"/>'
 };
+/* 3D clay pictures made for the main icons (icons3d/NAME.webp and NAME@2x.webp). Used from 40 px up; small sizes keep the drawn icon. */
+const IMG3D=new Set(["book","game","trophy","notes","megaphone","calendar","palette","moon","star","cross","church","dove","pray","user","toolbox","lock"]);
+window.HV_IMG3D=IMG3D;
 window.hvIcon=function(name,size,alt){
   size=size||24;
+  if(IMG3D.has(name)&&size>=40)return `<img class="hvi img3d" src="icons3d/${name}.webp" srcset="icons3d/${name}.webp 1x, icons3d/${name}@2x.webp 2x" width="${size}" height="${size}" decoding="async" ${alt?`alt="${alt}"`:`alt="" aria-hidden="true"`}>`;
   if(CLAY[name])return `<svg class="hvi clay" viewBox="0 0 100 100" width="${size}" height="${size}" filter="url(#hvD)" ${alt?`role="img" aria-label="${alt}"`:'aria-hidden="true"'}>${CLAY[name]}</svg>`;
   if(LINE[name])return `<svg class="hvi line" viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ${alt?`role="img" aria-label="${alt}"`:'aria-hidden="true"'}>${LINE[name]}</svg>`;
   return "";
