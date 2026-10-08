@@ -18,7 +18,10 @@ function record(kind,ref){
   const w=wk(),a=w.ev[kind]=w.ev[kind]||[],id=String(ref);if(a.includes(id))return;a.push(id);
   const was=get("wkdone",[]).includes(w.w);set("wk",w);
   if(!was&&done(w)){const l=get("wkdone",[]);l.push(w.w);set("wkdone",l);setTimeout(celebrate,1200)}}
+/* the weekly goal card and the Sunday reminder card are switched off on Home for now (set to true to bring them back) */
+const SHOW_GOAL=false;
 function celebrate(){
+  if(!SHOW_GOAL)return;
   const n=get("wkdone",[]).length;
   if(window.confetti)confetti();
   if(window.sheet)sheet(`<div style="text-align:center"><div style="font-size:3.4rem" aria-hidden="true">🏅</div><h3>Weekly goal done!</h3><p class="tag">You watched, played and read this week. God bless you!</p><p style="font-weight:900;font-size:1.2rem">${n} ${n===1?"week":"weeks"} completed</p><div class="btns"><button class="btn gold" data-close>Amen</button></div></div>`,"Weekly goal done")}
@@ -95,7 +98,7 @@ window.hvHomeInit=function(){
   if(oldInit)oldInit.apply(this,arguments);
   const nav=document.querySelector(".doors");if(!nav||document.getElementById("hvengage"))return;
   const box=document.createElement("div");box.id="hvengage";
-  box.innerHTML=sundayBanner()+sunQCard()+goalCard()+installCard()+remindCard();
+  box.innerHTML=sundayBanner()+sunQCard()+(SHOW_GOAL?goalCard()+remindCard():"")+installCard();
   nav.parentNode.insertBefore(box,nav)};
 
 /* ---------- class challenge: the class team score this month (never a kid name, never a ranking of kids) ---------- */

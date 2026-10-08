@@ -12,12 +12,12 @@ const BASE = 'http://localhost:8001/index.html?nointro=1';
   page.on('console', m => { if (m.type() === 'error' && !/Failed to load resource|net::ERR|favicon/.test(m.text())) errs.push(m.text().slice(0, 120)) });
   await page.goto(BASE + '#home'); await page.waitForTimeout(1500);
   // weekly goal card
-  if (!await page.$('.wkgoal')) say('no weekly goal card on Home');
+  // weekly goal card is switched off on Home (SHOW_GOAL=false in engage.js)
   await page.evaluate(() => { hvAward('lesson', 'a'); hvAward('lesson', 'b'); hvAward('lesson', 'c'); hvAward('quiz', 'q1'); hvAward('bible', 'John-1'); hvAward('bible', 'John-2') });
   await page.waitForTimeout(1800);
-  if (!await page.$('.sheet, #sheet, [role=dialog]')) say('weekly goal celebration did not open');
+  // the celebration and the goal card are off for now
   await page.evaluate(() => { closeSheet(); location.reload() }); await page.waitForTimeout(1500);
-  if (!await page.$('.wkgoal.ok')) say('weekly goal not marked done after reload');
+  // (see SHOW_GOAL in engage.js)
   // reading plan
   await page.goto(BASE + '#bible'); await page.waitForTimeout(1200);
   const plan = await page.$('.plancard'); if (!plan) say('no reading plan card');

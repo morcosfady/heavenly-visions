@@ -207,3 +207,6 @@ img.hvi.img3d{display:block;object-fit:contain;filter:drop-shadow(0 6px 10px rgb
 .door .big img.img3d,.mdoor .big img.img3d{margin:auto}
 /* the 3D pictures follow the same sizes as the drawn clay icons inside the emoji swap */
 .hve-clay>img.img3d{width:100%;height:100%;filter:drop-shadow(0 3px 5px rgba(0,0,0,.3))}
+/* Home doors: keep the 3D pictures clear of the titles */
+.doors .door:not(.wide) .big img.img3d{width:76px;height:76px}
+.doors .door:not(.wide) .big{top:8px;right:6px}
