@@ -41,7 +41,8 @@ const COLORS=["#e0393e","#f26b3a","#f6a623","#f6d33a","#a7d63a","#4cae4f","#1f9d
 const STICKERS=["⭐","❤️","✝️","✨","🕊️","🌈","🌟","👼"];
 const S={page:null,tool:"fill",col:COLORS[0],size:10,sticker:"⭐",ops:[],redo:[],scale:1,tx:0,ty:0,rainbow:false,hue:0};
 
-function pastel(svg){let i=0;return svg.replace(/class="r"/g,()=>`class="r" style="fill:hsl(${(i++*53)%360},70%,84%)"`)}
+const SOFT=["#fff1c9","#cfe8f8","#e4dafb","#ffe29a","#d3efdc","#fde3cf","#dbe6ff","#f6efe0"];
+function pastel(svg){let i=0;return svg.replace(/class="r"/g,()=>`class="r" style="fill:${SOFT[(i++*3)%SOFT.length]}"`)}
 const artSvg=(pg,extra)=>`<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="cart" ${extra||""} role="img" aria-label="${E(pg.t)}">${pg.svg}</svg>`;
 
 /* ---------- picker ---------- */
@@ -60,7 +61,7 @@ function gallery(){
 let cv,cx,stage,wrap,svgEl;
 function editor(id){
   const pg=PAGES.find(x=>x.id===id);if(!pg)return picker();
-  S.page=pg;S.ops=[];S.redo=[];S.scale=1;S.tx=0;S.ty=0;S.tool="fill";S.rainbow=false;
+  S.page=pg;S.fin=false;S.ops=[];S.redo=[];S.scale=1;S.tx=0;S.ty=0;S.tool="fill";S.rainbow=false;
   app.innerHTML=`${topbar(E(pg.t),pg.ic,"Tap a color, then tap the picture","coloring")}
   <div class="ctools" role="toolbar" aria-label="Tools">${[["fill","🪣","Fill"],["brush","🖌️","Brush"],["erase","🧽","Eraser"],["sticker","⭐","Stickers"]].map(t=>`<button class="ctool" data-tool="${t[0]}" aria-pressed="${t[0]==="fill"}" aria-label="${t[2]}"><span>${t[1]}</span><small>${t[2]}</small></button>`).join("")}
    <button class="ctool" id="cundo" aria-label="Undo"><span>↩️</span><small>Undo</small></button><button class="ctool" id="credo" aria-label="Redo"><span>↪️</span><small>Redo</small></button></div>
@@ -84,7 +85,8 @@ function paintOp(op){
     else for(let i=1;i<pts.length;i++){cx.strokeStyle=op.erase?"#000":(op.rainbow?`hsl(${(op.hue+i*6)%360},90%,55%)`:op.col);cx.beginPath();cx.moveTo(pts[i-1][0],pts[i-1][1]);cx.lineTo(pts[i][0],pts[i][1]);cx.stroke()}cx.restore()}
   else if(op.t==="stamp"){cx.save();cx.font=op.size*5+"px serif";cx.textAlign="center";cx.textBaseline="middle";cx.fillText(op.e,op.x,op.y);cx.restore()}}
 function redraw(){cx.clearRect(0,0,800,800);S.ops.forEach(o=>{if(o.t!=="fill")paintOp(o)})}
-function doFill(r,col){const prev=r.style.fill;const to=col;if(prev===to||(prev==="rgb(255, 255, 255)"&&to==="#ffffff"))return;S.ops.push({t:"fill",i:+r.dataset.i,from:prev,to});S.redo=[];r.style.fill=to}
+function doFill(r,col){const prev=r.style.fill;const to=col;if(prev===to||(prev==="rgb(255, 255, 255)"&&to==="#ffffff"))return;S.ops.push({t:"fill",i:+r.dataset.i,from:prev,to});S.redo=[];r.style.fill=to;finished()}
+function finished(){if(S.fin)return;const all=regions();if(all.length&&all.every(r=>{const f=r.style.fill;return f&&f!=="rgb(255, 255, 255)"&&f!=="#fff"&&f!=="#ffffff"})){S.fin=true;try{confetti()}catch{}toast("You finished! Save it to your gallery");const b=document.getElementById("csave");if(b)b.classList.add("pulse")}}
 function undo(){const o=S.ops.pop();if(!o)return;S.redo.push(o);if(o.t==="fill")regions()[o.i].style.fill=o.from;else redraw();paintBtns()}
 function redo(){const o=S.redo.pop();if(!o)return;S.ops.push(o);if(o.t==="fill")regions()[o.i].style.fill=o.to;else paintOp(o);paintBtns()}
 function paintBtns(){const u=document.getElementById("cundo"),r=document.getElementById("credo");if(u)u.disabled=!S.ops.length;if(r)r.disabled=!S.redo.length}

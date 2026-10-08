@@ -48,3 +48,89 @@ footer .workshop::after{display:none}footer .workshop small{font-family:var(--bo
 body:has(.hvgate) #lmfab{display:none!important}
 
 .anc .ank{color:color-mix(in srgb,var(--ac) 38%,#fff)}.tcard .k{color:color-mix(in srgb,var(--tc) 40%,#fff)}
+
+/* ---------- Phase 4a: Sunday School and the lesson page ---------- */
+.tile{position:relative}
+.pring{position:absolute;right:12px;top:12px;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--gold) calc(var(--p)*1%),rgba(255,255,255,.18) 0)}
+.pring::before{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--surface,#3b4284)}.pring b{position:relative;font-size:.62rem;font-weight:900}
+.row .t{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.thumb .dur{position:absolute;right:6px;bottom:6px;padding:2px 7px;border-radius:8px;background:rgba(0,0,0,.65);color:#fff;font-size:.72rem;font-weight:800}
+.newb{position:absolute;left:6px;top:6px;padding:2px 8px;border-radius:999px;background:linear-gradient(135deg,#ffd978,#e0a030);color:#2b1d05;font-size:.68rem;font-weight:900;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+.dnchip{display:inline-flex;align-items:center;gap:4px;margin-top:4px;padding:2px 10px 2px 4px;border-radius:999px;background:rgba(63,174,106,.2);color:#8fe0b0;font-weight:800;font-size:.74rem}
+.row.isdone .thumb::after{content:"";position:absolute;inset:0;background:rgba(20,60,40,.28)}
+.vhero{position:relative;display:block;width:100%;aspect-ratio:16/9;border:0;padding:0;border-radius:26px;overflow:hidden;background:#111;box-shadow:0 18px 34px -16px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.16);color:#fff;text-align:left}
+.vhero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vhero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(8,10,40,.82))}
+.vglow{position:absolute;left:50%;top:44%;width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,220,140,.55),transparent);animation:hvpulse2 3s ease-in-out infinite}
+@keyframes hvpulse2{0%,100%{opacity:.55;transform:scale(.9)}50%{opacity:1;transform:scale(1.1)}}
+.vplay2{position:absolute;left:50%;top:44%;width:76px;height:76px;margin:-38px 0 0 -38px;z-index:2;border-radius:50%;display:grid;place-items:center;color:#2f6fb8;background:rgba(255,255,255,.95);box-shadow:0 0 0 6px rgba(255,255,255,.3),0 10px 24px rgba(0,0,0,.5);transition:transform .2s}
+.vplay2 svg{margin-left:4px}.vhero:hover .vplay2,.vhero:active .vplay2{transform:scale(1.1)}
+.vhero .vdur{position:absolute;right:12px;top:12px;z-index:2;padding:3px 10px;border-radius:999px;background:rgba(0,0,0,.6);font-weight:800;font-size:.8rem}
+.vhero .vlab{position:absolute;z-index:2;left:16px;right:16px;bottom:12px;display:flex;flex-direction:column}.vhero .vlab b{font-family:var(--display);font-size:1.15rem}.vhero .vlab small{opacity:.85;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vhero.soon{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;background:var(--glass);aspect-ratio:auto;min-height:190px;padding:14px;border:1.5px dashed var(--glass-b);box-shadow:none}.vhero.soon::after{display:none}.vhero.soon small{opacity:.8}
+.acard{display:flex;align-items:center;gap:12px;min-height:84px;padding:12px 14px;border-radius:22px;border:1px solid var(--glass-b);background:radial-gradient(130% 160% at 100% 0%,color-mix(in srgb,var(--c) 38%,transparent),transparent 62%),var(--glass);color:var(--ink);text-align:left;font:inherit;box-shadow:var(--sh);transition:transform .15s}
+.acard:active{transform:scale(.97)}.acard .ai{flex:none;display:grid;place-items:center;width:56px;height:56px}.acard .an{display:flex;flex-direction:column;min-width:0}.acard .an b{font-family:var(--display);font-size:1.05rem}.acard .an small{color:var(--muted);font-weight:700}
+.emptyck{width:40px;height:40px;border-radius:50%;border:3px dashed var(--gold)}
+.acard.done{border-color:rgba(63,174,106,.8);box-shadow:0 0 22px rgba(63,174,106,.35),var(--sh)}
+.acard.done .ck{stroke-dasharray:1;stroke-dashoffset:1;animation:hvdraw .6s .1s ease-out forwards}
+@keyframes hvdraw{to{stroke-dashoffset:0}}
+.row .dnchip svg .ck{stroke-dasharray:1;stroke-dashoffset:0}
+.curcard{display:flex;align-items:center;gap:12px;width:100%;min-height:72px;padding:10px 14px;border-radius:20px;border:1px solid var(--glass-b);background:rgba(10,14,50,.38);color:var(--ink);text-align:left;font:inherit;text-decoration:none}
+.curcard .ai{flex:none;display:grid;place-items:center;width:48px;height:48px}.curcard .an{flex:1;display:flex;flex-direction:column}.curcard .an b{font-family:var(--display)}.curcard small{color:var(--muted);font-weight:700}.curcard .cg{padding:6px 14px;border-radius:999px;background:var(--gold);color:#2b1d05;font-weight:900;font-size:.82rem}
+.curcard.locked{opacity:.85}
+@media (min-width:700px){.acard{min-height:92px}}
+@media (prefers-reduced-motion:reduce){.vglow,.acard.done .ck{animation:none!important}.acard.done .ck{stroke-dashoffset:0}}
+.hvbar .back{white-space:nowrap;flex:none}
+@media (max-width:520px){.acard .an small{display:none}.acard{min-height:76px}}
+
+/* ---------- Phase 4b: the Bible ---------- */
+.bcont{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;padding:10px 16px;margin-bottom:12px;border-radius:20px;border:1px solid rgba(243,197,106,.6);background:linear-gradient(135deg,rgba(243,197,106,.28),var(--glass));color:var(--ink);font:inherit;text-align:left}
+.bcont>span:nth-child(2){flex:1;display:flex;flex-direction:column}.bcont small{color:var(--muted);font-weight:800}.bcont b{font-family:var(--display);font-size:1.1rem}.bcont i{font-style:normal;padding:6px 14px;border-radius:999px;background:var(--gold);color:#2b1d05;font-weight:900;font-size:.82rem}
+.brec{display:flex;align-items:center;gap:8px;overflow-x:auto;margin:0 -16px 12px;padding:0 16px;scrollbar-width:none}.brec::-webkit-scrollbar{display:none}.brec small{flex:none;color:var(--muted);font-weight:800}.brec .ds-chip{flex:none}
+.bseg{width:100%;margin:6px 0 4px}.bseg button{flex:1}
+.bgrp{margin-top:14px}.bgrp h3{display:flex;align-items:center;gap:8px;font-family:var(--display);font-size:1.05rem;margin-bottom:8px}.bgrp h3 i{width:12px;height:12px;border-radius:50%;background:var(--gc);box-shadow:0 0 10px var(--gc)}.bgrp h3 small{margin-left:auto;color:var(--muted);font-family:var(--body);font-weight:800;font-size:.76rem}
+.books{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bk{position:relative;display:flex;flex-direction:column;gap:0;min-height:52px;padding:8px 12px 8px 16px;border:1px solid var(--glass-b);border-radius:14px;background:var(--glass);color:var(--ink);text-align:left;font:inherit;font-weight:800;overflow:hidden}
+.bgrp .bk::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--gc)}.bk small{color:var(--muted);font-weight:700;font-size:.72rem}
+@media (min-width:700px){.books{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}}
+.rprog{position:fixed;left:0;right:0;top:0;height:4px;z-index:60;background:rgba(255,255,255,.12)}.rprog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffe29a,#e3b45c);box-shadow:0 0 8px rgba(243,197,106,.8)}
+.chead{text-align:center;margin:10px 0 14px}.chead small{color:var(--muted);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:.72rem}.chead h1{font-size:var(--fs-xl);margin:2px 0 6px}
+.orn{display:block;height:14px;width:140px;margin:0 auto;background:linear-gradient(90deg,transparent,#e3b45c 30%,#e3b45c 70%,transparent) center/100% 2px no-repeat;position:relative}.orn::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;background:#e3b45c;transform:rotate(45deg)}
+.reader{line-height:1.95!important;font-size:var(--fs,1.08rem);max-width:68ch;margin-inline:auto}.reader sup{color:var(--gold);font-weight:900;font-size:.7em;margin:0 3px 0 6px}
+.rpill{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--glass-b);box-shadow:0 10px 24px -10px rgba(0,0,0,.6)}
+.rpill .seg{display:flex;gap:4px}.rpill .seg button{min-width:44px;min-height:44px;border-radius:999px;border:0;background:transparent;color:var(--ink);font-weight:900}.rpill .seg button[aria-pressed="true"]{background:var(--gold);color:#2b1d05}.rsep{width:1px;height:24px;background:var(--glass-b)}
+.reader+.navrow{margin-bottom:84px}
+.books .bk:last-child:nth-child(odd){grid-column:1/-1}
+
+/* ---------- Phase 4c: Calendar ---------- */
+.tcal{position:relative;overflow:hidden}.tcal-ic{position:absolute;right:12px;top:10px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.4));animation:hvfloat 5.5s ease-in-out infinite}
+.tcal::before{content:"";position:absolute;right:-20px;top:-30px;width:180px;height:180px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,205,120,.5),transparent);pointer-events:none}
+.calseg{width:100%;margin:6px 0 10px}.calseg button{flex:1}
+.cd.feast{box-shadow:0 0 14px rgba(243,197,106,.7);border-color:rgba(243,197,106,.9)}
+.cd.fastd{background:linear-gradient(180deg,rgba(142,107,209,.28),rgba(142,107,209,.12));border-color:rgba(142,107,209,.5)}
+.cd.sel{z-index:1}
+#cday{display:none}
+@media (prefers-reduced-motion:reduce){.tcal-ic{animation:none}}
+
+/* ---------- Phase 4d: Coloring ---------- */
+.cprev{background:linear-gradient(180deg,#d9ecfa,#fbe7c4);border-radius:14px;padding:4px}
+.cpal.crayons{grid-template-columns:repeat(6,1fr);gap:8px 6px;padding:12px 10px 10px;align-items:end}
+.cpal.crayons .cc{aspect-ratio:1/2.3;border:0;border-radius:3px 3px 8px 8px;clip-path:polygon(0 24%,50% 0,100% 24%,100% 100%,0 100%);box-shadow:none;position:relative;transition:transform .15s}
+.cpal.crayons .cc::after{content:"";position:absolute;left:0;right:0;top:52%;height:24%;background:rgba(255,255,255,.55)}
+.cpal.crayons .cc[aria-pressed=true]{transform:translateY(-10px) scale(1);border:0;box-shadow:none;filter:brightness(1.08)}
+.cpal.crayons .cc.rainbow{background:conic-gradient(#e8584f,#ffd36b,#6fd69a,#4a8fd8,#8e6bd1,#e8584f)!important;font-size:0}
+.csave.pulse,#csave.pulse{animation:hvpulse3 1.4s ease-in-out infinite}
+@keyframes hvpulse3{0%,100%{box-shadow:0 0 0 0 rgba(243,197,106,.7)}50%{box-shadow:0 0 0 12px rgba(243,197,106,0)}}
+@media (min-width:600px){.cpal.crayons{grid-template-columns:repeat(12,1fr)}}
+@media (prefers-reduced-motion:reduce){#csave.pulse{animation:none}}
+
+/* ---------- Phase 4e: Me and Lumi ---------- */
+.kc-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.kc-st{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;border-radius:18px;border:1px solid var(--glass-b);background:var(--glass);text-align:center;box-shadow:var(--sh)}
+.kc-st b{font-family:var(--display);font-size:1.25rem}.kc-st small{color:var(--muted);font-weight:800;font-size:.68rem;line-height:1.1}
+@media (max-width:380px){.kc-stats{grid-template-columns:1fr 1fr}}
+.ds-badge.on{position:relative;overflow:hidden}.ds-badge.on::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.4) 50%,transparent 65%);background-size:250% 100%;background-position:150% 0;animation:postshine 5s ease-in-out infinite;pointer-events:none}
+.ds-badge.lock{opacity:.55;filter:grayscale(.6)}
+.lm-status{display:flex;align-items:center;gap:6px;font-weight:800}.lm-dot{width:9px;height:9px;border-radius:50%;background:#5fd08f;box-shadow:0 0 0 3px rgba(95,208,143,.3)}
+@media (prefers-reduced-motion:reduce){.ds-badge.on::after{animation:none}}
+body:has(.rpill) #app{padding-bottom:130px!important}body:has(.rpill) .toast{bottom:calc(92px + env(safe-area-inset-bottom))}

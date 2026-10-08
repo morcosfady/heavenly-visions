@@ -141,6 +141,9 @@ window.hvBadgeToast=function(keys){(keys||[]).forEach((k,i)=>{const b=BADGES.fin
 /* ---------- pages ---------- */
 function loginNeeded(){app.innerHTML=`${topbar("Me","🌟","Your stars, avatar and account")}${hvGate({scene:"star",title:"Your treasures are waiting",lead:"Make a profile to collect stars, build your avatar and win badges.",benefits:[["star","Collect stars as you learn"],["user","Build your own avatar"],["trophy","Win badges and level up"]],preview:"stars",primary:["Create my profile","signup"],secondary:["I already have one, log in","login"]})}`}
 
+function statCards(u){let done=0,quiz=0;try{done=(JSON.parse(localStorage.getItem("hv_done")||"[]")||[]).length}catch{}try{quiz=Object.keys(JSON.parse(localStorage.getItem("hv_best")||"{}")||{}).length}catch{}
+  const cards=[["star",bal(u),"Stars to spend"],["check",done,"Lessons done"],["trophy",quiz,"Quizzes taken"],["crown",(u.badges||[]).length,"Badges"]];
+  return `<div class="kc-stats">${cards.map(c=>`<div class="kc-st"><span aria-hidden="true">${window.hvIcon?hvIcon(c[0],40):""}</span><b>${c[1]}</b><small>${c[2]}</small></div>`).join("")}</div>`}
 function hero(u){
   const lv=levelOf(u.score||0);
   return `<section class="kc-hero"><div class="kc-ped"><div class="kc-glow"></div><div id="kcAv" class="kc-av">${hvAvatar(S.cur||u.av,150,{label:"My avatar"})}</div><div class="kc-base"></div></div>
@@ -179,7 +182,7 @@ const drawAcct=()=>{if(S.tab==="account"&&window.hvAccountTab)hvAccountTab(docum
 function kidsPage(){
   const a=A();if(!a){loginNeeded();return}
   const u=a.user;if(!S.cur)S.cur=Object.assign({},DEF,u.av||{});
-  app.innerHTML=`${topbar("Me","🌟","Your stars, avatar and account")}<div class="kc-wrap">${hero(u)}<div class="kc-main">
+  app.innerHTML=`${topbar("Me","🌟","Your stars, avatar and account")}<div class="kc-wrap">${hero(u)}${statCards(u)}<div class="kc-main">
   <div class="ds-seg" id="kcTabs" role="tablist">${[["avatar","🧒 Avatar"],["shop","🛍️ Shop"],["badges","🏅 Badges"],["earn","⭐ Earn"],["account","⚙️ Account"]].map(t=>`<button data-tab="${t[0]}" aria-pressed="${S.tab===t[0]}" role="tab">${t[1]}</button>`).join("")}</div>
   <section class="card sec" id="kcBody">${bodyOf(u)}</section></div></div>`;
   requestAnimationFrame(()=>requestAnimationFrame(()=>document.getElementById("kcBar")?.classList.add("go")));

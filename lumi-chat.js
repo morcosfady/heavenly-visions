@@ -87,7 +87,7 @@ function ansHtml(en,saved){const a=en.a;
 function kidHtml(q){return `<div class="lm-msg lm-k"><div class="lm-bub lm-kb"><p class="lm-t">${E(q)}</p></div><div class="lm-av">${avatar()}</div></div>`}
 const typing=()=>`<div class="lm-msg lm-l" id="lmtyping"><div class="lm-face">${hvLumiSvg("thinking",38)}</div><div class="lm-bub"><span class="lm-dot"></span><span class="lm-dot"></span><span class="lm-dot"></span></div></div>`;
 
-function hero(){return `<div class="lm-hero"><div class="lm-big" id="lmbig">${hvLumiSvg(S.mood,128)}</div><div class="lm-name"><h1>Ask Lumi</h1><div class="tag">Your little lamb helper</div></div></div>`}
+function hero(){return `<div class="lm-hero"><div class="lm-big" id="lmbig">${hvLumiSvg(S.mood,128)}</div><div class="lm-name"><h1>Ask Lumi</h1><div class="tag lm-status"><i class="lm-dot" aria-hidden="true"></i>Lumi is ready to help</div></div></div>`}
 function todayCard(){let t=null;try{const c=window.hvCalToday?hvCalToday():null;if(c){const x=c.ev.find(e=>e.type==="feast")||c.ev.find(e=>e.type==="saint");if(x)t={ic:x.ic,t:x.t,q:x.type==="feast"?"What is "+x.t+"?":"Who is "+x.t+"?"}}}catch{}
   return t?`<div class="lm-today"><span class="lm-ti" aria-hidden="true">${t.ic}</span><div><div class="k">Today</div><b>${E(t.t)}</b></div><button class="btn alt" data-q="${E(t.q)}">Ask Lumi about it</button></div>`:""}
 
