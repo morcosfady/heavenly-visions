@@ -146,7 +146,7 @@ function hub(){
   ${window.hvToday?hvToday(v):`<div class="verse">“${esc(v[0])}”<cite>${v[1]}</cite></div>`}
   ${window.hvMoreDoors?hvMoreDoors():""}
   ${window.hvLumiTip?hvLumiTip():""}
-  <footer><button class="workshop" data-go="servants">🔒 Servants Workshop <small>for servants</small></button><div id="offchip"></div><a class="tag privlink" href="privacy.html">Privacy policy</a></footer>`;
+  <footer><button class="workshop" data-go="servants">🔒 Servants Workshop <small>for servants</small></button><div id="offchip"></div><a class="tag privlink" href="privacy.html">Privacy policy</a><div class="tag" style="opacity:.55;font-size:.72rem;margin-top:6px">Version 113 · heavenlyvisions.app</div></footer>`;
   if(window.hvHomeInit)hvHomeInit();
 }
 function topbar(title,ic,sub,back="home",chips){
