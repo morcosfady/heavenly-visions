@@ -608,4 +608,4 @@ addEventListener("hashchange",()=>window.hvTransition?hvTransition(route):route(
 runIntro();route();
 if(IS_LIVE){const l=document.createElement("link");l.rel="manifest";l.href="manifest.json";document.head.appendChild(l);
   const a=document.createElement("link");a.rel="apple-touch-icon";a.href="icon-180.png";document.head.appendChild(a);
-  if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{})}
+  if("serviceWorker" in navigator){const had=!!navigator.serviceWorker.controller;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(had&&!window._hvr&&performance.now()<20000){window._hvr=1;location.reload()}});navigator.serviceWorker.register("sw.js").catch(()=>{})}}
