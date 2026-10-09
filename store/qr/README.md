@@ -1,6 +1,6 @@
 # QR poster
 
-Prints a poster that sends people to the app: https://morcosfady.github.io/heavenly-visions/
+Prints a poster that sends people to the app: https://heavenlyvisions.app/
 
 - `heavenly-visions-qr-poster.pdf` (US Letter) and `.png`: print these.
 - `qr-code.svg` / `qr-code.png`: the plain QR code (error correction level Q) for flyers, stickers, WhatsApp.

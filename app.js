@@ -578,7 +578,7 @@ function confetti(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)re
 
 /* ================= ROUTER ================= */
 /* big tools that only servants or a few screens need are loaded the first time they are used (faster first open) */
-const LZ={play:["builder.js?v=7","live.js?v=2"],att:["attsheet.js?v=2"],arena:["arena.js?v=4"],lumi:["lumi.js?v=4"]},LZP={};
+const LZ={play:["builder.js?v=7","live.js?v=3"],att:["attsheet.js?v=2"],arena:["arena.js?v=4"],lumi:["lumi.js?v=4"]},LZP={};
 function hvLoad(k){return LZP[k]||(LZP[k]=LZ[k].reduce((p,src)=>p.then(()=>new Promise((ok,no)=>{const e=document.createElement("script");e.src=src;e.async=false;e.onload=ok;e.onerror=no;document.head.appendChild(e)})),Promise.resolve()).catch(e=>{delete LZP[k];throw e}))}
 window.hvLoad=hvLoad;
 const lazyKey=h=>h==="builder"||h==="join"||/^(bnew|bedit|bplay|gplay|j|cls|live)-/.test(h)?"play":h==="attsheet"?"att":h==="report"?"arena":h==="servants"||/^lumi-(cards|gold|report|alerts|settings)$/.test(h)?"lumi":"";

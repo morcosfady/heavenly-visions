@@ -4,7 +4,7 @@
    Points for the final places are given by the Google script (live_finish), not by the phones. */
 (function(){
 const FB="https://heavenly-visions-live-default-rtdb.firebaseio.com";
-const APP_URL="https://morcosfady.github.io/heavenly-visions/";
+const APP_URL="https://heavenlyvisions.app/";
 const GU=()=>window.GAMES_URL||"";
 const acct=()=>window.hvAcct&&hvAcct();
 const SHAPES=["▲","◆","●","■"];
@@ -114,7 +114,7 @@ async function host(gameId){
 function hostRender(){if(!H)return;const box=document.getElementById("lv");if(!box)return;const {phase,pin,qs,k}=H;
   if(phase==="lobby"){
     const url=APP_URL+"#j-"+H.pin;
-    box.innerHTML=`<div class="card sec lv-join"><div class="lv-big">Join at <b>morcosfady.github.io/heavenly-visions</b> and tap <b>Join a live game</b>, or scan:</div>
+    box.innerHTML=`<div class="card sec lv-join"><div class="lv-big">Join at <b>heavenlyvisions.app</b> and tap <b>Join a live game</b>, or scan:</div>
       <div class="lv-qr">${window.hvQRsvg(url,260)}</div>
       <div class="tag">Game PIN</div><div class="lv-pin">${esc(pin)}</div></div>
       <div class="card sec"><div class="lv-count" id="lvN">0 players</div><div class="lv-chips" id="lvP"></div></div>
