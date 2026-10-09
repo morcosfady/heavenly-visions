@@ -121,7 +121,7 @@ function buildBar(){
   document.body.appendChild(bar);ind=bar.querySelector(".tb-ind");
   bar.addEventListener("click",()=>{try{navigator.vibrate&&navigator.vibrate(10)}catch{}});
 }
-let _fy=0;function fabScroll(){const b=document.getElementById("lmfab");if(!b)return;const y=scrollY,dn=y>_fy+6&&y>80,up=y<_fy-6||y<80;if(dn)b.classList.add("away");else if(up)b.classList.remove("away");_fy=y}
+let _fy=0;function fabScroll(){/* Lumi stays on screen while scrolling */}
 addEventListener("scroll",fabScroll,{passive:true});addEventListener("hashchange",()=>{const b=document.getElementById("lmfab");if(b){b.classList.remove("away");_fy=0}});
 function fab(show){
   let b=document.getElementById("lmfab");
