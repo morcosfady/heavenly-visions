@@ -107,9 +107,9 @@ window.hvThemeButton=function(){return ""};
 const TABS=[["home","home","Home"],["learn","media","Learn"],["play","games","Play"],["me","me","Me"]];
 const GROUP={ // route prefix -> tab
   home:"home",media:"learn",m:"learn",bible:"learn",b:"learn",verse:"learn",vp:"learn",calendar:"learn",
-  games:"play",quizzes:"play",coloring:"play",arena:"play",bedtime:"play",pray:"home",
+  games:"play",quizzes:"play",coloring:"play",arena:"play",bedtime:"play",pray:"home",perm:"me",
   lumi:"lumi",profile:"me",kids:"me",me:"me",attendance:"me",attsheet:"me",login:"me",servants:"me",events:"home",news:"home"};
-const SHOW=new Set(["home","media","m","b","news","games","quizzes","bible","verse","calendar","events","kids","profile","me","attendance","bedtime","pray","coloring","servants","login","arena"]);
+const SHOW=new Set(["home","media","m","b","news","games","quizzes","bible","verse","calendar","events","kids","profile","me","attendance","bedtime","pray","perm","coloring","servants","login","arena"]);
 const route=()=>{const h=decodeURIComponent(location.hash.slice(1)||"home");return {h,k:h.split("-")[0]}};
 let bar=null,ind=null;
 function hasLumi(){return !!(window.hvAiUrl&&hvAiUrl())}

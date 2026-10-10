@@ -332,3 +332,23 @@ ok('deleted account cannot log in', call({ action: 'login', username: 'deletekid
 ok('name is gone from the check in list', !A('c1x', { action: 'att_state' }).list.some(x => x.n === 'deletekid'));
 ok('attendance history is gone', !('a_' + delk.user.id in store) && !('u_' + delk.user.id in store) && !('un_deletekid' in store));
 ok('username can be used again', su('deletekid', 'student', 'Grade 3', { email: 'deletekid2@x.org' }).ok);
+
+/* ---- church scoping and the team tree ---- */
+su('cb1', 'coordinator', 'Grade 3', { church: 'Other Church' }); su('sb1', 'servant', 'Grade 3', { church: 'Other Church' });
+su('ns1', 'servant', 'Grade 3'); su('ns2', 'servant', 'Grade 4');
+ok('priest of church A does not see church B requests', !A('p1x', { action: 'access_list' }).pending.some(u => u.id === T.cb1.id || u.id === T.sb1.id));
+ok('priest of church A cannot approve a person of church B', A('p1x', { action: 'access_set', target: T.cb1.id, role: 'coordinator', grade: 'Grade 3' }).error === 'denied');
+ok('priest of church A sees own church requests', A('p1x', { action: 'access_list' }).pending.some(u => u.id === T.ns1.id) && A('p1x', { action: 'access_list' }).pending.some(u => u.id === T.ns2.id));
+ok('grade 3 coordinator cannot approve a servant of another church', A('c1x', { action: 'access_set', target: T.sb1.id, role: 'servant', grade: 'Grade 3' }).error === 'denied');
+ok('grade 3 coordinator cannot approve the other church coordinator', A('c1x', { action: 'access_set', target: T.cb1.id, role: 'servant', grade: 'Grade 3' }).error === 'denied');
+const cpl = A("c1x", { action: "access_list" });
+ok("coordinator is asked about own grade servant only", cpl.ok && cpl.pending.some(u => u.id === T.ns1.id) && !cpl.pending.some(u => u.id === T.ns2.id || u.id === T.sb1.id));
+ok('pending servant cannot read the tree', A('ns2', { action: 'team_tree' }).error === 'denied');
+ok('student cannot read the tree', A('kid', { action: 'team_tree' }).error === 'denied');
+ok('coordinator approves own grade servant', A('c1x', { action: 'access_set', target: T.ns1.id, role: 'servant', grade: 'Grade 3' }).ok);
+const tr = A('ns1', { action: 'team_tree' });
+ok('approved servant reads the tree', tr.ok && tr.church === 'St' && tr.canApprove === false);
+ok('tree lists only own church staff', tr.staff.some(u => u.id === T.c1x.id) && tr.staff.some(u => u.id === T.ns1.id) && !tr.staff.some(u => u.id === T.cb1.id || u.id === T.sb1.id));
+ok('tree has no phone or email', tr.staff.every(u => u.phone === undefined && u.email === undefined));
+ok('tree does not list pending people', !tr.staff.some(u => u.id === T.ns2.id));
+ok('coordinator and priest may approve', A('c1x', { action: 'team_tree' }).canApprove === true && A('p1x', { action: 'team_tree' }).canApprove === true);

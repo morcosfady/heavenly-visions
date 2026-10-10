@@ -164,12 +164,16 @@ function contactUser(u) {
     phone: u.phone, email: u.email, score: u.score, joined: u.joined };
 }
 
+/* people only see and approve people of their own church (the Master sees every church) */
+function sameChurch(a, b) { return String(a.church || '').trim() === String(b.church || '').trim(); }
+
 function accessAction(p, me, b) {
   if (me.role !== 'coordinator' && !isTop(me.role)) return { ok: false, error: 'denied' };
   var users = allUsers(p).filter(function (u) { return u.id !== me.id; });
   if (b.action === 'access_list') {
     var mine = users.filter(function (u) {
       if (me.role === 'master') return u.role !== 'student' || u.req;
+      if (!sameChurch(u, me)) return false;
       if (me.role === 'priest') return (u.role !== 'student' && u.role !== 'master') || u.req;
       return u.grade === me.grade && (u.role === 'servant' || u.req === 'servant');
     });
@@ -180,6 +184,7 @@ function accessAction(p, me, b) {
   if (!raw) return { ok: false, error: 'missing' };
   var t = JSON.parse(raw);
   var role = b.role, grade = b.grade === undefined ? t.grade : String(b.grade).slice(0, 20);
+  if (me.role !== 'master' && !sameChurch(t, me)) return { ok: false, error: 'denied' };
   if ((t.role === 'master' || role === 'master' || t.req === 'master') && me.role !== 'master') return { ok: false, error: 'denied' };
   if (t.role === 'master' && b.action !== 'access_reject' && role !== 'master') return { ok: false, error: 'denied' };
   if (me.role === 'coordinator') {
@@ -196,6 +201,18 @@ function accessAction(p, me, b) {
   if (t.id === me.id && !isTop(t.role)) return { ok: false, error: 'denied' };
   saveUser(p, t);
   return { ok: true };
+}
+
+/* The church team tree: every approved servant, coordinator and priest of the caller's own church. Any approved staff member may read it.
+   Only names, roles and grades are shared (no phone or email). The Master is never listed. */
+function treeAction(p, me, b) {
+  if (!isStaff(me.role) || me.req) return { ok: false, error: 'denied' };
+  var church = (me.role === 'master' && b.church) ? String(b.church).trim() : String(me.church || '').trim();
+  var staff = allUsers(p).filter(function (u) {
+    return (u.role === 'priest' || u.role === 'coordinator' || u.role === 'servant') && !u.req && String(u.church || '').trim() === church;
+  }).map(function (u) { return { id: u.id, name: u.name, role: u.role, grade: u.grade || '' }; });
+  staff.sort(function (x, y) { return x.name < y.name ? -1 : 1; });
+  return { ok: true, church: church, staff: staff, canApprove: me.role === 'coordinator' || isTop(me.role) };
 }
 
 /* Sunday School attendance: a coordinator or higher sets a 3 digit code for today, students type it to check in. */
@@ -1048,6 +1065,7 @@ function accountAction(p, b) {
   }
   if (b.action === 'acct_delete') return deleteAccount(p, me, b.password);
   if (b.action.indexOf('access_') === 0) return accessAction(p, me, b);
+  if (b.action === 'team_tree') return treeAction(p, me, b);
   if (b.action === 'att_set' || b.action === 'att_state') return attSetAction(p, me, b);
   if (/^att_(my|class|all|person|days|csv)$/.test(b.action)) return attStatsAction(p, me, b);
   if (/^lp_/.test(b.action)) return planAction(p, me, b);
@@ -1160,7 +1178,7 @@ function doPost(e) {
   lock.waitLock(20000);
   try {
     var p = PropertiesService.getScriptProperties();
-    if (['signup', 'login', 'me', 'update', 'award', 'attend', 'shop_buy', 'avatar_set', 'acct_delete'].indexOf(b.action) >= 0 || b.action.indexOf('att_') === 0 || b.action.indexOf('lp_') === 0 || b.action.indexOf('an_') === 0 || b.action.indexOf('fu_') === 0 || b.action.indexOf('rs_') === 0 || b.action.indexOf('cp_') === 0 || b.action === 'rp_month' || b.action.indexOf('ev_') === 0 || b.action.indexOf('access_') === 0 || b.action.indexOf('sync_') === 0 || b.action.indexOf('live_') === 0) return out(accountAction(p, b));
+    if (['signup', 'login', 'me', 'update', 'award', 'attend', 'shop_buy', 'avatar_set', 'acct_delete'].indexOf(b.action) >= 0 || b.action.indexOf('att_') === 0 || b.action.indexOf('lp_') === 0 || b.action.indexOf('an_') === 0 || b.action.indexOf('fu_') === 0 || b.action.indexOf('rs_') === 0 || b.action.indexOf('cp_') === 0 || b.action === 'rp_month' || b.action.indexOf('ev_') === 0 || b.action.indexOf('access_') === 0 || b.action === 'team_tree' || b.action.indexOf('sync_') === 0 || b.action.indexOf('live_') === 0) return out(accountAction(p, b));
     var who = getUser(p, b);
     if (!who || !isStaff(who.role)) return out({ ok: false, error: 'denied' });
     if (b.action === 'delete') {
