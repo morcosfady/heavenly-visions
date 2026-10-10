@@ -109,7 +109,8 @@ function homeCard(){
   const s=load(),goal=goalOf(s),n=planOf(s).filter(id=>doneOf(s).includes(id)).length,st=streak(s),nd=nextDue(s);
   const c=document.createElement("button");c.id="prhome";c.className="pr-home";c.dataset.go="pray";
   c.innerHTML=`<span class="pr-hr">${ring(n,goal)}<b>${n}/${goal}</b></span><span class="pr-ht"><b>🙏 My prayers</b><small>${n>=goal?"Goal reached today! 🎉":nd?"Next: "+E(nd.n)+" at "+nice(timeOf(s,nd)):"Set your daily goal"}${st?` · 🔥 ${st}`:""}</small></span><span class="pr-go" aria-hidden="true">›</span>`;
-  (document.querySelector('.doors')||box).before(c)}
+  const doors=document.querySelector('.doors')||box,cont=document.querySelector('.cont2');
+  const row=document.createElement('div');row.className='hrow';doors.before(row);if(cont)row.appendChild(cont);row.appendChild(c)}
 const oldInit=window.hvHomeInit;
 window.hvHomeInit=function(){if(oldInit)oldInit.apply(this,arguments);try{homeCard();remind()}catch{}};
 window.hvPrayCount=()=>{const s=load();return{done:planOf(s).filter(id=>doneOf(s).includes(id)).length,goal:goalOf(s),streak:streak(s)}};
@@ -133,9 +134,12 @@ st.textContent=`
 .pr-btn{flex:none;width:76px;min-height:76px;border-radius:22px;border:0;background:linear-gradient(160deg,#ffe29a,#f0a93e);color:#2b1d05;font-size:1.7rem;font-weight:900;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-shadow:0 8px 18px -6px rgba(240,169,62,.7);transition:transform .15s}.pr-btn span{font-size:.68rem;font-weight:900}.pr-btn:active{transform:scale(.93)}.pr-btn.on{background:linear-gradient(160deg,#7ee0a8,#38b36f);color:#05301a;box-shadow:0 8px 18px -6px rgba(56,179,111,.7)}.pr-btn.pop{animation:prpop .5s cubic-bezier(.2,1.6,.4,1)}@keyframes prpop{0%{transform:scale(.7)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
 .pr-acts{display:flex;gap:10px;margin:14px 0 4px;flex-wrap:wrap}.pr-acts .btn{flex:1;min-width:160px}.pr-note{text-align:center;margin-top:6px}
 .pr-pl{display:flex;flex-direction:column;gap:8px;margin:12px 0}.pr-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:14px;border:1px solid var(--line);background:var(--surface)}.pr-row input[type=checkbox]{width:24px;height:24px;accent-color:#f0a93e;flex:none}.pr-rn{flex:1;display:flex;flex-direction:column;min-width:0}.pr-rn small{color:var(--muted);font-weight:700}.pr-row input[type=time]{font:inherit;font-weight:800;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:6px;min-height:40px}
-.pr-home{display:flex;align-items:center;gap:14px;width:100%;margin:6px 0 14px;padding:12px 14px;border-radius:22px;border:1px solid rgba(243,197,106,.5);background:linear-gradient(135deg,rgba(255,226,154,.2),rgba(120,110,230,.18));color:var(--ink);text-align:left;font:inherit;box-shadow:0 10px 26px -12px rgba(240,169,62,.6)}
-.pr-hr{position:relative;width:62px;height:62px;flex:none}.pr-hr .pr-ring{width:100%;height:100%;filter:none}.pr-hr b{position:absolute;inset:0;display:grid;place-items:center;font-size:.95rem;font-weight:900}
-.pr-ht{flex:1;display:flex;flex-direction:column;min-width:0}.pr-ht b{font-size:1.05rem}.pr-ht small{color:var(--muted);font-weight:800}.pr-go{font-size:1.8rem;color:var(--gold)}
+.hrow{display:flex;gap:10px;margin:0 0 12px;align-items:stretch}.hrow>*{flex:1 1 0;min-width:0;margin:0!important}
+.pr-home{display:flex;align-items:center;gap:8px;width:100%;padding:10px;border-radius:20px;border:1px solid rgba(243,197,106,.5);background:linear-gradient(135deg,rgba(255,226,154,.2),rgba(120,110,230,.18));color:var(--ink);text-align:left;font:inherit;box-shadow:0 8px 20px -12px rgba(240,169,62,.6);min-height:64px}
+.pr-hr{position:relative;width:44px;height:44px;flex:none}.pr-hr .pr-ring{width:100%;height:100%;filter:none}.pr-hr b{position:absolute;inset:0;display:grid;place-items:center;font-size:.72rem;font-weight:900}
+.pr-ht{flex:1;display:flex;flex-direction:column;min-width:0}.pr-ht b{font-size:.86rem;line-height:1.15}.pr-ht small{color:var(--muted);font-weight:800;font-size:.66rem;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.pr-go{display:none}
+.hrow .cont2{padding:10px;border-radius:20px;min-height:64px;gap:8px;margin:0!important}.hrow .cont2 .th{width:54px;height:40px;border-radius:10px}.hrow .cont2 .th .pl{width:22px;height:22px}
+.hrow .cont2 .cn small{font-size:.66rem;line-height:1.2}.hrow .cont2 .cn b{font-size:.8rem;line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.hrow .cont2 .cbar{margin-top:5px;height:5px}
 @media (prefers-reduced-motion:reduce){.pr-arc,.pr-btn.pop{animation:none;transition:none}}
 `;
 document.head.appendChild(st);
