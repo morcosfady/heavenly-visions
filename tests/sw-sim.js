@@ -13,7 +13,7 @@ const call = req => new Promise(res => { handlers.fetch({ request: req, respondW
 const ok = (n, c) => console.log(c ? 'PASS' : 'FAIL', n);
 (async () => {
   await new Promise(r => handlers.install({ waitUntil: p => p.then(r) }));
-  ok('shell is pre-cached', stores['hv-v113-shell'].size >= 20);
+  ok('shell is pre-cached', stores['hv-v114-shell'].size >= 20);
   const page = { method: 'GET', url: 'http://x/index.html', mode: 'navigate' };
   ok('online page comes from the network', (await call(page)).body.startsWith('net:'));
   online = false;

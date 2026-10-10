@@ -146,7 +146,7 @@ function hub(){
   ${window.hvToday?hvToday(v):`<div class="verse">“${esc(v[0])}”<cite>${v[1]}</cite></div>`}
   ${window.hvMoreDoors?hvMoreDoors():""}
   ${window.hvLumiTip?hvLumiTip():""}
-  <footer><button class="workshop" data-go="servants">🔒 Servants Workshop <small>for servants</small></button><div id="offchip"></div><a class="tag privlink" href="privacy.html">Privacy policy</a><div class="tag" style="opacity:.55;font-size:.72rem;margin-top:6px">Version 113 · heavenlyvisions.app</div></footer>`;
+  <footer><button class="workshop" data-go="servants">🔒 Servants Workshop <small>for servants</small></button><div id="offchip"></div><a class="tag privlink" href="privacy.html">Privacy policy</a><div class="tag" style="opacity:.85;font-size:.72rem;margin-top:6px">Version 114 · heavenlyvisions.app</div></footer>`;
   if(window.hvHomeInit)hvHomeInit();
 }
 function topbar(title,ic,sub,back="home",chips){
@@ -592,7 +592,7 @@ function route(){closeSheet();const h=decodeURIComponent(location.hash.slice(1)|
   else if(h==="games")games();else if(h==="g-memory"){store.set("lastGame","g-memory");memory()}else if(h==="g-scramble"){store.set("lastGame","g-scramble");scramble()}
   else if(h==="bible")bible();
   else if(h.startsWith("b-")){const m=h.slice(2).match(/^(.*?)(?:-(\d+))?$/);m[2]?bibleRead(m[1],+m[2]):bibleBook(m[1])}
-  else if(!(window.builderRoute&&builderRoute(h))&&!(window.profileRoute&&profileRoute(h))&&!(window.liveRoute&&liveRoute(h))&&!(window.lgRoute&&lgRoute(h))&&!(window.kidsRoute&&kidsRoute(h))&&!(window.faithRoute&&faithRoute(h))&&!(window.bedtimeRoute&&bedtimeRoute(h))&&!(window.coloringRoute&&coloringRoute(h))&&!(window.servantsRoute&&servantsRoute(h))&&!(window.churchRoute&&churchRoute(h))&&!(window.arenaRoute&&arenaRoute(h))&&!(window.aiRoute&&aiRoute(h))&&!(window.lumiRoute&&lumiRoute(h))&&!(window.lumiChatRoute&&lumiChatRoute(h))&&!(window.games2Route&&games2Route(h))&&!(window.shellRoute&&shellRoute(h))){hub();if(h!=="home"){try{history.replaceState(null,"","#home")}catch{}toast("That page moved")}}window.scrollTo(0,0)}
+  else if(!(window.builderRoute&&builderRoute(h))&&!(window.profileRoute&&profileRoute(h))&&!(window.liveRoute&&liveRoute(h))&&!(window.lgRoute&&lgRoute(h))&&!(window.kidsRoute&&kidsRoute(h))&&!(window.faithRoute&&faithRoute(h))&&!(window.bedtimeRoute&&bedtimeRoute(h))&&!(window.prayRoute&&prayRoute(h))&&!(window.coloringRoute&&coloringRoute(h))&&!(window.servantsRoute&&servantsRoute(h))&&!(window.churchRoute&&churchRoute(h))&&!(window.arenaRoute&&arenaRoute(h))&&!(window.aiRoute&&aiRoute(h))&&!(window.lumiRoute&&lumiRoute(h))&&!(window.lumiChatRoute&&lumiChatRoute(h))&&!(window.games2Route&&games2Route(h))&&!(window.shellRoute&&shellRoute(h))){hub();if(h!=="home"){try{history.replaceState(null,"","#home")}catch{}toast("That page moved")}}window.scrollTo(0,0)}
 function go(h){const t="#"+h;if(location.hash===t)route();else location.hash=h}
 document.addEventListener("click",async e=>{
   const g=e.target.closest("[data-go]");if(g){if(g.hasAttribute("data-close"))closeSheet();go(g.dataset.go);return}

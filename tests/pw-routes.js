@@ -5,7 +5,7 @@
    at the bottom of the page, emojis that are still emojis. Plus the overlay, Lumi button and intro checks. */
 const { chromium } = require('playwright-core');
 const U = process.argv[2] || 'k3_1', WIDTHS = (process.argv[3] || '360,390,768,1024,1366').split(',').map(Number);
-const ROUTES = 'home,media,m-kg,m-g3,m-feasts,m-saints,attendance,attsheet,servants,quizzes,quiz-nayrouz,bible,b-Genesis,b-Genesis-1,games,g-memory,g-scramble,verse,calendar,bedtime,coloring,color-gallery,kids,me,profile,report,planner,announce,news,followup,library,events,login,lumi,lumi-cards,lumi-settings,builder,join,lumi-gold,lumi-report,lumi-alerts,g-trivia,g-wordsearch,g-storyorder,g-versequest,prayers,oldthing'.split(',');
+const ROUTES = 'home,media,m-kg,m-g3,m-feasts,m-saints,attendance,attsheet,servants,quizzes,quiz-nayrouz,bible,b-Genesis,b-Genesis-1,games,g-memory,g-scramble,verse,calendar,pray,bedtime,coloring,color-gallery,kids,me,profile,report,planner,announce,news,followup,library,events,login,lumi,lumi-cards,lumi-settings,builder,join,lumi-gold,lumi-report,lumi-alerts,g-trivia,g-wordsearch,g-storyorder,g-versequest,prayers,oldthing'.split(',');
 const BASE = 'http://localhost:8001/index.html?api=http://localhost:8788&nointro=1&ai=http://localhost:8789';
 const EMO = /\p{Extended_Pictographic}/u;
 (async () => {
@@ -52,7 +52,7 @@ const EMO = /\p{Extended_Pictographic}/u;
     await page.evaluate(() => { location.hash = '#media' }); await page.waitForTimeout(800);
     await page.mouse.wheel(0, 600); await page.waitForTimeout(500);
     const away = await page.evaluate(() => document.getElementById('lmfab') && document.getElementById('lmfab').classList.contains('away')); await page.mouse.wheel(0, -600); await page.waitForTimeout(500);
-    const back = await page.evaluate(() => !document.getElementById('lmfab').classList.contains('away')); console.log('lumi button hides on scroll down:', away, ' shows on scroll up:', back); if (!away || !back) bad++;
+    const back = await page.evaluate(() => !document.getElementById('lmfab').classList.contains('away')); console.log('lumi button stays visible while scrolling (hidden on scroll down:', away, ', visible on scroll up:', back, ')'); if (away || !back) bad++;
     await ctx.close(); }
   { /* intro: first open of the day is full, later opens are short, reduced motion has none */
     for (const [label, extra, reduce] of [['first open', { hv_intro_day: null }, false], ['second open', {}, false], ['reduced motion', { hv_intro_day: null }, true]]) {
