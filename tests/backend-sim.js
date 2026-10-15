@@ -352,3 +352,41 @@ ok('tree lists only own church staff', tr.staff.some(u => u.id === T.c1x.id) && 
 ok('tree has no phone or email', tr.staff.every(u => u.phone === undefined && u.email === undefined));
 ok('tree does not list pending people', !tr.staff.some(u => u.id === T.ns2.id));
 ok('coordinator and priest may approve', A('c1x', { action: 'team_tree' }).canApprove === true && A('p1x', { action: 'team_tree' }).canApprove === true);
+
+/* ---- Give access: find, grant, invite ---- */
+su('gra1', 'student', 'Grade 3'); su('gra2', 'student', 'Grade 4'); su('gra3', 'student', 'Grade 3'); su('grab', 'student', 'Grade 3', { church: 'Other Church' });
+ok('student cannot find or grant', A('gra1', { action: 'access_find', q: 'gra2' }).error === 'denied' && A('gra1', { action: 'access_grant', target: T.gra2.id, role: 'servant', grade: 'Grade 3' }).error === 'denied');
+ok('find needs 3 letters', A('p1x', { action: 'access_find', q: 'g' }).people.length === 0);
+const fp = A('p1x', { action: 'access_find', q: 'gra2' });
+ok('priest finds a person of own church, masked email', fp.people.length === 1 && fp.people[0].id === T.gra2.id && fp.people[0].email.indexOf('***') > 0);
+ok('priest does not find another church', A('p1x', { action: 'access_find', q: 'grab' }).people.length === 0);
+ok('master finds any church', A('mastx', { action: 'access_find', q: 'grab' }).people.length === 1);
+ok('coordinator cannot grant coordinator', A('c1x', { action: 'access_grant', target: T.gra1.id, role: 'coordinator', grade: 'Grade 3' }).error === 'denied');
+ok('coordinator cannot grant another grade', A('c1x', { action: 'access_grant', target: T.gra1.id, role: 'servant', grade: 'Grade 4' }).error === 'denied');
+ok('coordinator grants servant of own grade', A('c1x', { action: 'access_grant', target: T.gra1.id, role: 'servant', grade: 'Grade 3' }).ok && call({ action: 'me', id: T.gra1.id, token: T.gra1.token }).user.role === 'servant');
+ok('coordinator cannot change a priest or coordinator', A('c1x', { action: 'access_grant', target: T.p1x.id, role: 'servant', grade: 'Grade 3' }).error === 'denied');
+ok('coordinator cannot grant a person of another church', A('c1x', { action: 'access_grant', target: T.grab.id, role: 'servant', grade: 'Grade 3' }).error === 'denied');
+ok('priest grants coordinator', A('p1x', { action: 'access_grant', target: T.gra2.id, role: 'coordinator', grade: 'Grade 4' }).ok);
+ok('priest grants Abouna role without a grade', A('p1x', { action: 'access_grant', target: T.gra3.id, role: 'priest' }).ok && call({ action: 'me', id: T.gra3.id, token: T.gra3.token }).user.role === 'priest');
+ok('grade is required for servant', A('p1x', { action: 'access_grant', target: T.s1x.id, role: 'servant' }).error === 'denied');
+ok('priest cannot grant master', A('p1x', { action: 'access_grant', target: T.s1x.id, role: 'master' }).error === 'denied');
+ok('priest cannot grant a person of another church', A('p1x', { action: 'access_grant', target: T.grab.id, role: 'servant', grade: 'Grade 3' }).error === 'denied');
+ok('priest church field is ignored (own church only)', A('p1x', { action: 'access_grant', target: T.s2x.id, role: 'servant', grade: 'Grade 4', church: 'Other Church' }).ok && call({ action: 'me', id: T.s2x.id, token: T.s2x.token }).user.church === 'St');
+ok('master grants across churches and sets the church', A('mastx', { action: 'access_grant', target: T.grab.id, role: 'priest', church: 'St. Mark Coptic Orthodox Church, Prosper' }).ok && call({ action: 'me', id: T.grab.id, token: T.grab.token }).user.church === 'St. Mark Coptic Orthodox Church, Prosper');
+ok('nobody grants themselves', A('p1x', { action: 'access_grant', target: T.p1x.id, role: 'priest' }).error === 'denied');
+ok('nobody touches the master', A('mastx', { action: 'access_grant', target: T.mastx.id, role: 'servant', grade: 'KG' }).error === 'denied');
+/* invites for people without an account yet */
+ok('invite rejects a bad email', A('p1x', { action: 'access_invite', email: 'nope', role: 'servant', grade: 'KG' }).error === 'email');
+ok('invite for an existing account says exists', A('p1x', { action: 'access_invite', email: 'gra1@b.c', role: 'servant', grade: 'KG' }).error === 'exists' || A('p1x', { action: 'access_invite', email: 'gra1@b.c', role: 'servant', grade: 'KG' }).error === 'exists');
+ok('coordinator cannot invite a coordinator', A('c1x', { action: 'access_invite', email: 'new1@x.com', role: 'coordinator', grade: 'Grade 3' }).error === 'denied');
+ok('coordinator invites a servant of own grade', A('c1x', { action: 'access_invite', email: 'New1@x.com', role: 'servant', grade: 'Grade 3' }).ok);
+ok('priest invites a coordinator', A('p1x', { action: 'access_invite', email: 'new2@x.com', role: 'coordinator', grade: 'Grade 5' }).ok);
+ok('master invites into another church', A('mastx', { action: 'access_invite', email: 'new3@x.com', role: 'priest', church: 'St. Mary Coptic Orthodox Church, Colleyville' }).ok);
+ok('coordinator sees only own grade invites', A('c1x', { action: 'access_invites' }).invites.length === 1 && A('p1x', { action: 'access_invites' }).invites.length === 2 && A('mastx', { action: 'access_invites' }).invites.length === 3);
+ok('coordinator cannot cancel another invite', A('c1x', { action: 'access_uninvite', email: 'new2@x.com' }).error === 'denied');
+ok('priest cancels an invite', A('p1x', { action: 'access_uninvite', email: 'new2@x.com' }).ok && A('p1x', { action: 'access_invites' }).invites.length === 1);
+const ni = su('ni1', 'student', 'Grade 3', { email: 'new1@x.com' });
+ok('signing up with the invited email gives the role, grade and church', ni.user.role === 'servant' && ni.user.grade === 'Grade 3' && ni.user.req === '' && ni.user.church === 'St');
+ok('invite is used up', A('p1x', { action: 'access_invites' }).invites.length === 0 || A('p1x', { action: 'access_invites' }).invites.every(i => i.email !== 'new1@x.com'));
+const nm = su('ni3', 'student', 'KG', { email: 'new3@x.com', church: 'Wrong Church' });
+ok('invite church wins over the typed church', nm.user.role === 'priest' && nm.user.church === 'St. Mary Coptic Orthodox Church, Colleyville');

@@ -167,8 +167,81 @@ function contactUser(u) {
 /* people only see and approve people of their own church (the Master sees every church) */
 function sameChurch(a, b) { return String(a.church || '').trim() === String(b.church || '').trim(); }
 
+/* Granting access directly (no request needed). Who may give which role:
+   Master: any role in any church. Abouna: any role in their own church. Coordinator: servant, in their own church and grade. */
+var GRANT_ROLES = ['servant', 'coordinator', 'priest'];
+function grantAllowed(me, role, grade, church) {
+  if (GRANT_ROLES.indexOf(role) < 0) return false;
+  church = String(church || '').trim();
+  if (!church || church.length > 50) return false;
+  if (role !== 'priest' && !String(grade || '').trim()) return false;
+  if (me.role === 'master') return true;
+  if (!sameChurch({ church: church }, me)) return false;
+  if (me.role === 'priest') return true;
+  return me.role === 'coordinator' && role === 'servant' && String(grade) === String(me.grade);
+}
+function maskEmail(e) { e = String(e || ''); var i = e.indexOf('@'); return i < 2 ? e : e.slice(0, 2) + '***' + e.slice(i); }
+function invKey(email) { return 'inv_' + String(email || '').trim().toLowerCase(); }
+function invVisible(me, inv) {
+  if (me.role === 'master') return true;
+  if (!sameChurch(inv, me)) return false;
+  return me.role === 'priest' || (inv.role === 'servant' && inv.grade === me.grade);
+}
+function grantAction(p, me, b) {
+  if (b.action === 'access_find') {
+    var q = String(b.q || '').trim().toLowerCase();
+    if (q.length < 3) return { ok: true, people: [] };
+    var people = allUsers(p).filter(function (u) {
+      if (u.id === me.id || u.role === 'master') return false;
+      if (me.role !== 'master' && !sameChurch(u, me)) return false;
+      if (me.role === 'coordinator' && (u.role === 'priest' || u.role === 'coordinator')) return false;
+      return [u.name, u.email, u.username, u.phone].join(' ').toLowerCase().indexOf(q) >= 0;
+    }).slice(0, 12).map(function (u) { return { id: u.id, name: u.name, church: u.church, role: u.role, req: u.req || '', grade: u.grade || '', email: maskEmail(u.email) }; });
+    return { ok: true, people: people };
+  }
+  if (b.action === 'access_invites') {
+    var all = p.getProperties(), now = Date.now(), out = [];
+    Object.keys(all).forEach(function (k) {
+      if (k.indexOf('inv_') !== 0) return;
+      var inv = JSON.parse(all[k]);
+      if (inv.at < now - 30 * 86400000) { p.deleteProperty(k); return; }
+      if (invVisible(me, inv)) out.push(inv);
+    });
+    return { ok: true, invites: out };
+  }
+  if (b.action === 'access_uninvite') {
+    var raw0 = p.getProperty(invKey(b.email));
+    if (!raw0 || !invVisible(me, JSON.parse(raw0))) return { ok: false, error: 'denied' };
+    p.deleteProperty(invKey(b.email));
+    return { ok: true };
+  }
+  var role = String(b.role || ''), grade = role === 'priest' ? '' : String(b.grade || '').slice(0, 20), church = me.role === 'master' ? String(b.church || '').trim() : String(me.church || '').trim();
+  if (!grantAllowed(me, role, grade, church)) return { ok: false, error: 'denied' };
+  if (b.action === 'access_invite') {
+    var email = String(b.email || '').trim().toLowerCase();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return { ok: false, error: 'email' };
+    var have = allUsers(p).filter(function (u) { return String(u.email || '').toLowerCase() === email; })[0];
+    if (have) return { ok: false, error: 'exists', id: have.id, name: have.name };
+    var count = Object.keys(p.getProperties()).filter(function (k) { return k.indexOf('inv_') === 0; }).length;
+    if (count >= 200 && !p.getProperty(invKey(email))) return { ok: false, error: 'full' };
+    p.setProperty(invKey(email), JSON.stringify({ email: email, name: String(b.name || '').trim().slice(0, 40), role: role, grade: grade, church: church, by: me.name, at: Date.now() }));
+    return { ok: true };
+  }
+  /* access_grant */
+  var raw = p.getProperty('u_' + b.target);
+  if (!raw) return { ok: false, error: 'missing' };
+  var t = JSON.parse(raw);
+  if (t.id === me.id || t.role === 'master') return { ok: false, error: 'denied' };
+  if (me.role !== 'master' && !sameChurch(t, me)) return { ok: false, error: 'denied' };
+  if (me.role === 'coordinator' && ((t.role !== 'student' && t.role !== 'servant') || (t.role === 'servant' && t.grade && t.grade !== me.grade))) return { ok: false, error: 'denied' };
+  t.role = role; t.req = ''; t.grade = grade; t.church = church; t.grantedBy = me.name; t.grantedAt = Date.now();
+  saveUser(p, t);
+  return { ok: true, person: { id: t.id, name: t.name, role: t.role, grade: t.grade, church: t.church } };
+}
+
 function accessAction(p, me, b) {
   if (me.role !== 'coordinator' && !isTop(me.role)) return { ok: false, error: 'denied' };
+  if (/^access_(find|grant|invite|invites|uninvite)$/.test(b.action)) return grantAction(p, me, b);
   var users = allUsers(p).filter(function (u) { return u.id !== me.id; });
   if (b.action === 'access_list') {
     var mine = users.filter(function (u) {
@@ -1029,6 +1102,12 @@ function accountAction(p, b) {
     } else if (b.role !== 'student') {
       if (b.role === 'priest' && !anyPriest(p) && SETUP_CODE !== 'CHANGE_ME' && b.setup === SETUP_CODE) u.role = 'priest';
       else u.req = b.role;
+    }
+    var invRaw = b.role !== 'master' && u.role !== 'master' ? p.getProperty(invKey(b.email)) : null;
+    if (invRaw) {
+      var inv = JSON.parse(invRaw);
+      if (inv.at > Date.now() - 30 * 86400000) { u.role = inv.role; u.grade = inv.grade; u.church = inv.church; u.req = ''; u.grantedBy = inv.by; }
+      p.deleteProperty(invKey(b.email));
     }
     p.setProperty('un_' + un, u.id);
     saveUser(p, u);
