@@ -1,13 +1,13 @@
 /* Backend simulation tests. Run: node tests/backend-sim.js
    Runs apps-script/games-backend.gs in Node with fake Apps Script services and prints PASS or FAIL for each rule. */
 const fs = require('fs'), crypto = require('crypto');
-let src = fs.readFileSync(require('path').join(__dirname, '..', 'apps-script', 'games-backend.gs'), 'utf8').replace("var SETUP_CODE = 'CHANGE_ME';", "var SETUP_CODE = 'SETUP1';").replace("var MASTER_EMAIL = 'CHANGE_ME';", "var MASTER_EMAIL = 'boss@x.com';");
+let src = fs.readFileSync(require('path').join(__dirname, '..', 'apps-script', 'games-backend.gs'), 'utf8').replace("var SETUP_CODE = 'CHANGE_ME';", "var SETUP_CODE = 'SETUP1';").replace("var MASTER_EMAIL = 'CHANGE_ME';", "var MASTER_EMAIL = 'boss@x.com';").replace("var MAIL_SECRET = 'CHANGE_ME';", "var MAIL_SECRET = 'mailsecret1';");
 const store = {};
 let SIMDAY = '2026-10-11';
 const PropertiesService = { getScriptProperties: () => ({
   getProperty: k => (k in store ? store[k] : null), setProperty: (k, v) => { store[k] = v },
   deleteProperty: k => { delete store[k] }, getProperties: () => Object.assign({}, store) }) };
-const Utilities = { DigestAlgorithm: { SHA_256: 1 }, computeDigest: (a, t) => [...crypto.createHash('sha256').update(t).digest()].map(b => b > 127 ? b - 256 : b),
+const Utilities = { DigestAlgorithm: { SHA_256: 1 }, computeHmacSha256Signature: (t, k) => [...crypto.createHmac('sha256', k).update(t).digest()].map(b => b > 127 ? b - 256 : b), computeDigest: (a, t) => [...crypto.createHash('sha256').update(t).digest()].map(b => b > 127 ? b - 256 : b),
   getUuid: () => crypto.randomUUID(), formatDate: (d, tz, f) => (f && f.indexOf('HH') >= 0 ? '10:30' : SIMDAY) };
 const LockService = { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) };
 const sent = [];
@@ -390,3 +390,21 @@ ok('signing up with the invited email gives the role, grade and church', ni.user
 ok('invite is used up', A('p1x', { action: 'access_invites' }).invites.length === 0 || A('p1x', { action: 'access_invites' }).invites.every(i => i.email !== 'new1@x.com'));
 const nm = su('ni3', 'student', 'KG', { email: 'new3@x.com', church: 'Wrong Church' });
 ok('invite church wins over the typed church', nm.user.role === 'priest' && nm.user.church === 'St. Mary Coptic Orthodox Church, Colleyville');
+
+/* ---- signed data for the "your access is ready" email ---- */
+const sigOf = m => crypto.createHmac('sha256', 'mailsecret1').update([m.to, m.first, m.role, m.grade, m.church, m.by, m.ts].join('|')).digest('hex');
+su('mk1', 'student', 'Grade 3'); su('mk2', 'student', 'Grade 3');
+const mg = A('p1x', { action: 'access_grant', target: T.mk1.id, role: 'servant', grade: 'Grade 3' });
+ok('grant returns signed mail data', mg.ok && mg.mail && mg.mail.to === 'mk1@b.c' && mg.mail.role === 'servant' && mg.mail.grade === 'Grade 3' && mg.mail.by === 'p1x' && mg.mail.sig === sigOf(mg.mail));
+ok('changed mail data no longer matches the signature', sigOf(Object.assign({}, mg.mail, { role: 'priest' })) !== mg.mail.sig);
+su('mk4', 'servant', 'Grade 3');
+const ap = A('c1x', { action: 'access_set', target: T.mk4.id, role: 'servant', grade: 'Grade 3' });
+ok('approving a pending request returns signed mail data', ap.ok && ap.mail && ap.mail.to === 'mk4@b.c' && ap.mail.sig === sigOf(ap.mail));
+const ch2 = A('p1x', { action: 'access_set', target: T.mk4.id, role: 'servant', grade: 'Grade 3' });
+ok('a plain role change (no request) sends no mail data', ch2.ok && ch2.mail === null);
+ok('removing access sends no mail data', A('p1x', { action: 'access_set', target: T.mk1.id, role: 'student' }).mail === null);
+A('p1x', { action: 'access_invite', email: 'mailinv@x.com', role: 'coordinator', grade: 'Grade 6' });
+const mi = su('mk5', 'student', 'KG', { email: 'mailinv@x.com' });
+ok('signing up with an invited email returns signed mail data', mi.mail && mi.mail.role === 'coordinator' && mi.mail.grade === 'Grade 6' && mi.mail.sig === sigOf(mi.mail));
+ok('a normal signup has no mail data', su('mk6', 'student', 'KG').mail === null);
+ok('a pending signup has no mail data', su('mk7', 'servant', 'KG').mail === null);

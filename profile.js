@@ -129,12 +129,13 @@ function authPage(mode,startRole){
     m.textContent="Creating…";
     try{const j=await api({action:"signup",role,first:$("#fn").value.trim(),last:$("#ln").value.trim(),name:$("#fn").value.trim()+" "+$("#ln").value.trim(),grade:$("#g")?$("#g").value:"",church:ch.name,phone:$("#ph").value,email:$("#em").value,username:$("#u").value,password:$("#p").value,setup:$("#sc")?$("#sc").value:""});
       if(!j.ok){m.innerHTML=`<span class="err">${j.error==="master"?"Master setup failed. Check the code and email, or a Master already exists.":j.error==="email"?"Please enter a valid email address.":j.error==="taken"?"That username is taken, try another.":j.error==="emailtaken"?"This email already has a profile. Please login instead.":j.error==="username"?"Username: 3 to 20 letters or numbers.":j.error==="password"?"Password needs 6 or more characters.":"Please fill everything in."}</span>`;return}
-      sendWelcome($("#fn").value.trim(),ch.name,$("#em").value.trim(),j.user.req||j.user.role);
+      if(j.mail)window.hvSendGranted(j.mail);else sendWelcome($("#fn").value.trim(),ch.name,$("#em").value.trim(),j.user.req||j.user.role);
       setAcct({token:j.token,user:j.user,avatar:AVATARS[0]});confetti();toast(j.user.req?"Profile created. Waiting for approval ⏳":"Profile created 🎉");go("profile")}
     catch{m.innerHTML=`<span class="err">No internet connection.</span>`}}}
 
 /* ---------- welcome email (loads welcome.js only when a profile is created) ---------- */
-function sendWelcome(first,church,email,role){const go2=()=>window.hvWelcome&&hvWelcome(first,church,email,role);if(window.hvWelcome)return go2();const sc=document.createElement("script");sc.src="welcome.js?v=1";sc.onload=go2;document.head.appendChild(sc)}
+window.hvSendGranted=function(mail){if(!mail)return;const go2=()=>window.hvGranted&&hvGranted(mail);if(window.hvGranted)return go2();const sc=document.createElement("script");sc.src="welcome.js?v=2";sc.onload=go2;document.head.appendChild(sc)};
+function sendWelcome(first,church,email,role){const go2=()=>window.hvWelcome&&hvWelcome(first,church,email,role);if(window.hvWelcome)return go2();const sc=document.createElement("script");sc.src="welcome.js?v=2";sc.onload=go2;document.head.appendChild(sc)}
 /* ---------- profile ---------- */
 /* The Account tab of the Me page (kids.js shows it). Name, role, church, recent points, log out, delete account. */
 window.hvAccountTab=function(box){
@@ -178,7 +179,7 @@ async function accessPage(){
       if(b.dataset.do==="approve")body.role=b.dataset.req;
       if(b.dataset.do==="revoke"){body.role="student";if(!confirm("Remove access?"))return}
       if(b.dataset.do==="save"&&rs){body.role=rs.value;if(rs.value==="priest"||rs.value==="master")body.grade=""}}
-    b.disabled=true;try{const r=await api(body);if(r.ok){toast("Done ✅");accessPage()}else{toast("Not allowed");b.disabled=false}}catch{toast("No internet connection");b.disabled=false}})}
+    b.disabled=true;try{const r=await api(body);if(r.ok){if(r.mail)window.hvSendGranted(r.mail);toast("Done ✅");accessPage()}else{toast("Not allowed");b.disabled=false}}catch{toast("No internet connection");b.disabled=false}})}
 
 /* lock for servant-only pages: returns true when it showed the lock screen */
 window.hvLock=function(){

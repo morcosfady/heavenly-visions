@@ -95,7 +95,7 @@ function wireGive(box,a,refresh){
     const label=(ROLE_OPTS(a).find(r=>r[0]===role)||[0,role])[1]+(grade?" · "+grade:"");
     e.target.disabled=true;
     try{const r=await call(body);
-      if(r.ok){toast(mode==="find"?"✅ "+pick.name+" is now "+label:"✅ Invite saved. Access is given when they create a profile with that email");refresh()}
+      if(r.ok){if(r.mail&&window.hvSendGranted)hvSendGranted(r.mail);toast(mode==="find"?"✅ "+pick.name+" is now "+label:"✅ Invite saved. Access is given when they create a profile with that email");refresh()}
       else if(r.error==="exists"){toast("They already have a profile. Use “Find a person”.");q(".pm-tabs [data-m=find]").click();q("#pgq").value=r.name||"";q("#pgq").dispatchEvent(new Event("input"));e.target.disabled=false}
       else{toast(r.error==="email"?"Enter a valid email":"Not allowed for your role");e.target.disabled=false}}
     catch{toast("No internet connection");e.target.disabled=false}};
@@ -123,7 +123,7 @@ async function page(){
       const gs=c.querySelector("[data-g]");let grade=u.grade||"";
       if(a.user.role==="coordinator")grade=a.user.grade;else if(gs){grade=gs.value;if(!grade&&u.req!=="priest"){toast("Choose a grade first");return}}
       e.target.disabled=true;
-      try{const x=await call({action:"access_set",target:u.id,role:u.req,grade});if(x.ok){toast("✅ "+u.name+" is now "+(NAME[u.req]||"on the team"));page()}else{toast("Not allowed");e.target.disabled=false}}catch{toast("No internet connection");e.target.disabled=false}};
+      try{const x=await call({action:"access_set",target:u.id,role:u.req,grade});if(x.ok){if(x.mail&&window.hvSendGranted)hvSendGranted(x.mail);toast("✅ "+u.name+" is now "+(NAME[u.req]||"on the team"));page()}else{toast("Not allowed");e.target.disabled=false}}catch{toast("No internet connection");e.target.disabled=false}};
     c.querySelector("[data-no]").onclick=async e=>{
       if(!confirm("Decline "+u.name+"?"))return;e.target.disabled=true;
       try{const x=await call({action:"access_reject",target:u.id});if(x.ok){toast("Declined");page()}else{toast("Not allowed");e.target.disabled=false}}catch{toast("No internet connection");e.target.disabled=false}}})}

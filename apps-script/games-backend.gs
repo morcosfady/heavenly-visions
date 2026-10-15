@@ -6,6 +6,9 @@
 var SETUP_CODE = 'CHANGE_ME';
 /* Only this email can become the Master, and only with the setup code. */
 var MASTER_EMAIL = 'CHANGE_ME';
+/* Shared with the welcome mailer script (same value in both editors, never in the repo). Signs the "your access is ready" email data,
+   so only the real backend can make the mailer send it. While it is CHANGE_ME no access email is made. */
+var MAIL_SECRET = 'CHANGE_ME';
 
 function out(o) {
   return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
@@ -167,6 +170,17 @@ function contactUser(u) {
 /* people only see and approve people of their own church (the Master sees every church) */
 function sameChurch(a, b) { return String(a.church || '').trim() === String(b.church || '').trim(); }
 
+
+/* Data for the "your access is ready" email. The mailer checks the signature before it sends anything. */
+function toHex(bytes) { return bytes.map(function (b) { return ('0' + ((b + 256) % 256).toString(16)).slice(-2); }).join(''); }
+function mailProof(u, by) {
+  if (MAIL_SECRET === 'CHANGE_ME' || !u.email || ['servant', 'coordinator', 'priest'].indexOf(u.role) < 0) return null;
+  var m = { to: String(u.email).trim().toLowerCase(), first: String(u.first || String(u.name || '').split(' ')[0] || '').slice(0, 30), role: u.role,
+    grade: u.grade || '', church: String(u.church || '').slice(0, 60), by: String(by || '').slice(0, 40), ts: Date.now() };
+  m.sig = toHex(Utilities.computeHmacSha256Signature([m.to, m.first, m.role, m.grade, m.church, m.by, m.ts].join('|'), MAIL_SECRET));
+  return m;
+}
+
 /* Granting access directly (no request needed). Who may give which role:
    Master: any role in any church. Abouna: any role in their own church. Coordinator: servant, in their own church and grade. */
 var GRANT_ROLES = ['servant', 'coordinator', 'priest'];
@@ -236,7 +250,7 @@ function grantAction(p, me, b) {
   if (me.role === 'coordinator' && ((t.role !== 'student' && t.role !== 'servant') || (t.role === 'servant' && t.grade && t.grade !== me.grade))) return { ok: false, error: 'denied' };
   t.role = role; t.req = ''; t.grade = grade; t.church = church; t.grantedBy = me.name; t.grantedAt = Date.now();
   saveUser(p, t);
-  return { ok: true, person: { id: t.id, name: t.name, role: t.role, grade: t.grade, church: t.church } };
+  return { ok: true, person: { id: t.id, name: t.name, role: t.role, grade: t.grade, church: t.church }, mail: mailProof(t, me.name) };
 }
 
 function accessAction(p, me, b) {
@@ -256,7 +270,7 @@ function accessAction(p, me, b) {
   var raw = p.getProperty('u_' + b.target);
   if (!raw) return { ok: false, error: 'missing' };
   var t = JSON.parse(raw);
-  var role = b.role, grade = b.grade === undefined ? t.grade : String(b.grade).slice(0, 20);
+  var role = b.role, grade = b.grade === undefined ? t.grade : String(b.grade).slice(0, 20), approved = false;
   if (me.role !== 'master' && !sameChurch(t, me)) return { ok: false, error: 'denied' };
   if ((t.role === 'master' || role === 'master' || t.req === 'master') && me.role !== 'master') return { ok: false, error: 'denied' };
   if (t.role === 'master' && b.action !== 'access_reject' && role !== 'master') return { ok: false, error: 'denied' };
@@ -269,11 +283,12 @@ function accessAction(p, me, b) {
   else if (b.action === 'access_set') {
     var newRole = role || t.req || t.role;
     if (ROLES.indexOf(newRole) < 0) return { ok: false, error: 'missing' };
+    approved = !!t.req && newRole !== 'student';
     t.role = newRole; t.req = ''; t.grade = grade;
   }
   if (t.id === me.id && !isTop(t.role)) return { ok: false, error: 'denied' };
   saveUser(p, t);
-  return { ok: true };
+  return { ok: true, mail: approved ? mailProof(t, me.name) : null };
 }
 
 /* The church team tree: every approved servant, coordinator and priest of the caller's own church. Any approved staff member may read it.
@@ -1103,15 +1118,16 @@ function accountAction(p, b) {
       if (b.role === 'priest' && !anyPriest(p) && SETUP_CODE !== 'CHANGE_ME' && b.setup === SETUP_CODE) u.role = 'priest';
       else u.req = b.role;
     }
+    var invMail = null;
     var invRaw = b.role !== 'master' && u.role !== 'master' ? p.getProperty(invKey(b.email)) : null;
     if (invRaw) {
       var inv = JSON.parse(invRaw);
-      if (inv.at > Date.now() - 30 * 86400000) { u.role = inv.role; u.grade = inv.grade; u.church = inv.church; u.req = ''; u.grantedBy = inv.by; }
+      if (inv.at > Date.now() - 30 * 86400000) { u.role = inv.role; u.grade = inv.grade; u.church = inv.church; u.req = ''; u.grantedBy = inv.by; invMail = true; }
       p.deleteProperty(invKey(b.email));
     }
     p.setProperty('un_' + un, u.id);
     saveUser(p, u);
-    return { ok: true, token: u.tok, user: publicUser(u) };
+    return { ok: true, token: u.tok, user: publicUser(u), mail: invMail ? mailProof(u, u.grantedBy) : null };
   }
   if (b.action === 'login') {
     var who = String(b.username || '').trim().toLowerCase();
