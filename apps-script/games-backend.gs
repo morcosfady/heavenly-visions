@@ -173,11 +173,11 @@ function sameChurch(a, b) { return String(a.church || '').trim() === String(b.ch
 
 /* Data for the "your access is ready" email. The mailer checks the signature before it sends anything. */
 function toHex(bytes) { return bytes.map(function (b) { return ('0' + ((b + 256) % 256).toString(16)).slice(-2); }).join(''); }
-function mailProof(u, by) {
+function mailProof(u, by, kind) {
   if (MAIL_SECRET === 'CHANGE_ME' || !u.email || ['servant', 'coordinator', 'priest'].indexOf(u.role) < 0) return null;
   var m = { to: String(u.email).trim().toLowerCase(), first: String(u.first || String(u.name || '').split(' ')[0] || '').slice(0, 30), role: u.role,
-    grade: u.grade || '', church: String(u.church || '').slice(0, 60), by: String(by || '').slice(0, 40), ts: Date.now() };
-  m.sig = toHex(Utilities.computeHmacSha256Signature([m.to, m.first, m.role, m.grade, m.church, m.by, m.ts].join('|'), MAIL_SECRET));
+    grade: u.grade || '', church: String(u.church || '').slice(0, 60), by: String(by || '').slice(0, 40), ts: Date.now(), kind: kind || 'granted' };
+  m.sig = toHex(Utilities.computeHmacSha256Signature([m.kind, m.to, m.first, m.role, m.grade, m.church, m.by, m.ts].join('|'), MAIL_SECRET));
   return m;
 }
 
@@ -238,8 +238,9 @@ function grantAction(p, me, b) {
     if (have) return { ok: false, error: 'exists', id: have.id, name: have.name };
     var count = Object.keys(p.getProperties()).filter(function (k) { return k.indexOf('inv_') === 0; }).length;
     if (count >= 200 && !p.getProperty(invKey(email))) return { ok: false, error: 'full' };
-    p.setProperty(invKey(email), JSON.stringify({ email: email, name: String(b.name || '').trim().slice(0, 40), role: role, grade: grade, church: church, by: me.name, at: Date.now() }));
-    return { ok: true };
+    var invName = String(b.name || '').trim().slice(0, 40);
+    p.setProperty(invKey(email), JSON.stringify({ email: email, name: invName, role: role, grade: grade, church: church, by: me.name, at: Date.now() }));
+    return { ok: true, mail: mailProof({ email: email, name: invName, role: role, grade: grade, church: church }, me.name, 'invite') };
   }
   /* access_grant */
   var raw = p.getProperty('u_' + b.target);

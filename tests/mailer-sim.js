@@ -11,7 +11,7 @@ const { doPost } = new Function('CacheService', 'MailApp', 'Utilities', 'Content
 const TOKEN = (src.match(/var TOKEN = '([^']+)'/) || [])[1];
 const post = b => JSON.parse(doPost({ postData: { contents: JSON.stringify(b) } }).s);
 const ok = (n, c) => console.log(c ? 'PASS' : 'FAIL', n);
-const mail = o => { const m = Object.assign({ to: 'new@x.com', first: 'Mariam', role: 'servant', grade: 'Grade 3', church: 'St. Mark', by: 'Abouna Mark', ts: Date.now() }, o); m.sig = crypto.createHmac('sha256', 'mailsecret1').update([m.to, m.first, m.role, m.grade, m.church, m.by, m.ts].join('|')).digest('hex'); return m; };
+const mail = o => { const m = Object.assign({ kind: 'granted', to: 'new@x.com', first: 'Mariam', role: 'servant', grade: 'Grade 3', church: 'St. Mark', by: 'Abouna Mark', ts: Date.now() }, o); m.sig = crypto.createHmac('sha256', 'mailsecret1').update([m.kind || 'granted', m.to, m.first, m.role, m.grade, m.church, m.by, m.ts].join('|')).digest('hex'); return m; };
 ok('sends the access email for signed data', post({ token: TOKEN, kind: 'granted', mail: mail() }).ok && sent.length === 1);
 ok('subject, sender name and address', sent[0].subject === 'Your Heavenly Visions access is ready' && sent[0].name === 'Heavenly Visions' && sent[0].to === 'new@x.com');
 ok('fills in name, church, grade and giver', /Your access is ready, Mariam!/.test(sent[0].htmlBody) && /St\. Mark/.test(sent[0].htmlBody) && /Grade 3/.test(sent[0].htmlBody) && /Abouna Mark/.test(sent[0].htmlBody) && !/\{\{/.test(sent[0].htmlBody));
@@ -26,3 +26,9 @@ post({ token: TOKEN, kind: 'granted', mail: mail({ to: 'f@x.com', first: '<b>x</
 ok('html in names is escaped', !/<b>x<\/b>/.test(sent[sent.length - 1].htmlBody));
 ok('Abouna and coordinator versions exist', post({ token: TOKEN, kind: 'granted', mail: mail({ to: 'g@x.com', role: 'priest', grade: '' }) }).ok && post({ token: TOKEN, kind: 'granted', mail: mail({ to: 'h@x.com', role: 'coordinator' }) }).ok);
 ok('the old welcome email still works', post({ token: TOKEN, to: 'old@x.com', first: 'Mina', church: 'St', role: 'student' }).ok);
+
+const inv = mail({ to: 'inv@x.com', kind: 'invite', first: '' });
+ok('sends the invitation email', post({ token: TOKEN, kind: 'granted', mail: inv }).ok && /You are invited, friend!/.test(sent[sent.length - 1].htmlBody) && sent[sent.length - 1].subject === 'You are invited to Heavenly Visions' && /#signup/.test(sent[sent.length - 1].htmlBody) && !/\{\{/.test(sent[sent.length - 1].htmlBody));
+ok('invitation and access email do not block each other', post({ token: TOKEN, kind: 'granted', mail: mail({ to: 'inv@x.com' }) }).ok);
+const sw = mail({ to: 'sw@x.com', kind: 'invite' }); sw.kind = 'granted';
+ok('an invitation signature cannot be reused as an access email', post({ token: TOKEN, kind: 'granted', mail: sw }).error === 'auth');

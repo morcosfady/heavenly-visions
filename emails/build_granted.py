@@ -51,8 +51,11 @@ ROLES = {
 }
 
 
-def build(role, name, church, grade, by):
-    r = ROLES[role]
+def build(role, name, church, grade, by, invite=False):
+    r = dict(ROLES[role])
+    if invite:
+        r["steps"] = ["Open the app and tap <b>Create profile</b>", "Choose <b>" + r["label"] + "</b> and use <b>this same email address</b>", "Your access turns on by itself &#127881;"]
+        r["title"] = "What you will be able to do"
     rows = "".join(
         f'<tr><td width="48" style="padding:9px 0;font-size:26px;" valign="top">{ic}</td>'
         f'<td style="padding:9px 0;"><b>{t}</b><br><span style="color:#b9b6c6;">{d}</span></td></tr>'
@@ -73,10 +76,10 @@ def build(role, name, church, grade, by):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Your access is ready</title>
+<title>{"You are invited" if invite else "Your access is ready"}</title>
 </head>
 <body style="margin:0;padding:0;background:#141a2b;">
-<div style="display:none;max-height:0;overflow:hidden;opacity:0;">{by} gave you {r["label"]} access in Heavenly Visions. Tap to open the app.</div>
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">{by} {"invited you to serve as " + r["label"] if invite else "gave you " + r["label"] + " access"} in Heavenly Visions. Tap to open the app.</div>
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#141a2b;padding:24px 12px;">
 <tr><td align="center">
 <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="width:100%;max-width:600px;border-radius:24px;overflow:hidden;background:#1d2540;font-family:'Trebuchet MS',Arial,sans-serif;color:#f3ecdf;">
@@ -88,9 +91,9 @@ def build(role, name, church, grade, by):
 
   <tr><td align="center" style="padding:30px 28px 6px;">
     <div style="font-size:46px;line-height:1;">&#127881;</div>
-    <h1 style="margin:14px 0 8px;font-family:Georgia,'Times New Roman',serif;font-size:31px;line-height:1.2;color:#f6d27a;">Your access is ready, {name}!</h1>
+    <h1 style="margin:14px 0 8px;font-family:Georgia,'Times New Roman',serif;font-size:31px;line-height:1.2;color:#f6d27a;">{("You are invited, " + name + "!") if invite else ("Your access is ready, " + name + "!")}</h1>
     <div style="display:inline-block;margin:4px 0 12px;padding:5px 16px;border-radius:999px;background:#252f55;color:#e3b45c;font-size:14px;font-weight:bold;">{r["icon"]} {r["label"]}</div>
-    <p style="margin:0;font-size:16px;line-height:1.7;color:#d9d3c7;"><b style="color:#f3ecdf;">{by}</b> {r["lead"]}<br><b style="color:#f3ecdf;">{church}</b>. Thank you for giving your time to our children and families &#128591;</p>
+    <p style="margin:0;font-size:16px;line-height:1.7;color:#d9d3c7;"><b style="color:#f3ecdf;">{by}</b> {("has invited you to serve as " + r["label"] + " at") if invite else r["lead"]}<br><b style="color:#f3ecdf;">{church}</b>. Thank you for giving your time to our children and families &#128591;</p>
   </td></tr>
 
   <tr><td style="padding:22px 28px 4px;">
@@ -126,14 +129,14 @@ def build(role, name, church, grade, by):
   </td></tr>
 
   <tr><td align="center" style="padding:30px 28px 8px;">
-    <a href="{APP}#perm" style="display:inline-block;padding:17px 42px;border-radius:999px;background:#e3b45c;color:#2b1d05;font-family:Georgia,'Times New Roman',serif;font-size:18px;font-weight:bold;text-decoration:none;letter-spacing:1px;">Open Heavenly Visions</a>
+    <a href="{APP}{"#signup" if invite else "#perm"}" style="display:inline-block;padding:17px 42px;border-radius:999px;background:#e3b45c;color:#2b1d05;font-family:Georgia,'Times New Roman',serif;font-size:18px;font-weight:bold;text-decoration:none;letter-spacing:1px;">{"Create my profile" if invite else "Open Heavenly Visions"}</a>
     <div style="margin-top:14px;font-size:13px;color:#8f8da3;line-height:1.6;">Tip: add the app to your home screen<br>so it opens like any other app.</div>
   </td></tr>
 
   <tr><td align="center" style="padding:26px 28px 30px;font-size:12px;line-height:1.7;color:#8f8da3;border-top:1px solid #2c3657;">
     Glory be to God forever. Amen. &#10013;&#65039;<br>
     Questions? Just reply to this email and we will help.<br>
-    You received this because {by} gave you access on Heavenly Visions.<br>
+    You received this because {by} {'invited you to' if invite else 'gave you access on'} Heavenly Visions.<br>
     <a href="https://www.youtube.com/@Heavenly-Visions1" style="color:#e3b45c;text-decoration:none;">Watch us on YouTube</a>
   </td></tr>
 
@@ -148,6 +151,10 @@ def build(role, name, church, grade, by):
 for role in ROLES:
     with open(f"granted-{role}.html", "w", encoding="utf8") as f:
         f.write(build(role, "{{name}}", "{{church}}", "{{grade}}", "{{by}}"))
+    with open(f"invited-{role}.html", "w", encoding="utf8") as f:
+        f.write(build(role, "{{name}}", "{{church}}", "{{grade}}", "{{by}}", True))
+    with open(f"invited-{role}.html", "w", encoding="utf8") as f:
+        f.write(build(role, "{{name}}", "{{church}}", "{{grade}}", "{{by}}", True))
 
 samples = {
     "servant": ("Mariam", "Grade 3", "Abouna Mark"),

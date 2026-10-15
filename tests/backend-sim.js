@@ -392,7 +392,7 @@ const nm = su('ni3', 'student', 'KG', { email: 'new3@x.com', church: 'Wrong Chur
 ok('invite church wins over the typed church', nm.user.role === 'priest' && nm.user.church === 'St. Mary Coptic Orthodox Church, Colleyville');
 
 /* ---- signed data for the "your access is ready" email ---- */
-const sigOf = m => crypto.createHmac('sha256', 'mailsecret1').update([m.to, m.first, m.role, m.grade, m.church, m.by, m.ts].join('|')).digest('hex');
+const sigOf = m => crypto.createHmac('sha256', 'mailsecret1').update([m.kind || 'granted', m.to, m.first, m.role, m.grade, m.church, m.by, m.ts].join('|')).digest('hex');
 su('mk1', 'student', 'Grade 3'); su('mk2', 'student', 'Grade 3');
 const mg = A('p1x', { action: 'access_grant', target: T.mk1.id, role: 'servant', grade: 'Grade 3' });
 ok('grant returns signed mail data', mg.ok && mg.mail && mg.mail.to === 'mk1@b.c' && mg.mail.role === 'servant' && mg.mail.grade === 'Grade 3' && mg.mail.by === 'p1x' && mg.mail.sig === sigOf(mg.mail));
@@ -408,3 +408,7 @@ const mi = su('mk5', 'student', 'KG', { email: 'mailinv@x.com' });
 ok('signing up with an invited email returns signed mail data', mi.mail && mi.mail.role === 'coordinator' && mi.mail.grade === 'Grade 6' && mi.mail.sig === sigOf(mi.mail));
 ok('a normal signup has no mail data', su('mk6', 'student', 'KG').mail === null);
 ok('a pending signup has no mail data', su('mk7', 'servant', 'KG').mail === null);
+
+const ivm = A('p1x', { action: 'access_invite', email: 'invmail@x.com', name: 'Dina Lamy', role: 'servant', grade: 'Grade 2' });
+ok('an invite returns signed invitation mail data', ivm.ok && ivm.mail && ivm.mail.kind === 'invite' && ivm.mail.to === 'invmail@x.com' && ivm.mail.first === 'Dina' && ivm.mail.role === 'servant' && ivm.mail.sig === sigOf(ivm.mail));
+ok('invitation data cannot be used as an access email', sigOf(Object.assign({}, ivm.mail, { kind: 'granted' })) !== ivm.mail.sig);

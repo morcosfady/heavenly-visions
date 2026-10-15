@@ -95,7 +95,7 @@ function wireGive(box,a,refresh){
     const label=(ROLE_OPTS(a).find(r=>r[0]===role)||[0,role])[1]+(grade?" · "+grade:"");
     e.target.disabled=true;
     try{const r=await call(body);
-      if(r.ok){if(r.mail&&window.hvSendGranted)hvSendGranted(r.mail);toast(mode==="find"?"✅ "+pick.name+" is now "+label:"✅ Invite saved. Access is given when they create a profile with that email");refresh()}
+      if(r.ok){if(r.mail&&window.hvSendGranted)hvSendGranted(r.mail);toast(mode==="find"?"✅ "+pick.name+" is now "+label:"✅ Invitation emailed. Access is given when they create a profile with that email");refresh()}
       else if(r.error==="exists"){toast("They already have a profile. Use “Find a person”.");q(".pm-tabs [data-m=find]").click();q("#pgq").value=r.name||"";q("#pgq").dispatchEvent(new Event("input"));e.target.disabled=false}
       else{toast(r.error==="email"?"Enter a valid email":"Not allowed for your role");e.target.disabled=false}}
     catch{toast("No internet connection");e.target.disabled=false}};
