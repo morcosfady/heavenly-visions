@@ -35,6 +35,7 @@ const V=[
  ["UQfpRmoRAAI","The Ascension of Jesus","2:16","kg"],["CMnye7L_E2o","Pentecost: The Day the Holy Spirit Came","2:04","kg"],
  ["I_iuKkKC_Zg","What Is the Apostles' Fast?","1:51","kg"],["sGdE0I9DA8w","The Feast of the Holy Apostles","2:15","kg"],
  ["gMAFxDCTzr8","The Transfiguration of Jesus","2:54","kg"],["BHKgrAQCs3A","Happy Coptic New Year! The Story of Nayrouz","2:39","kg"],
+ ["wa0mda2pmQ8","Jesus Loves Kids! Let the Little Children Come to Me","2:19","kg"],
  ["iuXjBbh0kp0","Daniel and the Lions' Den","2:25","g1"],["FwCOA9rChw4","St. Mark: The Roar of Faith","3:12","g2"],
  ["7TxD6UvY9G4","St. Mark's Mission to Egypt","1:45","g2"],["RzKpf-uI1gA","God's Love and the Fall","3:14","g6"],
  ["Rq7UcDSDdLg","The Sacrament of the Eucharist","2:59","g6"],["BqnM-BuA9MY","The Month of Kiahk","2:13","feasts"],
@@ -190,6 +191,7 @@ const LV={
 "prek|7.2":["el-9WkiWryU","duAYMBpBRe8"],
 "prek|7.6":["sRSsgo4-D0o"],
 "kg|1.1":["BHKgrAQCs3A"],
+"kg|1.2":["wa0mda2pmQ8"],
 "kg|1.4":["hboXmJYMZEo","rNiY9PFe_3g"],
 "kg|1.5":["hboXmJYMZEo","rNiY9PFe_3g"],
 "kg|2.1":["ArIC3kr3um0","_volkElfX1k"],
@@ -284,7 +286,7 @@ function mediaSection(id){const s=sec(id);if(!s)return media();const vs=inSec(id
   <div class="list">${vs.length?vs.map(v=>rowHTML(v,false)).join(""):`<div class="empty">📚 ${s.name} lessons are on the way.<br>Check back soon!</div>`}</div>`}
 function gradeLessons(s){const bl=CUR[s.id],n=bl.reduce((a,b)=>a+b[1].length,0),has=l=>!!lessonVids(s.id,l[0])[0];
   const soonN=bl.reduce((a,b)=>a+b[1].filter(l=>!has(l)).length,0),showSoon=!!(store.get("showsoon",{})[s.id]);
-  const NEWV=["BHKgrAQCs3A","gMAFxDCTzr8","ZDRMmShq1jg"];
+  const NEWV=["wa0mda2pmQ8","BHKgrAQCs3A","gMAFxDCTzr8","ZDRMmShq1jg"];
   const row=l=>{const v=lessonVids(s.id,l[0])[0],dn=isDone(s.id,l[0]),ti=`${l[0]} - ${esc(l[1])}`;
     return v?`<button class="row${dn?" isdone":""}" data-go="l-${s.id}-${l[0]}"><span class="thumb">${s.ic}<img src="https://i.ytimg.com/vi/${v[0]}/mqdefault.jpg" alt="" loading="lazy" onerror="this.remove()"><span class="dur">${v[2]}</span>${NEWV.includes(v[0])?`<span class="newb">New</span>`:""}</span><span style="min-width:0"><span class="t">${ti}</span>${dn?`<span class="dnchip">${hvIcon("check",16)} Done</span>`:""}</span></button>`
     :`<button class="row soonrow" data-go="l-${s.id}-${l[0]}"><span class="t">${ti}</span><small>Video coming soon</small></button>`};
