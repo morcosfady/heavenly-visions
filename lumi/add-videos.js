@@ -57,7 +57,9 @@ const MAP = {
   'sac-eucharist': ['2CEJrgi4uGc', 'Rq7UcDSDdLg'],
   'sac-communion-ready': ['2CEJrgi4uGc'],
   'pray-meal': ['sRSsgo4-D0o'],
-  'virtue-gratitude': ['sRSsgo4-D0o']
+  'virtue-gratitude': ['sRSsgo4-D0o'],
+  'faith-god-loves-me': ['wa0mda2pmQ8'],
+  'pray-how-to-pray': ['wa0mda2pmQ8']
 };
 
 let n = 0, bad = 0;
