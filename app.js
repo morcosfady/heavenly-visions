@@ -288,9 +288,9 @@ function mediaSection(id){const s=sec(id);if(!s)return media();const vs=inSec(id
   <div class="list">${vs.length?vs.map(v=>rowHTML(v,false)).join(""):`<div class="empty">📚 ${s.name} lessons are on the way.<br>Check back soon!</div>`}</div>`}
 function gradeLessons(s){const bl=CUR[s.id],n=bl.reduce((a,b)=>a+b[1].length,0),has=l=>!!lessonVids(s.id,l[0])[0];
   const soonN=bl.reduce((a,b)=>a+b[1].filter(l=>!has(l)).length,0),showSoon=!!(store.get("showsoon",{})[s.id]);
-  const NEWV=["F4yXR9rMkJ0","a1fP8nmz2N0","8pMw8PHsdrw","wa0mda2pmQ8","BHKgrAQCs3A","gMAFxDCTzr8","ZDRMmShq1jg"];
+  const NEWV=[];
   const row=l=>{const v=lessonVids(s.id,l[0])[0],dn=isDone(s.id,l[0]),ti=`${l[0]} - ${esc(l[1])}`;
-    return v?`<button class="row${dn?" isdone":""}" data-go="l-${s.id}-${l[0]}"><span class="thumb">${s.ic}<img src="https://i.ytimg.com/vi/${v[0]}/mqdefault.jpg" alt="" loading="lazy" onerror="this.remove()"><span class="dur">${v[2]}</span>${NEWV.includes(v[0])?`<span class="newb">New</span>`:""}</span><span style="min-width:0"><span class="t">${ti}</span>${dn?`<span class="dnchip">${hvIcon("check",16)} Done</span>`:""}</span></button>`
+    return v?`<button class="row${dn?" isdone":""}" data-go="l-${s.id}-${l[0]}"><span class="thumb">${s.ic}<img src="https://i.ytimg.com/vi/${v[0]}/mqdefault.jpg" alt="" loading="lazy" onerror="this.remove()"><span class="dur">${v[2]}</span></span><span style="min-width:0"><span class="t">${ti}</span>${dn?`<span class="dnchip">${hvIcon("check",16)} Done</span>`:""}</span></button>`
     :`<button class="row soonrow" data-go="l-${s.id}-${l[0]}"><span class="t">${ti}</span><small>Video coming soon</small></button>`};
   const blocks=bl.map(b=>{const ls=showSoon?b[1]:b[1].filter(has);return ls.length?`<section class="sec"><h2>${esc(b[0])}</h2><div class="list cols">${ls.map(row).join("")}</div></section>`:""}).join("");
   app.innerHTML=`${topbar(s.name,s.ic,n+" lessons · "+bl.reduce((a,b)=>a+b[1].filter(l=>isDone(s.id,l[0])).length,0)+" done ✅","media")}
