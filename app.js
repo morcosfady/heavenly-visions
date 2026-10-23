@@ -39,7 +39,7 @@ const V=[
  ["8pMw8PHsdrw","God Cares for You! Baby Moses in the Basket","2:37","kg"],["a1fP8nmz2N0","Little Samuel Obeys! Hannah's Prayer","2:50","kg"],["F4yXR9rMkJ0","You Are God's Special Gift!","2:48","kg"],["9G4FRlxuNHU","Jesus Is the Bread of Life!","2:40","kg"],
  ["iuXjBbh0kp0","Daniel and the Lions' Den","2:25","g1"],["FwCOA9rChw4","St. Mark: The Roar of Faith","3:12","g2"],
  ["7TxD6UvY9G4","St. Mark's Mission to Egypt","1:45","g2"],["RzKpf-uI1gA","God's Love and the Fall","3:14","g6"],
- ["Rq7UcDSDdLg","The Sacrament of the Eucharist","2:59","g6"],["lbztL6qItsw","Why Don't We Celebrate Halloween? Children of the Light","2:37","feasts"],["BqnM-BuA9MY","The Month of Kiahk","2:13","feasts"],
+ ["Rq7UcDSDdLg","The Sacrament of the Eucharist","2:59","g6"],["lbztL6qItsw","Why Don't We Celebrate Halloween? Children of the Light","2:37","feasts"],["vF6r4hp4gBo","Should Christians Celebrate Halloween? The Truth Behind the Night","4:12","feasts"],["BqnM-BuA9MY","The Month of Kiahk","2:13","feasts"],
  ["alqMhECRjw0","The Fast of Nativity","2:43","feasts"],["nf9nTCL1GMk","Mary and the Angel Gabriel","1:57","feasts"],
  ["s4Qo9-oABQ0","Mary Meets Elizabeth","2:26","feasts"],["el-9WkiWryU","The Birth of John the Baptist","2:58","feasts"],
  ["B1APrQsFZ1E","Treasures in Heaven (Great Lent, 1st Sunday)","1:59","feasts"],["S_ON5DE_nxs","Jesus Defeats Temptation (Lent, 2nd Sunday)","3:02","feasts"],
