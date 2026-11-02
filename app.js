@@ -196,7 +196,7 @@ const LV={
 "kg|1.3":["8pMw8PHsdrw"],
 "kg|1.4":["a1fP8nmz2N0"],"kg|1.6":["F4yXR9rMkJ0"],"kg|1.7":["9G4FRIxuNHU"],
 "kg|1.5":["hboXmJYMZEo","rNiY9PFe_3g"],
-"kg|2.1":["1yAvInQo6I4","ArIC3kr3um0","_volkElfX1k"],"kg|2.3":["bE9V1XTiRUw"],"kg|2.4":["PvjSVq0RSgA"],"kg|2.8":["5n_gYjTF5QI"],
+"kg|2.1":["1yAvInQo6I4","ArIC3kr3um0","_volkElfX1k"],"kg|2.3":["bE9V1XTiRUw"],"kg|2.4":["PvjSVq0RSgA"],"kg|2.8S":["5n_gYjTF5QI"],
 "kg|2.2":["ZsH9dHvy41U","-ULmTcp3A5s"],
 "kg|2.5":["ALQ2yXi4Yzc"],
 "kg|2.6":["hS4Ux62FcJ0"],
