@@ -203,6 +203,7 @@ const LV={
 "kg|2.6":["hS4Ux62FcJ0"],
 "kg|2.7":["2L2h8Wxv9fo"],
 "kg|3.1S":["vzRE8XqBhQk"],
+"kg|3.3":["JWEFSUbJiAM"],
 "kg|3.7":["ghpnx_TAW58"],
 "kg|4.1S":["6ZfefQb5R6U","Do41H2mzad8"],
 "kg|4.2S":["ZH6C0fpF_Vc"],
